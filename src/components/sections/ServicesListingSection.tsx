@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Code2, Search, Smartphone, Rocket, Shield, Globe, ArrowRight, Clock, Tag } from "lucide-react";
 import Link from "next/link";
-import { Service } from "@/lib/api";
+import { Service } from "@/app/types/service.types";
 
 interface ServicesListingSectionProps {
   initialServices: Service[];

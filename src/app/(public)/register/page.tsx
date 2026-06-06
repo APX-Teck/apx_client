@@ -10,7 +10,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { UserPlus, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { api } from "@/lib/api";
+import { api } from "@/lib/axios";
 import Link from "next/link";
 
 // Zod validation schema matching specifications

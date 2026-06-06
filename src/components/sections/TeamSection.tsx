@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Mail, ShieldAlert } from "lucide-react";
-import { api, TeamMember } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { TeamMember } from "@/app/types/user.types";
 
 export function TeamSection() {
   const [team, setTeam] = useState<TeamMember[]>([]);

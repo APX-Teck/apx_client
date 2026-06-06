@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PortfolioDetailClient } from "@/components/sections/PortfolioDetailClient";
-import { api, Portfolio } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Portfolio } from "@/app/types/portfolio.types";
 
 export const revalidate = 300;
 

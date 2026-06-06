@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api, Ad } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Ad } from "@/app/types/ad.types";
 
 interface AdBannerProps {
   placement: "BLOG_LIST_TOP" | "BLOG_LIST_MID" | "BLOG_POST_TOP" | "BLOG_POST_MID" | "BLOG_POST_BOTTOM";

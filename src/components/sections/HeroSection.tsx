@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, Play, Volume2, VolumeX } from "lucide-react";
-import { api, HeroBanner } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { HeroBanner } from "@/app/types/home.types";
 
 export function HeroSection() {
   const [banners, setBanners] = useState<HeroBanner[]>([]);

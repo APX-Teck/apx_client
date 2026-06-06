@@ -10,7 +10,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { LogIn, ArrowRight, AlertCircle, Info, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { api } from "@/lib/api";
+import { api } from "@/lib/axios";
 import Link from "next/link";
 
 // Validation schema

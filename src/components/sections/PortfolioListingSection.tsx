@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Portfolio } from "@/lib/api";
+import { Portfolio } from "@/app/types/portfolio.types";
 
 interface PortfolioListingSectionProps {
   initialPortfolios: Portfolio[];

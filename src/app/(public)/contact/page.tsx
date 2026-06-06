@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ContactPageSection } from "@/components/sections/ContactPageSection";
-import { api, Service } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Service } from "@/app/types/service.types";
 
 export const metadata: Metadata = {
   title: "Contact APXTECK — Get in Touch",

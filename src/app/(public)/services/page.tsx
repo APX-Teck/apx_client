@@ -3,7 +3,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AdBanner } from "@/components/ui/AdBanner";
 import { ServicesListingSection } from "@/components/sections/ServicesListingSection";
-import { api, Service } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Service } from "@/app/types/service.types";
 import Link from "next/link";
 
 export const revalidate = 60;

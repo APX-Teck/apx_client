@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ServiceDetailClient } from "@/components/sections/ServiceDetailClient";
-import { api, Service, Testimonial, Faq, ServiceField } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Service, ServiceField } from "@/app/types/service.types";
+import { Testimonial } from "@/app/types/testimonial.types";
+import { Faq } from "@/app/types/faq.types";
 
 export const revalidate = 60;
 

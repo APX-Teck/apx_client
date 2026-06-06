@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ExternalLink, Calendar, Layers, ShieldCheck, X, ZoomIn } from "lucide-react";
-import { Portfolio } from "@/lib/api";
+import { Portfolio } from "@/app/types/portfolio.types";
 
 interface PortfolioDetailClientProps {
   project: Portfolio;

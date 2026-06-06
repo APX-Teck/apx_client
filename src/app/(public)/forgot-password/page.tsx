@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { KeyRound, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { api } from "@/lib/api";
+import { api } from "@/lib/axios";
 import Link from "next/link";
 
 const forgotPasswordSchema = z.object({

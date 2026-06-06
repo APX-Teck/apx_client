@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { api, StatsOverview } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { StatsOverview } from "@/app/types/analytics.types";
 import { Users, CheckCircle2, Award, Clock } from "lucide-react";
 
 function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {

@@ -7,7 +7,8 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Send, Mail, Phone, MapPin, CheckCircle, AlertCircle } from "lucide-react";
-import { api, Service } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Service } from "@/app/types/service.types";
 
 const enquirySchema = z.object({
   fullName: z

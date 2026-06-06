@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Search, Calendar, Clock, Heart, ChevronLeft, ChevronRight, User } from "lucide-react";
 import Link from "next/link";
-import { BlogPost } from "@/lib/api";
+import { BlogPost } from "@/app/types/blog.types";
 import { AdBanner } from "@/components/ui/AdBanner";
 
 interface BlogListingSectionProps {

@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ArrowRight, Clock, Calendar } from "lucide-react";
 import Link from "next/link";
-import { api, BlogPost } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { BlogPost } from "@/app/types/blog.types";
 
 export function BlogPreviewSection() {
   const [posts, setPosts] = useState<BlogPost[]>([]);

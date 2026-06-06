@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Clock, Tag, FileText, Send, CheckCircle2, ChevronDown, User, ArrowRight, Quote, Star, ShieldAlert } from "lucide-react";
-import { Service, ServiceField, Testimonial, Faq, api } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Service, ServiceField } from "@/app/types/service.types";
+import { Testimonial } from "@/app/types/testimonial.types";
+import { Faq } from "@/app/types/faq.types";
 import Link from "next/link";
 
 interface ServiceDetailClientProps {

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PortfolioListingSection } from "@/components/sections/PortfolioListingSection";
-import { api, Portfolio } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Portfolio } from "@/app/types/portfolio.types";
 import Link from "next/link";
 
 export const revalidate = 300;

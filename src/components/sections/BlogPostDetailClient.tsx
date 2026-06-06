@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Calendar, Clock, Heart, Share2, Send, MessageSquare, AlertCircle, CheckCircle2, ChevronRight, User } from "lucide-react";
 import Link from "next/link";
-import { BlogPost, BlogComment, api } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { BlogPost, BlogComment } from "@/app/types/blog.types";
 import { AdBanner } from "@/components/ui/AdBanner";
 
 interface BlogPostDetailClientProps {

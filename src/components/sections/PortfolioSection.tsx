@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { api, Portfolio } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Portfolio } from "@/app/types/portfolio.types";
 
 export function PortfolioSection() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);

@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { api, Testimonial } from "@/lib/api";
+import { api } from "@/lib/axios";
+import { Testimonial } from "@/app/types/testimonial.types";
 
 export function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
