@@ -17,7 +17,7 @@ const ChartContainer = ({ title, children }: { title: string, children: React.Re
   </div>
 );
 
-export default function DashboardCharts() {
+export default function DashboardCharts({ data }: { data?: any }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,6 +28,9 @@ export default function DashboardCharts() {
     return <div className="animate-pulse flex gap-6 h-[400px] w-full bg-gray-100 dark:bg-white/5 rounded-3xl" />;
   }
 
+  // Use real data for serviceRequests if provided, otherwise fallback to mock data
+  const serviceRequestsData = data?.requestsByStatus?.length ? data.requestsByStatus : chartData.serviceRequests;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       {/* 1. Monthly Revenue Trend (Line Chart) */}
@@ -36,14 +39,14 @@ export default function DashboardCharts() {
           <LineChart data={chartData.revenueTrend} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.2} />
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={10} />
-            <YAxis 
-              axisLine={false} 
-              tickLine={false} 
-              tick={{ fill: '#6B7280', fontSize: 12 }} 
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#6B7280', fontSize: 12 }}
               tickFormatter={(value) => `₹${value / 1000}k`}
               dx={-10}
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)', backgroundColor: '#1f2937', color: '#fff' }}
               itemStyle={{ color: '#fff' }}
               formatter={(value) => [`₹${value}`, "Revenue"]}
@@ -58,7 +61,7 @@ export default function DashboardCharts() {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={chartData.serviceRequests}
+              data={serviceRequestsData}
               cx="50%"
               cy="50%"
               innerRadius={80}
@@ -67,11 +70,11 @@ export default function DashboardCharts() {
               dataKey="value"
               stroke="none"
             >
-              {chartData.serviceRequests.map((entry, index) => (
+              {serviceRequestsData.map((entry: any, index: number) => (
                 <Cell key={`cell-${index}`} fill={entry.fill} />
               ))}
             </Pie>
-            <Tooltip 
+            <Tooltip
               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', backgroundColor: '#1f2937', color: '#fff' }}
               itemStyle={{ color: '#fff' }}
             />
@@ -87,7 +90,7 @@ export default function DashboardCharts() {
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.2} />
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={10} />
             <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dx={-10} />
-            <Tooltip 
+            <Tooltip
               cursor={{ fill: '#374151', opacity: 0.1 }}
               contentStyle={{ borderRadius: '12px', border: 'none', backgroundColor: '#1f2937', color: '#fff' }}
             />
@@ -103,7 +106,7 @@ export default function DashboardCharts() {
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.2} />
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={10} />
             <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dx={-10} />
-            <Tooltip 
+            <Tooltip
               cursor={{ fill: '#374151', opacity: 0.1 }}
               contentStyle={{ borderRadius: '12px', border: 'none', backgroundColor: '#1f2937', color: '#fff' }}
             />
@@ -119,7 +122,7 @@ export default function DashboardCharts() {
       <ChartContainer title="Lead Conversion Funnel">
         <ResponsiveContainer width="100%" height="100%">
           <FunnelChart>
-            <Tooltip 
+            <Tooltip
               contentStyle={{ borderRadius: '12px', border: 'none', backgroundColor: '#1f2937', color: '#fff' }}
             />
             <Funnel
@@ -154,7 +157,7 @@ export default function DashboardCharts() {
                 <Cell key={`cell-${index}`} fill={entry.fill} />
               ))}
             </Pie>
-            <Tooltip 
+            <Tooltip
               contentStyle={{ borderRadius: '12px', border: 'none', backgroundColor: '#1f2937', color: '#fff' }}
             />
           </PieChart>
@@ -169,7 +172,7 @@ export default function DashboardCharts() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.2} />
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 11 }} dy={15} angle={-15} textAnchor="end" />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dx={-10} />
-              <Tooltip 
+              <Tooltip
                 cursor={{ fill: '#374151', opacity: 0.1 }}
                 contentStyle={{ borderRadius: '12px', border: 'none', backgroundColor: '#1f2937', color: '#fff' }}
               />

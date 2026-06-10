@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/axios';
 import { Service } from '@/app/types/service.types';
-import { FaFacebookF, FaInstagram, FaXTwitter, FaThreads, FaLinkedinIn, FaYoutube, FaGithub, FaPinterestP } from 'react-icons/fa6';
+import { FaFacebookF, FaInstagram, FaXTwitter, FaThreads, FaLinkedinIn, FaYoutube, FaPinterestP } from 'react-icons/fa6';
 
 export function Footer() {
   const [services, setServices] = useState<Service[]>([]);
@@ -121,16 +121,6 @@ export function Footer() {
                 <FaPinterestP className="w-5 h-5" />
               </a>
 
-              {/* GitHub */}
-              <a
-                href="https://github.com/apxteck"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:text-white hover:scale-110 hover:bg-white/10 transition-all shadow-sm"
-              >
-                <FaGithub className="w-5 h-5" />
-              </a>
             </div>
           </div>
 

@@ -16,9 +16,8 @@ export function PortfolioSection() {
     async function loadPortfolios() {
       try {
         const data = await api.fetchPortfolios();
-        // Limit to 3 published projects, sorted
-        const items = data
-          .filter((item) => item.isPublished)
+        // Backend already filters by isPublished: true
+        const items = (data || [])
           .sort((a, b) => a.sortOrder - b.sortOrder)
           .slice(0, 3);
         setPortfolios(items);

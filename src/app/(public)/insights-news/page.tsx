@@ -76,7 +76,7 @@ export default async function BlogListingPage() {
 
         {/* Ad Slot Bottom (After Blog list, before Marquee) */}
         <div className="max-w-7xl mx-auto px-6 mt-16 mb-8 flex justify-center">
-          <AdBanner placement="BLOG_LIST_BOTTOM" />
+          <AdBanner placement="BLOG_LIST_MID" />
         </div>
 
         {/* Tech Stack Marquee at the bottom */}

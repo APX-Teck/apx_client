@@ -31,7 +31,7 @@ export function PortfolioListingSection({ initialPortfolios }: PortfolioListingS
             onClick={() => setActiveTab(type)}
             className={`px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
               activeTab === type
-                ? 'bg-accent border-accent text-white shadow-lg shadow-accent/15'
+                ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
                 : 'glass-panel border-glass-border text-foreground/70 hover:bg-white/5'
             }`}
           >

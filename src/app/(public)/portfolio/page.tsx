@@ -30,7 +30,7 @@ export default async function PortfolioListingPage() {
   let portfolios: Portfolio[] = [];
   try {
     const data = await api.fetchPortfolios();
-    portfolios = data.filter((p) => p.isPublished);
+    portfolios = data || [];
   } catch (err) {
     console.error('Failed to load portfolio listing data', err);
   }

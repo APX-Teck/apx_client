@@ -10,9 +10,10 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { LogIn, ArrowRight, AlertCircle, Info, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { api } from '@/lib/axios';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from '@/providers/AuthProvider';
+import { api } from '@/lib/axios';
 
 // Validation schema
 const loginSchema = z.object({
@@ -55,6 +56,7 @@ const clearFailedAttempts = () => {
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { login: authLogin, user, isLoading: authLoading } = useAuth();
 
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,12 +77,21 @@ function LoginContent() {
     if (msgParam) {
       setSuccessMsg(msgParam);
     }
+  }, [searchParams]);
 
-    // Redirect already logged in user
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      router.push(redirectParam || '/dashboard');
+  useEffect(() => {
+    // Redirect already logged in user dynamically based on role
+    if (isMounted && !authLoading && user) {
+      const role = (user.role || 'CUSTOMER').toUpperCase();
+      const redirectPath =
+        role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'STAFF'
+          ? '/admin'
+          : role === 'EMPLOYEE'
+          ? '/employee'
+          : '/customer';
+      router.push(redirectParam || redirectPath);
     }
-  }, [router, redirectParam, searchParams]);
+  }, [isMounted, authLoading, user, router, redirectParam]);
 
   const {
     register,
@@ -88,6 +99,7 @@ function LoginContent() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    mode: 'onTouched',
     defaultValues: {
       email: '',
       password: '',
@@ -109,50 +121,47 @@ function LoginContent() {
     setIsLoading(true);
 
     try {
-      const result = await api.login({
+      // Use authLogin which stores user state in context AND localStorage
+      const userData = await authLogin({
         email: values.email,
         password: values.password,
       });
 
-      if (result.success && result.user) {
+      if (userData) {
         clearFailedAttempts();
 
-        // Save auth state
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userRole', result.user.role || 'CUSTOMER');
-        localStorage.setItem('userName', result.user.fullName || 'User');
-
-        // Save remember state (sets HttpOnly refresh lifetime on backend; client-side saves config)
+        // Save remember state
         if (values.rememberMe) {
           localStorage.setItem('rememberUser', 'true');
         }
 
-        // Redirect flow
+        // Redirect flow based on role
+        const role = (userData.role || 'CUSTOMER').toUpperCase();
         if (redirectParam) {
           router.push(redirectParam);
-        } else if (result.user.role === 'ADMIN' || result.user.role === 'STAFF') {
+        } else if (role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'STAFF') {
           router.push('/admin');
+        } else if (role === 'EMPLOYEE') {
+          router.push('/employee');
         } else {
-          router.push('/dashboard');
+          router.push('/customer');
         }
       }
-    } catch (err: unknown) {
+    } catch (err: any) {
       recordFailedAttempt();
 
-      const error = err as Error;
-      const msg = error.message || '';
-      if (msg.includes('verify your email') || msg.toLowerCase().includes('unverified')) {
+      const msg = (err.response?.data?.message || err.message || '').toLowerCase();
+      if (msg.includes('verify your email') || msg.includes('unverified')) {
         setErrorMsg('Please verify your email.');
         setResendEmail(values.email);
       } else if (
-        msg.toLowerCase().includes('deactivated') ||
-        msg.toLowerCase().includes('suspended') ||
-        msg.toLowerCase().includes('block')
+        msg.includes('deactivated') ||
+        msg.includes('suspended') ||
+        msg.includes('block')
       ) {
-        setErrorMsg('Your account has been suspended. Contact support.');
+        setErrorMsg(err.response?.data?.message || 'Your account has been deactivated. Please contact support.');
       } else {
-        // Generic message preventing user enumeration
-        setErrorMsg('Invalid email or password');
+        setErrorMsg(err.response?.data?.message || 'Invalid email or password');
       }
     } finally {
       setIsLoading(false);
@@ -203,6 +212,7 @@ function LoginContent() {
                   src="/APXTeck.png"
                   alt="APXTeck Logo"
                   fill
+                  sizes="160px"
                   className="object-contain"
                   priority
                 />
@@ -253,6 +263,7 @@ function LoginContent() {
                 </label>
                 <input
                   type="email"
+                  suppressHydrationWarning={true}
                   {...register('email')}
                   className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
                   placeholder="admin@apxteck.com"
@@ -277,6 +288,7 @@ function LoginContent() {
                 </div>
                 <input
                   type="password"
+                  suppressHydrationWarning={true}
                   {...register('password')}
                   className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
                   placeholder="••••••••"
@@ -307,6 +319,7 @@ function LoginContent() {
               {/* Submit */}
               <button
                 type="submit"
+                suppressHydrationWarning={true}
                 disabled={isLoading}
                 className="group w-full h-12 mt-2 rounded-xl bg-accent text-accent-foreground font-bold hover:bg-accent/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent/20 disabled:opacity-70 disabled:active:scale-100 cursor-pointer"
               >
@@ -326,7 +339,7 @@ function LoginContent() {
 
               {/* Google login link redirect */}
               <Link
-                href="http://localhost:8090/api/v1/auth/google"
+                href={`${process.env.NEXT_PUBLIC_NODEJS_API_URL || 'http://localhost:8090/api/v1'}/auth/google`}
                 className="w-full h-12 rounded-xl bg-background border border-foreground/10 text-foreground font-semibold hover:bg-foreground/5 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-sm shadow-sm"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">

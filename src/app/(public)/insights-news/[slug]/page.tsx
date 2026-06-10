@@ -28,8 +28,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const blogs = await api.fetchBlogs();
-    const post = blogs.find((b) => b.slug === slug);
+    const post = await api.fetchBlogBySlug(slug);
     if (!post) return { title: 'Blog Not Found' };
 
     return {
@@ -65,15 +64,15 @@ export default async function BlogPostDetailPage({ params }: Props) {
     console.error('Failed to load server blogs', err);
   }
 
-  const post = blogs.find((b) => b.slug === slug);
+  const post = await api.fetchBlogBySlug(slug);
   if (!post) {
     notFound();
   }
 
   // Load related posts (same category tag, exclude current)
-  const categoryTag = post.tags[0] || '';
+  const categoryTag = post.tags?.[0] || '';
   const relatedPosts = blogs
-    .filter((b) => b.slug !== post.slug && b.tags.includes(categoryTag))
+    .filter((b) => b.slug !== post.slug && b.tags?.includes(categoryTag))
     .slice(0, 3);
 
   // Load comments

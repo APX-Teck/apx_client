@@ -11,15 +11,16 @@ import {
   Share2,
   Send,
   MessageSquare,
-  AlertCircle,
   CheckCircle2,
   ChevronRight,
   User,
+  Eye,
 } from 'lucide-react';
 import Link from 'next/link';
 import { api } from '@/lib/axios';
 import { BlogPost, BlogComment } from '@/app/types/blog.types';
 import { AdBanner } from '@/components/ui/AdBanner';
+import { FaFacebookF, FaInstagram, FaXTwitter, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6';
 
 interface BlogPostDetailClientProps {
   post: BlogPost;
@@ -32,7 +33,7 @@ export function BlogPostDetailClient({
   relatedPosts,
   initialComments,
 }: BlogPostDetailClientProps) {
-  const [likes, setLikes] = useState(12); // Simulated starting count
+  const [likes, setLikes] = useState(post._count?.likes || 0);
   const [hasLiked, setHasLiked] = useState(false);
   const [comments, setComments] = useState<BlogComment[]>(initialComments);
   const [commentStatus, setCommentStatus] = useState('');
@@ -50,22 +51,58 @@ export function BlogPostDetailClient({
     if (typeof window !== 'undefined') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+
+      const viewedKey = `viewed_${post.slug}`;
+      if (!sessionStorage.getItem(viewedKey)) {
+        sessionStorage.setItem(viewedKey, 'true');
+        api.incrementBlogView(post.slug).catch((err: any) =>
+          console.error('Failed to increment view on backend', err)
+        );
+      }
     }
-  }, []);
+  }, [post.slug]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      api.getLikeStatus(post.slug).then((res) => {
+        if (res?.data?.hasLiked !== undefined) {
+          setHasLiked(res.data.hasLiked);
+        }
+      }).catch(err => console.error("Failed to fetch like status", err));
+    }
+  }, [isLoggedIn, post.slug]);
 
   const handleLike = async () => {
+    if (!isLoggedIn) {
+      window.location.href = `/login?redirect=/insights-news/${post.slug}`;
+      return;
+    }
+
+    const previousLiked = hasLiked;
+    const previousLikes = likes;
+
     if (hasLiked) {
       setLikes((l) => l - 1);
       setHasLiked(false);
     } else {
       setLikes((l) => l + 1);
       setHasLiked(true);
-      // Optimistic trigger to backend
-      try {
-        await api.likeBlogPost(post.slug);
-      } catch (err) {
-        console.error('Failed to sync like on backend', err);
+    }
+
+    try {
+      const res = await api.likeBlogPost(post.slug);
+      if (res && res.success) {
+        if (res.data?.totalLikes !== undefined) setLikes(res.data.totalLikes);
+        if (res.data?.liked !== undefined) setHasLiked(res.data.liked);
+      } else if (res && !res.success && res.success !== undefined) {
+        // Revert optimistic update on failure
+        setHasLiked(previousLiked);
+        setLikes(previousLikes);
       }
+    } catch (err) {
+      setHasLiked(previousLiked);
+      setLikes(previousLikes);
+      console.error('Failed to sync like on backend', err);
     }
   };
 
@@ -74,13 +111,15 @@ export function BlogPostDetailClient({
     setCommentStatus('');
 
     try {
-      const userFullName = 'Client Partner'; // Mock default if actual user profile details aren't stored
-      const res = await api.submitBlogComment(post.slug, values.commentText, userFullName);
-      if (res.success) {
-        setCommentStatus(
-          'Your comment is under review. It will appear once approved by the administrator.'
-        );
+      const res = await api.submitBlogComment(post.slug, values.commentText);
+      if (res && res.success) {
+        setCommentStatus('Your comment has been posted successfully.');
+        if (res.data) {
+          setComments((prev) => [...prev, res.data]);
+        }
         reset();
+      } else {
+        setCommentStatus(res?.message || 'Failed to submit comment. Try again.');
       }
     } catch {
       setCommentStatus('Failed to submit comment. Try again.');
@@ -100,6 +139,12 @@ export function BlogPostDetailClient({
       shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
     } else if (platform === 'whatsapp') {
       shareUrl = `https://api.whatsapp.com/send?text=${title}%20${url}`;
+    } else if (platform === 'facebook') {
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    } else if (platform === 'instagram') {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Article link copied to clipboard! Share it on Instagram.');
+      return;
     } else {
       navigator.clipboard.writeText(window.location.href);
       alert('Article link copied to clipboard!');
@@ -199,31 +244,49 @@ export function BlogPostDetailClient({
               </div>
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5" /> {post.views || 0} Views
+                </span>
+                <span className="w-1 h-1 rounded-full bg-glass-border"></span>
+                <span className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" /> 5 min read
                 </span>
 
                 {/* Share buttons */}
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleShare('twitter')}
-                    className="hover:text-accent"
-                    aria-label="Share on Twitter"
+                    onClick={() => handleShare('facebook')}
+                    className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-[#1877F2] hover:scale-110 hover:bg-[#1877F2]/10 transition-all shadow-sm"
+                    aria-label="Share on Facebook"
                   >
-                    🐦
+                    <FaFacebookF className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleShare('twitter')}
+                    className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-white hover:scale-110 hover:bg-white/10 transition-all shadow-sm"
+                    aria-label="Share on X (Twitter)"
+                  >
+                    <FaXTwitter className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleShare('linkedin')}
-                    className="hover:text-accent"
+                    className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-[#0A66C2] hover:scale-110 hover:bg-[#0A66C2]/10 transition-all shadow-sm"
                     aria-label="Share on LinkedIn"
                   >
-                    💼
+                    <FaLinkedinIn className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleShare('whatsapp')}
-                    className="hover:text-accent"
+                    className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-[#25D366] hover:scale-110 hover:bg-[#25D366]/10 transition-all shadow-sm"
                     aria-label="Share on WhatsApp"
                   >
-                    💬
+                    <FaWhatsapp className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleShare('instagram')}
+                    className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-[#E4405F] hover:scale-110 hover:bg-[#E4405F]/10 transition-all shadow-sm"
+                    aria-label="Copy link for Instagram"
+                  >
+                    <FaInstagram className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -265,22 +328,40 @@ export function BlogPostDetailClient({
           {/* Ad Bottom */}
           <AdBanner placement="BLOG_POST_BOTTOM" />
 
-          {/* Like Optimistic UI bar */}
-          <div className="flex items-center gap-4 py-4 px-6 rounded-2xl glass-panel border border-glass-border max-w-xs">
-            <button
-              onClick={handleLike}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                hasLiked
-                  ? 'bg-accent/20 text-accent scale-110'
-                  : 'bg-white/5 text-foreground/60 hover:bg-white/10 hover:text-foreground'
-              }`}
-              aria-label="Like post"
-            >
-              <Heart className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
-            </button>
-            <div>
-              <p className="font-bold text-sm text-foreground">{likes} Likes</p>
-              <p className="text-[10px] text-foreground/45">Recommend this article</p>
+          {/* Like & Engagement Optimistic UI bar */}
+          <div className="flex flex-wrap items-center gap-6 py-5 px-8 rounded-3xl glass-panel border border-glass-border shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={handleLike}
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                  hasLiked
+                    ? 'bg-accent text-white scale-110 shadow-lg shadow-accent/20'
+                    : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10 hover:text-foreground'
+                }`}
+                aria-label="Like post"
+              >
+                <Heart className={`w-6 h-6 ${hasLiked ? 'fill-current' : ''}`} />
+              </button>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-base text-foreground tracking-tight">{likes} Likes</span>
+                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">
+                  {hasLiked ? 'Unlike' : 'Like'}
+                </span>
+              </div>
+            </div>
+            
+            <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
+                <MessageSquare className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-base text-foreground tracking-tight">
+                  {comments.filter(c => c.status === 'APPROVED').length} Comments
+                </span>
+                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">Join the Discussion</span>
+              </div>
             </div>
           </div>
 
@@ -417,6 +498,11 @@ export function BlogPostDetailClient({
               </div>
             </GlassCard>
           )}
+
+          {/* Sticky Sidebar Advertisement */}
+          <div className="sticky top-28 pt-4">
+            <AdBanner placement="BLOG_POST_SIDEBAR" />
+          </div>
         </div>
       </div>
     </section>

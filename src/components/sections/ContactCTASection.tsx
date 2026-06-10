@@ -183,6 +183,7 @@ export function ContactCTASection() {
                     Full Name <span className="text-rose-500">*</span>
                   </label>
                   <input
+                    suppressHydrationWarning
                     type="text"
                     {...register('fullName')}
                     className={`w-full bg-foreground/[0.02] border rounded-xl px-4 py-3 outline-none text-sm transition-all focus:ring-2 focus:ring-accent/50 ${
@@ -207,6 +208,7 @@ export function ContactCTASection() {
                       Email Address <span className="text-rose-500">*</span>
                     </label>
                     <input
+                      suppressHydrationWarning
                       type="email"
                       {...register('email')}
                       className={`w-full bg-foreground/[0.02] border rounded-xl px-4 py-3 outline-none text-sm transition-all focus:ring-2 focus:ring-accent/50 ${
@@ -229,6 +231,7 @@ export function ContactCTASection() {
                       Indian Phone Number
                     </label>
                     <input
+                      suppressHydrationWarning
                       type="tel"
                       {...register('phone')}
                       className={`w-full bg-foreground/[0.02] border rounded-xl px-4 py-3 outline-none text-sm transition-all focus:ring-2 focus:ring-accent/50 ${
@@ -252,6 +255,7 @@ export function ContactCTASection() {
                     Service Interest
                   </label>
                   <select
+                    suppressHydrationWarning
                     {...register('serviceInterest')}
                     className="w-full bg-foreground/[0.02] border border-glass-border rounded-xl px-4 py-3 outline-none text-sm focus:ring-2 focus:ring-accent/50 focus:border-accent appearance-none relative text-foreground/80"
                   >
@@ -272,6 +276,7 @@ export function ContactCTASection() {
                     Your Message <span className="text-rose-500">*</span>
                   </label>
                   <textarea
+                    suppressHydrationWarning
                     rows={4}
                     {...register('message')}
                     className={`w-full bg-foreground/[0.02] border rounded-xl px-4 py-3 outline-none text-sm transition-all resize-none focus:ring-2 focus:ring-accent/50 ${
@@ -290,6 +295,7 @@ export function ContactCTASection() {
 
                 {/* Submit button */}
                 <button
+                  suppressHydrationWarning
                   type="submit"
                   disabled={isSubmittingForm}
                   className="w-full group relative inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-accent px-8 text-sm font-semibold text-white transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-accent/25 overflow-hidden"

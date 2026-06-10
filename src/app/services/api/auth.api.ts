@@ -31,7 +31,8 @@ export const refreshToken = async () => {
       setAccessToken(accessToken);
     }
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    console.error("REFRESH ERROR RESPONSE:", error.response?.data);
     throw error;
   }
 };

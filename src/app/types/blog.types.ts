@@ -9,9 +9,14 @@ export interface BlogPost {
   status: string;
   publishedAt: string | null;
   createdAt: string;
+  views?: number;
   author?: {
     fullName: string;
     profilePhotoUrl: string | null;
+  };
+  _count?: {
+    likes: number;
+    comments: number;
   };
 }
 

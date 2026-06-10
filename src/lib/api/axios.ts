@@ -14,6 +14,11 @@ const apiClient = axios.create({
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    // If the payload is FormData, we must let the browser set the Content-Type with the correct boundary
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
     const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -83,9 +88,8 @@ apiClient.interceptors.response.use(
         processQueue(err, null);
         clearAccessToken();
 
-        // Optional: you can force a reload or redirect
-        if (typeof window !== 'undefined') {
-          // window.location.href = '/login'; // Handle via AuthProvider instead
+        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+          window.location.href = '/login?session_expired=true';
         }
 
         return Promise.reject(err);

@@ -3,27 +3,41 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader } from 'lucide-react';
+import { useAuth } from '@/providers/AuthProvider';
 
 export default function GoogleAuthSuccessPage() {
   const router = useRouter();
+  const { user, isLoading, refresh } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    // Explicitly refresh/fetch user state to load the Google authenticated user details
+    refresh().catch((err) => console.error('Failed to refresh user session:', err));
+  }, [refresh]);
 
-    if (typeof window !== 'undefined') {
-      // Set authenticated indicators
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userRole', 'CUSTOMER'); // Default Customer role assigned by OAuth
-      localStorage.setItem('userName', 'Google Client');
+  useEffect(() => {
+    if (mounted && !isLoading) {
+      if (user) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('userName', user.fullName);
 
-      // Redirect immediately to dashboard portal
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 800);
+        const role = (user.role || 'CUSTOMER').toUpperCase();
+        const redirectPath =
+          role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'STAFF'
+            ? '/admin'
+            : role === 'EMPLOYEE'
+            ? '/employee'
+            : '/customer';
+        
+        router.push(redirectPath);
+      } else {
+        // If no user is authenticated, redirect back to login
+        router.push('/login');
+      }
     }
-  }, [router]);
+  }, [mounted, isLoading, user, router]);
 
   if (!mounted) return null;
 

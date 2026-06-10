@@ -24,8 +24,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const portfolios = await api.fetchPortfolios();
-    const project = portfolios.find((p) => p.slug === slug);
+    const project = await api.fetchPortfolioBySlug(slug);
     if (!project) return { title: 'Case Study Not Found' };
 
     return {
@@ -57,14 +56,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PortfolioDetailPage({ params }: Props) {
   const { slug } = await params;
 
-  let portfolios: Portfolio[] = [];
+  let project: Portfolio | null = null;
   try {
-    portfolios = await api.fetchPortfolios();
+    project = await api.fetchPortfolioBySlug(slug);
   } catch (err) {
-    console.error('Failed to load server portfolio', err);
+    console.error('Failed to load server portfolio by slug', err);
   }
 
-  const project = portfolios.find((p) => p.slug === slug);
   if (!project) {
     notFound();
   }

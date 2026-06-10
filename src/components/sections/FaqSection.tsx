@@ -71,6 +71,7 @@ export function FaqSection() {
                 )}
               >
                 <button
+                  suppressHydrationWarning
                   onClick={() => setActiveIndex(isActive ? null : index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                 >

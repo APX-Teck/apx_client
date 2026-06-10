@@ -8,7 +8,6 @@ export interface Ad {
   placement:
     | 'BLOG_LIST_TOP'
     | 'BLOG_LIST_MID'
-    | 'BLOG_LIST_BOTTOM'
     | 'BLOG_POST_TOP'
     | 'BLOG_POST_MID'
     | 'BLOG_POST_BOTTOM';

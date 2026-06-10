@@ -19,19 +19,30 @@ const ColorMap: Record<string, string> = {
   yellow: "bg-yellow-100 text-yellow-600 dark:bg-yellow-500/20 dark:text-yellow-400",
 };
 
-export default function ActivityFeed() {
+export default function ActivityFeed({ data }: { data?: any[] }) {
+  const feedData = data?.length ? data : activityFeed;
+
+  const formatRelativeTime = (dateString: string) => {
+    if (!dateString) return "Just now";
+    const date = new Date(dateString);
+    const diffInMinutes = Math.floor((new Date().getTime() - date.getTime()) / 60000);
+    if (diffInMinutes < 60) return `${diffInMinutes || 1} mins ago`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hours ago`;
+    return `${Math.floor(diffInMinutes / 1440)} days ago`;
+  };
+
   return (
     <div className="bg-white dark:bg-[#111111] rounded-3xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0px_4px_30px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-white/5 flex flex-col min-h-[400px] transition-colors duration-300">
       <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
         <h2 className="font-bold text-gray-900 dark:text-white text-lg">Recent Activity</h2>
         <div className="w-7 h-7 rounded-full bg-indigo-600 dark:bg-indigo-500/20 text-white dark:text-indigo-400 text-xs font-bold flex items-center justify-center">
-          {activityFeed.length}
+          {feedData.length}
         </div>
       </div>
       <div className="p-6 flex-1 overflow-y-auto max-h-[600px] custom-scrollbar">
         <div className="space-y-6 relative">
           <div className="absolute left-5 top-2 bottom-2 w-px bg-gray-100 dark:bg-white/10"></div>
-          {activityFeed.map((activity) => {
+          {feedData.map((activity: any) => {
             const Icon = IconMap[activity.icon] || Activity;
             return (
               <div key={activity.id} className="flex gap-4 relative group">
@@ -46,7 +57,9 @@ export default function ActivityFeed() {
                     <p className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed max-w-[85%]">
                       {activity.text}
                     </p>
-                    <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 whitespace-nowrap pt-0.5">{activity.time}</p>
+                    <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 whitespace-nowrap pt-0.5">
+                      {activity.time || formatRelativeTime(activity.createdAt)}
+                    </p>
                   </div>
                 </div>
               </div>

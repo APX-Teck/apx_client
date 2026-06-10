@@ -14,9 +14,9 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #f9fafb; /* Dimmed white for light mode */
     --foreground: #09090b;
-    --accent: #0ea5e9; /* Cyan 500 */
+    --accent: #8b5cf6; /* Violet 500 */
     --accent-foreground: #ffffff;
     --glass: rgba(255, 255, 255, 0.4);
     --glass-border: rgba(255, 255, 255, 0.5);
@@ -25,8 +25,8 @@
   .dark {
     --background: #000000;
     --foreground: #ededed;
-    --accent: #38bdf8; /* Cyan 400 */
-    --accent-foreground: #000000;
+    --accent: #8b5cf6; /* Violet 500 */
+    --accent-foreground: #ffffff;
     --glass: rgba(20, 20, 20, 0.4);
     --glass-border: rgba(255, 255, 255, 0.1);
   }

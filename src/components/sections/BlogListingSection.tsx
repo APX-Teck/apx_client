@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { Search, Calendar, Clock, Heart, ChevronLeft, ChevronRight, User } from 'lucide-react';
+import { Search, Calendar, Clock, Heart, ChevronLeft, ChevronRight, User, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { BlogPost } from '@/app/types/blog.types';
 import { AdBanner } from '@/components/ui/AdBanner';
@@ -38,7 +38,7 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
     const matchesSearch =
       post.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
       post.excerpt?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      post.content.toLowerCase().includes(debouncedSearch.toLowerCase());
+      post.content?.toLowerCase().includes(debouncedSearch.toLowerCase());
 
     const matchesCategory =
       activeCategory === 'All' ||
@@ -104,9 +104,9 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
                 setActiveCategory(cat);
                 setActiveTag(null); // Clear tag filter when switching category
               }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider shrink-0 transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider shrink-0 transition-all border ${
                 activeCategory === cat
-                  ? 'bg-accent text-white'
+                  ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
                   : 'glass-panel border-glass-border hover:bg-white/5'
               }`}
             >
@@ -199,9 +199,15 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
                                 {post.author?.fullName || 'APX Lead'}
                               </span>
                             </div>
-                            <span className="text-[10px] text-foreground/45 font-medium">
-                              {formatDate(post.publishedAt)}
-                            </span>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-[10px] text-foreground/45 font-medium">
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>{post.views || 0} Views</span>
+                              </div>
+                              <span className="text-[10px] text-foreground/45 font-medium">
+                                {formatDate(post.publishedAt)}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </GlassCard>

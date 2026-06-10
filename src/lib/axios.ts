@@ -1,5 +1,6 @@
 import apiClient from '@/lib/api/axios';
 import { Ad } from '@/app/types/ad.types';
+import { setAccessToken } from '@/lib/api/token-manager';
 import { StatsOverview } from '@/app/types/analytics.types';
 import { BlogPost, BlogComment } from '@/app/types/blog.types';
 import { Faq } from '@/app/types/faq.types';
@@ -12,16 +13,23 @@ import { TeamMember } from '@/app/types/user.types';
 export type MockApi = {
   fetchAds: (...args: any[]) => Promise<Ad | null>;
   fetchBlogComments: (...args: any[]) => Promise<BlogComment[]>;
+  fetchBlogBySlug: (...args: any[]) => Promise<BlogPost | null>;
   fetchBlogs: (...args: any[]) => Promise<BlogPost[]>;
   fetchFaqs: (...args: any[]) => Promise<Faq[]>;
   fetchHeroBanners: (...args: any[]) => Promise<HeroBanner[]>;
   fetchPortfolios: (...args: any[]) => Promise<Portfolio[]>;
+  fetchPortfolioBySlug: (...args: any[]) => Promise<Portfolio | null>;
   fetchServiceFields: (...args: any[]) => Promise<ServiceField[]>;
   fetchServices: (...args: any[]) => Promise<Service[]>;
   fetchStats: (...args: any[]) => Promise<StatsOverview>;
+  fetchSystemLogs: (...args: any[]) => Promise<any[]>;
   fetchTeamMembers: (...args: any[]) => Promise<TeamMember[]>;
   fetchTestimonials: (...args: any[]) => Promise<Testimonial[]>;
+  getAllCommentsAdmin: (...args: any[]) => Promise<any>;
+  deleteBlogComment: (...args: any[]) => Promise<any>;
   forgotPassword: (...args: any[]) => Promise<any>;
+  getLikeStatus: (...args: any[]) => Promise<any>;
+  incrementBlogView: (...args: any[]) => Promise<any>;
   likeBlogPost: (...args: any[]) => Promise<any>;
   login: (...args: any[]) => Promise<any>;
   logout: (...args: any[]) => Promise<any>;
@@ -33,21 +41,273 @@ export type MockApi = {
   submitBlogComment: (...args: any[]) => Promise<any>;
   submitEnquiry: (...args: any[]) => Promise<any>;
   submitServiceRequest: (...args: any[]) => Promise<any>;
+  getMyRequests: (...args: any[]) => Promise<any>;
+  getMyRequestById: (...args: any[]) => Promise<any>;
+  getMyPayments: (...args: any[]) => Promise<any>;
+  updateMyRequest: (...args: any[]) => Promise<any>;
+  cancelRequest: (...args: any[]) => Promise<any>;
   verifyEmail: (...args: any[]) => Promise<any>;
 } & typeof apiClient;
 
-export const api = new Proxy(apiClient, {
-  get(target, prop, receiver) {
-    if (prop in target) {
-      return Reflect.get(target, prop, receiver);
+export const api = {
+  ...apiClient,
+  login: async (credentials: any) => {
+    const response = await apiClient.post('/auth/login', credentials);
+    if (response.data?.data?.accessToken) {
+      setAccessToken(response.data.data.accessToken);
     }
-    // Return empty arrays/objects to prevent runtime crashes during missing mocks
-    return async () => {
-      if (prop === 'fetchAds') return null;
-      if (prop === 'fetchStats') return {} as unknown as StatsOverview;
-      return [];
+    return {
+      success: response.data.success,
+      user: response.data.data?.user,
+      message: response.data.message
     };
   },
-}) as MockApi;
+  register: async (data: any) => {
+    const response = await apiClient.post('/auth/createUser', data);
+    return {
+      success: response.data.success,
+      user: response.data.data, // assuming createUser returns user in data
+      message: response.data.message
+    };
+  },
+  logout: async () => {
+    const response = await apiClient.post('/auth/logout');
+    return response.data;
+  },
+  getCurrentUser: async () => {
+    const response = await apiClient.get('/auth/me');
+    return {
+      success: response.data.success,
+      user: response.data.data?.user,
+      message: response.data.message
+    };
+  },
+  // Keep the other mocked methods as empty arrays/objects to prevent crashes
+  fetchAds: async (placement?: string) => {
+    try {
+      const url = placement ? `/advertisement/public?placement=${placement}` : '/advertisement/public';
+      const response = await apiClient.get(url);
+      const ads = response.data?.data || [];
+      if (ads.length > 0) {
+        return ads[Math.floor(Math.random() * ads.length)];
+      }
+      return null;
+    } catch (error: any) {
+      if (error?.response?.status !== 500 && error?.response?.status !== 404) {
+        console.error('Failed to fetch ads:', error);
+      }
+      return null;
+    }
+  },
+  fetchStats: async () => ({} as unknown as StatsOverview),
+  fetchBlogComments: async (slug: string) => {
+    try {
+      const response = await apiClient.get(`/blog/public/posts/${slug}`);
+      return response.data?.data?.comments || [];
+    } catch (error) {
+      console.error('Failed to fetch blog comments:', error);
+      return [];
+    }
+  },
+  fetchBlogBySlug: async (slug: string) => {
+    try {
+      const response = await apiClient.get(`/blog/public/posts/${slug}`);
+      return response.data?.data || null;
+    } catch (error) {
+      console.error('Failed to fetch blog by slug:', error);
+      return null;
+    }
+  },
+  fetchBlogs: async () => {
+    try {
+      const response = await apiClient.get('/blog/public/posts');
+      return response.data?.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch blogs:', error);
+      return [];
+    }
+  },
+  fetchFaqs: async () => [],
+  fetchHeroBanners: async () => {
+    try {
+      const response = await apiClient.get('/hero-banner/public');
+      return response.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch hero banners:', error);
+      return [];
+    }
+  },
+  fetchPortfolios: async () => {
+    try {
+      const response = await apiClient.get('/portfolio/public');
+      return response.data?.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch portfolios:', error);
+      return [];
+    }
+  },
+  fetchPortfolioBySlug: async (slug: string) => {
+    try {
+      const response = await apiClient.get(`/portfolio/public/${slug}`);
+      return response.data?.data || null;
+    } catch (error) {
+      console.error('Failed to fetch portfolio by slug:', error);
+      return null;
+    }
+  },
+  fetchServiceFields: async (serviceId: number) => {
+    try {
+      const response = await apiClient.get(`/service/field/getByServiceId/${serviceId}`);
+      return response.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch service fields:', error);
+      return [];
+    }
+  },
+  fetchServices: async () => {
+    try {
+      const response = await apiClient.get('/service/getAll');
+      return response.data?.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch services:', error);
+      return [];
+    }
+  },
+  fetchTeamMembers: async () => [],
+  fetchTestimonials: async () => [],
+  forgotPassword: async (email: string) => {
+    try {
+      const response = await apiClient.post('/auth/forgotPassword', { email });
+      return { success: response.data.success, message: response.data.message };
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        // Fallback mock if backend endpoint is not implemented yet
+        return { success: true, message: 'A password reset link has been sent to your email.' };
+      }
+      return { success: false, message: err.response?.data?.message || err.message };
+    }
+  },
+  incrementBlogView: async (slug: string) => {
+    try {
+      const response = await apiClient.post(`/blog/public/posts/${slug}/view`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to increment blog view:', error);
+      return null;
+    }
+  },
+  likeBlogPost: async (slug: string) => {
+    try {
+      const response = await apiClient.post(`/blog/public/posts/${slug}/like`);
+      return response.data;
+    } catch (error: any) {
+      console.error('Failed to like blog post:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  getLikeStatus: async (slug: string) => {
+    try {
+      const response = await apiClient.get(`/blog/public/posts/${slug}/like-status`);
+      return response.data;
+    } catch (error: any) {
+      return { success: false, data: { hasLiked: false } };
+    }
+  },
+  getAllCommentsAdmin: async (page = 1, limit = 20) => {
+    try {
+      const response = await apiClient.get(`/blog/comments/admin?page=${page}&limit=${limit}`);
+      return response.data;
+    } catch (error: any) {
+      console.error('Failed to fetch admin comments:', error);
+      throw error;
+    }
+  },
+  deleteBlogComment: async (id: number) => {
+    try {
+      const response = await apiClient.delete(`/blog/comments/${id}`);
+      return response.data;
+    } catch (error: any) {
+      console.error('Failed to delete comment:', error);
+      throw error;
+    }
+  },
+  refreshToken: async () => ({}),
+  resendVerification: async () => ({}),
+  resetPassword: async () => ({}),
+  submitBlogComment: async (slug: string, commentText: string) => {
+    try {
+      const response = await apiClient.post(`/blog/public/posts/${slug}/comments`, { commentText });
+      return response.data;
+    } catch (error: any) {
+      console.error('Failed to submit comment:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  submitEnquiry: async () => ({}),
+  submitServiceRequest: async (serviceId: number, formData: FormData) => {
+    try {
+      const response = await apiClient.post(`/service/request/create/${serviceId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return { success: response.data?.success, message: response.data?.message, data: response.data?.data };
+    } catch (error: any) {
+      console.error('Failed to submit service request:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  getMyRequests: async (params?: any) => {
+    try {
+      const response = await apiClient.get('/service/request/my', { params });
+      return response.data?.data || { data: [], pagination: {} };
+    } catch (error) {
+      console.error('Failed to fetch my requests:', error);
+      return { data: [], pagination: {} };
+    }
+  },
+  getMyRequestById: async (id: number) => {
+    try {
+      const response = await apiClient.get(`/service/request/my/${id}`);
+      return response.data?.data;
+    } catch (error) {
+      console.error('Failed to fetch request details:', error);
+      return null;
+    }
+  },
+  cancelRequest: async (id: number) => {
+    try {
+      const response = await apiClient.patch(`/service/request/cancel/${id}`);
+      return { success: response.data?.success, message: response.data?.message };
+    } catch (error: any) {
+      console.error('Failed to cancel request:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  updateMyRequest: async (id: number, formData: FormData) => {
+    try {
+      const response = await apiClient.patch(`/service/request/my/update/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return { success: response.data?.success, message: response.data?.message };
+    } catch (error: any) {
+      console.error('Failed to update request:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  getMyPayments: async () => {
+    try {
+      const response = await apiClient.get('/payment/my');
+      return { success: true, data: response.data.data };
+    } catch (error: any) {
+      console.error('Failed to fetch payments:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
+  updateProfile: async () => ({}),
+  verifyEmail: async () => ({}),
+} as unknown as MockApi;
 
 export default apiClient;

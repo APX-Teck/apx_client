@@ -15,7 +15,7 @@ import {
   getCurrentUser as apiGetCurrentUser,
 } from '@/app/services/api/auth.api';
 
-interface User {
+export interface User {
   id: number;
   fullName: string;
   email: string;
@@ -28,7 +28,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (credentials: any) => Promise<void>;
+  login: (credentials: any) => Promise<User | undefined>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
 }
@@ -55,12 +55,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  const login = async (credentials: any) => {
+  const login = async (credentials: any): Promise<User | undefined> => {
     const response = await apiLogin(credentials);
     const userData = response.data?.user;
     if (userData) {
       setUser(userData);
     }
+    return userData;
   };
 
   const logout = async () => {
@@ -68,6 +69,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await apiLogout();
     } finally {
       setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        window.location.href = '/login';
+      }
     }
   };
 
@@ -99,3 +106,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

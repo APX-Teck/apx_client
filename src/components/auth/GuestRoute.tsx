@@ -9,14 +9,21 @@ interface GuestRouteProps {
 }
 
 export const GuestRoute = ({ children }: GuestRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.push('/dashboard'); // or wherever you want to redirect authenticated users
+    if (!isLoading && isAuthenticated && user) {
+      const role = (user.role || 'CUSTOMER').toUpperCase();
+      const redirectPath =
+        role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'STAFF'
+          ? '/admin'
+          : role === 'EMPLOYEE'
+          ? '/employee'
+          : '/customer';
+      router.replace(redirectPath);
     }
-  }, [isLoading, isAuthenticated, router]);
+  }, [isLoading, isAuthenticated, user, router]);
 
   if (isLoading) {
     return (

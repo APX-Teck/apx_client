@@ -78,7 +78,7 @@ export function ServicesListingSection({ initialServices }: ServicesListingSecti
             onClick={() => setActiveTab(cat)}
             className={`px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
               activeTab === cat
-                ? 'bg-accent border-accent text-white shadow-lg shadow-accent/20 scale-105'
+                ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
                 : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'
             }`}
           >
