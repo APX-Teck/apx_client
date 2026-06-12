@@ -1,9 +1,13 @@
+'use client';
+
 import React from "react";
 import AdminSidebar from "@/components/layout/admin/AdminSidebar";
 import AdminTopbar from "@/components/layout/admin/AdminTopbar";
 import { Toaster } from "react-hot-toast";
+import { useSocket } from "@/hooks/useSocket";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  useSocket();
   return (
     <div className="flex min-h-screen bg-[#F8F9FA] dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       <AdminSidebar />

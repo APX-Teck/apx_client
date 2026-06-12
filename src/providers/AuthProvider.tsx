@@ -8,6 +8,7 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
+import { socketManager } from '@/lib/socket';
 import {
   login as apiLogin,
   logout as apiLogout,
@@ -42,6 +43,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchCurrentUser = useCallback(async () => {
     try {
+      if (typeof window !== 'undefined' && localStorage.getItem('isLoggedIn') === 'true') {
+        try {
+          await apiRefreshToken();
+        } catch (err) {
+          console.error("Initial token refresh failed:", err);
+        }
+      }
       const response = await apiGetCurrentUser();
       const userData = response.data?.user || response.data;
       setUser(userData);
@@ -69,6 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    socketManager.disconnect();
     try {
       await apiLogout();
     } finally {

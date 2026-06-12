@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { Bell, Search, Menu, Home } from "lucide-react";
+import { Search, Menu, Home } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useUiStore } from "@/store/uiStore";
 import { useAuth } from "@/providers/AuthProvider";
+import NotificationBell from "@/components/NotificationBell";
 
 export default function CustomerTopbar() {
   const pathname = usePathname();
@@ -56,10 +57,7 @@ export default function CustomerTopbar() {
             <Search size={18} />
           </button>
           
-          <button className="w-10 h-10 rounded-full bg-white dark:bg-[#1a1a1a] flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-[#222] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all relative border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 group">
-            <Bell size={18} className="group-hover:animate-wiggle" />
-            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 dark:bg-red-400 rounded-full border-2 border-white dark:border-[#1a1a1a] shadow-[0_0_5px_rgba(239,68,68,0.5)]"></span>
-          </button>
+          <NotificationBell />
         </div>
 
         <div className="flex items-center pl-4 md:pl-5 border-l border-gray-200 dark:border-white/10 cursor-pointer group">

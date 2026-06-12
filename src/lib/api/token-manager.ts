@@ -1,3 +1,5 @@
+import { socketManager } from '../socket';
+
 let accessToken: string | null = null;
 
 export const getAccessToken = () => {
@@ -6,6 +8,9 @@ export const getAccessToken = () => {
 
 export const setAccessToken = (token: string | null) => {
   accessToken = token;
+  if (token) {
+    socketManager.reconnectWithToken(token);
+  }
 };
 
 export const clearAccessToken = () => {
