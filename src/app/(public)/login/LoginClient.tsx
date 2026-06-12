@@ -1,13 +1,14 @@
 'use client';
 
-import { Suspense } from 'react';
-import { ArrowRight, AlertCircle, Info, CheckCircle2 } from 'lucide-react';
+import { Suspense, useState } from 'react';
+import { ArrowRight, AlertCircle, Info, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLoginLogic } from '@/hooks/useLoginLogic';
 
 function LoginFormComponent() {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     form: {
       register,
@@ -120,16 +121,30 @@ function LoginFormComponent() {
                 Forgot password?
               </Link>
             </div>
-            <input
-              id="password"
-              type="password"
-              suppressHydrationWarning={true}
-              {...register('password')}
-              className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
-              placeholder="••••••••"
-              aria-invalid={!!errors.password}
-              aria-describedby={errors.password ? 'password-error' : undefined}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                suppressHydrationWarning={true}
+                {...register('password')}
+                className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 pr-11 outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
+                placeholder="••••••••"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'password-error' : undefined}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/70 focus:outline-none transition-colors"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
+              </button>
+            </div>
             {errors.password && (
               <p id="password-error" className="text-xs text-red-500 font-medium pl-1" role="alert">
                 {errors.password.message}
