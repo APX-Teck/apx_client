@@ -3,6 +3,7 @@ import {
   fetchNotifications,
   markNotificationRead,
   markAllNotificationsRead,
+  clearAllNotifications,
   Notification,
 } from '@/app/services/api/notification.api';
 
@@ -19,6 +20,10 @@ interface NotificationState {
   addNotification: (n: Notification) => void;
   markRead: (id: number) => Promise<void>;
   markAllRead: () => Promise<void>;
+  markReadLocal: (id: number) => void;
+  markAllReadLocal: () => void;
+  clearNotifications: () => Promise<void>;
+  clearNotificationsLocal: () => void;
 }
 
 export const useNotificationStore = create<NotificationState>((set, get) => ({
@@ -135,5 +140,63 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount: previousUnreadCount,
       });
     }
+  },
+
+  markReadLocal: (id: number) => {
+    set((state) => {
+      let wasUnread = false;
+      const updatedNotifs = state.notifications.map((n) => {
+        if (n.id === id) {
+          if (!n.isRead) wasUnread = true;
+          return { ...n, isRead: true };
+        }
+        return n;
+      });
+
+      return {
+        notifications: updatedNotifs,
+        unreadCount: Math.max(0, state.unreadCount - (wasUnread ? 1 : 0)),
+      };
+    });
+  },
+
+  markAllReadLocal: () => {
+    set((state) => ({
+      notifications: state.notifications.map((n) => ({ ...n, isRead: true })),
+      unreadCount: 0,
+    }));
+  },
+
+  clearNotifications: async () => {
+    const previousNotifications = get().notifications;
+    const previousUnreadCount = get().unreadCount;
+    const previousTotal = get().total;
+
+    set({
+      notifications: [],
+      unreadCount: 0,
+      total: 0,
+      hasMore: false,
+    });
+
+    try {
+      await clearAllNotifications();
+    } catch (error) {
+      console.error('Failed to clear notifications:', error);
+      set({
+        notifications: previousNotifications,
+        unreadCount: previousUnreadCount,
+        total: previousTotal,
+      });
+    }
+  },
+
+  clearNotificationsLocal: () => {
+    set({
+      notifications: [],
+      unreadCount: 0,
+      total: 0,
+      hasMore: false,
+    });
   },
 }));

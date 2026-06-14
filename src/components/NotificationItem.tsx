@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { Notification, NotificationType } from '@/app/services/api/notification.api';
 
+import { useAuth } from '@/providers/AuthProvider';
+
 interface NotificationItemProps {
   notification: Notification;
   onRead: (id: number) => void;
@@ -77,15 +79,53 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   onClosePanel,
 }) => {
   const router = useRouter();
+  const { user } = useAuth();
+  const role = (user?.role || '').toUpperCase();
   const { icon: Icon, color, bg } = iconMap[notification.type] || iconMap.GENERAL;
 
   const handleClick = () => {
+    let targetLink = notification.link;
+    const match = notification.link?.match(/\/(\d+)$/);
+    const entityId = match ? match[1] : null;
+
+    if (role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'STAFF') {
+      if (notification.type === 'TASK_ASSIGNED' && entityId) {
+        targetLink = `/admin/tasks/${entityId}`;
+      } else if (notification.type === 'REIMBURSEMENT' && entityId) {
+        targetLink = `/admin/reimbursements/${entityId}`;
+      } else if (notification.type === 'SERVICE_REQUEST' && entityId) {
+        targetLink = `/admin/requests/${entityId}`;
+      } else if (notification.type === 'ENQUIRY' && entityId) {
+        targetLink = `/admin/leads/${entityId}`;
+      }
+    } else if (role === 'EMPLOYEE') {
+      if (notification.type === 'TASK_ASSIGNED') {
+        targetLink = `/employee/tasks`;
+      } else if (notification.type === 'REIMBURSEMENT') {
+        targetLink = `/employee/reimbursements`;
+      } else {
+        targetLink = `/employee`;
+      }
+    } else if (role === 'CUSTOMER') {
+      if (notification.type === 'SERVICE_REQUEST' && entityId) {
+        targetLink = `/customer/requests/${entityId}`;
+      } else if (notification.type === 'PAYMENT') {
+        targetLink = `/customer/payments`;
+      } else {
+        targetLink = `/customer`;
+      }
+    }
+
+    if (targetLink) {
+      router.push(targetLink);
+    }
+
     if (!notification.isRead) {
-      onRead(notification.id);
+      setTimeout(() => {
+        onRead(notification.id);
+      }, 150);
     }
-    if (notification.link) {
-      router.push(notification.link);
-    }
+
     onClosePanel();
   };
 

@@ -19,6 +19,7 @@ export const NotificationBell: React.FC = () => {
     loadMore,
     markRead,
     markAllRead,
+    clearNotifications,
   } = useNotificationStore();
 
   useEffect(() => {
@@ -49,6 +50,11 @@ export const NotificationBell: React.FC = () => {
   const handleMarkAllRead = (e: React.MouseEvent) => {
     e.stopPropagation();
     markAllRead();
+  };
+
+  const handleClearAll = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    clearNotifications();
   };
 
   return (
@@ -89,14 +95,24 @@ export const NotificationBell: React.FC = () => {
                   </span>
                 )}
               </div>
-              {unreadCount > 0 && (
-                <button
-                  onClick={handleMarkAllRead}
-                  className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors"
-                >
-                  Mark all read
-                </button>
-              )}
+              <div className="flex items-center gap-3">
+                {unreadCount > 0 && (
+                  <button
+                    onClick={handleMarkAllRead}
+                    className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors"
+                  >
+                    Mark all read
+                  </button>
+                )}
+                {notifications.length > 0 && (
+                  <button
+                    onClick={handleClearAll}
+                    className="text-xs font-semibold text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Scrollable list */}
