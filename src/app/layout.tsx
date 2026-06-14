@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { GoogleTranslateCleaner } from '@/components/ui/GoogleTranslateCleaner';
+import { QueryProvider } from '@/providers/QueryProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,10 +36,12 @@ export default function RootLayout({
       <body suppressHydrationWarning className="min-h-full flex flex-col transition-colors duration-300 relative">
         <GoogleTranslateCleaner />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <AuthProvider>
-            <ScrollProgress />
-            {children}
-          </AuthProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <ScrollProgress />
+              {children}
+            </AuthProvider>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

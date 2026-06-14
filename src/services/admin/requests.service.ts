@@ -5,6 +5,7 @@ export type RequestPriority = "LOW" | "MEDIUM" | "HIGH";
 
 export interface ServiceRequest {
   id: string | number;
+  customerId: number;
   customerName: string;
   customerEmail: string;
   serviceType: string;
@@ -49,6 +50,7 @@ export const requestsService = {
       const requests = response.data?.data?.data || [];
       return requests.map((req: any) => ({
         id: req.id,
+        customerId: req.customerId || req.customer?.id,
         customerName: req.customer?.fullName || "Unknown",
         customerEmail: req.customer?.email || "",
         serviceType: req.service?.name || "Unknown",
@@ -90,6 +92,7 @@ export const requestsService = {
 
       return {
         id: req.id,
+        customerId: req.customerId || req.customer?.id,
         customerName: req.customer?.fullName || "Unknown",
         customerEmail: req.customer?.email || "",
         customerPhone: req.customer?.phone || "—",
