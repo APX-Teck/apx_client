@@ -83,7 +83,7 @@ export const blogService = {
   getCategories: async (): Promise<BlogCategory[]> => {
     try {
       const response = await apiClient.get('/blog/categories');
-      return response.data?.data || [];
+      return response.data?.data?.categories || [];
     } catch (error) {
       console.error('Failed to fetch categories', error);
       return [];

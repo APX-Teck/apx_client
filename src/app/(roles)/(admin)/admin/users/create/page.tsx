@@ -22,6 +22,20 @@ export default function CreateUserPage() {
     password: "",
     roleId: "",
     isActive: true,
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    dateOfBirth: "",
+    employeeId: "",
+    department: "",
+    designation: "",
+    joiningDate: "",
+    bankAccountName: "",
+    bankAccountNumber: "",
+    bankIfscCode: "",
+    bankName: "",
+    upiId: "",
   });
 
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
@@ -92,18 +106,35 @@ export default function CreateUserPage() {
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
-        password: formData.password,
-        roleId: parseInt(formData.roleId),
+        password: formData.password || undefined,
+        roleId: formData.roleId ? parseInt(formData.roleId) : undefined,
         isActive: formData.isActive,
+        address: formData.address || undefined,
+        city: formData.city || undefined,
+        state: formData.state || undefined,
+        pincode: formData.pincode || undefined,
+        dateOfBirth: formData.dateOfBirth || undefined,
+        employeeId: formData.employeeId || undefined,
+        department: formData.department || undefined,
+        designation: formData.designation || undefined,
+        joiningDate: formData.joiningDate || undefined,
+        bankAccountName: formData.bankAccountName || undefined,
+        bankAccountNumber: formData.bankAccountNumber || undefined,
+        bankIfscCode: formData.bankIfscCode || undefined,
+        bankName: formData.bankName || undefined,
+        upiId: formData.upiId || undefined,
       });
       router.push("/admin/users");
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to create user", error);
-      alert("Failed to create user. Please check the inputs and try again.");
+      alert(error?.response?.data?.message || "Failed to create user. Please check the inputs and try again.");
       setIsSubmitting(false);
     }
   };
+
+  const selectedRole = roles.find((r) => r.id === Number(formData.roleId));
+  const isEmployee = selectedRole && selectedRole.name !== "CUSTOMER";
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-12">
@@ -238,6 +269,83 @@ export default function CreateUserPage() {
               
             </div>
           </div>
+
+          {/* Profile Details */}
+          <div className="pt-6 border-t border-gray-100 dark:border-white/5">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Profile Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-900 dark:text-white">Date of Birth</label>
+                <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleInputChange} className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-900 dark:text-white">Address</label>
+                <input type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="e.g. 123 Main St" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-900 dark:text-white">City</label>
+                <input type="text" name="city" value={formData.city} onChange={handleInputChange} placeholder="e.g. New York" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-900 dark:text-white">State</label>
+                <input type="text" name="state" value={formData.state} onChange={handleInputChange} placeholder="e.g. NY" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-900 dark:text-white">Pincode</label>
+                <input type="text" name="pincode" value={formData.pincode} onChange={handleInputChange} placeholder="e.g. 10001" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              </div>
+            </div>
+          </div>
+
+          {isEmployee && (
+            <>
+              {/* Employee Details */}
+              <div className="pt-6 border-t border-gray-100 dark:border-white/5">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Employee Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Department</label>
+                    <input type="text" name="department" value={formData.department} onChange={handleInputChange} placeholder="e.g. IT" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Designation</label>
+                    <input type="text" name="designation" value={formData.designation} onChange={handleInputChange} placeholder="e.g. Software Engineer" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Joining Date</label>
+                    <input type="date" name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bank Details */}
+              <div className="pt-6 border-t border-gray-100 dark:border-white/5">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Bank Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Bank Name</label>
+                    <input type="text" name="bankName" value={formData.bankName} onChange={handleInputChange} placeholder="e.g. HDFC Bank" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Account Name</label>
+                    <input type="text" name="bankAccountName" value={formData.bankAccountName} onChange={handleInputChange} placeholder="e.g. John Doe" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">Account Number</label>
+                    <input type="text" name="bankAccountNumber" value={formData.bankAccountNumber} onChange={handleInputChange} placeholder="e.g. 1234567890" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">IFSC Code</label>
+                    <input type="text" name="bankIfscCode" value={formData.bankIfscCode} onChange={handleInputChange} placeholder="e.g. HDFC0001234" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-900 dark:text-white">UPI ID</label>
+                    <input type="text" name="upiId" value={formData.upiId} onChange={handleInputChange} placeholder="e.g. john@upi" className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="pt-8 flex items-center justify-end gap-3 border-t border-gray-100 dark:border-white/5">
             <button 

@@ -76,7 +76,7 @@ export const usersService = {
 
   getRoles: async (): Promise<Role[]> => {
     try {
-      const response = await apiClient.get("/role/roles?limit=100");
+      const response = await apiClient.get("/role/getAllRoles?limit=100");
       const rData = response.data;
       
       // Attempt aggressive parsing based on common backend wrapper formats
