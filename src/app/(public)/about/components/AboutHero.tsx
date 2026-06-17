@@ -5,20 +5,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTypewriter } from '../hooks/useTypewriter';
 
-const typewriterWords = [
-  'APXTeck',
-  'Developers',
-  'Innovators',
-  'Visionaries',
-  'Creators',
-];
-
-const heroPhrases = [
-  'Designing next-generation web portals and automated systems.',
-  'Helping Indian SMBs achieve unprecedented digital scale.',
-  'Engineering high-performance, modular software architectures.',
-  'Crafting secure, beautiful, and dynamic digital experiences.',
-];
+import { typewriterWords, heroPhrases } from '../constants';
 
 export function AboutHero() {
   const { text: typewrittenText, currentFullWord } = useTypewriter(

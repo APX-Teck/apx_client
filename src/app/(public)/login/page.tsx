@@ -2,6 +2,9 @@ import { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { jsonLd } from './constants';
+import { LoginSkeleton } from './components/LoginSkeleton';
 
 const LoginClient = dynamic(() => import('./LoginClient'), { ssr: true });
 
@@ -38,20 +41,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function LoginPage() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'Sign In | APXTeck',
-    description: 'Log in to your APXTeck account.',
-    url: 'https://www.apxteck.com/login',
-    mainEntity: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      url: 'https://www.apxteck.com',
-      logo: 'https://www.apxteck.com/APXTeck.png',
-    },
-  };
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-sans selection:bg-accent/20 selection:text-accent transition-colors duration-300">
       <Navbar />
@@ -70,7 +59,9 @@ export default function LoginPage() {
         </div>
         
         <div itemScope itemType="https://schema.org/WebPage" className="w-full max-w-md relative z-10 flex flex-col items-center">
-          <LoginClient />
+          <Suspense fallback={<LoginSkeleton />}>
+            <LoginClient />
+          </Suspense>
         </div>
       </main>
 

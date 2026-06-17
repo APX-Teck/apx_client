@@ -5,10 +5,11 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { api } from '@/lib/axios';
 import { Portfolio } from '@/app/types/portfolio.types';
+import { generateArticleSchema, generateDetailBreadcrumbSchema } from './constants';
 
-// Dynamically import the heavy client component
+// Dynamically import the heavy client component from the local directory
 const PortfolioDetailClient = dynamic(
-  () => import('@/components/sections/PortfolioDetailClient').then((mod) => mod.PortfolioDetailClient),
+  () => import('./PortfolioDetailClient').then((mod) => mod.PortfolioDetailClient),
   { ssr: true }
 );
 
@@ -81,57 +82,9 @@ export default async function PortfolioDetailPage({ params }: Props) {
     notFound();
   }
 
-  // Schema Generation: Article
-  const jsonLdArticle = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: `${project.clientName} Case Study - ${project.title}`,
-    description: project.problem || project.results,
-    image: project.coverImageUrl,
-    author: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      url: 'https://apxteck.com'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://apxteck.com/logo.png'
-      }
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://apxteck.com/portfolio/${slug}`
-    }
-  };
-
-  // Schema Generation: BreadcrumbList
-  const jsonLdBreadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://apxteck.com/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Portfolio',
-        item: 'https://apxteck.com/portfolio',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: project.clientName || 'Case Study',
-        item: `https://apxteck.com/portfolio/${slug}`,
-      },
-    ],
-  };
+  // Schema Generation
+  const jsonLdArticle = generateArticleSchema(project, slug);
+  const jsonLdBreadcrumb = generateDetailBreadcrumbSchema(project, slug);
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-accent/30 bg-background text-foreground transition-colors duration-300">

@@ -3,13 +3,14 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AdBanner } from '@/components/ui/AdBanner';
 import { AvailableAdSlots } from '@/components/ui/AvailableAdSlots';
-import { api } from '@/lib/axios';
-import { BlogPost } from '@/app/types/blog.types';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { jsonLdBlog, jsonLdBreadcrumb } from './constants';
+import { BlogSectionLoader } from './components/BlogSectionLoader';
+import { BlogSectionSkeleton } from './components/BlogSectionSkeleton';
 
 const ExploreNewsClient = dynamic(() => import('./ExploreNewsClient').then(mod => mod.ExploreNewsClient), { ssr: true });
-const BlogListingSection = dynamic(() => import('@/components/sections/BlogListingSection').then(mod => mod.BlogListingSection), { ssr: true });
 const TechStackMarquee = dynamic(() => import('@/components/sections/TechStackMarquee').then(mod => mod.TechStackMarquee), { ssr: true });
 
 export const revalidate = 60;
@@ -74,52 +75,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function BlogListingPage() {
-  let initialBlogs: BlogPost[] = [];
-  try {
-    initialBlogs = await api.fetchBlogs();
-  } catch (err) {
-    console.error('Failed to load blogs for serverside render', err);
-  }
-
-  const jsonLdBlog = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    '@id': 'https://apxteck.com/insights-news/#blog',
-    name: 'APXTeck IT Insights & News',
-    description:
-      "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials.",
-    url: 'https://apxteck.com/insights-news',
-    publisher: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://apxteck.com/logo.png',
-      },
-    },
-    inLanguage: 'en-IN',
-  };
-
-  const jsonLdBreadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://apxteck.com/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Insights & News',
-        item: 'https://apxteck.com/insights-news',
-      },
-    ],
-  };
-
+export default function BlogListingPage() {
   return (
     <div className="flex flex-col min-h-screen selection:bg-accent/30 bg-background text-foreground transition-colors duration-300">
       <script
@@ -163,7 +119,9 @@ export default async function BlogListingPage() {
         {/* (This component internally renders BLOG_LIST_MID ads) */}
         {/* WE WANT THIS TO BE TRANSLATABLE (partially) */}
         <section aria-label="Blog Posts List">
-          <BlogListingSection initialBlogs={initialBlogs} />
+          <Suspense fallback={<BlogSectionSkeleton />}>
+            <BlogSectionLoader />
+          </Suspense>
         </section>
 
         {/* Ad Slot Bottom (After Blog list, before Marquee) */}

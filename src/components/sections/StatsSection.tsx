@@ -30,19 +30,11 @@ function Counter({ value, suffix = '' }: { value: number; suffix?: string }) {
   );
 }
 
-import { useStatsLogic } from '@/hooks/useStatsLogic';
+import { StatsOverview } from '@/app/types/analytics.types';
 
-export function StatsSection() {
-  const { stats, isLoading } = useStatsLogic();
+export function StatsSection({ stats }: { stats: StatsOverview }) {
 
-  if (isLoading || !stats) {
-    return (
-      <div className="w-full py-16 bg-background flex justify-center items-center">
-        <div className="w-8 h-8 rounded-full border-2 border-accent border-t-transparent animate-spin" />
-      </div>
-    );
-  }
-
+  if (!stats) return null;
   const statItems = [
     {
       label: 'Clients Served',

@@ -5,6 +5,7 @@ import { Footer } from '@/components/layout/Footer';
 const TechStackMarquee = dynamic(() => import('@/components/sections/TechStackMarquee').then(mod => mod.TechStackMarquee), { ssr: true });
 import { api } from '@/lib/axios';
 import { Portfolio } from '@/app/types/portfolio.types';
+import { generatePortfolioItemListSchema, portfolioBreadcrumbSchema, portfolioCollectionPageSchema } from './constants';
 
 // Dynamically import client components to reduce initial server payload and improve Core Web Vitals
 const PortfolioClient = dynamic(() => import('./PortfolioClient').then(mod => mod.PortfolioClient), {
@@ -61,63 +62,10 @@ export default async function PortfolioListingPage() {
     console.error('Failed to load portfolio listing data', err);
   }
 
-  // Schema Generation: ItemList for Portfolio Entries
-  const jsonLdItemList = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'APXTeck Case Studies',
-    description: "A collection of APXTeck's best work and case studies.",
-    numberOfItems: portfolios.length,
-    itemListElement: portfolios.map((p, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'CreativeWork',
-        name: p.title,
-        headline: p.title,
-        description: p.problem || p.results,
-        url: `https://apxteck.com/portfolio/${p.slug}`,
-      },
-    })),
-  };
-
-  // Schema Generation: BreadcrumbList
-  const jsonLdBreadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://apxteck.com/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Portfolio',
-        item: 'https://apxteck.com/portfolio',
-      },
-    ],
-  };
-
-  // Schema Generation: CollectionPage
-  const jsonLdCollectionPage = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Case Studies & Work Portfolio | APXTECK',
-    description:
-      "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and digital marketing results.",
-    url: 'https://apxteck.com/portfolio',
-    publisher: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://apxteck.com/logo.png',
-      },
-    },
-  };
+  // Schema Generation
+  const jsonLdItemList = generatePortfolioItemListSchema(portfolios);
+  const jsonLdBreadcrumb = portfolioBreadcrumbSchema;
+  const jsonLdCollectionPage = portfolioCollectionPageSchema;
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-accent/30 bg-background text-foreground transition-colors duration-300">

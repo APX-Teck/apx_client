@@ -7,6 +7,7 @@ import { api } from '@/lib/axios';
 import { Service, ServiceField } from '@/app/types/service.types';
 import { Testimonial } from '@/app/types/testimonial.types';
 import { Faq } from '@/app/types/faq.types';
+import { getServiceJsonLd } from './constants';
 
 export const revalidate = 60;
 
@@ -88,25 +89,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     fields = await api.fetchServiceFields(service.id);
   } catch {}
 
-  // Injected schema representation
-  const jsonLdService = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: service.name,
-    description: service.description,
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'APXTeck',
-      telephone: '+919405282582',
-    },
-    offers: service.price
-      ? {
-          '@type': 'Offer',
-          price: service.price.replace(/[^0-9]/g, ''),
-          priceCurrency: 'INR',
-        }
-      : undefined,
-  };
+  const jsonLdService = getServiceJsonLd(service);
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-accent/30 bg-background text-foreground transition-colors duration-300">

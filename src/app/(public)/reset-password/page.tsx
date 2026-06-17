@@ -41,20 +41,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+import { resetPasswordPageSchema } from './constants';
+
 export default function ResetPasswordPage() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'Reset Password | APXTeck',
-    description: 'Create a new password for your APXTeck account securely.',
-    url: 'https://www.apxteck.com/reset-password',
-    mainEntity: {
-      '@type': 'Organization',
-      name: 'APXTeck',
-      url: 'https://www.apxteck.com',
-      logo: 'https://www.apxteck.com/APXTeck.png',
-    },
-  };
+  const jsonLd = resetPasswordPageSchema;
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-sans selection:bg-accent/20 selection:text-accent transition-colors duration-300">

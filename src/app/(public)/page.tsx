@@ -104,8 +104,14 @@ export default function Home() {
 
         <ProcessSection />
 
-        <StatsSection />
-
+        <StatsSection 
+          stats={{
+            clientsServed: 250,
+            projectsCompleted: 340,
+            satisfactionRate: 98,
+            supportActive: '24/7'
+          }} 
+        />
         {/* Ad Placement Top */}
         <AdBanner placement="BLOG_LIST_TOP" />
 

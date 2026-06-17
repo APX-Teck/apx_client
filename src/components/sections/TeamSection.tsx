@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Mail, ShieldAlert } from 'lucide-react';
-import { useTeamLogic } from '@/hooks/useTeamLogic';
+import { TeamMember } from '@/app/types/user.types';
 
-export function TeamSection() {
-  const { team, isLoading } = useTeamLogic();
+interface TeamSectionProps {
+  team: TeamMember[];
+}
 
+export function TeamSection({ team }: TeamSectionProps) {
   return (
     <section className="py-24 relative overflow-hidden bg-background">
       <div className="max-w-7xl mx-auto px-6">
@@ -40,14 +42,7 @@ export function TeamSection() {
           </motion.p>
         </div>
 
-        {isLoading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-80 rounded-3xl bg-foreground/5 animate-pulse" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
               <motion.div
                 key={member.id}
@@ -112,7 +107,6 @@ export function TeamSection() {
               </motion.div>
             ))}
           </div>
-        )}
       </div>
     </section>
   );

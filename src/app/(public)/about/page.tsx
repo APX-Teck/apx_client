@@ -3,6 +3,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { StatsSection } from '@/components/sections/StatsSection';
 import { TeamSection } from '@/components/sections/TeamSection';
+import { Suspense } from 'react';
+import { api } from '@/lib/axios';
 
 import dynamic from 'next/dynamic';
 
@@ -17,6 +19,26 @@ const AboutCTA = dynamic(() => import('./components/AboutCTA').then(mod => mod.A
 // UI Components
 import { MouseSpotlight } from '@/components/ui/MouseSpotlight';
 import { FloatingWhatsApp } from '@/components/ui/FloatingWhatsApp';
+
+async function TeamSectionLoader() {
+  try {
+    const team = await api.fetchTeamMembers();
+    return <TeamSection team={team} />;
+  } catch (err) {
+    console.error('Failed to fetch team members', err);
+    return null;
+  }
+}
+
+async function StatsSectionLoader() {
+  try {
+    const stats = await api.fetchStats();
+    return <StatsSection stats={stats} />;
+  } catch (err) {
+    console.error('Failed to fetch platform stats', err);
+    return null;
+  }
+}
 
 // Extreme Technical SEO & Dynamic Metadata Generation
 export async function generateMetadata(): Promise<Metadata> {
@@ -134,9 +156,14 @@ export default function AboutPage() {
         <AboutCulture />
         <AboutValues />
         
-        {/* Dynamic Sections (API Fetched, currently server/client depending on implementation) */}
-        <TeamSection />
-        <StatsSection />
+        {/* Dynamic Sections (API Fetched with Streaming Suspense) */}
+        <Suspense fallback={<div className="h-[500px] w-full animate-pulse bg-foreground/5" />}>
+          <TeamSectionLoader />
+        </Suspense>
+        
+        <Suspense fallback={<div className="h-[400px] w-full animate-pulse bg-foreground/5" />}>
+          <StatsSectionLoader />
+        </Suspense>
 
         <AboutCTA />
         </article>

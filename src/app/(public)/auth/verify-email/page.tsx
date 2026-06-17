@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
+import { VerifyEmailSkeleton } from './components/VerifyEmailSkeleton';
 
 const VerifyEmailClient = dynamic(() => import('./VerifyEmailClient'), { ssr: true });
 
@@ -66,7 +67,7 @@ export default function VerifyEmailPage() {
           />
 
           <div itemScope itemType="https://schema.org/WebPage" className="w-full max-w-md flex flex-col items-center">
-            <Suspense fallback={null}>
+            <Suspense fallback={<VerifyEmailSkeleton />}>
               <VerifyEmailClient />
             </Suspense>
           </div>
