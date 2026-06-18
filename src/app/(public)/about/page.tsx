@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Discover APXTeck's founding story, mission, and core values. Meet our elite in-house team of Next.js software engineers, designers, and SEO experts in Pune.",
       url: 'https://apxteck.com/about',
-      siteName: 'APXTeck',
+      siteName: 'APX - Advanced Precision & Excellence',
       images: [
         {
           url: 'https://apxteck.com/og-about.jpg',

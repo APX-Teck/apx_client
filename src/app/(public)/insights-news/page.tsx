@@ -23,7 +23,7 @@ export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'IT Insights & News | APXTeck Blog & Tutorials',
+    title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog & Tutorials',
     description:
       "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Indian business owners and startups.",
     keywords: [
@@ -39,11 +39,11 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: 'APXTeck',
     publisher: 'APXTeck',
     openGraph: {
-      title: 'IT Insights & News | APXTeck Blog & Tutorials',
+      title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog & Tutorials',
       description:
         "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Indian business owners and startups.",
       url: 'https://apxteck.com/insights-news',
-      siteName: 'APXTeck',
+      siteName: 'APX - Advanced Precision & Excellence',
       type: 'website',
       locale: 'en_IN',
       images: [
@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'IT Insights & News | APXTeck Blog',
+      title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog',
       description:
         "Stay updated with APXTeck's technical news, Next.js optimization guides, and UI/UX trends.",
       creator: '@apxteck',

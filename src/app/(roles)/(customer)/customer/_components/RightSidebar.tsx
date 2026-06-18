@@ -13,7 +13,7 @@ export function RightSidebar() {
   return (
     <motion.div variants={item} className="space-y-6">
       {/* Support Panel */}
-      <div className="bg-gradient-to-br from-cyan-600 to-indigo-700 p-6 md:p-8 rounded-3xl text-white shadow-lg relative overflow-hidden group">
+      <div className="bg-gradient-to-br from-cyan-600 to-indigo-700 p-5 md:p-8 rounded-2xl md:rounded-3xl text-white shadow-lg relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
           <Zap className="w-24 h-24" />
         </div>
@@ -38,7 +38,7 @@ export function RightSidebar() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-[#111] p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4">
         <h4 className="font-bold text-gray-900 dark:text-white mb-2">Quick Actions</h4>
         <div className="grid grid-cols-2 gap-3">
           <Link

@@ -54,9 +54,9 @@ const ContactCTASection = dynamic(
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'IT Services for Indian SMBs | APXTeck';
+  const title = 'APX - Advanced Precision & Excellence';
   const description =
-    'APXTeck provides premium IT services, Next.js web development, custom UI/UX, and search engine optimization custom tailored to scale Indian SMBs.';
+    'APX - Advanced Precision & Excellence. We provide premium IT services, Next.js web development, custom UI/UX, and search engine optimization tailored to scale businesses globally.';
   const url = 'https://apxteck.com';
 
   return {
@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80',
           width: 1200,
           height: 630,
-          alt: 'APXTeck - IT Services for Indian SMBs',
+          alt: 'APX - Advanced Precision & Excellence',
         },
       ],
       type: 'website',
@@ -103,7 +103,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': 'https://apxteck.com/#website',
-    name: 'APXTeck',
+    name: 'APX - Advanced Precision & Excellence',
     url: 'https://apxteck.com',
     logo: 'https://apxteck.com/APXTeck.png',
     sameAs: ['https://twitter.com/apxteck', 'https://linkedin.com/company/apxteck'],
@@ -113,7 +113,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': 'https://apxteck.com/#localbusiness',
-    name: 'APXTeck',
+    name: 'APX - Advanced Precision & Excellence',
     image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3',
     telephone: '+919405282582',
     email: 'info@apxteck.com',

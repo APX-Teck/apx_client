@@ -64,7 +64,7 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
   return (
     <motion.div
       variants={item}
-      className="lg:col-span-2 bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6"
+      className="lg:col-span-2 bg-white dark:bg-[#111] p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4 md:space-y-6"
     >
       <div className="flex items-center justify-between">
         <div>

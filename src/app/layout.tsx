@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'APXTeck - Premium IT Solutions',
-  description: 'Advanced glassmorphism IT company homepage with perfect animations.',
+  title: 'APX - Advanced Precision & Excellence',
+  description: 'APX - Advanced Precision & Excellence. Premium IT solutions, web development, UI/UX, and SEO services.',
 };
 
 export default function RootLayout({

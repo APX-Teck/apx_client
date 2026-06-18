@@ -35,7 +35,7 @@ export default function DashboardManager({
   };
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 md:space-y-8">
       <WelcomeBanner />
       <StatsGrid
         activeCount={activeRequests.length}
@@ -43,7 +43,7 @@ export default function DashboardManager({
         completedCount={completedCount}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <RecentRequestsTable activeRequests={activeRequests} />
         <RightSidebar />
       </div>

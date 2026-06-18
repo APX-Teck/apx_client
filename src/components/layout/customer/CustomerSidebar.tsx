@@ -75,7 +75,7 @@ export default function CustomerSidebar() {
   const sidebarContent = (
     <>
       {/* Header Section */}
-      <div className="h-20 flex items-center justify-center border-b border-white/10 px-4 shrink-0 bg-black/20">
+      <div className="h-20 flex items-center justify-center border-b border-gray-200 dark:border-white/10 px-4 shrink-0 bg-gray-50/50 dark:bg-black/20">
         <AnimatePresence mode="wait">
           {!isSidebarCollapsed ? (
             <motion.div
@@ -106,14 +106,14 @@ export default function CustomerSidebar() {
               </div>
               <button
                 onClick={() => setSidebarCollapsed(true)}
-                className="hidden md:flex w-8 h-8 rounded-lg items-center justify-center text-gray-400 hover:text-white hover:bg-cyan-500/10 transition-colors shrink-0"
+                className="hidden md:flex w-8 h-8 rounded-lg items-center justify-center text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-white hover:bg-cyan-50 dark:hover:bg-cyan-500/10 transition-colors shrink-0"
                 aria-label="Collapse sidebar"
               >
                 <PanelLeftClose size={18} />
               </button>
               <button
                 onClick={() => setMobileSidebarOpen(false)}
-                className="md:hidden flex w-8 h-8 rounded-lg items-center justify-center text-gray-400 hover:text-white hover:bg-cyan-500/10 transition-colors shrink-0"
+                className="md:hidden flex w-8 h-8 rounded-lg items-center justify-center text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-white hover:bg-cyan-50 dark:hover:bg-cyan-500/10 transition-colors shrink-0"
                 aria-label="Close sidebar"
               >
                 <X size={18} />
@@ -130,7 +130,7 @@ export default function CustomerSidebar() {
             >
               <button
                 onClick={() => setSidebarCollapsed(false)}
-                className="w-10 h-10 rounded-xl bg-[#1a1a1a] flex items-center justify-center text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 border border-white/5 shadow-sm transition-all"
+                className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 border border-gray-200 dark:border-white/5 shadow-sm transition-all"
                 aria-label="Expand sidebar"
               >
                 <Menu size={20} />
@@ -141,11 +141,11 @@ export default function CustomerSidebar() {
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-4 custom-scrollbar bg-[#0A0A0A]/50">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-4 custom-scrollbar bg-white/50 dark:bg-[#0A0A0A]/50">
         {NAV_GROUPS.map((group, groupIdx) => (
           <div key={groupIdx} className="mb-6 last:mb-0">
             {!isSidebarCollapsed && (
-              <div className="text-[11px] font-bold text-gray-500 tracking-wider mb-3 px-3 transition-colors uppercase flex items-center gap-2">
+              <div className="text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider mb-3 px-3 transition-colors uppercase flex items-center gap-2">
                 {group.title}
               </div>
             )}
@@ -168,8 +168,8 @@ export default function CustomerSidebar() {
                         'flex items-center px-3 py-2.5 rounded-xl transition-all duration-300 group relative overflow-hidden',
                         isSidebarCollapsed ? 'justify-center' : 'justify-start',
                         isActive
-                          ? 'bg-cyan-500/10 text-cyan-50 font-bold border border-cyan-500/20 shadow-[inset_0px_0px_10px_rgba(6,182,212,0.1)]'
-                          : 'text-gray-400 hover:bg-white/5 hover:text-gray-200 font-medium border border-transparent'
+                          ? 'bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-50 font-bold border border-cyan-200 dark:border-cyan-500/20 shadow-[inset_0px_0px_10px_rgba(6,182,212,0.05)] dark:shadow-[inset_0px_0px_10px_rgba(6,182,212,0.1)]'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200 font-medium border border-transparent'
                       )}
                     >
                       {/* Active State Background Gradient */}
@@ -183,8 +183,8 @@ export default function CustomerSidebar() {
                         className={cn(
                           'shrink-0 transition-colors relative z-10',
                           isActive
-                            ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]'
-                            : 'text-gray-500 group-hover:text-gray-300'
+                            ? 'text-cyan-600 dark:text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] dark:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]'
+                            : 'text-gray-400 dark:text-gray-500 group-hover:text-cyan-600 dark:group-hover:text-gray-300'
                         )}
                       />
 
@@ -225,7 +225,7 @@ export default function CustomerSidebar() {
       </nav>
 
       {/* Logout Footer */}
-      <div className="p-4 border-t border-white/10 shrink-0 bg-black/20">
+      <div className="p-4 border-t border-gray-200 dark:border-white/10 shrink-0 bg-gray-50/50 dark:bg-black/20">
         <button
           onClick={() => {
             setMobileSidebarOpen(false);
@@ -233,14 +233,14 @@ export default function CustomerSidebar() {
           }}
           title={isSidebarCollapsed ? 'Log out' : undefined}
           className={cn(
-            'flex items-center w-full py-2.5 rounded-xl text-gray-400 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 border border-transparent transition-all group',
+            'flex items-center w-full py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 hover:border-red-100 dark:hover:border-red-500/20 border border-transparent transition-all group',
             isSidebarCollapsed ? 'justify-center px-0' : 'justify-start px-3'
           )}
         >
           <LogOut
             size={20}
             strokeWidth={2}
-            className="shrink-0 text-gray-500 group-hover:text-red-400 transition-colors"
+            className="shrink-0 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors"
           />
           <AnimatePresence mode="wait">
             {!isSidebarCollapsed && (
@@ -285,7 +285,7 @@ export default function CustomerSidebar() {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-y-0 left-0 w-[260px] bg-[#0A0A0A] border-r border-white/10 flex flex-col z-50 shadow-2xl md:hidden overflow-hidden"
+            className="fixed inset-y-0 left-0 w-[260px] bg-white dark:bg-[#0A0A0A] border-r border-gray-200 dark:border-white/10 flex flex-col z-50 shadow-2xl md:hidden overflow-hidden"
           >
             {sidebarContent}
           </motion.aside>
@@ -297,7 +297,7 @@ export default function CustomerSidebar() {
         initial={false}
         animate={{ width: isSidebarCollapsed ? 80 : 260 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="hidden md:flex h-screen bg-[#0A0A0A] border-r border-white/10 flex-col sticky top-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.5)] transition-colors duration-300 overflow-hidden shrink-0"
+        className="hidden md:flex h-screen bg-white dark:bg-[#0A0A0A] border-r border-gray-200 dark:border-white/10 flex-col sticky top-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.05)] dark:shadow-[4px_0_24px_rgba(0,0,0,0.5)] transition-colors duration-300 overflow-hidden shrink-0"
       >
         {sidebarContent}
       </motion.aside>

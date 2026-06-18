@@ -37,13 +37,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!service) return { title: 'Service Not Found' };
 
     return {
-      title: `${service.name} | APXTeck`,
+      title: `${service.name} | APX - Advanced Precision & Excellence`,
       description: service.description || `Premium ${service.name} solutions for Indian SMBs.`,
       openGraph: {
-        title: `${service.name} | APXTeck`,
+        title: `${service.name} | APX - Advanced Precision & Excellence`,
         description: service.description || `Premium ${service.name} solutions for Indian SMBs.`,
         url: `https://apxteck.com/services/${slug}`,
-        siteName: 'APXTeck',
+        siteName: 'APX - Advanced Precision & Excellence',
         type: 'website',
         locale: 'en_IN',
         images: [
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: 'summary_large_image',
         creator: '@apxteck',
         site: '@apxteck',
-        title: `${service.name} | APXTeck`,
+        title: `${service.name} | APX - Advanced Precision & Excellence`,
         description: service.description || `Premium ${service.name} solutions for Indian SMBs.`,
         images: [service.thumbnailUrl || 'https://apxteck.com/images/og/services-detail.jpg'],
       },

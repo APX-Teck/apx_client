@@ -18,7 +18,7 @@ async function ContactSectionLoader() {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Contact Us for Web Development & SEO | APXTeck',
+    title: 'Contact Us for Web Development & SEO | APX - Advanced Precision & Excellence',
     description:
       'Contact APXTeck for custom software, web design, mobile apps, and search engine optimization. Get a free consultation and a detailed project roadmap.',
     keywords:
@@ -31,11 +31,11 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: 'Contact Us for Web Development & SEO | APXTeck',
+      title: 'Contact Us for Web Development & SEO | APX - Advanced Precision & Excellence',
       description:
         'Contact APXTeck for custom software, web design, mobile apps, and search engine optimization. Get a free consultation and a detailed project roadmap.',
       url: 'https://apxteck.com/contact',
-      siteName: 'APXTeck',
+      siteName: 'APX - Advanced Precision & Excellence',
       type: 'website',
       locale: 'en_IN',
       images: [
@@ -49,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Contact Us for Web Development & SEO | APXTeck',
+      title: 'Contact Us for Web Development & SEO | APX - Advanced Precision & Excellence',
       description:
         'Get in touch with APXTeck for premium software development and SEO consultancies.',
       creator: '@apxteck',

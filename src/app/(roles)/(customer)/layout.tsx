@@ -17,7 +17,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
           <CustomerTopbar />
           <main className="flex-1 p-4 sm:p-6 md:p-8 pt-safe pb-safe overflow-x-hidden overflow-y-auto relative">
             {/* Background Gradients globally for customer section */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none fixed">
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
               <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-cyan-500/5 blur-[120px] dark:bg-cyan-500/5"></div>
               <div className="absolute bottom-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-indigo-500/5 blur-[120px] dark:bg-indigo-500/5"></div>
             </div>

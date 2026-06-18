@@ -24,7 +24,7 @@ const TechStackMarquee = dynamic(
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'IT Services for SMBs | APXTeck';
+  const title = 'IT Services for SMBs | APX - Advanced Precision & Excellence';
   const description =
     "Browse APXTeck's premium IT services: Next.js Web Development, UI/UX Design, SEO Optimization, and Digital Marketing tailored to scale Indian SMBs.";
   const url = 'https://apxteck.com/services';
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       url,
-      siteName: 'APXTeck',
+      siteName: 'APX - Advanced Precision & Excellence',
       type: 'website',
       locale: 'en_IN',
       images: [
@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: 'https://apxteck.com/images/og/services.jpg',
           width: 1200,
           height: 630,
-          alt: 'APXTeck IT Services',
+          alt: 'APX - Advanced Precision & Excellence IT Services',
         },
       ],
     },

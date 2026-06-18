@@ -41,13 +41,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const imageUrl = project.coverImageUrl || 'https://apxteck.com/images/og/portfolio-detail.jpg';
 
     return {
-      title: `${project.clientName} Case Study | APXTeck`,
+      title: `${project.clientName} Case Study | APX - Advanced Precision & Excellence`,
       description,
       openGraph: {
-        title: `${project.clientName} Case Study | APXTeck`,
+        title: `${project.clientName} Case Study | APX - Advanced Precision & Excellence`,
         description,
         url,
-        siteName: 'APXTeck',
+        siteName: 'APX - Advanced Precision & Excellence',
         type: 'article',
         locale: 'en_IN',
         images: [
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: 'summary_large_image',
         site: '@apxteck',
         creator: '@apxteck',
-        title: `${project.clientName} Case Study | APXTeck`,
+        title: `${project.clientName} Case Study | APX - Advanced Precision & Excellence`,
         description,
         images: [imageUrl],
       },

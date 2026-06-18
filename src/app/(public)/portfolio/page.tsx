@@ -36,7 +36,7 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Case Studies & Work Portfolio | APXTeck',
+    title: 'Case Studies & Work Portfolio | APX - Advanced Precision & Excellence',
     description:
       "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and digital marketing results.",
     alternates: {
@@ -47,11 +47,11 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: 'Case Studies & Work Portfolio | APXTeck',
+      title: 'Case Studies & Work Portfolio | APX - Advanced Precision & Excellence',
       description:
         "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and digital marketing results.",
       url: 'https://apxteck.com/portfolio',
-      siteName: 'APXTeck',
+      siteName: 'APX - Advanced Precision & Excellence',
       type: 'website',
       locale: 'en_IN',
       images: [
@@ -67,7 +67,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       site: '@apxteck',
       creator: '@apxteck',
-      title: 'Case Studies & Work Portfolio | APXTeck',
+      title: 'Case Studies & Work Portfolio | APX - Advanced Precision & Excellence',
       description:
         "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and digital marketing results.",
       images: ['https://apxteck.com/images/og/portfolio.jpg'],
