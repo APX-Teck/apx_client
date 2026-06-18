@@ -173,6 +173,7 @@ export const api = {
       return [];
     }
   },  
+  
   fetchServices: async () => {
     try {
       const response = await apiClient.get('/service/getAll');
