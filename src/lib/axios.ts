@@ -1,3 +1,4 @@
+//hello
 import apiClient from '@/lib/api/axios';
 import { Ad } from '@/app/types/ad.types';
 import { setAccessToken } from '@/lib/api/token-manager';
@@ -172,7 +173,8 @@ export const api = {
       console.error('Failed to fetch service fields:', error);
       return [];
     }
-  },
+  },  
+
   fetchServices: async () => {
     try {
       const response = await apiClient.get('/service/getAll');
