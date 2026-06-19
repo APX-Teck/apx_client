@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   description: 'Manage banner ads, Google AdSense codes, and placements across the platform.',
 };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 async function AdsDataFetcher() {
   let initialAds: Ad[] = [];
   try {

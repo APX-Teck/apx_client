@@ -5,21 +5,22 @@ import { AdBanner } from '@/components/ui/AdBanner';
 import { AvailableAdSlots } from '@/components/ui/AvailableAdSlots';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
+import nextDynamic from 'next/dynamic';
 import { jsonLdBlog, jsonLdBreadcrumb } from './constants';
 import { BlogSectionLoader } from './components/BlogSectionLoader';
 import { BlogSectionSkeleton } from './components/BlogSectionSkeleton';
 
-const ExploreNewsClient = dynamic(
+const ExploreNewsClient = nextDynamic(
   () => import('./ExploreNewsClient').then((mod) => mod.ExploreNewsClient),
   { ssr: true }
 );
-const TechStackMarquee = dynamic(
+const TechStackMarquee = nextDynamic(
   () => import('@/components/sections/TechStackMarquee').then((mod) => mod.TechStackMarquee),
   { ssr: true }
 );
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

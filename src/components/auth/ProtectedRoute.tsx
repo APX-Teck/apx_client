@@ -9,15 +9,34 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+    if (!isLoading) {
+      if (!isAuthenticated || !user) {
+        router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+        return;
+      }
+
+      // Customer should not access Employee portal
+      if (pathname.startsWith('/employee') && user.role === 'CUSTOMER') {
+        router.replace('/customer');
+        return;
+      }
+
+      // Non-customers shouldn't typically access Customer portal (they have Admin/Employee portals)
+      if (pathname.startsWith('/customer') && user.role !== 'CUSTOMER') {
+        if (user.role === 'SUPER_ADMIN' || user.role === 'ADMIN') {
+          router.replace('/admin');
+        } else {
+          router.replace('/employee');
+        }
+        return;
+      }
     }
-  }, [isLoading, isAuthenticated, router, pathname]);
+  }, [isLoading, isAuthenticated, user, router, pathname]);
 
   if (isLoading) {
     return (
@@ -27,9 +46,13 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !user) {
     return null;
   }
+
+  // Prevent flash of content while redirecting
+  if (pathname.startsWith('/employee') && user.role === 'CUSTOMER') return null;
+  if (pathname.startsWith('/customer') && user.role !== 'CUSTOMER') return null;
 
   return <>{children}</>;
 };

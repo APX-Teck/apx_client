@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   description: 'Manage articles, AI drafts, categories, and publications.',
 };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 async function BlogDataFetcher() {
   let initialPosts: BlogPost[] = [];
   try {

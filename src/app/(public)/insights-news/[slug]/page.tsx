@@ -7,8 +7,8 @@ import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { api } from '@/lib/axios';
 import { BlogPost, BlogComment } from '@/app/types/blog.types';
 
-export const revalidate = 300;
-// Force recompile to pick up Author bio changes
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface Props {
   params: Promise<{ slug: string }>;

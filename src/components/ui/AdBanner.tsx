@@ -63,6 +63,21 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
 
   const currentAd = ads[currentIndex] || null;
 
+  useEffect(() => {
+    // Manually trigger AdSense push when a GOOGLE ad is loaded
+    if (currentAd?.adType === 'GOOGLE') {
+      try {
+        const insElements = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status="done"])');
+        if (insElements.length > 0) {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      } catch (err) {
+        console.error('AdSense push error:', err);
+      }
+    }
+  }, [currentAd]);
+
   return (
     <AnimatePresence mode="wait">
       {isLoading ? (
