@@ -7,10 +7,6 @@ export function useLeadsLogic(initialLeads: Lead[] = []) {
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setLeads(initialLeads);
-  }, [initialLeads]);
-
   const fetchLeads = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -22,6 +18,13 @@ export function useLeadsLogic(initialLeads: Lead[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setLeads(initialLeads);
+    if (!initialLeads || initialLeads.length === 0) {
+      fetchLeads();
+    }
+  }, [initialLeads, fetchLeads]);
 
   const handleUpdateStatus = async (id: number, status: LeadStatus) => {
     const toastId = toast.loading('Updating status...');

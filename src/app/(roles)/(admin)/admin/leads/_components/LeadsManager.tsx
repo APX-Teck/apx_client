@@ -46,7 +46,7 @@ export function LeadsManager({ initialLeads = [] }: { initialLeads?: Lead[] }) {
     <div className="space-y-6 w-full max-w-7xl mx-auto pb-safe pb-10 px-4 sm:px-6 md:px-8">
       <LeadsHeader />
 
-      <div className="bg-white dark:bg-[#111111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+      <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col">
         <div className="flex-1 overflow-auto">
           {isLoading ? (
             <div className="min-h-[400px] flex items-center justify-center">
