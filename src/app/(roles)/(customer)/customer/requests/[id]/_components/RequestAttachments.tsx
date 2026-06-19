@@ -27,7 +27,7 @@ export function RequestAttachments({
   return (
     <motion.div
       variants={item}
-      className="bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
+      className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
     >
       <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-6">
         <Paperclip className="w-5 h-5 text-cyan-500" />

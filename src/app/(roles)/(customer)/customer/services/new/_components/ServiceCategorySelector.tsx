@@ -29,11 +29,11 @@ export function ServiceCategorySelector({
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">Select Service Category</h2>
       </div>
 
-      <div className="pl-10">
+      <div className="pl-0 sm:pl-10">
         {services.length === 0 ? (
           <p className="text-gray-500">No active services available at the moment.</p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {services.map((service) => {
               const isSelected = selectedServiceId === service.id;
               return (
@@ -41,7 +41,7 @@ export function ServiceCategorySelector({
                   key={service.id}
                   type="button"
                   onClick={() => setSelectedServiceId(service.id)}
-                  className={`relative p-6 rounded-3xl border text-left transition-all duration-300 flex flex-col items-start gap-4 overflow-hidden group
+                  className={`relative p-4 sm:p-6 rounded-2xl sm:rounded-3xl border text-left transition-all duration-300 flex flex-col items-start gap-3 sm:gap-4 overflow-hidden group
                     ${
                       isSelected
                         ? `border-cyan-500 bg-white dark:bg-[#151515] shadow-[0_0_20px_rgba(6,182,212,0.15)]`

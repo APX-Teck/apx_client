@@ -10,7 +10,7 @@ interface EmailPreferencesProps {
 
 export function EmailPreferences({ preferences, togglePref }: EmailPreferencesProps) {
   return (
-    <div className="bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+    <div className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
       <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-4 mb-4">
         <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
           <Mail className="w-5 h-5" />

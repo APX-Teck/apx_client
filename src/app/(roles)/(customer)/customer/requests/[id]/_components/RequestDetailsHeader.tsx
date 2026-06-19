@@ -68,7 +68,7 @@ export function RequestDetailsHeader({
   return (
     <motion.div
       variants={item}
-      className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
+      className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
     >
       <div className="flex items-start gap-4">
         <Link

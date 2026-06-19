@@ -22,7 +22,7 @@ export function ServicesGrid({ services, isLoading }: ServicesGridProps) {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white dark:bg-[#111] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm animate-pulse flex flex-col h-[250px]"
+            className="bg-white dark:bg-[#111] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm animate-pulse flex flex-col h-[250px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-gray-200 dark:bg-white/10 mb-6 shrink-0"></div>
             <div className="h-6 w-3/4 bg-gray-200 dark:bg-white/10 rounded mb-2"></div>
@@ -50,7 +50,7 @@ export function ServicesGrid({ services, isLoading }: ServicesGridProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white dark:bg-[#111] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-cyan-500/30 transition-all group flex flex-col h-full"
+            className="bg-white dark:bg-[#111] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-cyan-500/30 transition-all group flex flex-col h-full"
           >
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-6 shrink-0">
               <Code className="w-6 h-6" />
@@ -92,7 +92,7 @@ export function ServicesGrid({ services, isLoading }: ServicesGridProps) {
       {/* Empty Placeholder Card / Add New Card */}
       <Link
         href="/customer/services/new"
-        className="bg-gradient-to-br from-gray-50 to-white dark:from-[#151515] dark:to-[#111] p-6 rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/10 flex flex-col items-center justify-center text-center hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-all cursor-pointer min-h-[250px] group"
+        className="bg-gradient-to-br from-gray-50 to-white dark:from-[#151515] dark:to-[#111] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/10 flex flex-col items-center justify-center text-center hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-all cursor-pointer min-h-[200px] sm:min-h-[250px] group"
       >
         <div className="w-14 h-14 rounded-full bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-cyan-500 transition-all duration-300 shadow-sm relative">
           <div className="absolute inset-0 bg-cyan-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity"></div>

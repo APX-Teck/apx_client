@@ -163,7 +163,7 @@ export function ReimbursementList({
                     {rmb.status === 'PENDING' && (
                       <button
                         onClick={() => handleDelete(rmb.id)}
-                        className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors opacity-0 group-hover:opacity-100"
+                        className="min-w-[48px] min-h-[48px] flex items-center justify-center p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                         title="Cancel Claim"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -180,7 +180,7 @@ export function ReimbursementList({
                 <button
                   disabled={page === 1}
                   onClick={() => fetchReimbursements(page - 1)}
-                  className="min-h-[44px] flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 disabled:opacity-50 transition-colors"
+                  className="min-h-[48px] flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 disabled:opacity-50 transition-colors"
                 >
                   Previous
                 </button>
@@ -190,7 +190,7 @@ export function ReimbursementList({
                 <button
                   disabled={page === totalPages}
                   onClick={() => fetchReimbursements(page + 1)}
-                  className="min-h-[44px] flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 disabled:opacity-50 transition-colors"
+                  className="min-h-[48px] flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 disabled:opacity-50 transition-colors"
                 >
                   Next
                 </button>

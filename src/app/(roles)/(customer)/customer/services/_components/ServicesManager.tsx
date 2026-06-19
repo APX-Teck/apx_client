@@ -26,7 +26,7 @@ export default function ServicesManager({ initialServices }: ServicesManagerProp
       variants={container}
       initial="hidden"
       animate="show"
-      className="w-full max-w-7xl mx-auto space-y-8 px-4 sm:px-6 md:px-8 pt-4 pb-safe"
+      className="w-full max-w-7xl mx-auto space-y-6 sm:space-y-8 pb-safe"
     >
       <ServicesHeader />
       <ServicesGrid services={services} isLoading={isLoading} />

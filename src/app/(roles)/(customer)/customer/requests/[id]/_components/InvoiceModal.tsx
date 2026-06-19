@@ -86,7 +86,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
 
             {/* Printable Invoice Content */}
             <div
-              className="p-8 sm:p-12 print:p-8 bg-white text-gray-900 rounded-b-2xl relative overflow-hidden print:w-[210mm] print:min-h-[297mm] mx-auto shadow-sm"
+              className="p-5 sm:p-8 md:p-12 print:p-8 bg-white text-gray-900 rounded-b-2xl relative overflow-hidden print:w-[210mm] print:min-h-[297mm] mx-auto shadow-sm"
               id="invoice-content"
             >
               {/* Background Watermark */}
@@ -101,7 +101,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
               {/* Foreground Content Wrapper */}
               <div className="relative z-10 flex flex-col h-full print:h-full">
                 {/* Invoice Header */}
-                <div className="flex flex-col sm:flex-row justify-between items-stretch gap-6 mb-12">
+                <div className="flex flex-col sm:flex-row justify-between items-stretch gap-4 sm:gap-6 mb-8 sm:mb-12">
                   <div className="flex flex-col justify-between">
                     <img
                       src="/APX%20Teck%20-%20Final%20Logo%20-01.png"
@@ -148,7 +148,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                 </div>
 
                 {/* Billing Info Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12 bg-gray-50/80 p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12 bg-gray-50/80 p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
                   <div>
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
@@ -185,17 +185,17 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                   <table className="w-full text-left border-collapse">
                     <thead className="bg-gray-50/80 border-b border-gray-200">
                       <tr>
-                        <th className="py-5 px-8 font-bold text-xs text-gray-500 uppercase tracking-widest w-full">
+                        <th className="py-4 sm:py-5 px-4 sm:px-8 font-bold text-xs text-gray-500 uppercase tracking-widest w-full">
                           Service Description
                         </th>
-                        <th className="py-5 px-8 font-bold text-xs text-gray-500 uppercase tracking-widest text-right whitespace-nowrap">
+                        <th className="py-4 sm:py-5 px-4 sm:px-8 font-bold text-xs text-gray-500 uppercase tracking-widest text-right whitespace-nowrap">
                           Amount
                         </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 bg-white">
                       <tr className="group hover:bg-gray-50/50 transition-colors">
-                        <td className="py-6 px-8">
+                        <td className="py-4 sm:py-6 px-4 sm:px-8">
                           <p className="text-lg font-bold text-gray-900">{request.service?.name}</p>
                           <p className="text-sm font-medium text-gray-500 mt-1">
                             Service Request #{request.id}
@@ -214,7 +214,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                             </div>
                           )}
                         </td>
-                        <td className="py-6 px-8 text-right align-top">
+                        <td className="py-4 sm:py-6 px-4 sm:px-8 text-right align-top">
                           <span className="text-xl font-bold text-gray-900">
                             ₹{invoicePayment.amountPaid || invoicePayment.negotiatedAmount}
                           </span>
@@ -225,9 +225,9 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                 </div>
 
                 {/* Totals Section */}
-                <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-12 mt-6">
+                <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-8 sm:mb-12 mt-6">
                   <div className="w-full sm:w-1/2 hidden sm:block"></div>
-                  <div className="w-full sm:w-[380px] bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+                  <div className="w-full sm:w-[380px] bg-gray-50 p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
                     <div className="flex justify-between items-center py-2.5 text-sm text-gray-600">
                       <span className="font-medium text-base">Subtotal</span>
                       <span className="font-semibold text-gray-900 text-base">

@@ -25,11 +25,11 @@ export function PaymentsSummary({ isLoading, amountDue, lastPayment }: PaymentsS
         </>
       ) : (
         <>
-          <div className="bg-gradient-to-br from-gray-900 to-black dark:from-[#111] dark:to-black p-8 rounded-3xl border border-gray-800 dark:border-white/5 relative overflow-hidden group shadow-lg">
+          <div className="bg-gradient-to-br from-gray-900 to-black dark:from-[#111] dark:to-black p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-800 dark:border-white/5 relative overflow-hidden group shadow-lg">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2"></div>
             <div className="relative z-10">
               <p className="text-gray-400 text-sm font-medium mb-1">Amount Due</p>
-              <h3 className="text-4xl font-black text-white mb-6">₹{amountDue.toFixed(2)}</h3>
+              <h3 className="text-3xl sm:text-4xl font-black text-white mb-4 sm:mb-6">₹{amountDue.toFixed(2)}</h3>
               <button
                 disabled={amountDue === 0}
                 className="flex items-center justify-center min-h-[48px] gap-2 w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold px-5 py-3 rounded-xl transition-all shadow-[0_0_15px_rgba(245,158,11,0.2)] hover:shadow-[0_0_25px_rgba(245,158,11,0.4)]"
@@ -40,7 +40,7 @@ export function PaymentsSummary({ isLoading, amountDue, lastPayment }: PaymentsS
             </div>
           </div>
 
-          <div className="bg-white dark:bg-[#111] p-8 rounded-3xl border border-gray-100 dark:border-white/5 flex flex-col justify-between shadow-sm">
+          <div className="bg-white dark:bg-[#111] p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-white/5 flex flex-col justify-between shadow-sm">
             <div>
               <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">
                 Last Payment

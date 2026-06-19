@@ -14,7 +14,7 @@ export function GenericAttachments({
   removeGenericFile,
 }: GenericAttachmentsProps) {
   return (
-    <div className="pl-10 pt-4 mt-6">
+    <div className="pl-0 sm:pl-10 pt-4 mt-6">
       <div className="space-y-2">
         <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
           Additional Attachments / Project Documents (Optional)

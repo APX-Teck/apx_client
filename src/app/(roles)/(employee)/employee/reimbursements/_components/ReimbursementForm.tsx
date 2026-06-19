@@ -60,7 +60,7 @@ export function ReimbursementForm({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Client Lunch Meeting"
-              className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[44px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white"
+              className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[48px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white"
               required
             />
           </div>
@@ -77,7 +77,7 @@ export function ReimbursementForm({
                 placeholder="e.g. 1500"
                 step="0.01"
                 min="0.1"
-                className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[44px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white"
+                className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[48px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white"
                 required
               />
             </div>
@@ -89,7 +89,7 @@ export function ReimbursementForm({
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-3 py-3 min-h-[44px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium cursor-pointer text-gray-900 dark:text-white"
+                className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-3 py-3 min-h-[48px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium cursor-pointer text-gray-900 dark:text-white"
               >
                 <option value="Travel">Travel</option>
                 <option value="Meals & Entertainment">Meals & Ent.</option>
@@ -110,7 +110,7 @@ export function ReimbursementForm({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Provide any additional context..."
               rows={3}
-              className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[44px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white resize-none"
+              className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/5 rounded-xl px-4 py-3 min-h-[48px] outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-sm font-medium text-gray-900 dark:text-white resize-none"
             />
           </div>
 

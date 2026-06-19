@@ -23,7 +23,7 @@ export default function ProfileManager() {
     phone,
     setPhone,
     isSubmitting,
-    successMessage,
+    message,
     handleSubmit,
   } = useProfileLogic();
 
@@ -49,7 +49,7 @@ export default function ProfileManager() {
         setPhone={setPhone}
         handleSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        successMessage={successMessage}
+        message={message}
       />
       <SettingsCards />
     </motion.div>

@@ -61,17 +61,31 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
     }
   };
 
+  const getPriorityBadge = (priority: RequestItem['priority']) => (
+    <span
+      className={`px-2.5 py-1 text-xs font-bold rounded-md border ${
+        priority === 'HIGH'
+          ? 'bg-red-500/10 text-red-500 border-red-500/20'
+          : priority === 'MEDIUM'
+            ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+            : 'bg-gray-500/10 text-gray-500 border-gray-500/20 dark:text-gray-400'
+      }`}
+    >
+      {priority}
+    </span>
+  );
+
   return (
     <motion.div
       variants={item}
-      className="lg:col-span-2 bg-white dark:bg-[#111] p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4 md:space-y-6"
+      className="lg:col-span-2 bg-white dark:bg-[#111] p-4 sm:p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4 md:space-y-6"
     >
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
             Recent Service Requests
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
             Track the status of your ongoing and past requests.
           </p>
         </div>
@@ -84,7 +98,44 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
         </Link>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile Card Layout */}
+      <div className="sm:hidden space-y-3">
+        {activeRequests.slice(0, 5).map((req) => (
+          <div
+            key={req.id}
+            onClick={() => router.push(`/customer/requests/${req.rawId}`)}
+            className="p-4 rounded-xl bg-gray-50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5 cursor-pointer active:scale-[0.98] transition-all space-y-3"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-sm text-cyan-600 dark:text-cyan-400 font-bold">
+                {req.id}
+              </span>
+              {getStatusBadge(req.status)}
+            </div>
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+              {req.serviceType}
+            </p>
+            <div className="flex items-center justify-between">
+              {getPriorityBadge(req.priority)}
+              <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                {new Date(req.createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </span>
+            </div>
+          </div>
+        ))}
+        {activeRequests.length === 0 && (
+          <div className="py-8 text-center text-gray-500 dark:text-gray-400 text-sm">
+            No active service requests found.
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table Layout */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-left border-collapse whitespace-nowrap">
           <thead>
             <tr className="border-b border-gray-100 dark:border-white/5 text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider">
@@ -107,19 +158,7 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
                 </td>
                 <td className="py-4 px-4 font-semibold">{req.serviceType}</td>
                 <td className="py-4 px-4">{getStatusBadge(req.status)}</td>
-                <td className="py-4 px-4">
-                  <span
-                    className={`px-2.5 py-1 text-xs font-bold rounded-md border ${
-                      req.priority === 'HIGH'
-                        ? 'bg-red-500/10 text-red-500 border-red-500/20'
-                        : req.priority === 'MEDIUM'
-                          ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
-                          : 'bg-gray-500/10 text-gray-500 border-gray-500/20 dark:text-gray-400'
-                    }`}
-                  >
-                    {req.priority}
-                  </span>
-                </td>
+                <td className="py-4 px-4">{getPriorityBadge(req.priority)}</td>
                 <td className="py-4 pl-4 text-right text-gray-500 dark:text-gray-400 font-mono text-xs">
                   {new Date(req.createdAt).toLocaleDateString('en-US', {
                     month: 'short',

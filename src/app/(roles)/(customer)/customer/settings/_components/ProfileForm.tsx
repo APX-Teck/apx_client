@@ -20,7 +20,7 @@ export function ProfileForm({
   message,
 }: ProfileFormProps) {
   return (
-    <div className="bg-white dark:bg-[#111] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+    <div className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
       <div className="flex items-center gap-4 border-b border-gray-100 dark:border-white/5 pb-6">
         <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center">
           <User className="w-6 h-6" />

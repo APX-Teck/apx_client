@@ -25,7 +25,7 @@ export function ProjectDetailsForm({
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">Project Details</h2>
       </div>
 
-      <div className="pl-10">
+      <div className="pl-0 sm:pl-10">
         {loadingFields ? (
           <div className="flex items-center gap-2 text-gray-500 py-8">
             <Loader2 className="w-5 h-5 animate-spin" />

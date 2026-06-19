@@ -25,7 +25,7 @@ export function SettingsCards() {
         </div>
         <Link
           href="/employee/settings/security"
-          className="w-full min-h-[44px] flex items-center justify-center rounded-xl border-2 border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold group-hover:bg-indigo-500/10 transition-all text-center"
+          className="w-full min-h-[48px] flex items-center justify-center rounded-xl border-2 border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold group-hover:bg-indigo-500/10 transition-all text-center"
         >
           Update Security
         </Link>
@@ -43,7 +43,7 @@ export function SettingsCards() {
         </div>
         <Link
           href="/employee/settings/notifications"
-          className="w-full min-h-[44px] flex items-center justify-center rounded-xl border-2 border-amber-500/20 text-amber-600 dark:text-amber-400 font-bold group-hover:bg-amber-500/10 transition-all text-center"
+          className="w-full min-h-[48px] flex items-center justify-center rounded-xl border-2 border-amber-500/20 text-amber-600 dark:text-amber-400 font-bold group-hover:bg-amber-500/10 transition-all text-center"
         >
           Manage Preferences
         </Link>

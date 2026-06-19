@@ -31,11 +31,11 @@ export default function SettingsManager() {
       variants={container}
       initial="hidden"
       animate="show"
-      className="w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 pt-4 pb-safe space-y-8"
+      className="w-full max-w-4xl mx-auto space-y-6 sm:space-y-8"
     >
       {/* Header */}
       <motion.div variants={item}>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
           Manage your profile, security, and notification preferences.
         </p>

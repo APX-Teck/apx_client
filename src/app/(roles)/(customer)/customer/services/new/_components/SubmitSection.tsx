@@ -10,7 +10,7 @@ interface SubmitSectionProps {
 
 export function SubmitSection({ isSubmitting, loadingFields, message }: SubmitSectionProps) {
   return (
-    <div className="pl-10 pt-8 mt-8 border-t border-gray-100 dark:border-white/5">
+    <div className="pl-0 sm:pl-10 pt-8 mt-8 border-t border-gray-100 dark:border-white/5">
       {message && (
         <div
           className={`mb-6 p-4 rounded-2xl flex items-center gap-3 ${message.type === 'success' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}
@@ -27,7 +27,7 @@ export function SubmitSection({ isSubmitting, loadingFields, message }: SubmitSe
       <button
         type="submit"
         disabled={isSubmitting || loadingFields}
-        className="group relative flex items-center justify-center gap-2 w-full md:w-auto bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+        className="group relative flex items-center justify-center gap-2 w-full sm:w-auto bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? (
           <Loader2 className="w-5 h-5 animate-spin" />

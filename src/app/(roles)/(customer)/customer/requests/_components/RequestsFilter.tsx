@@ -24,7 +24,7 @@ export function RequestsFilter({
   return (
     <motion.div
       variants={item}
-      className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-[#111] p-4 rounded-2xl border border-gray-100 dark:border-white/5"
+      className="flex flex-col md:flex-row gap-3 sm:gap-4 items-center justify-between bg-white dark:bg-[#111] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-gray-100 dark:border-white/5"
     >
       <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
         {['ALL', 'NEW', 'IN_PROGRESS', 'COMPLETED'].map((filter) => (

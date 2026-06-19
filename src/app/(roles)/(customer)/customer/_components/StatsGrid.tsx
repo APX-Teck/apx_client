@@ -23,7 +23,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
             Active Requests
           </p>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-gray-900 dark:text-white">{activeCount}</h3>
+            <h3 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{activeCount}</h3>
             <span className="text-sm font-medium text-cyan-500">In Progress</span>
           </div>
         </div>
@@ -38,7 +38,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
             Unpaid Invoices
           </p>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-gray-900 dark:text-white">{unpaidInvoices}</h3>
+            <h3 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{unpaidInvoices}</h3>
             <span className="text-sm font-medium text-amber-500">Pending</span>
           </div>
         </div>
@@ -53,7 +53,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
             Projects Completed
           </p>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-gray-900 dark:text-white">{completedCount}</h3>
+            <h3 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">{completedCount}</h3>
             <span className="text-sm font-medium text-emerald-500">Total</span>
           </div>
         </div>

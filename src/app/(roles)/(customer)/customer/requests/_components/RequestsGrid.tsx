@@ -60,7 +60,7 @@ export function RequestsGrid({
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
-            className="bg-white dark:bg-[#111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm animate-pulse flex flex-col h-[280px]"
+            className="bg-white dark:bg-[#111] rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm animate-pulse flex flex-col h-[280px]"
           >
             <div className="p-6 flex-1">
               <div className="flex justify-between items-start mb-4">
@@ -126,10 +126,10 @@ export function RequestsGrid({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white dark:bg-[#111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-cyan-500/30 hover:shadow-lg transition-all group flex flex-col overflow-hidden"
+              className="bg-white dark:bg-[#111] rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-cyan-500/30 hover:shadow-lg transition-all group flex flex-col overflow-hidden"
             >
               <Link href={`/customer/requests/${req.id}`} className="flex flex-col h-full">
-                <div className="p-6 flex-1">
+                <div className="p-4 sm:p-6 flex-1">
                   <div className="flex justify-between items-start mb-4">
                     <div
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 ${status.bg} ${status.color}`}
@@ -142,11 +142,11 @@ export function RequestsGrid({
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
                     {req.service?.name || 'Unknown Service'}
                   </h3>
 
-                  <div className="space-y-3 mt-6">
+                  <div className="space-y-3 mt-4 sm:mt-6">
                     <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                       <Clock className="w-4 h-4 text-gray-400" />
                       <span>Created on {new Date(req.createdAt).toLocaleDateString()}</span>
