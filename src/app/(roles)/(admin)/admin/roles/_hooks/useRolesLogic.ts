@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
+import { z } from 'zod';
 import { rolesService, Role } from '@/services/admin/roles.service';
+
+const roleSchema = z.object({
+  name: z.string()
+    .min(3, 'Role name must be at least 3 characters')
+    .max(50, 'Role name cannot exceed 50 characters')
+    .regex(/^[A-Z_]+$/, 'Role name can only contain uppercase letters and underscores'),
+  description: z.string().optional(),
+});
 
 export const useRolesLogic = (initialRoles: Role[]) => {
   const [roles, setRoles] = useState<Role[]>(initialRoles);
@@ -7,6 +16,8 @@ export const useRolesLogic = (initialRoles: Role[]) => {
   const [modalMode, setModalMode] = useState<'CREATE' | 'EDIT'>('CREATE');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [formData, setFormData] = useState({ name: '', description: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(initialRoles.length === 0);
 
@@ -30,6 +41,8 @@ export const useRolesLogic = (initialRoles: Role[]) => {
 
   const handleOpenModal = (mode: 'CREATE' | 'EDIT', role?: Role) => {
     setModalMode(mode);
+    setErrors({});
+    setServerError('');
     if (mode === 'EDIT' && role) {
       setSelectedRole(role);
       setFormData({ name: role.name, description: role.description || '' });
@@ -44,13 +57,39 @@ export const useRolesLogic = (initialRoles: Role[]) => {
     setIsModalOpen(false);
     setSelectedRole(null);
     setFormData({ name: '', description: '' });
+    setErrors({});
+    setServerError('');
+  };
+
+  const handleFormDataChange = (newData: { name: string; description: string }) => {
+    const updatedData = { ...newData, name: newData.name.toUpperCase().replace(/\s+/g, '_') };
+    setFormData(updatedData);
+    setErrors({});
+    setServerError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setServerError('');
+
+    const validationResult = roleSchema.safeParse(formData);
+    if (!validationResult.success) {
+      const flatErrors = validationResult.error.flatten().fieldErrors;
+      const fieldErrors: Record<string, string> = {};
+      for (const key in flatErrors) {
+        const errorArray = flatErrors[key as keyof typeof flatErrors];
+        if (errorArray && errorArray.length > 0) {
+          fieldErrors[key] = errorArray[0];
+        }
+      }
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
     try {
-      const formattedName = formData.name.toUpperCase().replace(/\s+/g, '_');
+      const formattedName = formData.name;
       if (modalMode === 'CREATE') {
         await rolesService.createRole({ name: formattedName, description: formData.description });
       } else if (modalMode === 'EDIT' && selectedRole) {
@@ -62,7 +101,7 @@ export const useRolesLogic = (initialRoles: Role[]) => {
       handleCloseModal();
       fetchRoles();
     } catch (error: any) {
-      alert(error?.response?.data?.message || error.message || 'Failed to save role');
+      setServerError(error?.response?.data?.message || error.message || 'Failed to save role');
     } finally {
       setIsSubmitting(false);
     }
@@ -87,7 +126,9 @@ export const useRolesLogic = (initialRoles: Role[]) => {
     modalMode,
     selectedRole,
     formData,
-    setFormData,
+    setFormData: handleFormDataChange,
+    errors,
+    serverError,
     isSubmitting,
     handleOpenModal,
     handleCloseModal,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, ShieldAlert } from 'lucide-react';
 
 interface Props {
   isModalOpen: boolean;
@@ -10,6 +10,8 @@ interface Props {
   setFormData: (data: { name: string; description: string }) => void;
   handleSubmit: (e: React.FormEvent) => void;
   isSubmitting: boolean;
+  errors?: Record<string, string>;
+  serverError?: string;
 }
 
 export function RoleModal({
@@ -20,6 +22,8 @@ export function RoleModal({
   setFormData,
   handleSubmit,
   isSubmitting,
+  errors = {},
+  serverError = '',
 }: Props) {
   return (
     <AnimatePresence>
@@ -50,7 +54,14 @@ export function RoleModal({
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 lg:p-8 space-y-5">
+            <form onSubmit={handleSubmit} className="p-6 lg:p-8 space-y-5" noValidate>
+              {serverError && (
+                <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-red-600 dark:text-red-400 text-sm font-bold flex items-center gap-2">
+                  <ShieldAlert size={16} />
+                  {serverError}
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                   Role Name *
@@ -60,13 +71,22 @@ export function RoleModal({
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. MARKETING MANAGER"
-                  className="w-full bg-white/50 dark:bg-black/20 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl px-5 py-4 min-h-[44px] text-[15px] focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 outline-none uppercase dark:text-white font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+                  placeholder="e.g. MARKETING_MANAGER"
+                  className={`w-full bg-white/50 dark:bg-black/20 backdrop-blur-sm border rounded-2xl px-5 py-4 min-h-[44px] text-[15px] focus:outline-none uppercase dark:text-white font-medium transition-all duration-300 shadow-sm hover:shadow-md ${
+                    errors.name
+                      ? 'border-red-500 focus:ring-4 focus:ring-red-500/20 focus:border-red-500'
+                      : 'border-gray-200/80 dark:border-white/10 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50'
+                  }`}
                 />
-                <p className="text-[13px] font-medium text-gray-500 mt-2 ml-1">
-                  Spaces will be automatically converted to underscores.
-                </p>
+                {errors.name ? (
+                  <p className="text-[13px] font-bold text-red-500 mt-2 ml-1">{errors.name}</p>
+                ) : (
+                  <p className="text-[13px] font-medium text-gray-500 mt-2 ml-1">
+                    Spaces will be automatically converted to underscores.
+                  </p>
+                )}
               </div>
+
               <div>
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                   Description
@@ -76,22 +96,31 @@ export function RoleModal({
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Brief description of this role's responsibilities..."
                   rows={3}
-                  className="w-full bg-white/50 dark:bg-black/20 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl px-5 py-4 min-h-[44px] text-[15px] focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 outline-none dark:text-white resize-none font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+                  className={`w-full bg-white/50 dark:bg-black/20 backdrop-blur-sm border rounded-2xl px-5 py-4 min-h-[44px] text-[15px] focus:outline-none dark:text-white resize-none font-medium transition-all duration-300 shadow-sm hover:shadow-md ${
+                    errors.description
+                      ? 'border-red-500 focus:ring-4 focus:ring-red-500/20 focus:border-red-500'
+                      : 'border-gray-200/80 dark:border-white/10 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50'
+                  }`}
                 />
+                {errors.description && (
+                  <p className="text-[13px] font-bold text-red-500 mt-2 ml-1">
+                    {errors.description}
+                  </p>
+                )}
               </div>
 
-              <div className="pt-6 flex gap-4">
+              <div className="pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="flex-1 px-5 py-3.5 min-h-[44px] rounded-2xl font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 transition-all shadow-sm hover:shadow-md active:scale-95"
+                  className="w-full sm:flex-1 px-5 py-3.5 min-h-[44px] rounded-2xl font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || !formData.name}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-3.5 min-h-[44px] rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 active:scale-95"
+                  className="w-full sm:flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-3.5 min-h-[44px] rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 active:scale-95"
                 >
                   {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
                   {modalMode === 'CREATE' ? 'Create Role' : 'Save Changes'}

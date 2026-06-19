@@ -60,6 +60,21 @@ export const useCreateUserLogic = (initialRoles: Role[]) => {
   const [isCreatingRole, setIsCreatingRole] = useState(false);
 
   useEffect(() => {
+    // Always fetch on the client-side to ensure the token is attached correctly (Fixes live empty dropdown)
+    const fetchRoles = async () => {
+      try {
+        const fetchedRoles = await usersService.getRoles();
+        if (fetchedRoles && fetchedRoles.length > 0) {
+          setRoles(fetchedRoles);
+        }
+      } catch (err) {
+        console.error('Failed to fetch roles client-side:', err);
+      }
+    };
+    fetchRoles();
+  }, []);
+
+  useEffect(() => {
     if (roles.length > 0 && !formData.roleId) {
       setFormData((prev) => ({ ...prev, roleId: String(roles[0].id) }));
     }

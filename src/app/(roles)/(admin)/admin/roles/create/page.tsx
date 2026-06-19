@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { useCreateRoleLogic } from '../_hooks/useCreateRoleLogic';
 
 export default function CreateRolePage() {
-  const { isSubmitting, formData, error, handleChange, handleSubmit } = useCreateRoleLogic();
+  const { isSubmitting, formData, errors, serverError, handleChange, handleSubmit } = useCreateRoleLogic();
 
   return (
     <div className="w-full max-w-4xl mx-auto pb-safe pb-12 px-4 sm:px-6 md:px-8">
@@ -37,16 +37,17 @@ export default function CreateRolePage() {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white dark:bg-[#111111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] overflow-hidden"
       >
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
-          {error && (
-            <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-red-600 dark:text-red-400 text-sm font-bold">
-              {error}
+        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6" noValidate>
+          {serverError && (
+            <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-red-600 dark:text-red-400 text-sm font-bold flex items-center gap-2">
+              <Shield size={16} />
+              {serverError}
             </div>
           )}
 
           <div className="grid grid-cols-1 gap-6">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+            <div className="space-y-2">
+              <label className="block text-sm font-bold text-gray-900 dark:text-white">
                 Role Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -55,16 +56,24 @@ export default function CreateRolePage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. MARKETING_MANAGER"
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white font-mono uppercase"
+                className={`w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border rounded-xl focus:outline-none focus:ring-2 transition-all text-gray-900 dark:text-white font-mono uppercase ${
+                  errors.name
+                    ? 'border-red-500 focus:ring-red-500/50'
+                    : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500 focus:border-indigo-500'
+                }`}
                 required
               />
-              <p className="text-xs text-gray-500 mt-2">
-                Use uppercase letters and underscores only.
-              </p>
+              {errors.name ? (
+                <p className="text-red-500 text-xs font-bold mt-1">{errors.name}</p>
+              ) : (
+                <p className="text-xs text-gray-500 mt-2">
+                  Use uppercase letters and underscores only.
+                </p>
+              )}
             </div>
 
-            <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+            <div className="space-y-2">
+              <label className="block text-sm font-bold text-gray-900 dark:text-white">
                 Description
               </label>
               <textarea
@@ -73,22 +82,29 @@ export default function CreateRolePage() {
                 onChange={handleChange}
                 placeholder="Describe what this role is used for..."
                 rows={4}
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white resize-none"
+                className={`w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border rounded-xl focus:outline-none focus:ring-2 transition-all text-gray-900 dark:text-white resize-none ${
+                  errors.description
+                    ? 'border-red-500 focus:ring-red-500/50'
+                    : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500 focus:border-indigo-500'
+                }`}
               ></textarea>
+              {errors.description && (
+                <p className="text-red-500 text-xs font-bold mt-1">{errors.description}</p>
+              )}
             </div>
           </div>
 
-          <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex justify-end gap-4">
+          <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
             <Link
               href="/admin/roles"
-              className="px-6 py-3 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              className="w-full sm:w-auto px-6 py-3 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_4px_14px_rgba(79,70,229,0.3)] gap-2"
+              className="w-full sm:w-auto px-6 py-3 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-[0px_4px_14px_rgba(79,70,229,0.3)] gap-2"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
