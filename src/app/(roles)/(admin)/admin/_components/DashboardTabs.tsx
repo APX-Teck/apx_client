@@ -19,13 +19,13 @@ const tabs: { id: Tab; label: string }[] = [
 
 export function DashboardTabs({ activeTab, setActiveTab }: Props) {
   return (
-    <div className="mb-8 relative z-10">
-      <div className="flex flex-wrap gap-1.5 bg-gray-100/80 dark:bg-black/40 backdrop-blur-md p-1.5 rounded-[1.25rem] w-full xl:max-w-max border border-gray-200/60 dark:border-white/5 shadow-inner">
+    <div className="mb-8 relative z-10 w-full">
+      <div className="flex overflow-x-auto no-scrollbar gap-1.5 bg-gray-100/80 dark:bg-black/40 backdrop-blur-md p-1.5 rounded-[1.25rem] w-full xl:max-w-max border border-gray-200/60 dark:border-white/5 shadow-inner">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-5 py-2.5 min-h-[44px] rounded-2xl text-sm font-bold transition-all duration-300 flex-1 sm:flex-none text-center relative overflow-hidden group flex items-center justify-center ${
+            className={`px-5 py-2.5 min-h-[44px] rounded-2xl text-sm font-bold transition-all duration-300 whitespace-nowrap flex-none text-center relative overflow-hidden group flex items-center justify-center ${
               activeTab === tab.id
                 ? 'text-indigo-600 dark:text-indigo-300'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'

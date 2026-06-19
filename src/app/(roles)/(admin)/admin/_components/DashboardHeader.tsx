@@ -11,7 +11,7 @@ export function DashboardHeader() {
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 flex items-center justify-center border border-indigo-500/20 shadow-inner">
             <LayoutDashboard className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-indigo-800 to-gray-900 dark:from-white dark:via-indigo-300 dark:to-white">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-indigo-800 to-gray-900 dark:from-white dark:via-indigo-300 dark:to-white">
             Admin Dashboard
           </h1>
         </div>
@@ -21,7 +21,7 @@ export function DashboardHeader() {
       </div>
 
       {/* Quick Actions */}
-      <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto p-2.5 bg-white/60 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)]">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full xl:w-auto p-2 sm:p-2.5 bg-white/60 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)]">
         <div className="px-3 flex items-center gap-2 border-r border-gray-200 dark:border-white/10 hidden sm:flex">
           <Zap className="w-4 h-4 text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
           <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Quick Actions</span>

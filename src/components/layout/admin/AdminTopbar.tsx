@@ -18,22 +18,22 @@ export default function AdminTopbar() {
   } = useTopbarLogic();
 
   return (
-    <header className="h-20 bg-transparent flex items-center justify-between px-4 md:px-8 z-40">
-      <div className="flex items-center gap-3">
+    <header className="h-20 bg-transparent flex items-center justify-between px-2 sm:px-4 md:px-8 z-40">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 mr-2">
         <button
           onClick={toggleMobileSidebar}
-          className="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+          className="md:hidden w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
           aria-label="Open sidebar"
         >
           <Menu size={20} />
         </button>
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white tracking-tight drop-shadow-sm">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white tracking-tight drop-shadow-sm truncate">
           {getPageTitle()}
         </h1>
       </div>
 
-      <div className="flex items-center space-x-4 md:space-x-5">
-        <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-5 shrink-0">
+        <div className="flex items-center space-x-1 sm:space-x-3">
           <Link href="/">
             <button
               className="px-4 py-2 rounded-xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-[#222] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all border border-gray-100 dark:border-white/5 hover:border-indigo-500/30"
@@ -65,8 +65,8 @@ export default function AdminTopbar() {
           <NotificationBell />
         </div>
 
-        <div className="flex items-center pl-4 md:pl-5 border-l border-gray-200 dark:border-white/10 cursor-pointer group">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center pl-2 sm:pl-4 md:pl-5 border-l border-gray-200 dark:border-white/10 cursor-pointer group">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-100 to-indigo-50 dark:from-indigo-500/20 dark:to-indigo-500/10 overflow-hidden border border-indigo-200 dark:border-indigo-500/30 shadow-inner flex items-center justify-center shrink-0">
               {mounted && user?.profilePhotoUrl ? (
                 <img
