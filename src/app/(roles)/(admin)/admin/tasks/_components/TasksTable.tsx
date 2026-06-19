@@ -204,7 +204,7 @@ export function TasksTable({
 
   return (
     <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col">
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto hidden sm:block">
         {isLoading ? (
           <div className="min-h-[400px] flex items-center justify-center">
             <div className="flex flex-col items-center gap-3">
@@ -231,6 +231,86 @@ export function TasksTable({
               We couldn't find any tasks matching "{searchTerm}".
             </p>
           </div>
+        )}
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="sm:hidden space-y-4 p-4">
+        <div className="relative">
+          <input
+            type="text"
+            className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
+            placeholder="Search tasks..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {isLoading ? (
+          <div className="p-8 text-center text-gray-500 font-bold">Loading...</div>
+        ) : filteredTasks.length === 0 ? (
+          <div className="p-8 text-center text-gray-500 font-bold bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/10">No tasks found.</div>
+        ) : (
+          filteredTasks.map((task) => (
+            <div key={task.id} className="bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm space-y-3">
+              <div className="flex justify-between items-start gap-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-mono font-bold text-indigo-500 bg-indigo-50 dark:bg-indigo-500/10 dark:text-indigo-400 px-2 py-0.5 rounded-md">
+                    TSK-{task.id}
+                  </span>
+                </div>
+                <span className={`px-2 py-0.5 text-[10px] font-bold rounded-md uppercase border inline-flex items-center gap-1 ${
+                  task.priority === 'HIGH' ? 'bg-red-50 text-red-600 border-red-100 dark:bg-red-500/10 dark:text-red-400' :
+                  task.priority === 'MEDIUM' ? 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400' :
+                  'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400'
+                }`}>
+                  <Flag size={10} /> {task.priority}
+                </span>
+              </div>
+              
+              <div>
+                <p className="font-bold text-gray-900 dark:text-white">{task.title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{task.description}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-gray-50 dark:bg-white/5 p-2 rounded-lg flex flex-col gap-1">
+                  <span className="text-[10px] text-gray-500 uppercase font-bold">Assignee</span>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <UserAvatar name={task.assignedTo?.fullName} src={task.assignedTo?.profile?.profilePhotoUrl} size="sm" />
+                    <span className="font-bold text-gray-700 dark:text-gray-300 truncate">{task.assignedTo?.fullName || 'Unassigned'}</span>
+                  </div>
+                </div>
+                <div className="bg-gray-50 dark:bg-white/5 p-2 rounded-lg flex flex-col gap-1">
+                  <span className="text-[10px] text-gray-500 uppercase font-bold">Status</span>
+                  <span className="font-bold text-gray-700 dark:text-gray-300 truncate">{task.status.replace('_', ' ')}</span>
+                </div>
+              </div>
+
+              <div className="flex gap-2 mt-2">
+                {task.status !== 'COMPLETED' && task.status !== 'CANCELLED' && (
+                  <button
+                    onClick={() => handleUpdateStatus(task.id, task.status === 'OPEN' ? 'IN_PROGRESS' : 'COMPLETED')}
+                    className="flex-1 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+                  >
+                    {task.status === 'OPEN' ? <PlayCircle size={14} /> : <CheckCircle2 size={14} />}
+                    {task.status === 'OPEN' ? 'Start' : 'Complete'}
+                  </button>
+                )}
+                <button
+                  onClick={() => navigateToDetails(task.id)}
+                  className="flex-1 py-2.5 rounded-lg text-xs font-bold border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300"
+                >
+                  Details
+                </button>
+                <button
+                  onClick={() => handleDeleteTaskClick(task.id)}
+                  className="p-2.5 rounded-lg text-red-500 bg-red-50 dark:bg-red-500/10"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))
         )}
       </div>
 

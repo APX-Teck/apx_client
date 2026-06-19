@@ -31,7 +31,7 @@ export function ProfileForm({
   return (
     <motion.div
       variants={item}
-      className="bg-white dark:bg-[#111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6"
+      className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6"
     >
       <div className="flex items-center gap-4 border-b border-gray-100 dark:border-white/5 pb-6">
         <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center">
@@ -115,7 +115,7 @@ export function ProfileForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             Save Changes

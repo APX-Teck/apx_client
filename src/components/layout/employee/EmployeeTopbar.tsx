@@ -36,8 +36,10 @@ export default function EmployeeTopbar() {
       </div>
 
       <div className="flex items-center space-x-4 md:space-x-5">
-        <div className="flex items-center space-x-3">
-          <ThemeToggle />
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
 
           <button className="w-10 h-10 rounded-full bg-white dark:bg-[#1a1a1a] flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#222] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all border border-gray-100 dark:border-white/5">
             <Search size={18} />

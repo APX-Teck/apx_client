@@ -40,7 +40,7 @@ export function ReimbursementForm({
 }: ReimbursementFormProps) {
   return (
     <div className="lg:col-span-1">
-      <div className="bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl space-y-6 shadow-sm sticky top-24">
+      <div className="bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl space-y-6 shadow-sm sticky top-24">
         <div className="border-b border-gray-100 dark:border-white/10 pb-4">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
             New Claim Request

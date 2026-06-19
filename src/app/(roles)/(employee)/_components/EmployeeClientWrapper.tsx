@@ -5,6 +5,7 @@ import EmployeeSidebar from '@/components/layout/employee/EmployeeSidebar';
 import EmployeeTopbar from '@/components/layout/employee/EmployeeTopbar';
 import { useSocket } from '@/hooks/useSocket';
 import { Toaster } from 'react-hot-toast';
+import { PortalFooter } from '@/components/layout/PortalFooter';
 
 export function EmployeeClientWrapper({ children }: { children: React.ReactNode }) {
   useSocket();
@@ -15,8 +16,9 @@ export function EmployeeClientWrapper({ children }: { children: React.ReactNode 
         <EmployeeSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <EmployeeTopbar />
-          <main className="flex-1 p-4 sm:p-6 md:p-8 pt-safe pb-safe overflow-x-hidden overflow-y-auto relative">
-            <div className="mx-auto max-w-7xl w-full">{children}</div>
+          <main className="flex-1 p-4 sm:p-6 md:p-8 pt-safe pb-safe overflow-x-hidden overflow-y-auto relative flex flex-col">
+            <div className="mx-auto max-w-7xl w-full flex-1">{children}</div>
+            <PortalFooter />
           </main>
         </div>
       </div>

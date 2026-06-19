@@ -63,7 +63,7 @@ export default function NotificationsManager() {
       {/* Main Content */}
       <motion.div variants={item} className="space-y-6">
         {/* Email Notifications */}
-        <div className="bg-white dark:bg-[#111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
           <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-4 mb-4">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
               <Mail className="w-5 h-5" />
@@ -121,7 +121,7 @@ export default function NotificationsManager() {
         </div>
 
         {/* Push Notifications */}
-        <div className="bg-white dark:bg-[#111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
           <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-4 mb-4">
             <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center">
               <Monitor className="w-5 h-5" />
@@ -163,9 +163,9 @@ export default function NotificationsManager() {
           </div>
         </div>
 
-        <div className="pt-4 flex items-center justify-end gap-4">
+        <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4">
           {successMessage && (
-            <span className="text-emerald-500 text-sm font-bold flex items-center gap-1">
+            <span className="text-emerald-500 text-sm font-bold flex items-center justify-center sm:justify-start gap-1">
               <CheckCircle2 size={16} /> {successMessage}
             </span>
           )}
@@ -173,7 +173,7 @@ export default function NotificationsManager() {
             type="button"
             onClick={handleSave}
             disabled={isSubmitting}
-            className="bg-amber-500 hover:bg-amber-400 text-white font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
+            className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-white font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
             Save Preferences

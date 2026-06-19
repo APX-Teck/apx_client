@@ -57,8 +57,7 @@ export default function SecurityManager() {
 
       {/* Main Form */}
       <motion.div
-        variants={item}
-        className="bg-white dark:bg-[#111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-8"
+        className="bg-white dark:bg-[#111] p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-8"
       >
         <div className="flex items-center gap-4 border-b border-gray-100 dark:border-white/5 pb-6">
           <div className="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
@@ -136,18 +135,18 @@ export default function SecurityManager() {
             )}
           </AnimatePresence>
 
-          <div className="pt-4 flex items-center gap-4">
+          <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
               Update Password
             </button>
             <Link
               href="/employee/settings"
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 min-h-[48px] flex items-center justify-center transition-colors"
+              className="w-full sm:w-auto text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 min-h-[48px] flex items-center justify-center transition-colors"
             >
               Cancel
             </Link>

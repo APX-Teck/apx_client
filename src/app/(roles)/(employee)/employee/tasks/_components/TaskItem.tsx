@@ -56,7 +56,7 @@ export function TaskItem({ task, handleUpdateStatus }: TaskItemProps) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-[#1a1a1a] hover:border-indigo-500/20 transition-all gap-4 group"
+      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-[#1a1a1a] hover:border-indigo-500/20 transition-all gap-4 group"
     >
       <div className="flex-1 space-y-2">
         <div className="flex items-center justify-between sm:justify-start gap-3">

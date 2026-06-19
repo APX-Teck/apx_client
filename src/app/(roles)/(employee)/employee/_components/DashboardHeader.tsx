@@ -11,7 +11,7 @@ export function DashboardHeader({ user }: { user: any }) {
           <Sparkles className="w-4 h-4 text-indigo-500 animate-pulse" />
           <span>Internal Employee Workspace</span>
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
           Welcome back, {user?.fullName || 'Teammate'}
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm max-w-xl leading-relaxed">

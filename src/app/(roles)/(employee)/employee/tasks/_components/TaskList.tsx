@@ -25,7 +25,7 @@ export function TaskList({
   handleUpdateStatus,
 }: TaskListProps) {
   return (
-    <div className="bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-sm overflow-hidden min-h-[500px]">
+    <div className="bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-sm overflow-hidden min-h-[500px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 dark:border-white/10 pb-4 mb-6 gap-4">
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">Task List</h3>

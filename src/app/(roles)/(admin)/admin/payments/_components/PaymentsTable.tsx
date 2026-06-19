@@ -179,12 +179,97 @@ export function PaymentsTable({
   );
 
   return (
-    <DataTable
-      data={payments}
-      columns={columns}
-      searchPlaceholder="Search by ID, customer, or service..."
-      onSearch={setSearchTerm}
-      isLoading={isLoading}
-    />
+    <>
+      <div className="hidden sm:block">
+        <DataTable
+          data={payments}
+          columns={columns}
+          searchPlaceholder="Search by ID, customer, or service..."
+          onSearch={setSearchTerm}
+          isLoading={isLoading}
+        />
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="sm:hidden space-y-4 mt-4">
+        {/* Mobile Search */}
+        <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4">
+          <input
+            type="text"
+            className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
+            placeholder="Search payments..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {/* Mobile Cards */}
+        {isLoading ? (
+          <div className="p-8 text-center text-gray-500 font-bold">Loading...</div>
+        ) : payments.length === 0 ? (
+          <div className="p-8 text-center text-gray-500 font-bold bg-white/80 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/10">No payments found.</div>
+        ) : (
+          payments.map((pay) => (
+            <div key={pay.id} className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4 shadow-sm flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-gray-900 dark:text-white text-sm">INV-{pay.id}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">{format(new Date(pay.createdAt), 'MMM dd, yyyy')}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  {getStatusBadge(pay.status)}
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-white/5 p-3 rounded-xl flex justify-between items-center">
+                <div className="overflow-hidden pr-2">
+                  <p className="font-bold text-gray-900 dark:text-white text-sm truncate">{pay.customer.fullName}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{pay.customer.email}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="font-extrabold text-indigo-600 dark:text-indigo-400">{formatCurrency(pay.negotiatedAmount)}</p>
+                  {pay.status === 'PARTIAL' || pay.status === 'PAID' ? (
+                     <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-500 uppercase">
+                       {pay.status === 'PAID' ? 'PAID' : `PAID: ${formatCurrency(pay.amountPaid)}`}
+                     </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-white/5 p-2 rounded-xl">
+                <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase font-bold block mb-0.5">Service</span>
+                <span className="font-bold text-gray-700 dark:text-gray-300 text-xs truncate block">{pay.service.name}</span>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                {['PENDING', 'SENT', 'FAILED'].includes(pay.status) && (
+                  <button
+                    onClick={() => onResend(pay.id)}
+                    disabled={resendPending}
+                    className="flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-bold text-center text-indigo-600 bg-indigo-50 border border-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20 disabled:opacity-50"
+                  >
+                    Resend
+                  </button>
+                )}
+                {['PENDING', 'SENT', 'PARTIAL', 'FAILED'].includes(pay.status) && (
+                  <button
+                    onClick={() => onMarkPaid(pay)}
+                    className="flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-bold text-center text-emerald-600 bg-emerald-50 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
+                  >
+                    Mark Paid
+                  </button>
+                )}
+                <button
+                  disabled={pay.status !== 'PAID'}
+                  onClick={() => onOpenInvoice(pay)}
+                  className="flex-1 min-w-[100px] py-2.5 rounded-xl text-xs font-bold text-center text-gray-600 bg-gray-50 border border-gray-200 dark:bg-white/5 dark:text-gray-400 dark:border-white/10 disabled:opacity-50"
+                >
+                  View Invoice
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }

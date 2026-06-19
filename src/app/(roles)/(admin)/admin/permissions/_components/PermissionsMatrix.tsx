@@ -41,7 +41,7 @@ export function PermissionsMatrix({
         </div>
       ) : permissions.length > 0 ? (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto hidden sm:block">
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
                 <tr className="bg-gray-50/50 dark:bg-black/20 border-b border-gray-100 dark:border-white/10 text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400">
@@ -87,6 +87,40 @@ export function PermissionsMatrix({
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="sm:hidden space-y-4 p-4 bg-gray-50/30 dark:bg-black/10">
+            {permissions.map((perm) => (
+              <div key={perm.module} className="bg-white dark:bg-[#1a1a1a] rounded-xl p-4 border border-gray-200/50 dark:border-white/10 shadow-sm">
+                <p className="font-bold text-gray-900 dark:text-white uppercase tracking-tight text-sm mb-4 pb-2 border-b border-gray-100 dark:border-white/5">
+                  {formatModuleName(perm.module)}
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { field: 'canRead', label: 'Read', color: 'peer-checked:bg-blue-500' },
+                    { field: 'canCreate', label: 'Create', color: 'peer-checked:bg-emerald-500' },
+                    { field: 'canUpdate', label: 'Update', color: 'peer-checked:bg-orange-500' },
+                    { field: 'canDelete', label: 'Delete', color: 'peer-checked:bg-red-500' },
+                  ].map(({ field, label, color }) => (
+                    <div key={field} className="flex items-center justify-between bg-gray-50 dark:bg-white/5 p-2.5 rounded-lg">
+                      <span className="text-xs font-bold text-gray-600 dark:text-gray-300">{label}</span>
+                      <label className="relative inline-flex items-center justify-center cursor-pointer group/toggle">
+                        <input
+                          type="checkbox"
+                          checked={perm[field as keyof PermRow] as boolean}
+                          onChange={() => onToggle(perm.module, field as keyof PermRow)}
+                          className="sr-only peer"
+                        />
+                        <div
+                          className={`relative w-10 h-5 bg-gray-200/80 peer-focus:outline-none rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-200 after:border after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-300 after:shadow-sm dark:border-gray-600 ${color} group-hover/toggle:ring-4 group-hover/toggle:ring-indigo-500/10 transition-all`}
+                        ></div>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="p-6 lg:p-8 border-t border-gray-100/80 dark:border-white/10 bg-transparent flex flex-col sm:flex-row justify-end items-center gap-4">

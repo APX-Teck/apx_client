@@ -34,7 +34,7 @@ export default function AdminTopbar() {
 
       <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-5 shrink-0">
         <div className="flex items-center space-x-1 sm:space-x-3">
-          <Link href="/">
+          <Link href="/" className="hidden sm:block">
             <button
               className="w-10 h-10 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-[#222] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all border border-gray-100 dark:border-white/5 hover:border-indigo-500/30"
               title="Go to Public Home"
@@ -44,7 +44,9 @@ export default function AdminTopbar() {
             </button>
           </Link>
 
-          <ThemeToggle />
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
 
           <div className="relative">
             <button

@@ -142,12 +142,82 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
   );
 
   return (
-    <DataTable
-      data={filteredRequests}
-      columns={columns}
-      searchPlaceholder="Search by ID, customer name, or service..."
-      onSearch={setSearchTerm}
-      isLoading={isLoading}
-    />
+    <>
+      <div className="hidden sm:block">
+        <DataTable
+          data={filteredRequests}
+          columns={columns}
+          searchPlaceholder="Search by ID, customer name, or service..."
+          onSearch={setSearchTerm}
+          isLoading={isLoading}
+        />
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="sm:hidden space-y-4 mt-4">
+        {/* Mobile Search */}
+        <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4">
+          <input
+            type="text"
+            className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
+            placeholder="Search requests..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {/* Mobile Cards */}
+        {isLoading ? (
+          <div className="p-8 text-center text-gray-500 font-bold">Loading...</div>
+        ) : filteredRequests.length === 0 ? (
+          <div className="p-8 text-center text-gray-500 font-bold bg-white/80 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/10">No requests found.</div>
+        ) : (
+          filteredRequests.map((req) => (
+            <div key={req.id} className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4 shadow-sm flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-gray-900 dark:text-white text-sm">Req #{req.id}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">{format(new Date(req.createdAt), 'MMM dd, yyyy')}</p>
+                </div>
+                <span className={`px-2 py-1 text-[10px] font-extrabold rounded-md uppercase border ${
+                  req.priority === 'HIGH' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400' :
+                  req.priority === 'MEDIUM' ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400' :
+                  'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400'
+                }`}>
+                  {req.priority}
+                </span>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-white/5 p-3 rounded-xl">
+                <p className="font-bold text-gray-900 dark:text-white text-sm">{req.customerName}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{req.customerEmail}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-sm mt-1">
+                <div className="bg-gray-50 dark:bg-white/5 p-2 rounded-xl">
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase font-bold block mb-0.5">Service</span>
+                  <span className="font-bold text-gray-700 dark:text-gray-300 text-xs truncate block">{req.serviceType}</span>
+                </div>
+                <div className="bg-gray-50 dark:bg-white/5 p-2 rounded-xl">
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase font-bold block mb-0.5">Status</span>
+                  <span className="font-bold text-indigo-600 dark:text-indigo-400 text-xs truncate block">{req.status.replace('_', ' ')}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 mt-1">
+                <button
+                  onClick={() => navigateToManage(req.id)}
+                  className="flex-1 py-2.5 rounded-xl text-xs font-bold text-center text-white bg-indigo-600 hover:bg-indigo-500 border border-indigo-500"
+                >
+                  Manage
+                </button>
+                <button className="p-2.5 rounded-xl text-gray-400 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10">
+                  <MoreVertical size={16} />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }

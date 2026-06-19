@@ -3,6 +3,7 @@ import AdminSidebar from '@/components/layout/admin/AdminSidebar';
 import AdminTopbar from '@/components/layout/admin/AdminTopbar';
 import { AdminProviders } from './_components/AdminProviders';
 import { AdminGuard } from '@/components/auth/AdminGuard';
+import { PortalFooter } from '@/components/layout/PortalFooter';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -14,8 +15,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <AdminSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <AdminTopbar />
-          <main className="flex-1 p-4 sm:p-6 md:p-8 pb-safe pt-safe overflow-x-hidden overflow-y-auto relative z-0">
-            <div className="mx-auto max-w-7xl w-full">{children}</div>
+          <main className="flex-1 p-4 sm:p-6 md:p-8 pb-safe pt-safe overflow-x-hidden overflow-y-auto relative z-0 flex flex-col">
+            <div className="mx-auto max-w-7xl w-full flex-1">{children}</div>
+            <PortalFooter />
           </main>
         </div>
         <AdminProviders />

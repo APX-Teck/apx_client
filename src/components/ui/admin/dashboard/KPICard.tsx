@@ -36,7 +36,7 @@ export default function KPICard({ data, delay = 0 }: { data: KPIData; delay?: nu
       </div>
 
       <div className="flex items-end justify-between relative z-10">
-        <h3 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+        <h3 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
           {data.value}
         </h3>
 
