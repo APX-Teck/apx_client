@@ -8,9 +8,10 @@ interface Props {
   filteredRequests: ServiceRequest[];
   setSearchTerm: (term: string) => void;
   navigateToManage: (id: string | number) => void;
+  isLoading?: boolean;
 }
 
-export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManage }: Props) {
+export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManage, isLoading }: Props) {
   const columns: ColumnDef<ServiceRequest>[] = useMemo(
     () => [
       {
@@ -146,6 +147,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
       columns={columns}
       searchPlaceholder="Search by ID, customer name, or service..."
       onSearch={setSearchTerm}
+      isLoading={isLoading}
     />
   );
 }

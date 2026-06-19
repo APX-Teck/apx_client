@@ -3,7 +3,25 @@ import { rolesService, Role, PermRow } from '@/services/admin/roles.service';
 import toast from 'react-hot-toast';
 
 export const usePermissionsLogic = (initialRoles: Role[]) => {
-  const [roles] = useState<Role[]>(initialRoles);
+  const [roles, setRoles] = useState<Role[]>(initialRoles);
+  const [isLoadingRoles, setIsLoadingRoles] = useState(initialRoles.length === 0);
+
+  useEffect(() => {
+    if (initialRoles.length === 0) {
+      const fetchRoles = async () => {
+        setIsLoadingRoles(true);
+        try {
+          const result = await rolesService.getRoles();
+          setRoles(result);
+        } catch (error) {
+          console.error('Failed to load roles', error);
+        } finally {
+          setIsLoadingRoles(false);
+        }
+      };
+      fetchRoles();
+    }
+  }, [initialRoles.length]);
   const [selectedRoleId, setSelectedRoleId] = useState<number | ''>('');
   const [permissions, setPermissions] = useState<PermRow[]>([]);
 
@@ -97,5 +115,6 @@ export const usePermissionsLogic = (initialRoles: Role[]) => {
     handleToggle,
     handleSave,
     handleReset,
+    isLoadingRoles,
   };
 };

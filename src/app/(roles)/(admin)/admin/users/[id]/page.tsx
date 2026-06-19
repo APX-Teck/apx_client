@@ -33,12 +33,9 @@ export default async function UserDetailPage({ params }: PageProps) {
     // or just pass null to let the client handle it gracefully.
   }
 
-  if (!initialUser) {
-    notFound();
-  }
-
   return (
     <UserDetailClient
+      userId={id}
       initialUser={initialUser}
       initialPermissions={initialPermissions}
       initialRoles={initialRoles}

@@ -1,10 +1,11 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 import { Faq } from '@/app/types/faq.types';
 
 export const faqsService = {
-  getFaqs: async (params?: { category?: string; isPublished?: boolean }) => {
+  getFaqs: async (params?: { category?: string; isPublished?: boolean }): Promise<Faq[]> => {
     const response = await apiClient.get('/faq', { params });
-    return response.data;
+    return extractDataArray<Faq>(response.data);
   },
 
   createFaq: async (data: {
@@ -13,9 +14,9 @@ export const faqsService = {
     category?: string;
     isPublished?: boolean;
     sortOrder?: number;
-  }) => {
+  }): Promise<Faq> => {
     const response = await apiClient.post('/faq', data);
-    return response.data;
+    return extractDataObject<Faq>(response.data) || response.data;
   },
 
   updateFaq: async (
@@ -27,9 +28,9 @@ export const faqsService = {
       isPublished: boolean;
       sortOrder: number;
     }>
-  ) => {
+  ): Promise<Faq> => {
     const response = await apiClient.patch(`/faq/${id}`, data);
-    return response.data;
+    return extractDataObject<Faq>(response.data) || response.data;
   },
 
   deleteFaq: async (id: number) => {
@@ -42,8 +43,8 @@ export const faqsService = {
     return response.data;
   },
 
-  toggleFaqActive: async (id: number, currentStatus: boolean) => {
+  toggleFaqActive: async (id: number, currentStatus: boolean): Promise<Faq> => {
     const response = await apiClient.patch(`/faq/${id}`, { isPublished: !currentStatus });
-    return response.data;
+    return extractDataObject<Faq>(response.data) || response.data;
   },
 };

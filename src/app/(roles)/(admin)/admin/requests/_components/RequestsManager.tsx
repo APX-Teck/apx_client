@@ -20,6 +20,7 @@ export default function RequestsManager({ initialRequests }: Props) {
         filteredRequests={logic.filteredRequests}
         setSearchTerm={logic.setSearchTerm}
         navigateToManage={logic.navigateToManage}
+        isLoading={logic.isLoading}
       />
     </div>
   );

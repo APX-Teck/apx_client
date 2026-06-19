@@ -1,6 +1,7 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractPagination, extractDataObject } from '@/lib/api/responseParser';
 
-export type PaymentStatus = 'PENDING' | 'SENT' | 'PAID' | 'FAILED' | 'PARTIAL';
+export type PaymentStatus = 'PENDING' | 'SENT' | 'PARTIAL' | 'PAID' | 'FAILED' | 'OVERDUE' | 'REFUNDED' | 'CANCELLED';
 
 export interface Payment {
   id: number;
@@ -40,7 +41,9 @@ export const paymentsService = {
     limit?: number;
   }): Promise<GetPaymentsResponse['data']> => {
     const { data } = await apiClient.get<GetPaymentsResponse>('/payment', { params });
-    return data.data;
+    const payments = extractDataArray<Payment>(data);
+    const pag = extractPagination(data, payments.length);
+    return { payments, total: pag.total, page: pag.page };
   },
 
   markAsPaid: async (
@@ -51,7 +54,7 @@ export const paymentsService = {
       `/payment/${id}/mark-paid`,
       payload
     );
-    return data.data;
+    return extractDataObject<Payment>(data) || (data as any);
   },
 
   resendInvoiceLink: async (id: number): Promise<{ success: boolean; message: string }> => {

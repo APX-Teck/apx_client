@@ -9,11 +9,12 @@ interface Props {
   roles: Role[];
   handleOpenModal: (mode: 'CREATE' | 'EDIT', role: Role) => void;
   handleDelete: (id: number, name: string) => void;
+  isLoading?: boolean;
 }
 
 const PROTECTED_ROLES = ['SUPER_ADMIN', 'ADMIN', 'CUSTOMER', 'EMPLOYEE', 'SALES'];
 
-export function RolesTable({ roles, handleOpenModal, handleDelete }: Props) {
+export function RolesTable({ roles, handleOpenModal, handleDelete, isLoading }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredRoles = useMemo(() => {
@@ -97,6 +98,7 @@ export function RolesTable({ roles, handleOpenModal, handleDelete }: Props) {
       columns={columns}
       searchPlaceholder="Search roles by name or description..."
       onSearch={setSearchTerm}
+      isLoading={isLoading}
     />
   );
 }

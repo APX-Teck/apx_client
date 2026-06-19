@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export interface DashboardStats {
   customers: {
@@ -48,10 +49,7 @@ export const dashboardService = {
   getAdminStats: async (): Promise<DashboardStats | null> => {
     try {
       const response = await apiClient.get('/dashboard/admin');
-      if (response.data?.success) {
-        return response.data.data;
-      }
-      return null;
+      return extractDataObject<DashboardStats>(response.data);
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
       return null;
@@ -60,10 +58,7 @@ export const dashboardService = {
   getEmployeeStats: async (): Promise<EmployeeDashboardStats | null> => {
     try {
       const response = await apiClient.get('/dashboard/employee');
-      if (response.data?.success) {
-        return response.data.data;
-      }
-      return null;
+      return extractDataObject<EmployeeDashboardStats>(response.data);
     } catch (error) {
       console.error('Error fetching employee dashboard stats:', error);
       return null;
@@ -73,7 +68,7 @@ export const dashboardService = {
     const response = await apiClient.get(`/dashboard/search`, {
       params: { q: query },
     });
-    return response.data?.data;
+    return extractDataObject<SearchResults>(response.data) as SearchResults;
   },
 };
 

@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { PaymentsClientWrapper } from './_components/PaymentsClientWrapper';
 import { paymentsService } from '@/services/admin/payments.service';
 import { requestsService } from '@/services/admin/requests.service';
-import { PaymentsHeader } from './_components/PaymentsHeader';
 import PaymentsLoading from './loading';
 
 async function PaymentsFetcher() {
@@ -34,10 +33,7 @@ async function PaymentsFetcher() {
 
 export default function PaymentsPage() {
   return (
-    <div className="space-y-6 w-full max-w-7xl mx-auto pb-safe">
-      <div className="px-4 sm:px-6 md:px-8 pt-6 pb-0 w-full">
-        <PaymentsHeader />
-      </div>
+    <div className="max-w-7xl mx-auto pb-10">
       <Suspense fallback={<PaymentsLoading />}>
         <PaymentsFetcher />
       </Suspense>

@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { usersService, UserDetail, Role, ModuleAccess } from '@/services/admin/users.service';
 
 export const useUserDetailLogic = (
+  userId: string,
   initialUser: UserDetail | null,
   initialPermissions: ModuleAccess[],
   initialRoles: Role[]
@@ -10,8 +11,64 @@ export const useUserDetailLogic = (
   const router = useRouter();
 
   const [user, setUser] = useState<UserDetail | null>(initialUser);
-  const [roles] = useState<Role[]>(initialRoles);
+  const [roles, setRoles] = useState<Role[]>(initialRoles);
   const [permissions, setPermissions] = useState<ModuleAccess[]>(initialPermissions);
+  const [isLoading, setIsLoading] = useState(!initialUser);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const [userData, permsData, rolesData] = await Promise.all([
+          usersService.getUserDetail(userId),
+          usersService.getUserPermissions(userId),
+          usersService.getRoles()
+        ]);
+        if (isMounted) {
+          if (userData) {
+            setUser(userData);
+            setForm({
+              fullName: userData.fullName || '',
+              email: userData.email || '',
+              phone: userData.phone || '',
+              roleId: String(userData.role?.id || ''),
+              address: userData.address || '',
+              city: userData.city || '',
+              state: userData.state || '',
+              pincode: userData.pincode || '',
+              dob: userData.dob || '',
+              employeeId: userData.employeeId || '',
+              department: userData.department || '',
+              designation: userData.designation || '',
+              joiningDate: userData.joiningDate || '',
+              bankAccountName: userData.bankDetails?.accountName || '',
+              bankAccountNumber: userData.bankDetails?.accountNumber || '',
+              bankIfscCode: userData.bankDetails?.ifsc || '',
+              bankName: userData.bankDetails?.bankName || '',
+              upiId: userData.bankDetails?.upiId || '',
+            });
+          }
+          if (permsData) {
+            setPermissions(permsData);
+            setEditedPerms(permsData.map((p) => ({ ...p })));
+          }
+          if (rolesData) setRoles(rolesData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data', error);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    if (!initialUser && userId) {
+      fetchData();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [initialUser, userId]);
 
   const [activeTab, setActiveTab] = useState<'overview' | 'documents' | 'permissions'>('overview');
   const [isEditing, setIsEditing] = useState(false);
@@ -310,5 +367,6 @@ export const useUserDetailLogic = (
     handleSavePerms,
     handleRevokeModule,
     handleResetAllPerms,
+    isLoading,
   };
 };

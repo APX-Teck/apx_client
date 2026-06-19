@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractPagination, extractDataObject } from '@/lib/api/responseParser';
 
 export interface CompanyVaultDocument {
   id: number;
@@ -26,10 +27,12 @@ export const companyVaultService = {
   ): Promise<{ data: CompanyVaultDocument[]; total: number; totalPages: number }> => {
     try {
       const response = await apiClient.get('/company-vault/getAll', { params });
+      const data = extractDataArray<CompanyVaultDocument>(response.data);
+      const pag = extractPagination(response.data, data.length);
       return {
-        data: response.data?.data?.data || [],
-        total: response.data?.data?.pagination?.total || 0,
-        totalPages: response.data?.data?.pagination?.totalPages || 1,
+        data,
+        total: pag.total,
+        totalPages: pag.totalPages,
       };
     } catch (error) {
       console.error('Failed to fetch company vault documents', error);
@@ -40,7 +43,7 @@ export const companyVaultService = {
   getCompanyVaultById: async (id: number): Promise<CompanyVaultDocument | null> => {
     try {
       const response = await apiClient.get(`/company-vault/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<CompanyVaultDocument>(response.data);
     } catch (error) {
       console.error('Failed to fetch company vault document', error);
       return null;
@@ -53,7 +56,7 @@ export const companyVaultService = {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data?.data;
+    return extractDataObject<CompanyVaultDocument>(response.data) || response.data;
   },
 
   updateCompanyVault: async (id: number, formData: FormData): Promise<CompanyVaultDocument> => {
@@ -62,7 +65,7 @@ export const companyVaultService = {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data?.data;
+    return extractDataObject<CompanyVaultDocument>(response.data) || response.data;
   },
 
   deleteCompanyVault: async (id: number): Promise<void> => {

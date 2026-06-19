@@ -13,7 +13,7 @@ const apiClient = axios.create({
 
 // Request Interceptor
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     // If the payload is FormData, we must let the browser set the Content-Type with the correct boundary
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
@@ -23,6 +23,29 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Pass cookies in Server Components (SSR)
+    if (typeof window === 'undefined') {
+      try {
+        const nextHeaders = await import('next/headers');
+        const cookieStorePromise = nextHeaders.cookies();
+        const cookieStore = cookieStorePromise instanceof Promise 
+            ? await cookieStorePromise 
+            : cookieStorePromise;
+            
+        const allCookies = cookieStore.getAll();
+        const cookieHeader = allCookies.map(c => `${c.name}=${c.value}`).join('; ');
+        
+        if (cookieHeader) {
+          config.headers.Cookie = config.headers.Cookie 
+            ? `${config.headers.Cookie}; ${cookieHeader}`
+            : cookieHeader;
+        }
+      } catch (error) {
+        // Ignore errors if used outside request context
+      }
+    }
+
     return config;
   },
   (error) => {
@@ -72,7 +95,12 @@ apiClient.interceptors.response.use(
 
       try {
         // Attempt to refresh
-        const { data } = await axios.post(`${baseURL}/auth/refresh`, {}, { withCredentials: true });
+        const { data } = await axios.post(`${baseURL}/auth/refresh`, {}, { 
+          withCredentials: true,
+          headers: typeof window === 'undefined' && originalRequest.headers.Cookie 
+            ? { Cookie: originalRequest.headers.Cookie } 
+            : undefined
+        });
 
         const newAccessToken = data?.data?.accessToken;
         if (newAccessToken) {

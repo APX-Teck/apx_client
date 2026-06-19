@@ -19,7 +19,7 @@ export function useFaqsLogic(initialFaqs: Faq[] = []) {
     try {
       setIsLoading(true);
       const data = await faqsService.getFaqs();
-      setFaqs(data.data || []);
+      setFaqs(data || []);
     } catch (error) {
       toast.error('Failed to fetch FAQs');
     } finally {

@@ -1,4 +1,5 @@
 import apiClient from '@/lib/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export type ReimbursementStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'PAID';
 
@@ -25,7 +26,7 @@ export const reimbursementsService = {
   getReimbursements: async (): Promise<Reimbursement[]> => {
     try {
       const response = await apiClient.get('/reimbursement/all');
-      return response.data?.data?.data || [];
+      return extractDataArray<Reimbursement>(response.data);
     } catch (error) {
       console.error('Failed to fetch reimbursements', error);
       return [];
@@ -35,7 +36,7 @@ export const reimbursementsService = {
   getReimbursementById: async (id: number): Promise<Reimbursement | null> => {
     try {
       const response = await apiClient.get(`/reimbursement/admin/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<Reimbursement>(response.data);
     } catch (error) {
       console.error('Failed to fetch reimbursement', error);
       return null;
@@ -49,10 +50,10 @@ export const reimbursementsService = {
   ): Promise<Reimbursement> => {
     if (status === 'PAID') {
       const response = await apiClient.patch(`/reimbursement/paid/${id}`);
-      return response.data?.data;
+      return extractDataObject<Reimbursement>(response.data) || response.data;
     } else {
       const response = await apiClient.patch(`/reimbursement/review/${id}`, { status, reviewNote });
-      return response.data?.data;
+      return extractDataObject<Reimbursement>(response.data) || response.data;
     }
   },
 };

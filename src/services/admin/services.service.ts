@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export interface Service {
   id: number;
@@ -37,7 +38,7 @@ export const servicesAdminService = {
   }): Promise<Service[]> => {
     try {
       const response = await apiClient.get('/service/getAll', { params });
-      return response.data?.data?.data || [];
+      return extractDataArray<Service>(response.data);
     } catch (error) {
       console.error('Failed to fetch services', error);
       throw error;
@@ -47,7 +48,7 @@ export const servicesAdminService = {
   getServiceById: async (id: number | string): Promise<Service | null> => {
     try {
       const response = await apiClient.get(`/service/getById/${id}`);
-      return response.data?.data;
+      return extractDataObject<Service>(response.data);
     } catch (error) {
       console.error('Failed to fetch service details', error);
       throw error;
@@ -57,7 +58,7 @@ export const servicesAdminService = {
   createService: async (data: FormData | Partial<Service>): Promise<Service> => {
     try {
       const response = await apiClient.post('/service/create', data);
-      return response.data?.data;
+      return extractDataObject<Service>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create service', error);
       throw error;
@@ -70,7 +71,7 @@ export const servicesAdminService = {
   ): Promise<Service> => {
     try {
       const response = await apiClient.put(`/service/update/${id}`, data);
-      return response.data?.data;
+      return extractDataObject<Service>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to update service', error);
       throw error;
@@ -80,7 +81,7 @@ export const servicesAdminService = {
   toggleServiceActive: async (id: number | string, isActive: boolean): Promise<Service> => {
     try {
       const response = await apiClient.put(`/service/update/${id}`, { isActive });
-      return response.data?.data;
+      return extractDataObject<Service>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to toggle service status', error);
       throw error;
@@ -100,7 +101,7 @@ export const servicesAdminService = {
   getServiceFields: async (serviceId: number | string): Promise<ServiceField[]> => {
     try {
       const response = await apiClient.get(`/service/field/admin/getByServiceId/${serviceId}`);
-      return response.data?.data || [];
+      return extractDataArray<ServiceField>(response.data);
     } catch (error) {
       console.error('Failed to fetch service fields', error);
       throw error;
@@ -113,7 +114,7 @@ export const servicesAdminService = {
   ): Promise<ServiceField> => {
     try {
       const response = await apiClient.post(`/service/field/create/${serviceId}`, data);
-      return response.data?.data;
+      return extractDataObject<ServiceField>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create service field', error);
       throw error;
@@ -126,7 +127,7 @@ export const servicesAdminService = {
   ): Promise<ServiceField> => {
     try {
       const response = await apiClient.patch(`/service/field/update/${id}`, data);
-      return response.data?.data;
+      return extractDataObject<ServiceField>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to update service field', error);
       throw error;

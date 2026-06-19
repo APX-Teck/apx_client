@@ -171,12 +171,13 @@ function getSourceLabel(source: string) {
 }
 
 interface Props {
-  initialUser: UserDetail;
+  userId: string;
+  initialUser: UserDetail | null;
   initialPermissions: ModuleAccess[];
   initialRoles: Role[];
 }
 
-export function UserDetailClient({ initialUser, initialPermissions, initialRoles }: Props) {
+export function UserDetailClient({ userId, initialUser, initialPermissions, initialRoles }: Props) {
   const {
     router,
     user,
@@ -212,9 +213,36 @@ export function UserDetailClient({ initialUser, initialPermissions, initialRoles
     handleSavePerms,
     handleRevokeModule,
     handleResetAllPerms,
-  } = useUserDetailLogic(initialUser, initialPermissions, initialRoles);
+    isLoading,
+  } = useUserDetailLogic(userId, initialUser, initialPermissions, initialRoles);
 
-  if (!user) return null;
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-7xl mx-auto space-y-6 px-4 sm:px-6 md:px-8 pb-safe pt-4 flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-indigo-200 dark:border-indigo-500/30 border-t-indigo-600 dark:border-t-indigo-400 rounded-full animate-spin"></div>
+          <p className="text-gray-500 dark:text-gray-400 font-bold">Loading user details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="w-full max-w-7xl mx-auto space-y-6 px-4 sm:px-6 md:px-8 pb-safe pt-4 flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4">
+          <AlertTriangle size={48} className="text-red-500" />
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">User Not Found</h2>
+          <button
+            onClick={() => router.push('/admin/users')}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors"
+          >
+            Back to Users
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const hasOverrides = permissions.some((p) => p.source === 'override');
 

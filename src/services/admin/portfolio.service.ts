@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export interface Portfolio {
   id: number;
@@ -26,30 +27,30 @@ export const portfolioService = {
     search?: string;
     serviceType?: string;
     isPublished?: boolean;
-  }) => {
+  }): Promise<Portfolio[]> => {
     try {
       const response = await apiClient.get('/portfolio', { params });
-      return response.data?.data;
+      return extractDataArray<Portfolio>(response.data);
     } catch (error) {
       console.error('Failed to fetch portfolios', error);
       throw error;
     }
   },
 
-  getPortfolioByIdAdmin: async (id: number) => {
+  getPortfolioByIdAdmin: async (id: number): Promise<Portfolio | null> => {
     try {
       const response = await apiClient.get(`/portfolio/${id}`);
-      return response.data?.data;
+      return extractDataObject<Portfolio>(response.data);
     } catch (error) {
       console.error('Failed to fetch portfolio', error);
       throw error;
     }
   },
 
-  createPortfolio: async (formData: FormData) => {
+  createPortfolio: async (formData: FormData): Promise<Portfolio> => {
     try {
       const response = await apiClient.post('/portfolio', formData);
-      return response.data?.data;
+      return extractDataObject<Portfolio>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create portfolio', error);
       throw error;
@@ -60,13 +61,13 @@ export const portfolioService = {
     id: number,
     formData: FormData,
     galleryMode: 'append' | 'replace' = 'replace'
-  ) => {
+  ): Promise<Portfolio> => {
     try {
       const response = await apiClient.patch(
         `/portfolio/${id}?galleryMode=${galleryMode}`,
         formData
       );
-      return response.data?.data;
+      return extractDataObject<Portfolio>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to update portfolio', error);
       throw error;

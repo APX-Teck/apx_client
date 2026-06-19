@@ -1,9 +1,7 @@
 import React from 'react';
 import { requestsService } from '@/services/admin/requests.service';
 import { usersService } from '@/services/admin/users.service';
-import { Layers } from 'lucide-react';
-import Link from 'next/link';
-import { RequestDetailClient } from '../_components/RequestDetailClient';
+import { RequestDetailLoader } from '../_components/RequestDetailLoader';
 
 export default async function RequestDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -18,7 +16,7 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
     ]);
     request = reqData;
 
-    if (usersData) {
+    if (usersData && usersData.length > 0) {
       admins = usersData
         .filter(
           (u) =>
@@ -41,17 +39,5 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
     console.error('Failed to load request or users:', error);
   }
 
-  if (!request) {
-    return (
-      <div className="flex flex-col h-64 items-center justify-center gap-4">
-        <Layers size={48} className="text-gray-500" />
-        <h2 className="text-xl font-bold text-white">Request Not Found</h2>
-        <Link href="/admin/requests" className="text-indigo-400 hover:text-indigo-300">
-          Return to Service Requests
-        </Link>
-      </div>
-    );
-  }
-
-  return <RequestDetailClient initialData={request} initialAdmins={admins} />;
+  return <RequestDetailLoader id={resolvedParams.id} initialRequest={request} initialAdmins={admins} />;
 }

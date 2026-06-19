@@ -5,10 +5,9 @@ import { Payment } from '@/services/admin/payments.service';
 import { Toaster } from 'react-hot-toast';
 import { usePaymentsLogic } from '../_hooks/usePaymentsLogic';
 
+import { PaymentsHeader } from './PaymentsHeader';
 import { PaymentsSummary } from './PaymentsSummary';
-import { PaymentsToolbar } from './PaymentsToolbar';
 import { PaymentsTable } from './PaymentsTable';
-import { PaymentsGrid } from './PaymentsGrid';
 
 import { MarkPaidDialog } from './modals/MarkPaidDialog';
 import { CreatePaymentLinkDialog } from './modals/CreatePaymentLinkDialog';
@@ -27,48 +26,26 @@ export function PaymentsClientWrapper({ initialPaymentsData, initialRequestsData
   const logic = usePaymentsLogic(initialPaymentsData, initialRequestsData);
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 pb-10 w-full max-w-7xl mx-auto text-white print:hidden">
+    <div className="space-y-6">
       <Toaster position="top-right" />
+
+      {/* Header with Actions */}
+      <PaymentsHeader onOpenCreateLink={() => logic.setIsCreateLinkOpen(true)} />
 
       {/* Summary Stats */}
       <PaymentsSummary payments={logic.payments} />
 
-      {/* Actions: Search, Create Link & Toggle View */}
-      <PaymentsToolbar
-        searchTerm={logic.searchTerm}
-        setSearchTerm={logic.setSearchTerm}
-        viewMode={logic.viewMode}
-        setViewMode={logic.setViewMode}
-        onOpenCreateLink={() => logic.setIsCreateLinkOpen(true)}
-      />
-
       {/* Main Content */}
-      <div className="bg-[#0d1117] border border-gray-800 rounded-xl overflow-hidden">
-        {logic.isLoading ? (
-          <div className="p-8 text-center text-gray-400">Loading payments...</div>
-        ) : logic.isError ? (
-          <div className="p-8 text-center text-red-500">Failed to load payments.</div>
-        ) : logic.filteredPayments.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">No payments found.</div>
-        ) : logic.viewMode === 'table' ? (
-          <PaymentsTable
-            payments={logic.filteredPayments}
-            resendPending={logic.resendMutation.isPending}
-            resendVariables={logic.resendMutation.variables ?? null}
-            onResend={(id) => logic.resendMutation.mutate(id)}
-            onMarkPaid={logic.openMarkPaidDialog}
-            onOpenInvoice={logic.openInvoiceDialog}
-          />
-        ) : (
-          <PaymentsGrid
-            payments={logic.filteredPayments}
-            resendPending={logic.resendMutation.isPending}
-            onResend={(id) => logic.resendMutation.mutate(id)}
-            onMarkPaid={logic.openMarkPaidDialog}
-            onOpenInvoice={logic.openInvoiceDialog}
-          />
-        )}
-      </div>
+      <PaymentsTable
+        payments={logic.filteredPayments}
+        resendPending={logic.resendMutation.isPending}
+        resendVariables={logic.resendMutation.variables ?? null}
+        onResend={(id) => logic.resendMutation.mutate(id)}
+        onMarkPaid={logic.openMarkPaidDialog}
+        onOpenInvoice={logic.openInvoiceDialog}
+        setSearchTerm={logic.setSearchTerm}
+        isLoading={logic.isLoading}
+      />
 
       {/* Modals */}
       <MarkPaidDialog

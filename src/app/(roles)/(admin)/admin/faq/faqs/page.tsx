@@ -14,7 +14,7 @@ async function FaqsDataFetcher() {
   let initialFaqs: Faq[] = [];
   try {
     const data = await faqsService.getFaqs();
-    initialFaqs = data.data || [];
+    initialFaqs = data || [];
   } catch (error) {
     console.error('Failed to fetch initial FAQs:', error);
   }

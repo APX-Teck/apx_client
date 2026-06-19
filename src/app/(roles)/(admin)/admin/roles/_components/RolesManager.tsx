@@ -17,6 +17,7 @@ export default function RolesManager({ initialRoles }: { initialRoles: Role[] })
         roles={logic.roles}
         handleOpenModal={logic.handleOpenModal}
         handleDelete={logic.handleDelete}
+        isLoading={logic.isLoading}
       />
       <RoleModal
         isModalOpen={logic.isModalOpen}

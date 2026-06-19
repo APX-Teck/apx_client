@@ -27,23 +27,23 @@ export function PaymentsSummary({ payments }: Props) {
   const paidCount = payments.filter((p) => p.status === 'PAID').length;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <div className="bg-[#161b22] border border-gray-800 rounded-xl p-4">
-        <div className="text-gray-400 text-sm mb-1">Total Payments</div>
-        <div className="text-2xl font-bold text-white">{payments.length}</div>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="text-gray-500 dark:text-gray-400 text-sm font-bold tracking-wide uppercase mb-2">Total Payments</div>
+        <div className="text-3xl font-extrabold text-gray-900 dark:text-white">{payments.length}</div>
       </div>
-      <div className="bg-[#161b22] border border-gray-800 rounded-xl p-4">
-        <div className="text-gray-400 text-sm mb-1">Total Revenue</div>
-        <div className="text-2xl font-bold text-green-500">{formatCurrency(totalRevenue)}</div>
+      <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="text-gray-500 dark:text-gray-400 text-sm font-bold tracking-wide uppercase mb-2">Total Revenue</div>
+        <div className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{formatCurrency(totalRevenue)}</div>
       </div>
-      <div className="bg-[#161b22] border border-gray-800 rounded-xl p-4">
-        <div className="text-gray-400 text-sm mb-1">Pending Amount</div>
-        <div className="text-2xl font-bold text-blue-500">{formatCurrency(pendingAmount)}</div>
+      <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="text-gray-500 dark:text-gray-400 text-sm font-bold tracking-wide uppercase mb-2">Pending Amount</div>
+        <div className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{formatCurrency(pendingAmount)}</div>
       </div>
-      <div className="bg-[#161b22] border border-gray-800 rounded-xl p-4">
-        <div className="text-gray-400 text-sm mb-1">Paid Invoices</div>
-        <div className="text-2xl font-bold text-white">
-          {paidCount} / {payments.length}
+      <div className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="text-gray-500 dark:text-gray-400 text-sm font-bold tracking-wide uppercase mb-2">Paid Invoices</div>
+        <div className="text-3xl font-extrabold text-gray-900 dark:text-white">
+          {paidCount} <span className="text-lg text-gray-400 font-medium">/ {payments.length}</span>
         </div>
       </div>
     </div>

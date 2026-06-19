@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractPagination, extractDataObject } from '@/lib/api/responseParser';
 import { Ad, AdPricingSlot } from '@/app/types/ad.types';
 
 export interface PaginationParams {
@@ -26,7 +27,19 @@ export const adsService = {
   getAds: async (params?: PaginationParams): Promise<PaginatedAds> => {
     try {
       const response = await apiClient.get('/advertisement', { params });
-      return response.data?.data || { data: [], pagination: {} };
+      const data = extractDataArray<Ad>(response.data);
+      const pag = extractPagination(response.data, data.length);
+      return { 
+        data, 
+        pagination: {
+          total: pag.total,
+          page: pag.page,
+          limit: params?.limit || 10,
+          totalPages: pag.totalPages,
+          hasNextPage: pag.page < pag.totalPages,
+          hasPrevPage: pag.page > 1
+        }
+      };
     } catch (error) {
       console.error('Failed to fetch ads:', error);
       throw error;
@@ -36,7 +49,7 @@ export const adsService = {
   getAdById: async (id: number): Promise<Ad> => {
     try {
       const response = await apiClient.get(`/advertisement/${id}`);
-      return response.data?.data;
+      return extractDataObject<Ad>(response.data) as Ad;
     } catch (error) {
       console.error(`Failed to fetch ad ${id}:`, error);
       throw error;
@@ -46,7 +59,7 @@ export const adsService = {
   createAd: async (formData: FormData): Promise<Ad> => {
     try {
       const response = await apiClient.post('/advertisement', formData);
-      return response.data?.data;
+      return extractDataObject<Ad>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create ad:', error);
       throw error;
@@ -56,7 +69,7 @@ export const adsService = {
   updateAd: async (id: number, formData: FormData): Promise<Ad> => {
     try {
       const response = await apiClient.patch(`/advertisement/${id}`, formData);
-      return response.data?.data;
+      return extractDataObject<Ad>(response.data) || response.data;
     } catch (error) {
       console.error(`Failed to update ad ${id}:`, error);
       throw error;
@@ -66,7 +79,7 @@ export const adsService = {
   toggleAdActive: async (id: number): Promise<{ id: number; isActive: boolean }> => {
     try {
       const response = await apiClient.patch(`/advertisement/${id}/toggle-active`);
-      return response.data?.data;
+      return extractDataObject<any>(response.data) || response.data;
     } catch (error) {
       console.error(`Failed to toggle ad status ${id}:`, error);
       throw error;
@@ -85,7 +98,7 @@ export const adsService = {
   getPricingSlots: async (): Promise<AdPricingSlot[]> => {
     try {
       const response = await apiClient.get('/advertisement/pricing-slots');
-      return response.data?.data || [];
+      return extractDataArray<AdPricingSlot>(response.data);
     } catch (error) {
       console.error('Failed to fetch pricing slots:', error);
       throw error;
@@ -95,7 +108,7 @@ export const adsService = {
   createPricingSlot: async (data: Partial<AdPricingSlot>): Promise<AdPricingSlot> => {
     try {
       const response = await apiClient.post('/advertisement/createPricingSlot', data);
-      return response.data?.data;
+      return extractDataObject<AdPricingSlot>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create pricing slot:', error);
       throw error;
@@ -105,7 +118,7 @@ export const adsService = {
   updatePricingSlot: async (id: number, data: Partial<AdPricingSlot>): Promise<AdPricingSlot> => {
     try {
       const response = await apiClient.patch(`/advertisement/pricing-slots/${id}`, data);
-      return response.data?.data;
+      return extractDataObject<AdPricingSlot>(response.data) || response.data;
     } catch (error) {
       console.error(`Failed to update pricing slot ${id}:`, error);
       throw error;

@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 import {
   BlogPostStatus,
@@ -13,7 +14,8 @@ export const blogService = {
   getPosts: async (params?: any): Promise<BlogPost[]> => {
     try {
       const response = await apiClient.get('/blog/posts/admin', { params });
-      return (response.data?.data?.data || []).map((post: any) => ({
+      const posts = extractDataArray<any>(response.data);
+      return posts.map((post: any) => ({
         ...post,
         authorName: post.author?.fullName || 'Unknown',
         authorProfilePhoto: post.author?.profile?.profilePhotoUrl || null,
@@ -28,7 +30,7 @@ export const blogService = {
   getPostDetail: async (id: string | number): Promise<BlogPostDetail | null> => {
     try {
       const response = await apiClient.get(`/blog/posts/admin/${id}`);
-      const post = response.data?.data;
+      const post = extractDataObject<any>(response.data);
       if (!post) return null;
       return {
         ...post,
@@ -45,7 +47,7 @@ export const blogService = {
   createPost: async (formData: FormData): Promise<BlogPost> => {
     try {
       const response = await apiClient.post('/blog/posts', formData);
-      return response.data?.data;
+      return extractDataObject<BlogPost>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to create post', error);
       throw error;
@@ -55,7 +57,7 @@ export const blogService = {
   updatePost: async (id: string, formData: FormData): Promise<BlogPostDetail> => {
     try {
       const response = await apiClient.patch(`/blog/posts/${id}`, formData);
-      return response.data?.data;
+      return extractDataObject<BlogPostDetail>(response.data) || response.data;
     } catch (error) {
       console.error('Failed to update post', error);
       throw error;
@@ -67,12 +69,12 @@ export const blogService = {
       const response = await apiClient.patch(`/blog/posts/${id}/publish`, {
         publish: status === 'PUBLISHED',
       });
-      return response.data?.data;
+      return extractDataObject<BlogPost>(response.data) || response.data;
     }
     // Note: Backend doesn't support changing to other statuses explicitly.
     // For now, return what we have.
     const response = await apiClient.get(`/blog/posts/admin/${id}`);
-    return response.data?.data;
+    return extractDataObject<BlogPost>(response.data) || response.data;
   },
 
   deletePost: async (id: string | number): Promise<{ success: boolean }> => {
@@ -83,7 +85,7 @@ export const blogService = {
   getCategories: async (): Promise<BlogCategory[]> => {
     try {
       const response = await apiClient.get('/blog/categories');
-      return response.data?.data?.categories || [];
+      return extractDataArray<BlogCategory>(response.data);
     } catch (error) {
       console.error('Failed to fetch categories', error);
       return [];

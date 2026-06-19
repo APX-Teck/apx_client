@@ -1,4 +1,5 @@
 import apiClient from '@/lib/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export type TaskStatus = 'OPEN' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH';
@@ -24,7 +25,7 @@ export const tasksService = {
   getTasks: async (): Promise<Task[]> => {
     try {
       const response = await apiClient.get('/task');
-      return response.data?.data?.data || [];
+      return extractDataArray<Task>(response.data);
     } catch (error) {
       console.error('Failed to fetch tasks', error);
       return [];
@@ -34,7 +35,7 @@ export const tasksService = {
   getTaskById: async (id: number): Promise<Task | null> => {
     try {
       const response = await apiClient.get(`/task/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<Task>(response.data);
     } catch (error) {
       console.error('Failed to fetch task', error);
       return null;
@@ -51,17 +52,17 @@ export const tasksService = {
     const response = await apiClient.post('/task', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
-    return response.data?.data;
+    return extractDataObject<Task>(response.data) || response.data;
   },
 
   updateTaskStatus: async (id: number, status: TaskStatus): Promise<Task> => {
     const response = await apiClient.patch(`/task/${id}`, { status });
-    return response.data?.data;
+    return extractDataObject<Task>(response.data) || response.data;
   },
 
   updateTaskPriority: async (id: number, priority: Priority): Promise<Task> => {
     const response = await apiClient.patch(`/task/${id}`, { priority });
-    return response.data?.data;
+    return extractDataObject<Task>(response.data) || response.data;
   },
 
   deleteTask: async (id: number): Promise<{ success: boolean }> => {

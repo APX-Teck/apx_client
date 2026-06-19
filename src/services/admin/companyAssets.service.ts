@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractPagination, extractDataObject } from '@/lib/api/responseParser';
 
 export interface CompanyAsset {
   id: number;
@@ -30,10 +31,12 @@ export const companyAssetsService = {
   ): Promise<{ data: CompanyAsset[]; total: number; totalPages: number }> => {
     try {
       const response = await apiClient.get('/company-asset/getAll', { params });
+      const data = extractDataArray<CompanyAsset>(response.data);
+      const pag = extractPagination(response.data, data.length);
       return {
-        data: response.data?.data?.data || [],
-        total: response.data?.data?.pagination?.total || 0,
-        totalPages: response.data?.data?.pagination?.totalPages || 1,
+        data,
+        total: pag.total,
+        totalPages: pag.totalPages,
       };
     } catch (error) {
       console.error('Failed to fetch company assets', error);
@@ -44,7 +47,7 @@ export const companyAssetsService = {
   getCompanyAssetById: async (id: number): Promise<CompanyAsset | null> => {
     try {
       const response = await apiClient.get(`/company-asset/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<CompanyAsset>(response.data);
     } catch (error) {
       console.error('Failed to fetch company asset details', error);
       return null;
@@ -53,12 +56,12 @@ export const companyAssetsService = {
 
   createCompanyAsset: async (data: Partial<CompanyAsset>): Promise<CompanyAsset> => {
     const response = await apiClient.post('/company-asset/create', data);
-    return response.data?.data;
+    return extractDataObject<CompanyAsset>(response.data) || response.data;
   },
 
   updateCompanyAsset: async (id: number, data: Partial<CompanyAsset>): Promise<CompanyAsset> => {
     const response = await apiClient.patch(`/company-asset/${id}`, data);
-    return response.data?.data;
+    return extractDataObject<CompanyAsset>(response.data) || response.data;
   },
 
   deleteCompanyAsset: async (id: number): Promise<void> => {

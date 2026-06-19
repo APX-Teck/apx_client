@@ -21,6 +21,7 @@ export default function PermissionsManager({ initialRoles }: Props) {
         roles={logic.roles}
         selectedRoleId={logic.selectedRoleId}
         onSelectRole={logic.setSelectedRoleId}
+        isLoadingRoles={logic.isLoadingRoles}
       />
       <PermissionsMatrix
         selectedRoleId={logic.selectedRoleId}

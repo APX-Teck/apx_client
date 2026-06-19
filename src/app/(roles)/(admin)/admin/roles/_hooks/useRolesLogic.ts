@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { rolesService, Role } from '@/services/admin/roles.service';
 
 export const useRolesLogic = (initialRoles: Role[]) => {
@@ -8,15 +8,25 @@ export const useRolesLogic = (initialRoles: Role[]) => {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [formData, setFormData] = useState({ name: '', description: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(initialRoles.length === 0);
 
   const fetchRoles = async () => {
     try {
+      setIsLoading(true);
       const result = await rolesService.getRoles();
       setRoles(result);
     } catch (error) {
       console.error('Failed to load roles', error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (initialRoles.length === 0) {
+      fetchRoles();
+    }
+  }, [initialRoles.length]);
 
   const handleOpenModal = (mode: 'CREATE' | 'EDIT', role?: Role) => {
     setModalMode(mode);
@@ -83,5 +93,6 @@ export const useRolesLogic = (initialRoles: Role[]) => {
     handleCloseModal,
     handleSubmit,
     handleDelete,
+    isLoading,
   };
 };

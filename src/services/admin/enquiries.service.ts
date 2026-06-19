@@ -1,4 +1,5 @@
 import apiClient from '@/lib/axios';
+import { extractDataArray, extractDataObject } from '@/lib/api/responseParser';
 
 export type EnquiryStatus =
   | 'NEW'
@@ -34,7 +35,7 @@ export const enquiriesService = {
   }): Promise<Enquiry[]> => {
     try {
       const response = await apiClient.get('/enquiry', { params });
-      return response.data?.data?.data || [];
+      return extractDataArray<Enquiry>(response.data);
     } catch (error) {
       console.error('Failed to fetch enquiries', error);
       return [];
@@ -44,7 +45,7 @@ export const enquiriesService = {
   getEnquiryById: async (id: number): Promise<Enquiry | null> => {
     try {
       const response = await apiClient.get(`/enquiry/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<Enquiry>(response.data);
     } catch (error) {
       console.error('Failed to fetch enquiry', error);
       return null;
@@ -53,12 +54,12 @@ export const enquiriesService = {
 
   updateEnquiryStatus: async (id: number, status: EnquiryStatus): Promise<Enquiry> => {
     const response = await apiClient.patch(`/enquiry/${id}/status`, { status });
-    return response.data?.data;
+    return extractDataObject<Enquiry>(response.data) || response.data;
   },
 
   assignEnquiry: async (id: number, assignedToId: number): Promise<Enquiry> => {
     const response = await apiClient.patch(`/enquiry/${id}/assign`, { assignedToId });
-    return response.data?.data;
+    return extractDataObject<Enquiry>(response.data) || response.data;
   },
 
   deleteEnquiry: async (id: number): Promise<void> => {
