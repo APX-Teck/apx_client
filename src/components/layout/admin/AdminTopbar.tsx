@@ -6,6 +6,7 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import GlobalSearch from './GlobalSearch';
 import { useTopbarLogic } from './hooks/useTopbarLogic';
 import NotificationBell from '@/components/NotificationBell';
+import { UserProfileDropdown } from '@/components/UserProfileDropdown';
 
 export default function AdminTopbar() {
   const {
@@ -67,37 +68,7 @@ export default function AdminTopbar() {
           <NotificationBell />
         </div>
 
-        <div className="flex items-center pl-2 sm:pl-4 md:pl-5 border-l border-gray-200 dark:border-white/10 cursor-pointer group">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-100 to-indigo-50 dark:from-indigo-500/20 dark:to-indigo-500/10 overflow-hidden border border-indigo-200 dark:border-indigo-500/30 shadow-inner flex items-center justify-center shrink-0">
-              {mounted && user?.profilePhotoUrl ? (
-                <img
-                  src={user.profilePhotoUrl}
-                  alt={user.fullName}
-                  className="w-full h-full object-cover"
-                />
-              ) : mounted && user?.fullName ? (
-                <img
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=4f46e5&color=fff`}
-                  alt={user.fullName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm">
-                  US
-                </div>
-              )}
-            </div>
-            <div className="hidden md:flex flex-col">
-              <span className="text-sm font-bold text-gray-900 dark:text-white leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                {mounted && user?.fullName ? user.fullName : 'Loading...'}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 font-medium capitalize">
-                {mounted && user?.role ? user.role.replace(/_/g, ' ').toLowerCase() : 'User'}
-              </span>
-            </div>
-          </div>
-        </div>
+        <UserProfileDropdown />
       </div>
 
       <GlobalSearch isOpen={isGlobalSearchOpen} onClose={() => setIsGlobalSearchOpen(false)} />

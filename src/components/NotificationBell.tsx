@@ -83,7 +83,7 @@ export const NotificationBell: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute top-14 right-0 md:-right-2 w-[320px] sm:w-[380px] bg-white/95 dark:bg-[#151515]/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden z-50 flex flex-col"
+            className="fixed sm:absolute top-[72px] sm:top-14 left-4 right-4 sm:left-auto sm:right-[-10px] sm:w-[380px] bg-white/95 dark:bg-[#151515]/95 backdrop-blur-md rounded-2xl shadow-2xl sm:shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden z-50 flex flex-col origin-top-right"
           >
             {/* Header */}
             <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-gray-50/50 dark:bg-black/20">
