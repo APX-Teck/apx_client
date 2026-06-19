@@ -108,7 +108,7 @@ export function PaymentsTable({ isLoading, payments }: PaymentsTableProps) {
                       </td>
                       <td className="py-4 pl-4 text-right">
                         {payment.status === 'PAID' ? (
-                          <button className="text-gray-500 hover:text-cyan-500 transition-colors p-2 min-w-[44px] min-h-[44px] items-center justify-center rounded-lg hover:bg-cyan-500/10 inline-flex">
+                          <button className="text-gray-500 hover:text-cyan-500 transition-colors p-2 min-w-[44px] min-h-[48px] items-center justify-center rounded-lg hover:bg-cyan-500/10 inline-flex">
                             <Download className="w-4 h-4" />
                           </button>
                         ) : (
@@ -116,7 +116,7 @@ export function PaymentsTable({ isLoading, payments }: PaymentsTableProps) {
                             href={payment.paymentLink || '#'}
                             target={payment.paymentLink ? '_blank' : '_self'}
                             rel="noreferrer"
-                            className="text-cyan-600 hover:text-cyan-500 font-bold px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-lg hover:bg-cyan-500/10 transition-colors"
+                            className="text-cyan-600 hover:text-cyan-500 font-bold px-3 py-1.5 min-h-[48px] inline-flex items-center justify-center rounded-lg hover:bg-cyan-500/10 transition-colors"
                           >
                             Pay
                           </a>

@@ -31,7 +31,7 @@ export function RequestsFilter({
           <button
             key={filter}
             onClick={() => setStatusFilter(filter)}
-            className={`px-4 py-2 min-h-[44px] rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+            className={`px-4 py-2 min-h-[48px] rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
               statusFilter === filter
                 ? 'bg-gray-900 text-white dark:bg-white dark:text-black'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/5 dark:text-gray-400 dark:hover:bg-white/10'
@@ -48,7 +48,7 @@ export function RequestsFilter({
           placeholder="Search by ID or name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 min-h-[44px] bg-gray-50 dark:bg-white/5 border border-transparent focus:border-cyan-500/50 rounded-xl text-sm focus:outline-none transition-all dark:text-white"
+          className="w-full pl-9 pr-4 py-2.5 min-h-[48px] bg-gray-50 dark:bg-white/5 border border-transparent focus:border-cyan-500/50 rounded-xl text-sm focus:outline-none transition-all dark:text-white"
         />
       </div>
     </motion.div>

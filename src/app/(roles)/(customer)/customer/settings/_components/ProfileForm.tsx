@@ -42,7 +42,7 @@ export function ProfileForm({
               value={formData.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
               required
-              className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
+              className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
             />
           </div>
           <div className="space-y-1.5">
@@ -52,7 +52,7 @@ export function ProfileForm({
             <input
               type="email"
               value={user?.email || ''}
-              className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all opacity-70 cursor-not-allowed text-gray-900 dark:text-white"
+              className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all opacity-70 cursor-not-allowed text-gray-900 dark:text-white"
               disabled
             />
           </div>
@@ -66,19 +66,7 @@ export function ProfileForm({
               type="tel"
               value={formData.phone}
               onChange={(e) => handleInputChange('phone', e.target.value)}
-              className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-bold text-gray-700 dark:text-gray-300">
-              Company (Optional)
-            </label>
-            <input
-              type="text"
-              placeholder="Company Name"
-              value={formData.company}
-              onChange={(e) => handleInputChange('company', e.target.value)}
-              className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
+              className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
             />
           </div>
         </div>
@@ -100,7 +88,7 @@ export function ProfileForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center justify-center min-h-[44px] gap-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-cyan-500/20 transition-all disabled:opacity-50"
+            className="flex items-center justify-center min-h-[48px] gap-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-cyan-500/20 transition-all disabled:opacity-50"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
             Save Changes

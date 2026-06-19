@@ -77,7 +77,7 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
         </div>
         <Link
           href="/customer/requests"
-          className="hidden sm:flex items-center justify-center min-h-[44px] gap-1 text-sm font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors"
+          className="hidden sm:flex items-center justify-center min-h-[48px] gap-1 text-sm font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors"
         >
           <span>View All</span>
           <ArrowRight className="w-4 h-4" />
@@ -142,7 +142,7 @@ export function RecentRequestsTable({ activeRequests }: RecentRequestsTableProps
 
       <Link
         href="/customer/requests"
-        className="sm:hidden w-full flex items-center justify-center min-h-[44px] gap-2 py-3 mt-2 rounded-xl bg-gray-50 dark:bg-white/5 text-sm font-bold text-gray-900 dark:text-white border border-gray-100 dark:border-white/5"
+        className="sm:hidden w-full flex items-center justify-center min-h-[48px] gap-2 py-3 mt-2 rounded-xl bg-gray-50 dark:bg-white/5 text-sm font-bold text-gray-900 dark:text-white border border-gray-100 dark:border-white/5"
       >
         <span>View All Requests</span>
         <ArrowRight className="w-4 h-4" />

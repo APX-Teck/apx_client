@@ -30,7 +30,7 @@ export default function NotificationsManager() {
       <motion.div variants={item} className="flex items-center gap-4">
         <Link
           href="/customer/settings"
-          className="p-2 rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all flex items-center justify-center min-w-[44px] min-h-[44px]"
+          className="p-2 rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all flex items-center justify-center min-w-[44px] min-h-[48px]"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
@@ -64,7 +64,7 @@ export default function NotificationsManager() {
             type="button"
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center justify-center min-h-[44px] gap-2 bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98] disabled:opacity-50"
+            className="flex items-center justify-center min-h-[48px] gap-2 bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
             Save Preferences

@@ -42,7 +42,7 @@ export function PasswordForm({
             required
             value={formData.currentPassword}
             onChange={(e) => handleInputChange('currentPassword', e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Enter current password"
           />
         </div>
@@ -54,7 +54,7 @@ export function PasswordForm({
             required
             value={formData.newPassword}
             onChange={(e) => handleInputChange('newPassword', e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Enter new password"
           />
         </div>
@@ -68,7 +68,7 @@ export function PasswordForm({
             required
             value={formData.confirmPassword}
             onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Confirm new password"
           />
         </div>
@@ -90,14 +90,14 @@ export function PasswordForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center justify-center min-h-[44px] gap-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] disabled:opacity-50"
+            className="flex items-center justify-center min-h-[48px] gap-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
             Update Password
           </button>
           <Link
             href="/customer/settings"
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 transition-colors flex items-center justify-center min-h-[44px]"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 transition-colors flex items-center justify-center min-h-[48px]"
           >
             Cancel
           </Link>

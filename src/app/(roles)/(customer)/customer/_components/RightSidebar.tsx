@@ -29,7 +29,7 @@ export function RightSidebar() {
           </p>
           <Link
             href="/contact"
-            className="w-full py-3 min-h-[44px] rounded-xl bg-white text-cyan-700 hover:bg-cyan-50 font-bold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer"
+            className="w-full py-3 min-h-[48px] rounded-xl bg-white text-cyan-700 hover:bg-cyan-50 font-bold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer"
           >
             <span>Contact Account Manager</span>
             <ExternalLink className="w-4 h-4" />
@@ -38,12 +38,12 @@ export function RightSidebar() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white dark:bg-[#111] p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-[#151515] p-5 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4">
         <h4 className="font-bold text-gray-900 dark:text-white mb-2">Quick Actions</h4>
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/customer/payments"
-            className="flex flex-col items-center justify-center gap-2 p-4 min-h-[44px] rounded-2xl bg-gray-50 dark:bg-[#1a1a1a] hover:bg-cyan-50 dark:hover:bg-cyan-500/10 border border-transparent hover:border-cyan-200 dark:hover:border-cyan-500/30 transition-all text-center group"
+            className="flex flex-col items-center justify-center gap-2 p-4 min-h-[48px] rounded-2xl bg-gray-50 dark:bg-[#151515] hover:bg-cyan-50 dark:hover:bg-cyan-500/10 border border-transparent hover:border-cyan-200 dark:hover:border-cyan-500/30 transition-all text-center group"
           >
             <CreditCard className="w-6 h-6 text-gray-400 group-hover:text-cyan-500 transition-colors" />
             <span className="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400">
@@ -52,7 +52,7 @@ export function RightSidebar() {
           </Link>
           <Link
             href="/customer/requests"
-            className="flex flex-col items-center justify-center gap-2 p-4 min-h-[44px] rounded-2xl bg-gray-50 dark:bg-[#1a1a1a] hover:bg-indigo-50 dark:hover:bg-indigo-500/10 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all text-center group"
+            className="flex flex-col items-center justify-center gap-2 p-4 min-h-[48px] rounded-2xl bg-gray-50 dark:bg-[#151515] hover:bg-indigo-50 dark:hover:bg-indigo-500/10 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all text-center group"
           >
             <Clock className="w-6 h-6 text-gray-400 group-hover:text-indigo-500 transition-colors" />
             <span className="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">

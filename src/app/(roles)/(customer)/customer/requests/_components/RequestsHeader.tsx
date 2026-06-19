@@ -22,7 +22,7 @@ export function RequestsHeader() {
       </div>
       <Link
         href="/customer/services/new"
-        className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2.5 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center min-h-[44px] gap-2"
+        className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2.5 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center min-h-[48px] gap-2"
       >
         <span>New Request</span>
       </Link>

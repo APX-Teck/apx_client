@@ -29,7 +29,7 @@ export default function SecurityManager() {
       <motion.div variants={item} className="flex items-center gap-4">
         <Link
           href="/customer/settings"
-          className="p-2 rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all flex items-center justify-center min-w-[44px] min-h-[44px]"
+          className="p-2 rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all flex items-center justify-center min-w-[44px] min-h-[48px]"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>

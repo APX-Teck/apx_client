@@ -17,7 +17,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
 
   return (
     <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-      <div className="bg-white dark:bg-[#111] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-cyan-500/30 transition-all group flex items-center justify-between">
+      <div className="bg-white dark:bg-[#151515] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-cyan-500/30 transition-all group flex items-center justify-between">
         <div>
           <p className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">
             Active Requests
@@ -32,7 +32,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[#111] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-amber-500/30 transition-all group flex items-center justify-between">
+      <div className="bg-white dark:bg-[#151515] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-amber-500/30 transition-all group flex items-center justify-between">
         <div>
           <p className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">
             Unpaid Invoices
@@ -47,7 +47,7 @@ export function StatsGrid({ activeCount, unpaidInvoices, completedCount }: Stats
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[#111] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-emerald-500/30 transition-all group flex items-center justify-between">
+      <div className="bg-white dark:bg-[#151515] p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-emerald-500/30 transition-all group flex items-center justify-between">
         <div>
           <p className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">
             Projects Completed

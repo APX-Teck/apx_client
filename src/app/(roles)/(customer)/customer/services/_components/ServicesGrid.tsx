@@ -80,7 +80,7 @@ export function ServicesGrid({ services, isLoading }: ServicesGridProps) {
               </span>
               <Link
                 href={`/customer/requests/${req.id}`}
-                className="text-xs font-bold text-cyan-600 hover:text-cyan-500 transition-colors flex items-center justify-center min-h-[44px] px-2 gap-1"
+                className="text-xs font-bold text-cyan-600 hover:text-cyan-500 transition-colors flex items-center justify-center min-h-[48px] px-2 gap-1"
               >
                 Manage <ArrowRight className="w-3 h-3" />
               </Link>

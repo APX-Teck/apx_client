@@ -23,7 +23,7 @@ export function ServicesHeader() {
       </div>
       <Link
         href="/customer/services/new"
-        className="flex items-center justify-center min-h-[44px] gap-2 bg-cyan-500 hover:bg-cyan-600 text-black font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
+        className="flex items-center justify-center min-h-[48px] gap-2 bg-cyan-500 hover:bg-cyan-600 text-black font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
       >
         <Plus className="w-4 h-4" />
         <span>Add New Service</span>

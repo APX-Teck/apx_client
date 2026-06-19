@@ -49,6 +49,7 @@ export type MockApi = {
   getMyPayments: (...args: any[]) => Promise<any>;
   updateMyRequest: (...args: any[]) => Promise<any>;
   cancelRequest: (...args: any[]) => Promise<any>;
+  updateProfile: (...args: any[]) => Promise<any>;
   verifyEmail: (token: string, email: string) => Promise<any>;
 } & typeof apiClient;
 
@@ -352,7 +353,15 @@ export const api = {
       return { success: false, message: error.response?.data?.message || error.message };
     }
   },
-  updateProfile: async () => ({}),
+  updateProfile: async (data: any) => {
+    try {
+      const response = await apiClient.put('/auth/updateMyDetails', data);
+      return { success: true, message: response.data.message };
+    } catch (error: any) {
+      console.error('Failed to update profile:', error);
+      return { success: false, message: error.response?.data?.message || error.message };
+    }
+  },
   verifyEmail: async (token: string, email: string) => {
     try {
       const response = await apiClient.get('/auth/verify-email', {

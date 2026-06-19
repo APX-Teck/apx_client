@@ -55,7 +55,7 @@ export function GenericAttachments({
                 <button
                   type="button"
                   onClick={() => removeGenericFile(i)}
-                  className="text-red-500 hover:text-red-600 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
+                  className="text-red-500 hover:text-red-600 transition-colors flex items-center justify-center min-w-[44px] min-h-[48px]"
                 >
                   <XCircle className="w-4 h-4" />
                 </button>

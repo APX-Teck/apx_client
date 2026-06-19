@@ -73,7 +73,7 @@ export function RequestDetailsHeader({
       <div className="flex items-start gap-4">
         <Link
           href="/customer/requests"
-          className="mt-1 p-2 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 transition-all min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="mt-1 p-2 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 transition-all min-w-[44px] min-h-[48px] flex items-center justify-center"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
@@ -99,7 +99,7 @@ export function RequestDetailsHeader({
         {canEdit && (
           <button
             onClick={handleEditToggle}
-            className={`font-bold px-5 py-2.5 min-h-[44px] rounded-xl transition-all flex items-center justify-center gap-2 ${
+            className={`font-bold px-5 py-2.5 min-h-[48px] rounded-xl transition-all flex items-center justify-center gap-2 ${
               isEditing
                 ? 'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/20'
                 : 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400'
@@ -114,7 +114,7 @@ export function RequestDetailsHeader({
           <button
             onClick={handleCancelRequest}
             disabled={isCancelling}
-            className="bg-red-500/10 hover:bg-red-500/20 text-red-500 font-bold px-5 py-2.5 min-h-[44px] rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="bg-red-500/10 hover:bg-red-500/20 text-red-500 font-bold px-5 py-2.5 min-h-[48px] rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isCancelling ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -129,7 +129,7 @@ export function RequestDetailsHeader({
           <button
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2.5 min-h-[44px] rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2.5 min-h-[48px] rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save Changes

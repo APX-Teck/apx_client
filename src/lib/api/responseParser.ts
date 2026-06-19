@@ -15,7 +15,11 @@ export function extractDataArray<T = any>(response: any): T[] {
   if (response.data?.data?.data && Array.isArray(response.data.data.data)) return response.data.data.data;
 
   // Specific common keys
-  const possibleKeys = ['payments', 'roles', 'users', 'enquiries', 'assets', 'items', 'rows', 'data'];
+  const possibleKeys = [
+    'payments', 'roles', 'users', 'enquiries', 'assets', 'items', 'rows', 'data',
+    'categories', 'posts', 'services', 'requests', 'plans', 'features', 'tickets',
+    'invoices', 'testimonials', 'faqs', 'leads', 'portfolio'
+  ];
   for (const key of possibleKeys) {
     if (response[key] && Array.isArray(response[key])) return response[key];
     if (response.data?.[key] && Array.isArray(response.data[key])) return response.data[key];
