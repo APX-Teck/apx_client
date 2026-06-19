@@ -33,14 +33,9 @@ export default async function ServiceFieldsBuilderPage({
   }
 
   if (!service) {
+    // If SSR fails (missing auth), return the Client component with null so it can fetch securely.
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-        <AlertCircle size={48} className="text-red-500 mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Service Not Found</h2>
-        <Link href="/admin/services" className="text-indigo-600 hover:underline">
-          Return to Services
-        </Link>
-      </div>
+      <ServiceFieldsClient initialService={null as any} initialFields={[]} serviceId={serviceId} />
     );
   }
 

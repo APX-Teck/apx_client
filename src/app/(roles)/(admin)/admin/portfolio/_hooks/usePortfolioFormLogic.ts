@@ -20,6 +20,8 @@ export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit'
       : '',
   });
 
+  const [formErrors, setFormErrors] = useState<{ title?: string; clientName?: string; serviceType?: string }>({});
+
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [clientLogo, setClientLogo] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<File[]>([]);
@@ -37,10 +39,26 @@ export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit'
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
+
+    if (['title', 'clientName', 'serviceType'].includes(name)) {
+      setFormErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors: { title?: string; clientName?: string; serviceType?: string } = {};
+    if (!formData.title.trim()) errors.title = 'Project Title is required.';
+    if (!formData.clientName.trim()) errors.clientName = 'Client Name is required.';
+    if (!formData.serviceType.trim()) errors.serviceType = 'Service Type is required.';
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setToast({ message: 'Please fill in all required fields.', type: 'error' });
+      return;
+    }
+
     setIsSubmitting(true);
     setToast({ message: 'Saving portfolio...', type: 'loading' });
 
@@ -85,6 +103,7 @@ export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit'
     setGalleryImages,
     isSubmitting,
     toast,
+    formErrors,
     handleSubmit,
     handleCancel,
   };

@@ -11,6 +11,7 @@ export default function CreateServicePage() {
     isSubmitting,
     previewImage,
     formData,
+    formErrors,
     handleInputChange,
     handleFileChange,
     handleSubmit,
@@ -44,7 +45,7 @@ export default function CreateServicePage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white dark:bg-[#111111] border border-gray-200 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-sm"
+        className="w-full bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl border border-gray-200/80 dark:border-white/10 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]"
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col md:flex-row gap-8">
@@ -91,7 +92,7 @@ export default function CreateServicePage() {
             <div className="w-full space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-900 dark:text-white">
+                  <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Service Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -100,9 +101,15 @@ export default function CreateServicePage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="e.g. Web Development"
-                    className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    required
+                    className={`w-full bg-white dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[48px] text-[15px] font-bold focus:outline-none focus:ring-4 transition-all dark:text-white ${
+                      formErrors?.name 
+                        ? 'border-red-300 dark:border-red-500/50 focus:border-red-500 focus:ring-red-500/20' 
+                        : 'border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-indigo-500/20'
+                    }`}
                   />
+                  {formErrors?.name && (
+                    <p className="mt-2 text-sm font-bold text-red-500">{formErrors.name}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-900 dark:text-white">Slug</label>

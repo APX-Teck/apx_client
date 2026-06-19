@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { tasksService, Priority } from '@/services/admin/tasks.service';
+import apiClient from '@/lib/axios';
 
-export const useCreateTaskLogic = () => {
+export const useCreateTaskLogic = (initialUsers: any[]) => {
   const router = useRouter();
+  const [users, setUsers] = useState<any[]>(initialUsers);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -16,6 +19,28 @@ export const useCreateTaskLogic = () => {
   });
 
   const [formErrors, setFormErrors] = useState<{ title?: string; assignedToId?: string }>({});
+
+  const fetchUsers = useCallback(async () => {
+    try {
+      setIsLoadingUsers(true);
+      const response = await apiClient.get('/auth/getAllUsers?limit=100');
+      const allUsers = response.data?.data?.data || [];
+      const employees = allUsers.filter((u: any) => u.role?.name === 'EMPLOYEE');
+      setUsers(employees);
+    } catch (err) {
+      console.error('Failed to load users', err);
+    } finally {
+      setIsLoadingUsers(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!initialUsers || initialUsers.length === 0) {
+      fetchUsers();
+    } else {
+      setUsers(initialUsers.filter((u: any) => u.role?.name === 'EMPLOYEE'));
+    }
+  }, [initialUsers, fetchUsers]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -63,6 +88,8 @@ export const useCreateTaskLogic = () => {
   const handleCancel = () => router.back();
 
   return {
+    users,
+    isLoadingUsers,
     formData,
     formErrors,
     isSubmitting,

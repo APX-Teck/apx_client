@@ -55,7 +55,7 @@ export function PortfolioGrid({
       {filteredPortfolios.map((portfolio) => (
         <div
           key={portfolio.id}
-          className="bg-white dark:bg-[#111111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-all flex flex-col group overflow-hidden relative"
+          className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 flex flex-col group overflow-hidden relative"
         >
           <div className="h-48 w-full bg-gray-100 dark:bg-gray-800 relative">
             {portfolio.coverImageUrl ? (

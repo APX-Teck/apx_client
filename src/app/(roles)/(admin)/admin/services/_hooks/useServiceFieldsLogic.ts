@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { servicesAdminService } from '@/services/admin/services.service';
 import { Service, ServiceField } from '@/app/types/service.types';
 
 export const useServiceFieldsLogic = (
-  initialService: Service,
-  initialFields: ServiceField[],
+  initialService: Service | null,
+  initialFields: ServiceField[] | null,
   serviceId: string
 ) => {
   const router = useRouter();
 
-  const [service, setService] = useState<Service>(initialService);
-  const [fields, setFields] = useState<ServiceField[]>(initialFields);
+  const [service, setService] = useState<Service | null>(initialService);
+  const [fields, setFields] = useState<ServiceField[]>(initialFields || []);
+  const [isLoading, setIsLoading] = useState(!initialService);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,13 +33,25 @@ export const useServiceFieldsLogic = (
 
   const refreshFields = async () => {
     try {
-      const fieldsData = await servicesAdminService.getServiceFields(serviceId);
+      const [serviceData, fieldsData] = await Promise.all([
+        servicesAdminService.getServiceById(serviceId),
+        servicesAdminService.getServiceFields(serviceId)
+      ]);
+      setService(serviceData as unknown as Service);
       const sortedFields = [...(fieldsData || [])].sort((a, b) => a.sortOrder - b.sortOrder);
       setFields(sortedFields as unknown as ServiceField[]);
     } catch (error) {
-      console.error('Failed to refresh fields:', error);
+      console.error('Failed to refresh data:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!initialService) {
+      refreshFields();
+    }
+  }, [initialService]);
 
   const handleGenerateKey = (label: string) => {
     return label
@@ -188,6 +201,7 @@ export const useServiceFieldsLogic = (
   return {
     service,
     fields,
+    isLoading,
     isModalOpen,
     setIsModalOpen,
     isSaving,

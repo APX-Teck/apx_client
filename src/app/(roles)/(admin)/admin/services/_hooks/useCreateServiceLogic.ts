@@ -17,6 +17,7 @@ export const useCreateServiceLogic = () => {
     sortOrder: 0,
   });
 
+  const [formErrors, setFormErrors] = useState<{ name?: string }>({});
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const handleInputChange = (
@@ -31,6 +32,10 @@ export const useCreateServiceLogic = () => {
       setFormData((prev) => ({ ...prev, [name]: parseInt(value) || 0 }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+
+    if (name === 'name') {
+      setFormErrors((prev) => ({ ...prev, name: undefined }));
     }
   };
 
@@ -48,6 +53,12 @@ export const useCreateServiceLogic = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name.trim()) {
+      setFormErrors({ name: 'Service Name is required.' });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -78,6 +89,7 @@ export const useCreateServiceLogic = () => {
     isSubmitting,
     previewImage,
     formData,
+    formErrors,
     handleInputChange,
     handleFileChange,
     handleSubmit,

@@ -8,9 +8,9 @@ interface Props {
   users: any[];
 }
 
-export function CreateTaskClient({ users }: Props) {
-  const { formData, formErrors, isSubmitting, error, handleChange, handleSubmit, handleCancel } =
-    useCreateTaskLogic();
+export function CreateTaskClient({ users: initialUsers }: Props) {
+  const { users, isLoadingUsers, formData, formErrors, isSubmitting, error, handleChange, handleSubmit, handleCancel } =
+    useCreateTaskLogic(initialUsers);
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6 px-4 sm:px-6 md:px-8 pb-safe pt-4">
@@ -94,7 +94,7 @@ export function CreateTaskClient({ users }: Props) {
                     : 'border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-indigo-500/20'
                 }`}
               >
-                <option value="">Select User</option>
+                <option value="">{isLoadingUsers ? 'Loading employees...' : 'Select Employee'}</option>
                 {users.map((user) => (
                   <option key={user.id} value={user.id}>
                     {user.fullName} ({user.role?.name})

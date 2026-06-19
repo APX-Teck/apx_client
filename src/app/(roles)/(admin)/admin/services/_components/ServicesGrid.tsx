@@ -53,7 +53,7 @@ export function ServicesGrid({
       {filteredServices.map((service) => (
         <div
           key={service.id}
-          className="bg-white dark:bg-[#111111] p-5 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-all flex flex-col group relative"
+          className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-6 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-all flex flex-col group relative"
         >
           <button
             onClick={() => handleToggleActive(service.id, service.isActive)}

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { servicesService, Service } from '@/services/admin/services.service';
 
@@ -20,7 +20,7 @@ export const useServicesLogic = (initialServices: Service[]) => {
     }
   };
 
-  const fetchServices = async () => {
+  const fetchServices = React.useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await servicesService.getServices();
@@ -30,7 +30,14 @@ export const useServicesLogic = (initialServices: Service[]) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  React.useEffect(() => {
+    setServices(initialServices);
+    if (!initialServices || initialServices.length === 0) {
+      fetchServices();
+    }
+  }, [initialServices, fetchServices]);
 
   const handleDelete = async (id: number) => {
     if (

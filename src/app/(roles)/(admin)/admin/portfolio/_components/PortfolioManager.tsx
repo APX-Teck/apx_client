@@ -19,9 +19,9 @@ export default function PortfolioManager({ initialPortfolios }: Props) {
     <>
       <PortfolioHeader onCreateClick={logic.navigateToCreate} />
 
-      <div className="bg-white dark:bg-[#111111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col mt-6">
+      <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col mt-6">
         <PortfolioToolbar searchTerm={logic.searchTerm} setSearchTerm={logic.setSearchTerm} />
-        <div className="p-6 overflow-auto bg-gray-50 dark:bg-[#151515] min-h-[400px]">
+        <div className="p-6 overflow-auto bg-transparent min-h-[400px]">
           <PortfolioGrid
             filteredPortfolios={logic.filteredPortfolios}
             isLoading={logic.isLoading}

@@ -27,8 +27,8 @@ const FIELD_TYPES = [
 ];
 
 interface Props {
-  initialService: Service;
-  initialFields: ServiceField[];
+  initialService: Service | null;
+  initialFields: ServiceField[] | null;
   serviceId: string;
 }
 
@@ -54,7 +54,30 @@ export function ServiceFieldsClient({ initialService, initialFields, serviceId }
     handleDelete,
     moveField,
     router,
+    isLoading,
   } = logic;
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6 w-full max-w-[1600px] mx-auto pb-safe pb-20 px-4 sm:px-6 md:px-8 flex items-center justify-center min-h-[500px]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-indigo-100 dark:border-indigo-500/20 border-t-indigo-600 dark:border-t-indigo-400 rounded-full animate-spin"></div>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Loading builder...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!service) {
+    return (
+      <div className="space-y-6 w-full max-w-[1600px] mx-auto pb-safe pb-20 px-4 sm:px-6 md:px-8 flex flex-col items-center justify-center min-h-[500px]">
+        <div className="p-8 text-center bg-red-50 dark:bg-red-500/10 rounded-3xl border border-red-100 dark:border-red-500/20">
+          <p className="text-lg text-red-600 dark:text-red-400 font-bold mb-2">Service not found</p>
+          <button onClick={() => router.back()} className="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">Go Back</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 w-full max-w-[1600px] mx-auto pb-safe pb-20 px-4 sm:px-6 md:px-8">
@@ -93,7 +116,7 @@ export function ServiceFieldsClient({ initialService, initialFields, serviceId }
       </div>
 
       {/* Fields List */}
-      <div className="bg-gray-50 dark:bg-[#111111] rounded-3xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden p-6">
+      <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden p-6 md:p-8">
         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Form Fields</h2>
 
         {fields.length === 0 ? (

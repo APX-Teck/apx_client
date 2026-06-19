@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { portfolioService, Portfolio } from '@/services/admin/portfolio.service';
 
@@ -12,7 +12,7 @@ export const usePortfolioLogic = (initialPortfolios: Portfolio[]) => {
   const [toast, setToast] = useState<ToastState>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchPortfolios = async () => {
+  const fetchPortfolios = React.useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await portfolioService.getAllPortfoliosAdmin({ limit: 100 });
@@ -22,7 +22,14 @@ export const usePortfolioLogic = (initialPortfolios: Portfolio[]) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  React.useEffect(() => {
+    setPortfolios(initialPortfolios);
+    if (!initialPortfolios || initialPortfolios.length === 0) {
+      fetchPortfolios();
+    }
+  }, [initialPortfolios, fetchPortfolios]);
 
   const handleDelete = async (id: number) => {
     if (
