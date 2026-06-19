@@ -9,15 +9,38 @@ import { LeadFollowUps } from './LeadFollowUps';
 import { Lead, LeadFollowUp } from '@/app/types/lead.types';
 
 interface Props {
-  initialLead: Lead;
-  initialFollowUps: LeadFollowUp[];
+  initialLead: Lead | null;
+  initialFollowUps: LeadFollowUp[] | null;
+  id: number;
 }
 
-export function LeadDetailManager({ initialLead, initialFollowUps }: Props) {
-  const { lead, followUps, handleAddFollowUp, handleAssignLead } = useLeadDetailLogic(
+export function LeadDetailManager({ initialLead, initialFollowUps, id }: Props) {
+  const { lead, followUps, handleAddFollowUp, handleAssignLead, isLoading } = useLeadDetailLogic(
     initialLead,
-    initialFollowUps
+    initialFollowUps,
+    id
   );
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-7xl mx-auto space-y-6 pb-safe pb-10 px-4 sm:px-6 md:px-8 min-h-[400px] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-indigo-100 dark:border-indigo-500/20 border-t-indigo-600 dark:border-t-indigo-400 rounded-full animate-spin"></div>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Loading lead details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!lead) {
+    return (
+      <div className="w-full max-w-7xl mx-auto space-y-6 pb-safe pb-10 px-4 sm:px-6 md:px-8 min-h-[400px] flex flex-col items-center justify-center">
+        <div className="p-8 text-center bg-red-50 dark:bg-red-500/10 rounded-3xl border border-red-100 dark:border-red-500/20">
+          <p className="text-lg text-red-600 dark:text-red-400 font-bold mb-2">Lead not found</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 w-full max-w-7xl mx-auto pb-safe pb-12 px-4 sm:px-6 md:px-8">

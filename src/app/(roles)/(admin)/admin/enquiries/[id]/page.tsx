@@ -16,13 +16,11 @@ interface PageProps {
 async function EnquiryDetailFetcher({ id }: { id: string }) {
   try {
     const enquiry = await enquiriesService.getEnquiryById(Number(id));
-    if (!enquiry) {
-      return <div className="p-8 text-center text-red-500">Enquiry not found</div>;
-    }
-    return <EnquiryDetailManager initialEnquiry={enquiry} />;
+    return <EnquiryDetailManager initialEnquiry={enquiry} id={Number(id)} />;
   } catch (error) {
     console.error('Failed to fetch enquiry detail:', error);
-    return <div className="p-8 text-center text-red-500">Failed to load enquiry details.</div>;
+    // On SSR fail (due to missing auth), render the client component with null so it can fetch securely.
+    return <EnquiryDetailManager initialEnquiry={null} id={Number(id)} />;
   }
 }
 

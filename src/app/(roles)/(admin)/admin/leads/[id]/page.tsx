@@ -20,14 +20,11 @@ async function LeadDetailFetcher({ id }: { id: string }) {
       leadsService.getLeadFollowUps(Number(id)),
     ]);
 
-    if (!lead) {
-      return <div className="p-8 text-center text-red-500">Lead not found</div>;
-    }
-
-    return <LeadDetailManager initialLead={lead} initialFollowUps={followUps} />;
+    return <LeadDetailManager initialLead={lead} initialFollowUps={followUps} id={Number(id)} />;
   } catch (error) {
     console.error('Failed to fetch lead detail:', error);
-    return <div className="p-8 text-center text-red-500">Failed to load lead details.</div>;
+    // On SSR fail (due to missing auth), render the client component with null so it can fetch securely.
+    return <LeadDetailManager initialLead={null} initialFollowUps={null} id={Number(id)} />;
   }
 }
 

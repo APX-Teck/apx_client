@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function CreateTaskClient({ users }: Props) {
-  const { formData, isSubmitting, error, handleChange, handleSubmit, handleCancel } =
+  const { formData, formErrors, isSubmitting, error, handleChange, handleSubmit, handleCancel } =
     useCreateTaskLogic();
 
   return (
@@ -39,11 +39,11 @@ export function CreateTaskClient({ users }: Props) {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-[#111111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6"
+        className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-6 sm:p-8 md:p-10 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] space-y-8"
       >
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
               Task Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -52,9 +52,17 @@ export function CreateTaskClient({ users }: Props) {
               value={formData.title}
               onChange={handleChange}
               placeholder="e.g. Update Homepage Design"
-              className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-3 text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:text-white"
-              required
+              className={`w-full bg-white dark:bg-[#151515] border min-h-[48px] rounded-xl px-4 py-3 text-[15px] font-bold focus:ring-4 outline-none transition-all dark:text-white ${
+                formErrors.title 
+                  ? 'border-red-300 dark:border-red-500/50 focus:border-red-500 focus:ring-red-500/20' 
+                  : 'border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-indigo-500/20'
+              }`}
             />
+            {formErrors.title && (
+              <p className="mt-2 text-sm font-bold text-red-500 flex items-center gap-1">
+                <AlertCircle size={14} /> {formErrors.title}
+              </p>
+            )}
           </div>
 
           <div>
@@ -73,15 +81,18 @@ export function CreateTaskClient({ users }: Props) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
                 Assign To <span className="text-red-500">*</span>
               </label>
               <select
                 name="assignedToId"
                 value={formData.assignedToId}
                 onChange={handleChange}
-                className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-3 text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:text-white appearance-none"
-                required
+                className={`w-full bg-white dark:bg-[#151515] border min-h-[48px] rounded-xl px-4 py-3 text-[15px] font-bold focus:ring-4 outline-none transition-all dark:text-white appearance-none cursor-pointer ${
+                  formErrors.assignedToId
+                    ? 'border-red-300 dark:border-red-500/50 focus:border-red-500 focus:ring-red-500/20' 
+                    : 'border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-indigo-500/20'
+                }`}
               >
                 <option value="">Select User</option>
                 {users.map((user) => (
@@ -90,6 +101,11 @@ export function CreateTaskClient({ users }: Props) {
                   </option>
                 ))}
               </select>
+              {formErrors.assignedToId && (
+                <p className="mt-2 text-sm font-bold text-red-500 flex items-center gap-1">
+                  <AlertCircle size={14} /> {formErrors.assignedToId}
+                </p>
+              )}
             </div>
 
             <div>

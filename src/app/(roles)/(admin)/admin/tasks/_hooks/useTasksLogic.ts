@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { tasksService, Task } from '@/services/admin/tasks.service';
@@ -12,7 +12,7 @@ export const useTasksLogic = (initialTasks: Task[] = []) => {
   const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const fetchTasks = () => {
+  const fetchTasks = React.useCallback(() => {
     setIsLoading(true);
     tasksService
       .getTasks()
@@ -24,7 +24,14 @@ export const useTasksLogic = (initialTasks: Task[] = []) => {
         toast.error('Failed to load tasks');
         setIsLoading(false);
       });
-  };
+  }, []);
+
+  React.useEffect(() => {
+    setTasks(initialTasks);
+    if (!initialTasks || initialTasks.length === 0) {
+      fetchTasks();
+    }
+  }, [initialTasks, fetchTasks]);
 
   const handleUpdateStatus = async (id: number, status: Task['status']) => {
     const toastId = toast.loading('Updating status...');

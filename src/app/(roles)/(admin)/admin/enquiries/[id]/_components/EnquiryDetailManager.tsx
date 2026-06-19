@@ -7,13 +7,32 @@ import { enquiriesService, Enquiry, EnquiryStatus } from '@/services/admin/enqui
 import toast from 'react-hot-toast';
 
 interface Props {
-  initialEnquiry: Enquiry;
+  initialEnquiry: Enquiry | null;
+  id: number;
 }
 
-export function EnquiryDetailManager({ initialEnquiry }: Props) {
+export function EnquiryDetailManager({ initialEnquiry, id }: Props) {
   const router = useRouter();
-  const [enquiry, setEnquiry] = useState<Enquiry>(initialEnquiry);
+  const [enquiry, setEnquiry] = useState<Enquiry | null>(initialEnquiry);
+  const [isLoading, setIsLoading] = useState(!initialEnquiry);
   const [isUpdating, setIsUpdating] = useState(false);
+
+  React.useEffect(() => {
+    if (!initialEnquiry) {
+      const fetchEnquiry = async () => {
+        try {
+          setIsLoading(true);
+          const data = await enquiriesService.getEnquiryById(id);
+          setEnquiry(data);
+        } catch (error) {
+          toast.error('Failed to load enquiry details');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchEnquiry();
+    }
+  }, [initialEnquiry, id]);
 
   const handleStatusChange = async (newStatus: EnquiryStatus) => {
     if (!enquiry) return;
@@ -29,8 +48,26 @@ export function EnquiryDetailManager({ initialEnquiry }: Props) {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-4xl mx-auto space-y-6 pb-safe pb-10 px-4 sm:px-6 md:px-8 min-h-[400px] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-indigo-100 dark:border-indigo-500/20 border-t-indigo-600 dark:border-t-indigo-400 rounded-full animate-spin"></div>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Loading details...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!enquiry) {
-    return <div className="p-8 text-center text-red-500 font-bold">Enquiry not found</div>;
+    return (
+      <div className="w-full max-w-4xl mx-auto space-y-6 pb-safe pb-10 px-4 sm:px-6 md:px-8 min-h-[400px] flex flex-col items-center justify-center">
+        <div className="p-8 text-center bg-red-50 dark:bg-red-500/10 rounded-3xl border border-red-100 dark:border-red-500/20">
+          <p className="text-lg text-red-600 dark:text-red-400 font-bold mb-2">Enquiry not found</p>
+          <button onClick={() => router.back()} className="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">Go Back</button>
+        </div>
+      </div>
+    );
   }
 
   return (

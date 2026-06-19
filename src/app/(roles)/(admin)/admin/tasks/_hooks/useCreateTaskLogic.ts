@@ -15,16 +15,27 @@ export const useCreateTaskLogic = () => {
     dueDate: '',
   });
 
+  const [formErrors, setFormErrors] = useState<{ title?: string; assignedToId?: string }>({});
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // Clear field error when user types
+    if (e.target.name === 'title' || e.target.name === 'assignedToId') {
+      setFormErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.assignedToId) {
-      setError('Title and Assignee are required.');
+    const newErrors: { title?: string; assignedToId?: string } = {};
+    if (!formData.title) newErrors.title = 'Task Title is required.';
+    if (!formData.assignedToId) newErrors.assignedToId = 'Please select a user to assign the task to.';
+    
+    if (Object.keys(newErrors).length > 0) {
+      setFormErrors(newErrors);
+      setError('Please fix the errors below.');
       return;
     }
 
@@ -53,6 +64,7 @@ export const useCreateTaskLogic = () => {
 
   return {
     formData,
+    formErrors,
     isSubmitting,
     error,
     handleChange,

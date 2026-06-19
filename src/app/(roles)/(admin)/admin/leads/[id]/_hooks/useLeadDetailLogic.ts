@@ -3,33 +3,45 @@ import toast from 'react-hot-toast';
 import { leadsService } from '@/services/admin/leads.service';
 import { Lead, LeadStatus, LeadFollowUp } from '@/app/types/lead.types';
 
-export function useLeadDetailLogic(initialLead: Lead, initialFollowUps: LeadFollowUp[]) {
-  const [lead, setLead] = useState<Lead>(initialLead);
-  const [followUps, setFollowUps] = useState<LeadFollowUp[]>(initialFollowUps);
-  const [isLoading, setIsLoading] = useState(false);
+export function useLeadDetailLogic(
+  initialLead: Lead | null,
+  initialFollowUps: LeadFollowUp[] | null,
+  id: number
+) {
+  const [lead, setLead] = useState<Lead | null>(initialLead);
+  const [followUps, setFollowUps] = useState<LeadFollowUp[]>(initialFollowUps || []);
+  const [isLoading, setIsLoading] = useState(!initialLead);
 
   useEffect(() => {
-    setLead(initialLead);
-    setFollowUps(initialFollowUps);
+    if (initialLead) {
+      setLead(initialLead);
+      setFollowUps(initialFollowUps || []);
+    }
   }, [initialLead, initialFollowUps]);
 
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       const [leadData, followUpsData] = await Promise.all([
-        leadsService.getLeadById(lead.id),
-        leadsService.getLeadFollowUps(lead.id),
+        leadsService.getLeadById(id),
+        leadsService.getLeadFollowUps(id),
       ]);
       if (leadData) {
         setLead(leadData);
       }
-      setFollowUps(followUpsData);
+      setFollowUps(followUpsData || []);
     } catch (error) {
       toast.error('Failed to fetch lead details');
     } finally {
       setIsLoading(false);
     }
-  }, [lead.id]);
+  }, [id]);
+
+  useEffect(() => {
+    if (!initialLead) {
+      fetchData();
+    }
+  }, [initialLead, fetchData]);
 
   const handleUpdateStatus = async (status: LeadStatus) => {
     if (!lead) return;
