@@ -4,10 +4,11 @@ import { tasksService } from '@/services/admin/tasks.service';
 import { TaskDetailClient } from '../_components/TaskDetailClient';
 
 export default async function TaskDetailPage({ params }: { params: { id: string } }) {
-  const task = await tasksService.getTaskById(Number(params.id));
-
-  if (!task) {
-    notFound();
+  let task = null;
+  try {
+    task = await tasksService.getTaskById(Number(params.id));
+  } catch (err) {
+    console.error('SSR Fetch failed for task, deferring to client', err);
   }
 
   return (
@@ -18,7 +19,7 @@ export default async function TaskDetailPage({ params }: { params: { id: string 
         </div>
       }
     >
-      <TaskDetailClient initialTask={task} />
+      <TaskDetailClient initialTask={task as any} taskId={Number(params.id)} />
     </Suspense>
   );
 }

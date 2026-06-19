@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { blogService, BlogPostDetail, BlogCategory } from '@/services/admin/blog.service';
-import { User } from '@/services/admin/users.service';
+import { usersService, User } from '@/services/admin/users.service';
 import {
   ArrowLeft,
   Save,
@@ -73,6 +73,28 @@ export function BlogEditorClient({
 }) {
   const router = useRouter();
 
+  // SSR Fallback State
+  const [categories, setCategories] = useState<BlogCategory[]>(initialCategories || []);
+  const [users, setUsers] = useState<User[]>(initialUsers || []);
+
+  useEffect(() => {
+    const fetchFallbackData = async () => {
+      try {
+        if (!categories || categories.length === 0) {
+          const fetchedCats = await blogService.getCategories();
+          setCategories(fetchedCats || []);
+        }
+        if (!users || users.length === 0) {
+          const fetchedUsers = await usersService.getUsers();
+          setUsers(fetchedUsers || []);
+        }
+      } catch (err) {
+        console.error('Failed to load fallback blog data', err);
+      }
+    };
+    fetchFallbackData();
+  }, [categories.length, users.length]);
+
   // Form State
   const [title, setTitle] = useState(initialPost?.title || '');
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt || '');
@@ -96,10 +118,22 @@ export function BlogEditorClient({
     type: 'success' | 'error' | 'loading';
   } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [formErrors, setFormErrors] = useState<{ title?: string; content?: string; categoryId?: string }>({});
 
   const isAiGenerated = initialPost?.isAiGenerated || false;
 
   const handleSave = async () => {
+    const errors: { title?: string; content?: string; categoryId?: string } = {};
+    if (!title.trim()) errors.title = 'Title is required';
+    if (!content.trim() || content === '<p></p>') errors.content = 'Content is required';
+    if (!categoryId) errors.categoryId = 'Category is required';
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setToast({ message: 'Please fill in all required fields.', type: 'error' });
+      return;
+    }
+
     try {
       setIsSaving(true);
       setToast({ message: 'Saving post...', type: 'loading' });
@@ -150,11 +184,11 @@ export function BlogEditorClient({
   return (
     <div className="space-y-6 w-full max-w-[1400px] mx-auto pb-safe pb-12 px-4 sm:px-6 lg:px-8">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full bg-white dark:bg-[#111111] p-4 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm sticky top-0 z-20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-4 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push('/admin/blog')}
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 rounded-xl transition-colors"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 rounded-xl transition-colors"
           >
             <ArrowLeft size={20} className="text-gray-600 dark:text-gray-400" />
           </button>
@@ -178,14 +212,14 @@ export function BlogEditorClient({
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowPreview(true)}
-            className="bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 px-5 py-2.5 min-h-[44px] rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
+            className="bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 px-5 py-2.5 min-h-[48px] rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
           >
             <Eye size={16} /> Preview
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 min-h-[44px] rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 min-h-[48px] rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Save size={16} /> {isSaving ? 'Saving...' : 'Save Post'}
           </button>
@@ -195,19 +229,27 @@ export function BlogEditorClient({
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Main Editor Column */}
         <div className="flex-1 space-y-6">
-          <div className="bg-white dark:bg-[#111111] rounded-3xl p-6 md:p-8 border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                Post Title
+              <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-2">
+                Post Title <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setFormErrors(p => ({...p, title: undefined}));
+                }}
                 placeholder="Enter an engaging title..."
-                className="w-full min-h-[44px] text-2xl font-black bg-transparent border-0 border-b-2 border-gray-100 dark:border-white/5 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-0 px-0 py-2 text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-700"
+                className={`w-full min-h-[48px] text-2xl font-black bg-transparent border-0 border-b-2 px-0 py-2 transition-all ${
+                  formErrors.title 
+                    ? 'border-red-400 focus:border-red-500 text-red-900 dark:text-red-100 placeholder-red-300' 
+                    : 'border-gray-100 dark:border-white/5 focus:border-indigo-500 dark:focus:border-indigo-500 text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-700'
+                } focus:ring-0`}
               />
+              {formErrors.title && <p className="mt-2 text-sm font-bold text-red-500">{formErrors.title}</p>}
             </div>
 
             {/* Excerpt */}
@@ -225,14 +267,21 @@ export function BlogEditorClient({
             </div>
 
             {/* Advanced Rich Text Editor */}
-            <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 flex justify-between">
-                <span>Content</span>
+            <div className={formErrors.content ? 'ring-2 ring-red-400 rounded-2xl p-2 bg-red-50 dark:bg-red-900/10' : ''}>
+              <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-2 flex justify-between">
+                <span>Content <span className="text-red-500">*</span></span>
                 <span className="text-xs text-indigo-500 font-normal flex items-center gap-1">
                   <Sparkles size={12} /> Advanced Editor Active
                 </span>
               </label>
-              <RichTextEditor initialContent={content} onChange={setContent} />
+              <RichTextEditor 
+                initialContent={content} 
+                onChange={(html) => {
+                  setContent(html);
+                  setFormErrors(p => ({...p, content: undefined}));
+                }} 
+              />
+              {formErrors.content && <p className="mt-2 text-sm font-bold text-red-500">{formErrors.content}</p>}
             </div>
           </div>
         </div>
@@ -274,19 +323,19 @@ export function BlogEditorClient({
           )}
 
           {/* Publishing Settings */}
-          <div className="bg-white dark:bg-[#111111] rounded-3xl p-6 border border-gray-100 dark:border-white/5 shadow-sm">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] p-6 border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
             <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <Settings size={16} /> Publishing
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Status
                 </label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as any)}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-bold rounded-xl px-4 py-2.5 min-h-[44px] focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-bold rounded-xl px-4 py-2.5 min-h-[48px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all"
                 >
                   <option value="DRAFT">DRAFT</option>
                   <option value="REVIEWED">REVIEWED</option>
@@ -295,24 +344,32 @@ export function BlogEditorClient({
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
-                  Category
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
+                  Category <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={categoryId}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl px-4 py-2.5 min-h-[44px] focus:ring-2 focus:ring-indigo-500"
+                  onChange={(e) => {
+                    setCategoryId(e.target.value);
+                    setFormErrors(p => ({...p, categoryId: undefined}));
+                  }}
+                  className={`w-full bg-white dark:bg-[#151515] border rounded-xl px-4 py-2.5 min-h-[48px] text-[15px] font-bold outline-none focus:ring-4 transition-all text-gray-900 dark:text-white ${
+                    formErrors.categoryId
+                      ? 'border-red-300 dark:border-red-500/50 focus:border-red-500 focus:ring-red-500/20'
+                      : 'border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-indigo-500/20'
+                  }`}
                 >
                   <option value="">Select Category</option>
-                  {initialCategories.map((c) => (
+                  {categories.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
                     </option>
                   ))}
                 </select>
+                {formErrors.categoryId && <p className="mt-1.5 text-sm font-bold text-red-500">{formErrors.categoryId}</p>}
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Author
                 </label>
                 <select
@@ -337,10 +394,10 @@ export function BlogEditorClient({
                       }
                     }
                   }}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl px-4 py-2.5 min-h-[44px] focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-bold rounded-xl px-4 py-2.5 min-h-[48px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all"
                 >
                   <option value="">Current User (Default)</option>
-                  {initialUsers
+                  {users
                     .filter((u) => ['EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'].includes(u.role?.name))
                     .map((u) => (
                       <option key={u.id} value={u.id}>
@@ -350,7 +407,7 @@ export function BlogEditorClient({
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Author Designation
                 </label>
                 <input
@@ -358,25 +415,25 @@ export function BlogEditorClient({
                   value={authorDesignation}
                   onChange={(e) => setAuthorDesignation(e.target.value)}
                   placeholder="e.g. Technology Consultant"
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl px-4 py-2.5 min-h-[44px] focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-medium rounded-xl px-4 py-2.5 min-h-[48px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Author Bio
                 </label>
                 <textarea
                   value={authorBio}
                   onChange={(e) => setAuthorBio(e.target.value)}
                   placeholder="e.g. Professional engineers crafting clean code..."
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl px-4 py-2.5 min-h-[80px] focus:ring-2 focus:ring-indigo-500 resize-none"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-medium rounded-xl px-4 py-2.5 min-h-[80px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all resize-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Cover Image Upload */}
-          <div className="bg-white dark:bg-[#111111] rounded-3xl p-6 border border-gray-100 dark:border-white/5 shadow-sm">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] p-6 border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
             <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <ImageIcon size={16} /> Cover Image
             </h2>
@@ -419,31 +476,31 @@ export function BlogEditorClient({
           </div>
 
           {/* SEO & Tags */}
-          <div className="bg-white dark:bg-[#111111] rounded-3xl p-6 border border-gray-100 dark:border-white/5 shadow-sm">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] p-6 border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
             <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <LinkIcon size={16} /> SEO & Tags
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Tags (Comma separated)
                 </label>
                 <input
                   type="text"
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl px-4 py-2.5 min-h-[44px] focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-medium rounded-xl px-4 py-2.5 min-h-[48px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all"
                   placeholder="e.g. AI, Startups, React"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Meta Description
                 </label>
                 <textarea
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-medium rounded-xl p-3 min-h-[80px] focus:ring-2 focus:ring-indigo-500 resize-none"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-medium rounded-xl p-4 min-h-[80px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all resize-none"
                   placeholder="Override default excerpt for SEO..."
                 />
               </div>

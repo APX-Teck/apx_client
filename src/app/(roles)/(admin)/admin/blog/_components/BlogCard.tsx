@@ -75,13 +75,13 @@ export function BlogCard({ post, onDeleteClick, onUpdateStatus }: BlogCardProps)
   const StatusIcon = config.icon;
 
   return (
-    <div className="bg-white dark:bg-[#111111] p-5 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-all flex flex-col group relative">
+    <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-5 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 flex flex-col group relative">
       {/* Top Right Status Control */}
       <div className="absolute top-5 right-5 z-10 flex flex-col items-end gap-1">
         <select
           value={post.status}
           onChange={(e) => onUpdateStatus(String(post.id), e.target.value as BlogPostStatus)}
-          className={`appearance-none cursor-pointer pl-8 pr-4 py-1.5 min-h-[44px] text-[11px] font-bold rounded-lg border uppercase tracking-wider transition-colors outline-none ${config.bg} ${config.color} ${config.border} hover:opacity-80`}
+          className={`appearance-none cursor-pointer pl-8 pr-4 py-1.5 min-h-[48px] text-[11px] font-bold rounded-xl border uppercase tracking-wider transition-colors outline-none ${config.bg} ${config.color} ${config.border} hover:opacity-80`}
         >
           <option value="DRAFT">DRAFT</option>
           <option value="REVIEWED">REVIEWED</option>
@@ -187,13 +187,13 @@ export function BlogCard({ post, onDeleteClick, onUpdateStatus }: BlogCardProps)
       <div className="flex items-center gap-2 pt-4 border-t border-gray-100 dark:border-white/5">
         <button
           onClick={() => router.push(`/admin/blog/${post.id}`)}
-          className="flex-1 min-h-[44px] bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 hover:border-indigo-500 hover:text-indigo-600 dark:hover:border-indigo-400 dark:hover:text-indigo-400 px-4 py-2 rounded-xl font-bold text-xs transition-colors text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2"
+          className="flex-1 min-h-[48px] bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 hover:border-indigo-500 hover:text-indigo-600 dark:hover:border-indigo-400 dark:hover:text-indigo-400 px-4 py-2 rounded-xl font-bold text-xs transition-colors text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2"
         >
           <Edit3 size={14} /> Full Editor
         </button>
         {post.status === 'PUBLISHED' && (
           <button
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10 rounded-xl transition-colors border border-transparent hover:border-emerald-200 dark:hover:border-emerald-500/20"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10 rounded-xl transition-colors border border-transparent hover:border-emerald-200 dark:hover:border-emerald-500/20"
             title="View Live"
           >
             <Eye size={18} />
@@ -201,7 +201,7 @@ export function BlogCard({ post, onDeleteClick, onUpdateStatus }: BlogCardProps)
         )}
         <button
           onClick={() => onDeleteClick(String(post.id))}
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20"
+          className="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20"
           title="Delete Post"
         >
           <Trash2 size={18} />

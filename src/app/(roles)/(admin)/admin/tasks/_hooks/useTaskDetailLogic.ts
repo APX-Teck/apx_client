@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { tasksService, Task } from '@/services/admin/tasks.service';
 
-export const useTaskDetailLogic = (initialTask: Task) => {
+export const useTaskDetailLogic = (initialTask: Task | null, taskId: number) => {
   const router = useRouter();
-  const [task, setTask] = useState<Task>(initialTask);
+  const [task, setTask] = useState<Task | null>(initialTask);
   const [toast, setToast] = useState<{
     message: string;
     type: 'success' | 'error' | 'loading';
   } | null>(null);
 
   const fetchTask = () => {
+    if (!taskId) return;
     tasksService
-      .getTaskById(task.id)
+      .getTaskById(taskId)
       .then((data) => {
         if (data) setTask(data);
       })
@@ -21,7 +22,14 @@ export const useTaskDetailLogic = (initialTask: Task) => {
       });
   };
 
+  useEffect(() => {
+    if (!task) {
+      fetchTask();
+    }
+  }, [task, taskId]);
+
   const handleUpdateStatus = async (status: Task['status']) => {
+    if (!task) return;
     try {
       setToast({ message: 'Updating status...', type: 'loading' });
       await tasksService.updateTaskStatus(task.id, status);
@@ -33,6 +41,7 @@ export const useTaskDetailLogic = (initialTask: Task) => {
   };
 
   const handleUpdatePriority = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (!task) return;
     try {
       setToast({ message: 'Updating priority...', type: 'loading' });
       await tasksService.updateTaskPriority(task.id, e.target.value as any);
@@ -44,6 +53,7 @@ export const useTaskDetailLogic = (initialTask: Task) => {
   };
 
   const handleDeleteTask = async () => {
+    if (!task) return;
     if (!confirm('Are you sure you want to delete this task?')) return;
     try {
       setToast({ message: 'Deleting task...', type: 'loading' });

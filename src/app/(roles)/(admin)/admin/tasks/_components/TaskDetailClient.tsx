@@ -61,10 +61,11 @@ function Toast({
 }
 
 interface Props {
-  initialTask: Task;
+  initialTask: Task | null;
+  taskId: number;
 }
 
-export function TaskDetailClient({ initialTask }: Props) {
+export function TaskDetailClient({ initialTask, taskId }: Props) {
   const {
     task,
     toast,
@@ -73,7 +74,15 @@ export function TaskDetailClient({ initialTask }: Props) {
     handleUpdateStatus,
     handleUpdatePriority,
     handleDeleteTask,
-  } = useTaskDetailLogic(initialTask);
+  } = useTaskDetailLogic(initialTask, taskId);
+
+  if (!task) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-4 border-gray-200 dark:border-white/10 border-t-indigo-600 dark:border-t-indigo-500 animate-spin"></div>
+      </div>
+    );
+  }
 
   const isPastDue =
     task.dueDate &&
@@ -85,12 +94,12 @@ export function TaskDetailClient({ initialTask }: Props) {
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 px-4 sm:px-6 md:px-8 pb-safe pt-4">
       {/* Header Visualizer */}
-      <div className="bg-white dark:bg-[#111111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm space-y-6">
+      <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-5 sm:p-6 md:p-8 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/admin/tasks')}
-              className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 rounded-xl transition-colors"
+              className="p-2 min-w-[48px] min-h-[48px] flex items-center justify-center bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 rounded-xl transition-colors"
             >
               <ArrowLeft size={20} className="text-gray-600 dark:text-gray-400" />
             </button>
@@ -118,7 +127,7 @@ export function TaskDetailClient({ initialTask }: Props) {
           <div className="flex gap-3">
             <button
               onClick={handleDeleteTask}
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors border border-gray-200 dark:border-white/10 hover:border-red-100 dark:hover:border-red-500/20"
+              className="p-2.5 min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors border border-gray-200 dark:border-white/10 hover:border-red-100 dark:hover:border-red-500/20"
               title="Delete Task"
             >
               <Trash2 size={18} />
@@ -128,21 +137,21 @@ export function TaskDetailClient({ initialTask }: Props) {
               <>
                 <button
                   onClick={() => handleUpdateStatus('CANCELLED')}
-                  className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 px-4 py-2.5 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors border border-red-100 dark:border-red-500/20"
+                  className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 px-4 py-2.5 min-h-[48px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors border border-red-100 dark:border-red-500/20"
                 >
                   Cancel Task
                 </button>
                 {task.status === 'OPEN' ? (
                   <button
                     onClick={() => handleUpdateStatus('IN_PROGRESS')}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 min-h-[48px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
                   >
                     <PlayCircle size={16} /> Start Task
                   </button>
                 ) : (
                   <button
                     onClick={() => handleUpdateStatus('COMPLETED')}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 min-h-[44px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 min-h-[48px] flex items-center justify-center rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
                   >
                     <CheckCircle2 size={16} /> Mark Completed
                   </button>
@@ -156,8 +165,8 @@ export function TaskDetailClient({ initialTask }: Props) {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Left Column: Description & Attachments */}
         <div className="xl:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-[#111111] p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm">
-            <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-5 sm:p-6 md:p-8 rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+            <h2 className="text-[13px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <FileText size={16} /> Description
             </h2>
             <div className="bg-gray-50 dark:bg-[#151515] p-5 rounded-2xl border border-gray-100 dark:border-white/5">
@@ -168,14 +177,14 @@ export function TaskDetailClient({ initialTask }: Props) {
 
             {task.attachmentUrl && (
               <div className="mt-6 pt-6 border-t border-gray-100 dark:border-white/5">
-                <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <h2 className="text-[13px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Paperclip size={16} /> Attachments
                 </h2>
                 <a
                   href={task.attachmentUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-between p-4 min-h-[44px] bg-gray-50 dark:bg-[#151515] rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-500/10 border border-gray-200 dark:border-white/10 hover:border-indigo-200 dark:hover:border-indigo-500/20 transition-all group"
+                  className="flex items-center justify-between p-4 min-h-[48px] bg-white dark:bg-[#151515] rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-500/10 border border-gray-200 dark:border-white/10 hover:border-indigo-200 dark:hover:border-indigo-500/20 transition-all group shadow-sm"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-white dark:bg-[#222] shadow-sm flex items-center justify-center text-indigo-600 dark:text-indigo-400">
@@ -199,8 +208,8 @@ export function TaskDetailClient({ initialTask }: Props) {
 
         {/* Right Column: Task Settings */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-[#111111] rounded-2xl md:rounded-3xl p-5 sm:p-6 md:p-8 border border-gray-100 dark:border-white/5 shadow-sm">
-            <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6 flex items-center gap-2">
+          <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] p-5 sm:p-6 md:p-8 border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+            <h2 className="text-[13px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6 flex items-center gap-2">
               <AlertCircle size={16} /> Settings
             </h2>
 
@@ -227,14 +236,14 @@ export function TaskDetailClient({ initialTask }: Props) {
               </div>
 
               <div>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <p className="text-[13px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                   Priority Level
                 </p>
                 <select
                   value={task.priority}
                   onChange={handleUpdatePriority}
                   disabled={task.status === 'COMPLETED' || task.status === 'CANCELLED'}
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm font-bold min-h-[44px] rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none disabled:opacity-50 appearance-none"
+                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-bold min-h-[48px] rounded-xl px-4 py-2.5 focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all disabled:opacity-50 appearance-none shadow-sm"
                 >
                   <option value="LOW">Low Priority</option>
                   <option value="MEDIUM">Medium Priority</option>
@@ -243,11 +252,11 @@ export function TaskDetailClient({ initialTask }: Props) {
               </div>
 
               <div>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1.5">
+                <p className="text-[13px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                   Due Date
                 </p>
                 <div
-                  className={`border px-4 py-3 rounded-xl flex items-center gap-2 ${
+                  className={`border px-4 py-3 min-h-[48px] rounded-xl flex items-center gap-2 shadow-sm ${
                     isPastDue
                       ? 'bg-red-50 border-red-100 text-red-700 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400'
                       : 'bg-gray-50 border-gray-200 text-gray-900 dark:bg-[#151515] dark:border-white/10 dark:text-white'
