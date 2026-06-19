@@ -7,15 +7,10 @@ export function useCompanyAssetsLogic(initialAssets: CompanyAsset[] = []) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    setAssets(initialAssets);
-    setFilteredAssets(initialAssets);
-  }, [initialAssets]);
-
   const fetchAssets = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await companyAssetsService.getAllCompanyAssets({ limit: 100 }); // Getting a reasonable amount for client side filtering or use pagination
+      const response = await companyAssetsService.getAllCompanyAssets({ limit: 100 });
       setAssets(response.data);
       setFilteredAssets(response.data);
     } catch (error) {
@@ -24,6 +19,14 @@ export function useCompanyAssetsLogic(initialAssets: CompanyAsset[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setAssets(initialAssets);
+    setFilteredAssets(initialAssets);
+    if (!initialAssets || initialAssets.length === 0) {
+      fetchAssets();
+    }
+  }, [initialAssets, fetchAssets]);
 
   useEffect(() => {
     if (!searchTerm.trim()) {

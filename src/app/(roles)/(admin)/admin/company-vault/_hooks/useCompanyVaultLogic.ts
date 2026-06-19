@@ -8,11 +8,6 @@ export function useCompanyVaultLogic(initialDocuments: CompanyVaultDocument[] = 
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    setDocuments(initialDocuments);
-    setFilteredDocuments(initialDocuments);
-  }, [initialDocuments]);
-
   const fetchDocuments = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -25,6 +20,14 @@ export function useCompanyVaultLogic(initialDocuments: CompanyVaultDocument[] = 
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setDocuments(initialDocuments);
+    setFilteredDocuments(initialDocuments);
+    if (!initialDocuments || initialDocuments.length === 0) {
+      fetchDocuments();
+    }
+  }, [initialDocuments, fetchDocuments]);
 
   useEffect(() => {
     if (!searchTerm.trim()) {

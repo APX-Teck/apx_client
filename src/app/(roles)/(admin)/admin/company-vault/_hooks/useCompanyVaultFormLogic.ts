@@ -9,34 +9,53 @@ export function useCompanyVaultFormLogic({ onSuccess }: UseCompanyVaultFormLogic
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<CompanyVaultDocument | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const openCreateModal = () => {
     setEditingDocument(null);
+    setFormErrors({});
     setIsModalOpen(true);
   };
 
   const openEditModal = (doc: CompanyVaultDocument) => {
     setEditingDocument(doc);
+    setFormErrors({});
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setEditingDocument(null);
+    setFormErrors({});
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormErrors({});
+
+    const formData = new FormData(e.currentTarget);
+    const key = (formData.get('key') as string || '').trim();
+    const file = formData.get('document') as File;
+
+    const errors: Record<string, string> = {};
+
+    if (!key) errors.key = 'A unique Document Key is strictly required.';
+    else if (key.length < 3) errors.key = 'Document Key must be at least 3 characters.';
+
+    if (!editingDocument && (!file || file.size === 0)) {
+      errors.document = 'You must select a valid document file to upload.';
+    } else if (file && file.size > 10 * 1024 * 1024) {
+      errors.document = 'The document file exceeds the maximum size limit of 10MB.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const formData = new FormData(e.currentTarget);
-
-      // Validation for new files
-      const file = formData.get('document') as File;
-      if (!editingDocument && (!file || file.size === 0)) {
-        throw new Error('Document file is required.');
-      }
 
       if (editingDocument) {
         // If editing and no new file selected, remove empty file from formData to avoid backend issues
@@ -62,6 +81,7 @@ export function useCompanyVaultFormLogic({ onSuccess }: UseCompanyVaultFormLogic
     isModalOpen,
     editingDocument,
     isSubmitting,
+    formErrors,
     openCreateModal,
     openEditModal,
     closeModal,
