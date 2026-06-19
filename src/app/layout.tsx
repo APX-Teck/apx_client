@@ -21,6 +21,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'APX - Advanced Precision & Excellence',
   description: 'APX - Advanced Precision & Excellence. Premium IT solutions, web development, UI/UX, and SEO services.',
+  icons: {
+    icon: '/APX.ico',
+  },
 };
 
 export default function RootLayout({
