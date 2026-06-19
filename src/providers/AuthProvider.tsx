@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  const login = async (credentials: any): Promise<User | undefined> => {
+  const login = useCallback(async (credentials: any): Promise<User | undefined> => {
     const response = await apiLogin(credentials);
     const userData = response.data?.user;
     if (userData) {
@@ -77,9 +77,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
     return userData;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     socketManager.disconnect();
     try {
       await apiLogout();
@@ -92,12 +92,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         window.location.href = '/login';
       }
     }
-  };
+  }, []);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     await apiRefreshToken();
     await fetchCurrentUser();
-  };
+  }, [fetchCurrentUser]);
 
   return (
     <AuthContext.Provider

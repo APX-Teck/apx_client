@@ -76,7 +76,12 @@ apiClient.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 && 
+      originalRequest && 
+      !originalRequest._retry && 
+      !originalRequest.headers['X-Retry']
+    ) {
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
@@ -103,14 +108,17 @@ apiClient.interceptors.response.use(
         });
 
         const newAccessToken = data?.data?.accessToken;
-        if (newAccessToken) {
-          setAccessToken(newAccessToken);
+        if (!newAccessToken) {
+          throw new Error('Refresh token is invalid or missing');
         }
+        
+        setAccessToken(newAccessToken);
 
         processQueue(null, newAccessToken);
 
         // Retry the original request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers['X-Retry'] = 'true';
         return apiClient(originalRequest);
       } catch (err) {
         processQueue(err, null);

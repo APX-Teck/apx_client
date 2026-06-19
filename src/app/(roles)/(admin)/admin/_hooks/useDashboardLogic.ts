@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { DashboardStats } from '@/services/admin/dashboard.service';
+import { useQuery } from '@tanstack/react-query';
+import { dashboardService, DashboardStats } from '@/services/admin/dashboard.service';
 import { KPIData } from '@/services/admin/dashboardData';
 
 export type Tab = 'overview' | 'customers' | 'revenue' | 'content' | 'operations';
@@ -7,8 +8,21 @@ export type Tab = 'overview' | 'customers' | 'revenue' | 'content' | 'operations
 export const useDashboardLogic = (initialStats: DashboardStats | null) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
 
+  const { data: fetchedStats } = useQuery({
+    queryKey: ['adminDashboardStats'],
+    queryFn: async () => {
+      const data = await dashboardService.getAdminStats();
+      if (!data) throw new Error('Failed to fetch dashboard stats');
+      return data;
+    },
+    initialData: initialStats || undefined,
+    refetchOnWindowFocus: true,
+  });
+
+  const stats = fetchedStats || initialStats;
+
   const kpis = useMemo(() => {
-    const s = initialStats;
+    const s = stats;
     const customerKPIs: KPIData[] = s
       ? [
           {
@@ -84,7 +98,7 @@ export const useDashboardLogic = (initialStats: DashboardStats | null) => {
   return {
     activeTab,
     setActiveTab,
-    stats: initialStats,
+    stats,
     ...kpis,
   };
 };

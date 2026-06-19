@@ -26,6 +26,7 @@ export function CreateUserClient({ initialRoles }: Props) {
     handleInputChange,
     handleSubmit,
     isEmployee,
+    errors,
   } = useCreateUserLogic(initialRoles);
 
   return (
@@ -74,10 +75,10 @@ export function CreateUserClient({ initialRoles }: Props) {
                       value={formData.fullName}
                       onChange={handleInputChange}
                       placeholder="e.g. John Doe"
-                      className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl pl-11 pr-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                      required
+                      className={`w-full bg-gray-50 dark:bg-[#1a1a1a] border min-h-[44px] rounded-xl pl-11 pr-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${errors.fullName ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500/50'}`}
                     />
                   </div>
+                  {errors.fullName && <p className="text-red-500 text-xs font-bold mt-1">{errors.fullName}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-900 dark:text-white">
@@ -89,9 +90,9 @@ export function CreateUserClient({ initialRoles }: Props) {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="e.g. john@example.com"
-                    className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    required
+                    className={`w-full bg-gray-50 dark:bg-[#1a1a1a] border min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${errors.email ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500/50'}`}
                   />
+                  {errors.email && <p className="text-red-500 text-xs font-bold mt-1">{errors.email}</p>}
                 </div>
               </div>
 
@@ -106,9 +107,9 @@ export function CreateUserClient({ initialRoles }: Props) {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="e.g. +91 9876543210"
-                    className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    required
+                    className={`w-full bg-gray-50 dark:bg-[#1a1a1a] border min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${errors.phone ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500/50'}`}
                   />
+                  {errors.phone && <p className="text-red-500 text-xs font-bold mt-1">{errors.phone}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-900 dark:text-white">
@@ -120,9 +121,9 @@ export function CreateUserClient({ initialRoles }: Props) {
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="Enter a secure password"
-                    className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    required
+                    className={`w-full bg-gray-50 dark:bg-[#1a1a1a] border min-h-[44px] rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${errors.password ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500/50'}`}
                   />
+                  {errors.password && <p className="text-red-500 text-xs font-bold mt-1">{errors.password}</p>}
                 </div>
               </div>
 
@@ -144,8 +145,7 @@ export function CreateUserClient({ initialRoles }: Props) {
                     name="roleId"
                     value={formData.roleId}
                     onChange={handleInputChange}
-                    className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 min-h-[44px] appearance-none rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    required
+                    className={`w-full bg-gray-50 dark:bg-[#1a1a1a] border min-h-[44px] appearance-none rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${errors.roleId ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-200 dark:border-white/10 focus:ring-indigo-500/50'}`}
                   >
                     <option value="" disabled>
                       Select a Role
@@ -157,6 +157,7 @@ export function CreateUserClient({ initialRoles }: Props) {
                         </option>
                       ))}
                   </select>
+                  {errors.roleId && <p className="text-red-500 text-xs font-bold mt-1">{errors.roleId}</p>}
                 </div>
                 <div className="flex items-center gap-3 pt-8">
                   <label className="relative inline-flex items-center cursor-pointer">

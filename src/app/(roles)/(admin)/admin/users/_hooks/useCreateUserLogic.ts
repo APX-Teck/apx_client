@@ -1,12 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
 import { usersService, Role } from '@/services/admin/users.service';
 import { rolesService } from '@/services/admin/roles.service';
+
+const userSchema = z.object({
+  fullName: z.string().min(2, 'Full Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address format'),
+  phone: z.string().regex(/^\+?[0-9\s\-()]{7,15}$/, 'Invalid phone number format'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  roleId: z.string().min(1, 'Please assign a role'),
+  isActive: z.boolean().optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  pincode: z.string().optional(),
+  dateOfBirth: z.string().optional(),
+  department: z.string().optional(),
+  designation: z.string().optional(),
+  joiningDate: z.string().optional(),
+  bankAccountName: z.string().optional(),
+  bankAccountNumber: z.string().optional(),
+  bankIfscCode: z.string().optional(),
+  bankName: z.string().optional(),
+  upiId: z.string().optional(),
+});
 
 export const useCreateUserLogic = (initialRoles: Role[]) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [roles, setRoles] = useState<Role[]>(initialRoles);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -77,10 +101,37 @@ export const useCreateUserLogic = (initialRoles: Role[]) => {
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
+    // Clear error for the field being edited
+    if (errors[name]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Zod Validation
+    const validationResult = userSchema.safeParse(formData);
+    if (!validationResult.success) {
+      const flatErrors = validationResult.error.flatten().fieldErrors;
+      const fieldErrors: Record<string, string> = {};
+      for (const key in flatErrors) {
+        const errorArray = flatErrors[key as keyof typeof flatErrors];
+        if (errorArray && errorArray.length > 0) {
+          fieldErrors[key] = errorArray[0];
+        }
+      }
+      setErrors(fieldErrors);
+      // Optional: scroll to top or first error
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
 
     try {
@@ -135,5 +186,6 @@ export const useCreateUserLogic = (initialRoles: Role[]) => {
     handleInputChange,
     handleSubmit,
     isEmployee,
+    errors,
   };
 };
