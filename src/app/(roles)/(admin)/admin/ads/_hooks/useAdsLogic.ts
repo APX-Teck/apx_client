@@ -7,9 +7,7 @@ export function useAdsLogic(initialAds: Ad[] = []) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    setAds(initialAds);
-  }, [initialAds]);
+
 
   const fetchAds = useCallback(async () => {
     try {
@@ -23,6 +21,16 @@ export function useAdsLogic(initialAds: Ad[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (initialAds && initialAds.length > 0) {
+      setAds(initialAds);
+    } else {
+      // If SSR failed to fetch (e.g. due to token refresh issues on the server), 
+      // fetch on the client side where the browser handles cookies natively.
+      fetchAds();
+    }
+  }, [initialAds, fetchAds]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this ad? This action cannot be undone.')) {

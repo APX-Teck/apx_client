@@ -9,9 +9,7 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    setPosts(initialPosts);
-  }, [initialPosts]);
+
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +36,14 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (initialPosts && initialPosts.length > 0) {
+      setPosts(initialPosts);
+    } else {
+      fetchPosts();
+    }
+  }, [initialPosts, fetchPosts]);
 
   const handleDeleteClick = (id: string) => {
     setPostToDelete(id);
