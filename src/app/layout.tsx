@@ -45,17 +45,17 @@ export default function RootLayout({
     >
       <head>
         <meta name="google-adsense-account" content="ca-pub-2044879253308502" />
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2044879253308502" 
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body
         suppressHydrationWarning
         className="min-h-full flex flex-col transition-colors duration-300 relative"
       >
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2044879253308502"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-PPHYTWLS1J"
