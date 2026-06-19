@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, User, Mail, Phone, Calendar, CheckCircle } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, Calendar, CheckCircle, Briefcase } from 'lucide-react';
 import { enquiriesService, Enquiry, EnquiryStatus } from '@/services/admin/enquiries.service';
 import toast from 'react-hot-toast';
 
@@ -30,80 +30,87 @@ export function EnquiryDetailManager({ initialEnquiry }: Props) {
   };
 
   if (!enquiry) {
-    return <div className="p-8 text-center text-red-500">Enquiry not found</div>;
+    return <div className="p-8 text-center text-red-500 font-bold">Enquiry not found</div>;
   }
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6 pb-safe pb-10 px-4 sm:px-6 md:px-8">
       <button
         onClick={() => router.back()}
-        className="flex items-center gap-2 min-h-[44px] text-sm font-medium text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+        className="flex items-center gap-2 min-h-[44px] text-sm font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors w-fit"
       >
-        <ArrowLeft size={16} /> Back to Enquiries
+        <ArrowLeft size={16} strokeWidth={3} /> Back to Enquiries
       </button>
 
-      <div className="bg-white dark:bg-[#111111] border border-gray-100 dark:border-white/5 rounded-2xl p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Enquiry Details</h1>
+      <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl border border-gray-200/80 dark:border-white/10 rounded-[2rem] p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+        <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 dark:text-white mb-8 border-b border-gray-100 dark:border-white/10 pb-6">
+          Enquiry Details
+        </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                <User size={20} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm border border-indigo-100/50 dark:border-indigo-500/20">
+                <User size={22} strokeWidth={2.5} />
               </div>
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Full Name</p>
-                <p className="font-medium text-gray-900 dark:text-white">{enquiry.fullName}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Full Name</p>
+                <p className="text-base font-bold text-gray-900 dark:text-white truncate">{enquiry.fullName}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                <Mail size={20} />
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0 shadow-sm border border-emerald-100/50 dark:border-emerald-500/20">
+                <Mail size={22} strokeWidth={2.5} />
               </div>
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
-                <p className="font-medium text-gray-900 dark:text-white">{enquiry.email}</p>
+              <div className="min-w-0 flex-1 overflow-hidden">
+                <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Email</p>
+                <p className="text-base font-bold text-gray-900 dark:text-white truncate break-words">
+                  {enquiry.email}
+                </p>
               </div>
             </div>
 
             {enquiry.phone && (
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                  <Phone size={20} />
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-cyan-50 dark:bg-cyan-500/10 rounded-xl text-cyan-600 dark:text-cyan-400 shrink-0 shadow-sm border border-cyan-100/50 dark:border-cyan-500/20">
+                  <Phone size={22} strokeWidth={2.5} />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
-                  <p className="font-medium text-gray-900 dark:text-white">{enquiry.phone}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Phone</p>
+                  <p className="text-base font-bold text-gray-900 dark:text-white truncate">{enquiry.phone}</p>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                <Calendar size={20} />
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-amber-50 dark:bg-amber-500/10 rounded-xl text-amber-600 dark:text-amber-400 shrink-0 shadow-sm border border-amber-100/50 dark:border-amber-500/20">
+                <Calendar size={22} strokeWidth={2.5} />
               </div>
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Date Received</p>
-                <p className="font-medium text-gray-900 dark:text-white">
-                  {new Date(enquiry.createdAt).toLocaleString()}
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Date Received</p>
+                <p className="text-base font-bold text-gray-900 dark:text-white">
+                  {new Date(enquiry.createdAt).toLocaleString(undefined, {
+                    dateStyle: 'medium',
+                    timeStyle: 'short'
+                  })}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                <CheckCircle size={20} />
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-blue-50 dark:bg-blue-500/10 rounded-xl text-blue-600 dark:text-blue-400 shrink-0 shadow-sm border border-blue-100/50 dark:border-blue-500/20">
+                <CheckCircle size={22} strokeWidth={2.5} />
               </div>
-              <div className="flex-1 max-w-[200px]">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Status</p>
+              <div className="flex-1 w-full max-w-sm">
+                <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Status</p>
                 <select
                   value={enquiry.status}
                   onChange={(e) => handleStatusChange(e.target.value as EnquiryStatus)}
                   disabled={isUpdating}
-                  className="block w-full text-sm font-medium px-3 py-1.5 min-h-[44px] border border-gray-200 dark:border-white/10 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white disabled:opacity-50"
+                  className="block w-full text-[15px] font-bold px-4 py-2.5 min-h-[44px] border border-gray-200 dark:border-white/10 rounded-xl shadow-sm focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white dark:bg-[#151515] text-gray-900 dark:text-white disabled:opacity-50 transition-all outline-none"
                 >
                   <option value="NEW">NEW</option>
                   <option value="SEEN">SEEN</option>
@@ -117,20 +124,29 @@ export function EnquiryDetailManager({ initialEnquiry }: Props) {
             </div>
 
             {enquiry.serviceInterest && (
-              <div className="mt-4">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Service Interest</p>
-                <span className="px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-medium">
-                  {enquiry.serviceInterest}
-                </span>
+              <div className="flex items-start gap-4 mt-2">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Service Interest</p>
+                  <span className="inline-flex items-center px-4 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-500/20 rounded-full text-sm font-bold shadow-sm">
+                    {enquiry.serviceInterest}
+                  </span>
+                </div>
               </div>
             )}
           </div>
         </div>
 
         {enquiry.businessName && (
-          <div className="mt-6 pt-6 border-t border-gray-100 dark:border-white/5">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Business/Company Name</p>
-            <p className="text-gray-900 dark:text-white font-medium">{enquiry.businessName}</p>
+          <div className="mt-8 pt-8 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-purple-50 dark:bg-purple-500/10 rounded-xl text-purple-600 dark:text-purple-400 shrink-0 shadow-sm border border-purple-100/50 dark:border-purple-500/20">
+                <Briefcase size={22} strokeWidth={2.5} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Business/Company Name</p>
+                <p className="text-lg font-black text-gray-900 dark:text-white truncate">{enquiry.businessName}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

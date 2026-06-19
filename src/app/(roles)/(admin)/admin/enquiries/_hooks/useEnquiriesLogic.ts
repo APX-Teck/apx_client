@@ -6,10 +6,6 @@ export function useEnquiriesLogic(initialEnquiries: Enquiry[] = []) {
   const [enquiries, setEnquiries] = useState<Enquiry[]>(initialEnquiries);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setEnquiries(initialEnquiries);
-  }, [initialEnquiries]);
-
   const fetchEnquiries = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -21,6 +17,13 @@ export function useEnquiriesLogic(initialEnquiries: Enquiry[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setEnquiries(initialEnquiries);
+    if (!initialEnquiries || initialEnquiries.length === 0) {
+      fetchEnquiries();
+    }
+  }, [initialEnquiries, fetchEnquiries]);
 
   const handleUpdateStatus = async (id: number, status: EnquiryStatus) => {
     const toastId = toast.loading('Updating status...');
