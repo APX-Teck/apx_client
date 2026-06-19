@@ -62,7 +62,7 @@ export function PaymentsClientWrapper({ initialPaymentsData, initialRequestsData
 
       <CreatePaymentLinkDialog
         isOpen={logic.isCreateLinkOpen}
-        requestsData={logic.requestsData}
+        requestsData={logic.requestsData || []}
         selectedRequestId={logic.selectedRequestId}
         createNegotiatedAmount={logic.createNegotiatedAmount}
         createSuggestedAmount={logic.createSuggestedAmount}

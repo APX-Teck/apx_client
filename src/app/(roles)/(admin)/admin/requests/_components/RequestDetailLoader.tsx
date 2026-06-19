@@ -19,49 +19,48 @@ export function RequestDetailLoader({ id, initialRequest, initialAdmins }: Props
   const [loading, setLoading] = useState(!initialRequest);
 
   useEffect(() => {
-    if (!initialRequest) {
-      let isMounted = true;
-      const fetchAll = async () => {
-        try {
-          const [reqData, usersData] = await Promise.all([
-            requestsService.getRequestDetail(id),
-            usersService.getUsers(),
-          ]);
-          if (isMounted) {
-            setRequest(reqData);
-            if (usersData && usersData.length > 0) {
-              const filteredAdmins = usersData
-                .filter(
-                  (u) =>
-                    u.role?.name === 'SUPER_ADMIN' ||
-                    u.role?.name === 'ADMIN' ||
-                    u.role?.name?.includes('STAFF') ||
-                    u.role?.name?.includes('EMPLOYEE') ||
-                    u.role?.name === 'EMPLOYEE'
-                )
-                .sort((a, b) => {
-                  const roleA = a.role?.name || 'Z_UNKNOWN';
-                  const roleB = b.role?.name || 'Z_UNKNOWN';
-                  if (roleA !== roleB) {
-                    return roleA.localeCompare(roleB);
-                  }
-                  return a.fullName.localeCompare(b.fullName);
-                });
-              setAdmins(filteredAdmins);
-            }
+    let isMounted = true;
+    const fetchAll = async () => {
+      if (!request || admins.length === 0) setLoading(true);
+      try {
+        const [reqData, usersData] = await Promise.all([
+          requestsService.getRequestDetail(id),
+          usersService.getUsers(),
+        ]);
+        if (isMounted) {
+          if (reqData) setRequest(reqData);
+          if (usersData && usersData.length > 0) {
+            const filteredAdmins = usersData
+              .filter(
+                (u) =>
+                  u.role?.name === 'SUPER_ADMIN' ||
+                  u.role?.name === 'ADMIN' ||
+                  u.role?.name?.includes('STAFF') ||
+                  u.role?.name?.includes('EMPLOYEE') ||
+                  u.role?.name === 'EMPLOYEE'
+              )
+              .sort((a, b) => {
+                const roleA = a.role?.name || 'Z_UNKNOWN';
+                const roleB = b.role?.name || 'Z_UNKNOWN';
+                if (roleA !== roleB) {
+                  return roleA.localeCompare(roleB);
+                }
+                return a.fullName.localeCompare(b.fullName);
+              });
+            setAdmins(filteredAdmins);
           }
-        } catch (e) {
-          console.error(e);
-        } finally {
-          if (isMounted) setLoading(false);
         }
-      };
-      fetchAll();
-      return () => {
-        isMounted = false;
-      };
-    }
-  }, [id, initialRequest]);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    fetchAll();
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   if (loading) {
     return (

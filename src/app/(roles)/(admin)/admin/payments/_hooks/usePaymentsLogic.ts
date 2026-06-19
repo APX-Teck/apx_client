@@ -38,13 +38,13 @@ export function usePaymentsLogic(initialPaymentsData: InitialData, initialReques
   } = useQuery({
     queryKey: ['payments'],
     queryFn: () => paymentsService.getPayments(),
-    initialData: initialPaymentsData,
+    initialData: initialPaymentsData?.payments?.length > 0 ? initialPaymentsData : undefined,
   });
 
   const { data: requestsData, isLoading: isLoadingRequests } = useQuery({
     queryKey: ['serviceRequests'],
     queryFn: () => requestsService.getRequests(),
-    initialData: initialRequestsData,
+    initialData: initialRequestsData?.length > 0 ? initialRequestsData : undefined,
   });
 
   const payments = paymentsData?.payments || [];

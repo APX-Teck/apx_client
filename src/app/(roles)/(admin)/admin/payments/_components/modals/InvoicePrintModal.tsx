@@ -2,6 +2,7 @@ import React from 'react';
 import { Payment } from '@/services/admin/payments.service';
 import { format } from 'date-fns';
 import { Paperclip, Send, XCircle, Mail, AlertCircle, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
   isOpen: boolean;
@@ -12,10 +13,10 @@ interface Props {
 }
 
 export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendInvoice }: Props) {
-  if (!isOpen || !payment) return null;
-
   return (
-    <>
+    <AnimatePresence>
+      {isOpen && payment && (
+        <>
       <style type="text/css" media="print">
         {`
           @page { size: auto; margin: 0; }
@@ -34,12 +35,22 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
           }
         `}
       </style>
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         id="invoice-modal-container"
         className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm print:bg-white print:backdrop-blur-none print:block"
       >
         <div className="flex min-h-full items-start justify-center p-4 sm:p-6 print:p-0 print:m-0">
-          <div className="my-8 sm:my-12 bg-white print:border-none rounded-2xl w-full max-w-3xl shadow-2xl relative flex flex-col animate-in fade-in zoom-in-95 duration-200 ring-1 ring-gray-200 print:ring-0 print:shadow-none print:m-0 print:w-full print:max-w-none print:rounded-none">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="my-8 sm:my-12 bg-white print:border-none rounded-2xl w-full max-w-3xl shadow-2xl relative flex flex-col ring-1 ring-gray-200 print:ring-0 print:shadow-none print:m-0 print:w-full print:max-w-none print:rounded-none"
+          >
             {/* Header Actions (Hidden on Print) */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-6 py-4 border-b border-gray-100 print:hidden bg-gray-50/90 backdrop-blur-md sticky top-0 z-20 rounded-t-2xl gap-4 sm:gap-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
@@ -286,9 +297,11 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </>
+    )}
+    </AnimatePresence>
   );
 }

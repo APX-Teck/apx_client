@@ -38,7 +38,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
         header: 'Service',
         accessorKey: 'serviceType',
         cell: (req) => (
-          <span className="font-extrabold text-[12px] uppercase tracking-wider bg-gray-100/80 dark:bg-white/5 px-3.5 py-1.5 rounded-lg text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-white/10 shadow-sm backdrop-blur-sm">
+          <span className="font-extrabold text-[12px] uppercase tracking-wider bg-gray-100/80 dark:bg-white/5 px-3.5 py-1.5 rounded-lg text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-white/10 shadow-sm backdrop-blur-sm whitespace-nowrap">
             {req.serviceType}
           </span>
         ),
@@ -47,7 +47,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
         header: 'Priority',
         cell: (req) => (
           <span
-            className={`px-3 py-1.5 text-[11px] font-extrabold rounded-lg uppercase tracking-wider border shadow-sm backdrop-blur-sm ${
+            className={`px-3 py-1.5 text-[11px] font-extrabold rounded-lg uppercase tracking-wider border shadow-sm backdrop-blur-sm whitespace-nowrap ${
               req.priority === 'HIGH'
                 ? 'bg-red-50/80 text-red-700 border-red-200/50 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20'
                 : req.priority === 'MEDIUM'
@@ -99,7 +99,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
 
           return (
             <div
-              className={`inline-flex items-center gap-2 px-3 py-1.5 text-[12px] font-extrabold rounded-lg border shadow-sm backdrop-blur-sm ${config.bg} ${config.color} ${config.border}`}
+              className={`inline-flex items-center gap-2 px-3 py-1.5 text-[12px] font-extrabold rounded-lg border shadow-sm backdrop-blur-sm whitespace-nowrap ${config.bg} ${config.color} ${config.border}`}
             >
               <Icon size={14} strokeWidth={2.5} />
               {req.status.replace('_', ' ')}
@@ -110,7 +110,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
       {
         header: 'Assigned To',
         cell: (req) => (
-          <span className="text-[14px] font-bold text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-white/5">
+          <span className="text-[14px] font-bold text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-white/5 whitespace-nowrap">
             {req.assignedTo || '— Unassigned —'}
           </span>
         ),
@@ -124,7 +124,7 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
                 e.stopPropagation();
                 navigateToManage(req.id);
               }}
-              className="px-4 py-2 rounded-xl text-[13px] font-bold text-indigo-700 dark:text-indigo-400 bg-indigo-50/80 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 border border-indigo-200/50 dark:border-indigo-500/30 transition-all shadow-sm hover:shadow-md hover:shadow-indigo-500/10 active:scale-95"
+              className="px-4 py-2 rounded-xl text-[13px] font-bold text-indigo-700 dark:text-indigo-400 bg-indigo-50/80 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 border border-indigo-200/50 dark:border-indigo-500/30 transition-all shadow-sm hover:shadow-md hover:shadow-indigo-500/10 active:scale-95 whitespace-nowrap"
             >
               Manage
             </button>

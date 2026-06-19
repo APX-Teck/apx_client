@@ -9,21 +9,21 @@ export const useRequestsLogic = (initialRequests: ServiceRequest[]) => {
   const [isLoading, setIsLoading] = useState(initialRequests.length === 0);
 
   useEffect(() => {
-    if (initialRequests.length === 0) {
-      const fetchRequests = async () => {
-        setIsLoading(true);
-        try {
-          const result = await requestsService.getRequests();
+    const fetchRequests = async () => {
+      if (requests.length === 0) setIsLoading(true);
+      try {
+        const result = await requestsService.getRequests();
+        if (result && result.length > 0) {
           setRequests(result);
-        } catch (error) {
-          console.error('Failed to load requests', error);
-        } finally {
-          setIsLoading(false);
         }
-      };
-      fetchRequests();
-    }
-  }, [initialRequests.length]);
+      } catch (error) {
+        console.error('Failed to load requests', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRequests();
+  }, []);
 
   const filteredRequests = useMemo(() => {
     const term = searchTerm.toLowerCase();

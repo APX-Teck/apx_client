@@ -262,6 +262,14 @@ export function RequestDetailClient({ initialData, initialAdmins }: Props) {
                     animate={{ width: `${(Math.max(0, currentStepIndex) / (STATUS_STEPS.length - 1)) * 100}%` }}
                   />
                 </div>
+                {/* Vertical line for mobile */}
+                <div className="absolute top-6 bottom-6 left-6 w-1 bg-gray-100 dark:bg-white/5 -translate-x-1/2 rounded-full overflow-hidden z-0 sm:hidden">
+                  <motion.div 
+                    className="w-full bg-gradient-to-b from-indigo-500 to-purple-500 transition-all duration-500 ease-out"
+                    initial={{ height: 0 }}
+                    animate={{ height: `${(Math.max(0, currentStepIndex) / (STATUS_STEPS.length - 1)) * 100}%` }}
+                  />
+                </div>
                 
                 <div className="flex flex-col sm:flex-row justify-between relative z-10 gap-6 sm:gap-0">
                   {STATUS_STEPS.map((step, idx) => {
@@ -627,24 +635,24 @@ export function RequestDetailClient({ initialData, initialAdmins }: Props) {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4"
           >
-            <div className="bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl border border-gray-200/80 dark:border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-full px-6 py-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <div className="bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl border border-gray-200/80 dark:border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-3xl sm:rounded-full px-5 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 w-full max-w-md mx-auto sm:max-w-none sm:w-auto">
+              <div className="flex items-center gap-3 self-start sm:self-auto w-full sm:w-auto">
+                <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
                 <span className="text-[15px] font-bold text-gray-900 dark:text-white">Unsaved Changes</span>
               </div>
               
-              <div className="flex items-center gap-3 sm:ml-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center w-full sm:w-auto gap-2 sm:gap-3 sm:ml-4">
                 <button
                   onClick={handleDiscard}
                   disabled={isSaving}
-                  className="px-5 py-2.5 text-[14px] font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-all disabled:opacity-50"
+                  className="px-5 py-2.5 text-[14px] font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-all disabled:opacity-50 w-full sm:w-auto border border-gray-200/50 sm:border-transparent dark:border-white/5 sm:dark:border-transparent"
                 >
                   Discard
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl font-bold text-[14px] transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95"
+                  className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl font-bold text-[14px] transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto"
                 >
                   {isSaving ? (
                     <Loader2 size={16} className="animate-spin" />

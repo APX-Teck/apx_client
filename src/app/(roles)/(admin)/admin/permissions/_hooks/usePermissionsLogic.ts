@@ -7,21 +7,22 @@ export const usePermissionsLogic = (initialRoles: Role[]) => {
   const [isLoadingRoles, setIsLoadingRoles] = useState(initialRoles.length === 0);
 
   useEffect(() => {
-    if (initialRoles.length === 0) {
-      const fetchRoles = async () => {
-        setIsLoadingRoles(true);
-        try {
-          const result = await rolesService.getRoles();
+    // Unconditionally fetch on the client side to ensure the auth token is passed correctly on the live domain
+    const fetchRoles = async () => {
+      if (roles.length === 0) setIsLoadingRoles(true);
+      try {
+        const result = await rolesService.getRoles();
+        if (result && result.length > 0) {
           setRoles(result);
-        } catch (error) {
-          console.error('Failed to load roles', error);
-        } finally {
-          setIsLoadingRoles(false);
         }
-      };
-      fetchRoles();
-    }
-  }, [initialRoles.length]);
+      } catch (error) {
+        console.error('Failed to load roles', error);
+      } finally {
+        setIsLoadingRoles(false);
+      }
+    };
+    fetchRoles();
+  }, []);
   const [selectedRoleId, setSelectedRoleId] = useState<number | ''>('');
   const [permissions, setPermissions] = useState<PermRow[]>([]);
 
