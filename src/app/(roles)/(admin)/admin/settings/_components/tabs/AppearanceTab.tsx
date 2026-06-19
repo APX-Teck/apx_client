@@ -118,7 +118,7 @@ export function AppearanceTab({ setToast }: Props) {
         <div className="pt-8 border-t border-gray-100 dark:border-white/5">
           <button
             onClick={savePreferences}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 min-h-[44px] flex items-center justify-center rounded-xl text-sm font-bold shadow-md transition-colors"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 min-h-[48px] flex items-center justify-center rounded-xl text-sm font-bold shadow-md transition-colors"
           >
             Save Appearance
           </button>

@@ -78,7 +78,7 @@ export function DataCacheTab({ setToast }: Props) {
             </p>
             <button
               onClick={handleExport}
-              className="bg-white dark:bg-[#222] border border-gray-200 dark:border-white/10 px-4 py-2 min-h-[44px] flex items-center justify-center rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+              className="bg-white dark:bg-[#222] border border-gray-200 dark:border-white/10 px-4 py-2 min-h-[48px] flex items-center justify-center rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
               Download JSON
             </button>
@@ -99,7 +99,7 @@ export function DataCacheTab({ setToast }: Props) {
             />
             <button
               onClick={() => fileReaderRef.current?.click()}
-              className="bg-white dark:bg-[#222] border border-gray-200 dark:border-white/10 px-4 py-2 min-h-[44px] flex items-center justify-center rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+              className="bg-white dark:bg-[#222] border border-gray-200 dark:border-white/10 px-4 py-2 min-h-[48px] flex items-center justify-center rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
               Upload JSON
             </button>
@@ -118,7 +118,7 @@ export function DataCacheTab({ setToast }: Props) {
           </p>
           <button
             onClick={handleClearCache}
-            className="bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 px-4 py-2 min-h-[44px] flex items-center justify-center rounded-lg text-sm font-bold transition-colors"
+            className="bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 px-4 py-2 min-h-[48px] flex items-center justify-center rounded-lg text-sm font-bold transition-colors"
           >
             Clear Local Cache
           </button>

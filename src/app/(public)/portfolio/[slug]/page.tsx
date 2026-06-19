@@ -87,31 +87,31 @@ export default async function PortfolioDetailPage({ params }: Props) {
     console.error('Failed to load server portfolio by slug', err);
   }
 
-  if (!project) {
-    notFound();
-  }
-
   // Schema Generation
-  const jsonLdArticle = generateArticleSchema(project, slug);
-  const jsonLdBreadcrumb = generateDetailBreadcrumbSchema(project, slug);
+  const jsonLdArticle = project ? generateArticleSchema(project, slug) : null;
+  const jsonLdBreadcrumb = project ? generateDetailBreadcrumbSchema(project, slug) : null;
 
   return (
     <div className="flex flex-col min-h-dvh selection:bg-accent/30 bg-background text-foreground transition-colors duration-300 w-full overflow-x-hidden">
       {/* Inject Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-      />
+      {jsonLdArticle && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+        />
+      )}
+      {jsonLdBreadcrumb && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+      )}
 
       <Navbar />
 
       <main className="flex-1 pt-20 sm:pt-24 pb-20 pt-safe pb-safe w-full overflow-x-hidden">
         <article className="w-full">
-          <PortfolioDetailClient project={project} />
+          <PortfolioDetailClient project={project} slug={slug} />
         </article>
       </main>
 

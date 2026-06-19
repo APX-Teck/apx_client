@@ -360,11 +360,15 @@ export function BlogEditorClient({
                   }`}
                 >
                   <option value="">Select Category</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
+                  {categories.map((c: any, index) => {
+                    const cId = typeof c === 'object' ? c.id || c.name : c;
+                    const cName = typeof c === 'object' ? c.name : c;
+                    return (
+                      <option key={cId || index} value={cId}>
+                        {cName}
+                      </option>
+                    );
+                  })}
                 </select>
                 {formErrors.categoryId && <p className="mt-1.5 text-sm font-bold text-red-500">{formErrors.categoryId}</p>}
               </div>

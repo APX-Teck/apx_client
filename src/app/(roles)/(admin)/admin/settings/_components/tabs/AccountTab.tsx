@@ -53,7 +53,7 @@ export function AccountTab({ setToast }: Props) {
               <input
                 type="text"
                 defaultValue={user?.fullName || ''}
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
+                className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
                 placeholder="Enter your full name"
               />
             </div>
@@ -64,7 +64,7 @@ export function AccountTab({ setToast }: Props) {
               <input
                 type="email"
                 defaultValue={user?.email || ''}
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-500 cursor-not-allowed opacity-70"
+                className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-500 cursor-not-allowed opacity-70"
                 disabled
               />
             </div>
@@ -77,7 +77,7 @@ export function AccountTab({ setToast }: Props) {
               <input
                 type="tel"
                 defaultValue={user?.phone || ''}
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
+                className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-900 dark:text-white"
                 placeholder="Enter phone number"
               />
             </div>
@@ -86,7 +86,7 @@ export function AccountTab({ setToast }: Props) {
               <input
                 type="text"
                 defaultValue={user?.role || 'Admin'}
-                className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-500 cursor-not-allowed opacity-70 capitalize"
+                className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all text-gray-500 cursor-not-allowed opacity-70 capitalize"
                 disabled
               />
             </div>
@@ -95,7 +95,7 @@ export function AccountTab({ setToast }: Props) {
             <button
               type="button"
               onClick={() => setToast({ message: 'Profile updated successfully', type: 'success' })}
-              className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 min-h-[44px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all active:scale-[0.98]"
+              className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 min-h-[48px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all active:scale-[0.98]"
             >
               Save Changes
             </button>

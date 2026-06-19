@@ -15,12 +15,18 @@ export function FaqFormModal({ editingFaq, onClose, onSuccess, nextSortOrder }: 
     register,
     handleSubmit,
     errors,
+    touchedFields,
+    isSubmitted,
     isSubmitting,
     isPublished,
     togglePublished,
     questionValue,
     answerValue,
   } = useFaqFormLogic(editingFaq, onClose, onSuccess, nextSortOrder);
+
+  const showQuestionError = errors.question && (touchedFields.question || isSubmitted);
+  const showAnswerError = errors.answer && (touchedFields.answer || isSubmitted);
+  const showSortOrderError = errors.sortOrder && (touchedFields.sortOrder || isSubmitted);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
@@ -55,10 +61,10 @@ export function FaqFormModal({ editingFaq, onClose, onSuccess, nextSortOrder }: 
               {...register('question')}
               value={questionValue}
               placeholder="e.g. What services do you offer?"
-              className={`w-full bg-gray-50 dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[44px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white ${errors.question ? 'border-red-500' : 'border-gray-200 dark:border-white/10'}`}
+              className={`w-full bg-gray-50 dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[44px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white ${showQuestionError ? 'border-red-500' : 'border-gray-200 dark:border-white/10'}`}
             />
-            {errors.question && (
-              <p className="text-red-500 text-xs mt-1">{errors.question.message}</p>
+            {showQuestionError && (
+              <p className="text-red-500 text-xs mt-1">{errors.question?.message}</p>
             )}
           </div>
 
@@ -70,9 +76,9 @@ export function FaqFormModal({ editingFaq, onClose, onSuccess, nextSortOrder }: 
               {...register('answer')}
               value={answerValue}
               placeholder="Provide a detailed answer..."
-              className={`w-full bg-gray-50 dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[120px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white ${errors.answer ? 'border-red-500' : 'border-gray-200 dark:border-white/10'}`}
+              className={`w-full bg-gray-50 dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[120px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white ${showAnswerError ? 'border-red-500' : 'border-gray-200 dark:border-white/10'}`}
             />
-            {errors.answer && <p className="text-red-500 text-xs mt-1">{errors.answer.message}</p>}
+            {showAnswerError && <p className="text-red-500 text-xs mt-1">{errors.answer?.message}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -98,10 +104,10 @@ export function FaqFormModal({ editingFaq, onClose, onSuccess, nextSortOrder }: 
                 type="number"
                 {...register('sortOrder', { valueAsNumber: true })}
                 min={0}
-                className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white"
+                className={`w-full bg-gray-50 dark:bg-[#151515] border rounded-xl px-4 py-3 min-h-[44px] text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-gray-900 dark:text-white ${showSortOrderError ? 'border-red-500' : 'border-gray-200 dark:border-white/10'}`}
               />
-              {errors.sortOrder && (
-                <p className="text-red-500 text-xs mt-1">{errors.sortOrder.message}</p>
+              {showSortOrderError && (
+                <p className="text-red-500 text-xs mt-1">{errors.sortOrder?.message}</p>
               )}
             </div>
           </div>

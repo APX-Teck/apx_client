@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { heroBannersService } from '@/services/admin/heroBanners.service';
 import { HeroBanner } from '@/app/types/home.types';
 import { ToastState } from '../_components/SettingsManager';
@@ -8,7 +8,7 @@ export const useHeroBannersLogic = (
   setToast: (toast: ToastState) => void
 ) => {
   const [banners, setBanners] = useState<HeroBanner[]>(initialBanners);
-  const [isLoadingBanners, setIsLoadingBanners] = useState(false);
+  const [isLoadingBanners, setIsLoadingBanners] = useState(!initialBanners || initialBanners.length === 0);
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<HeroBanner | null>(null);
 
@@ -35,6 +35,12 @@ export const useHeroBannersLogic = (
       setIsLoadingBanners(false);
     }
   };
+
+  useEffect(() => {
+    if (!initialBanners || initialBanners.length === 0) {
+      fetchBanners();
+    }
+  }, [initialBanners]);
 
   const openCreateModal = () => {
     setEditingBanner(null);

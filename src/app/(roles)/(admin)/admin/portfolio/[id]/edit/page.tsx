@@ -24,24 +24,12 @@ export default async function EditPortfolioPage({ params }: { params: Promise<{ 
   try {
     portfolio = await portfolioService.getPortfolioByIdAdmin(id);
   } catch (error) {
-    console.error('Failed to load portfolio:', error);
-  }
-
-  if (!portfolio) {
-    return (
-      <div className="flex flex-col h-64 items-center justify-center gap-4">
-        <Layers size={48} className="text-gray-500" />
-        <h2 className="text-xl font-bold text-white">Portfolio Not Found</h2>
-        <Link href="/admin/portfolio" className="text-indigo-400 hover:text-indigo-300">
-          Return to Portfolio Management
-        </Link>
-      </div>
-    );
+    console.error('Failed to load portfolio on SSR, deferring to client:', error);
   }
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-safe px-4 sm:px-6 md:px-8">
-      <PortfolioForm mode="edit" initialData={portfolio} />
+      <PortfolioForm mode="edit" initialData={portfolio} portfolioId={id} />
     </div>
   );
 }

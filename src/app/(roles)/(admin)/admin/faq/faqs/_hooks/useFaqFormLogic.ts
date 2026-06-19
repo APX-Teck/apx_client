@@ -20,10 +20,10 @@ export function useFaqFormLogic(
     reset,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, touchedFields, isSubmitted },
   } = useForm<FaqFormData>({
     resolver: zodResolver(faqSchema),
-    mode: 'onChange',
+    mode: 'onTouched',
     defaultValues: editingFaq
       ? {
           question: editingFaq.question,
@@ -78,6 +78,8 @@ export function useFaqFormLogic(
     register,
     handleSubmit: handleSubmit(onSubmit),
     errors,
+    touchedFields,
+    isSubmitted,
     isSubmitting,
     isPublished,
     togglePublished,

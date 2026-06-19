@@ -45,7 +45,7 @@ export default function SettingsManager({ initialBanners }: Props) {
     return (
       <button
         onClick={() => setActiveTab(id)}
-        className={`w-full flex items-center justify-between min-h-[44px] px-4 py-3 rounded-xl font-bold text-sm transition-all ${
+        className={`w-full flex items-center justify-between min-h-[48px] px-4 py-3 rounded-xl font-bold text-sm transition-all ${
           isActive
             ? 'bg-indigo-600 text-white shadow-md'
             : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5'

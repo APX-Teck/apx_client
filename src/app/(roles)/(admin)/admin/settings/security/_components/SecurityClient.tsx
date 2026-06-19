@@ -50,7 +50,7 @@ export function SecurityClient() {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Enter current password"
             required
           />
@@ -62,7 +62,7 @@ export function SecurityClient() {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Enter new password"
             required
           />
@@ -76,7 +76,7 @@ export function SecurityClient() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
+            className="w-full px-4 py-3 min-h-[48px] bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all text-gray-900 dark:text-white"
             placeholder="Confirm new password"
             required
           />
@@ -85,13 +85,13 @@ export function SecurityClient() {
         <div className="pt-4 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 min-h-[44px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98]"
+            className="bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-8 py-3 min-h-[48px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98]"
           >
             Update Password
           </button>
           <Link
             href="/admin/settings"
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 min-h-[44px] flex items-center justify-center transition-colors"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-bold px-4 py-3 min-h-[48px] flex items-center justify-center transition-colors"
           >
             Cancel
           </Link>

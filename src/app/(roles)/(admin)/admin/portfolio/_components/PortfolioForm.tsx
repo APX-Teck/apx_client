@@ -7,11 +7,24 @@ import { usePortfolioFormLogic } from '../_hooks/usePortfolioFormLogic';
 export default function PortfolioForm({
   initialData,
   mode = 'create',
+  portfolioId,
 }: {
   initialData?: any;
   mode?: 'create' | 'edit';
+  portfolioId?: number;
 }) {
-  const logic = usePortfolioFormLogic(initialData, mode);
+  const logic = usePortfolioFormLogic(initialData, mode, portfolioId);
+
+  if (mode === 'edit' && !initialData && !logic.formData.title && !logic.isFetchingFallback) {
+      // It's still loading the fallback or the logic handles it
+  }
+  if (logic.isFetchingFallback) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-4 border-gray-200 dark:border-white/10 border-t-[#39FF14] animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={logic.handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-10">

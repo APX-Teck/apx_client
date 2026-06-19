@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { portfolioService } from '@/services/admin/portfolio.service';
 
-export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit' = 'create') => {
+export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit' = 'create', portfolioId?: number) => {
   const router = useRouter();
+  const [isFetchingFallback, setIsFetchingFallback] = useState(false);
 
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
@@ -19,6 +20,32 @@ export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit'
       ? new Date(initialData.completedAt).toISOString().split('T')[0]
       : '',
   });
+
+  useEffect(() => {
+    if (mode === 'edit' && !initialData && portfolioId) {
+      setIsFetchingFallback(true);
+      portfolioService
+        .getPortfolioByIdAdmin(portfolioId)
+        .then((data) => {
+          if (data) {
+            setFormData({
+              title: data.title || '',
+              clientName: data.clientName || '',
+              serviceType: data.serviceType || '',
+              problem: data.problem || '',
+              solution: data.solution || '',
+              results: data.results || '',
+              liveUrl: data.liveUrl || '',
+              isPublished: data.isPublished ?? false,
+              sortOrder: data.sortOrder || 0,
+              completedAt: data.completedAt ? new Date(data.completedAt).toISOString().split('T')[0] : '',
+            });
+          }
+        })
+        .catch(console.error)
+        .finally(() => setIsFetchingFallback(false));
+    }
+  }, [initialData, mode, portfolioId]);
 
   const [formErrors, setFormErrors] = useState<{ title?: string; clientName?: string; serviceType?: string }>({});
 
@@ -106,5 +133,6 @@ export const usePortfolioFormLogic = (initialData?: any, mode: 'create' | 'edit'
     formErrors,
     handleSubmit,
     handleCancel,
+    isFetchingFallback,
   };
 };

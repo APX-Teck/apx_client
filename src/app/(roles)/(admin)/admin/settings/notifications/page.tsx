@@ -10,7 +10,7 @@ export default function AdminNotificationsSettingsPage() {
       <div className="flex items-center gap-4">
         <Link
           href="/admin/settings"
-          className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all"
+          className="p-2 min-w-[44px] min-h-[48px] flex items-center justify-center rounded-xl bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 hover:border-cyan-500/30 text-gray-500 hover:text-cyan-500 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>

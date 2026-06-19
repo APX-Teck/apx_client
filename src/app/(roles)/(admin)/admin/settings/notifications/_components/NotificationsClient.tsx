@@ -139,7 +139,7 @@ export function NotificationsClient() {
       <div className="pt-4 flex justify-end">
         <button
           type="button"
-          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 min-h-[44px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98]"
+          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 min-h-[48px] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-[0.98]"
         >
           Save Preferences
         </button>

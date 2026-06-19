@@ -86,7 +86,7 @@ export function DeveloperTab({ setToast }: Props) {
         <div className="pt-4">
           <button
             onClick={saveDevSettings}
-            className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-6 py-2.5 min-h-[44px] flex items-center justify-center rounded-xl text-sm font-bold shadow-md transition-colors"
+            className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-6 py-2.5 min-h-[48px] flex items-center justify-center rounded-xl text-sm font-bold shadow-md transition-colors"
           >
             Apply Developer Settings
           </button>

@@ -41,7 +41,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
         </div>
         <button
           onClick={openCreateModal}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 min-h-[44px] rounded-xl text-sm font-bold shadow-md transition-colors flex items-center justify-center gap-2"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 min-h-[48px] rounded-xl text-sm font-bold shadow-md transition-colors flex items-center justify-center gap-2"
         >
           <PlusCircle size={16} /> Create Banner
         </button>
@@ -66,7 +66,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
               >
                 <button
                   onClick={() => handleToggleActive(banner.id)}
-                  className="absolute top-4 right-4 z-10 p-1 min-w-[44px] min-h-[44px] rounded-full border border-gray-200 dark:border-white/10 shadow-sm bg-white/80 dark:bg-[#151515]/80 backdrop-blur-md flex items-center justify-center"
+                  className="absolute top-4 right-4 z-10 p-1 min-w-[44px] min-h-[48px] rounded-full border border-gray-200 dark:border-white/10 shadow-sm bg-white/80 dark:bg-[#151515]/80 backdrop-blur-md flex items-center justify-center"
                 >
                   <div
                     className={`w-8 h-4 rounded-full p-0.5 transition-colors ${banner.isActive ? 'bg-emerald-500' : 'bg-gray-400 dark:bg-gray-600'}`}
@@ -110,13 +110,13 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                   <div className="mt-auto flex items-center gap-2 pt-4 border-t border-gray-100 dark:border-white/5">
                     <button
                       onClick={() => openEditModal(banner)}
-                      className="flex-1 bg-gray-50 hover:bg-indigo-50 dark:bg-white/5 text-gray-700 hover:text-indigo-600 dark:text-gray-300 px-4 py-2 min-h-[44px] rounded-xl font-bold text-xs transition-colors border border-gray-200 dark:border-white/10 flex items-center justify-center gap-2"
+                      className="flex-1 bg-gray-50 hover:bg-indigo-50 dark:bg-white/5 text-gray-700 hover:text-indigo-600 dark:text-gray-300 px-4 py-2 min-h-[48px] rounded-xl font-bold text-xs transition-colors border border-gray-200 dark:border-white/10 flex items-center justify-center gap-2"
                     >
                       <Edit size={16} /> Edit
                     </button>
                     <button
                       onClick={() => handleDelete(banner.id)}
-                      className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 rounded-xl transition-colors border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5"
+                      className="p-2 min-w-[44px] min-h-[48px] flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:text-red-400 rounded-xl transition-colors border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -137,7 +137,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
               </h2>
               <button
                 onClick={() => setIsBannerModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-white min-w-[44px] min-h-[48px] flex items-center justify-center"
               >
                 <XCircle size={24} />
               </button>
@@ -150,7 +150,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                     type="text"
                     value={bannerForm.title}
                     onChange={(e) => setBannerForm({ ...bannerForm, title: e.target.value })}
-                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
+                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[48px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -159,7 +159,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                     type="text"
                     value={bannerForm.ctaText}
                     onChange={(e) => setBannerForm({ ...bannerForm, ctaText: e.target.value })}
-                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
+                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[48px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
                   />
                 </div>
               </div>
@@ -178,7 +178,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                     type="url"
                     value={bannerForm.ctaLink}
                     onChange={(e) => setBannerForm({ ...bannerForm, ctaLink: e.target.value })}
-                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
+                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[48px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -190,7 +190,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                       setBannerForm({ ...bannerForm, sortOrder: parseInt(e.target.value) || 0 })
                     }
                     min={0}
-                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
+                    className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[48px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white"
                   />
                 </div>
               </div>
@@ -201,7 +201,7 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                   onChange={(e) =>
                     setBannerForm({ ...bannerForm, mediaType: e.target.value as 'IMAGE' | 'VIDEO' })
                   }
-                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[44px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white appearance-none"
+                  className="w-full bg-gray-50 dark:bg-[#151515] border border-gray-200 dark:border-white/10 min-h-[48px] rounded-xl px-4 py-2.5 text-sm outline-none dark:text-white appearance-none"
                 >
                   <option value="IMAGE">Image</option>
                   <option value="VIDEO">Video</option>
@@ -258,13 +258,13 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                 <button
                   type="button"
                   onClick={() => setIsBannerModalOpen(false)}
-                  className="px-5 py-2 min-h-[44px] flex items-center justify-center rounded-xl text-sm font-bold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300"
+                  className="px-5 py-2 min-h-[48px] flex items-center justify-center rounded-xl text-sm font-bold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 min-h-[44px] flex items-center justify-center rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md"
+                  className="px-5 py-2 min-h-[48px] flex items-center justify-center rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md"
                 >
                   Save Banner
                 </button>
