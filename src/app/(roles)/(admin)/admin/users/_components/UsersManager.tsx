@@ -21,6 +21,7 @@ export default function UsersManager({ initialUsers, initialRoles }: Props) {
         setSearchTerm={logic.setSearchTerm}
         currentSort={logic.currentSort}
         setCurrentSort={logic.setCurrentSort}
+        isLoading={logic.isLoading}
       />
     </>
   );

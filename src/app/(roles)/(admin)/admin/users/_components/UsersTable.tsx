@@ -12,9 +12,10 @@ interface Props {
   setSearchTerm: (term: string) => void;
   currentSort: string;
   setCurrentSort: (sort: string) => void;
+  isLoading?: boolean;
 }
 
-export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurrentSort }: Props) {
+export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurrentSort, isLoading }: Props) {
   const sortOptions = [
     { label: 'Newest Joined', value: 'newest' },
     { label: 'Oldest Joined', value: 'oldest' },
@@ -127,6 +128,7 @@ export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurre
       sortOptions={sortOptions}
       currentSort={currentSort}
       onSortChange={setCurrentSort}
+      isLoading={isLoading}
     />
   );
 }
