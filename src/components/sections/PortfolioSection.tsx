@@ -104,7 +104,7 @@ export function PortfolioSection() {
                         'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'
                       }
                       alt={item.title}
-                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-108"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <Link
