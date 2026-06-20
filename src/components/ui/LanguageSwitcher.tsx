@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Script from 'next/script';
 import { Globe, ChevronDown } from 'lucide-react';
@@ -20,6 +20,12 @@ export function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('en');
   const [mounted, setMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const isOpenRef = useRef(isOpen);
+
+  useEffect(() => {
+    isOpenRef.current = isOpen;
+  }, [isOpen]);
 
   useEffect(() => {
     setMounted(true);
@@ -46,7 +52,27 @@ export function LanguageSwitcher() {
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    // Scroll visibility logic
+    let timeout: NodeJS.Timeout;
+    const handleScroll = () => {
+      setIsVisible(true);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (!isOpenRef.current) {
+          setIsVisible(false);
+        }
+      }, 2000); // Auto-hide after 2 seconds of inactivity
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Trigger initially
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeout);
+    };
   }, []);
 
   const changeLanguage = (langCode: string) => {
@@ -86,15 +112,19 @@ export function LanguageSwitcher() {
         }}
       />
 
-      {/* Floating Button container using fixed positioning directly on body to avoid transform issues */}
-      <div className="fixed top-[40%] right-6 z-[99999] flex items-center justify-end pointer-events-none language-switcher-container drop-shadow-2xl">
-        <motion.div
-          layout
-          initial={{ borderRadius: 32 }}
-          animate={{ borderRadius: isOpen ? 24 : 32 }}
-          className="bg-background/80 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden pointer-events-auto"
-        >
-          {/* Header / Button Toggle */}
+      {/* Floating Button container positioned above WhatsApp */}
+      <div className="fixed bottom-28 right-6 z-[99999] flex items-center justify-end pointer-events-none language-switcher-container drop-shadow-2xl">
+        <AnimatePresence>
+          {isVisible && (
+            <motion.div
+              layout
+              initial={{ opacity: 0, x: 20, borderRadius: 32 }}
+              animate={{ opacity: 1, x: 0, borderRadius: isOpen ? 24 : 32 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-background/80 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden pointer-events-auto"
+            >
+              {/* Header / Button Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center justify-between p-3 outline-none hover:bg-white/5 transition-colors"
@@ -167,6 +197,8 @@ export function LanguageSwitcher() {
             )}
           </AnimatePresence>
         </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );

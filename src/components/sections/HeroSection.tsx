@@ -201,7 +201,7 @@ export function HeroSection() {
       {/* Slide Navigation Controls */}
       {banners.length > 1 && (
         <>
-          <div className="absolute inset-y-0 left-4 z-30 flex items-center">
+          <div className="absolute inset-y-0 left-4 z-30 hidden md:flex items-center">
             <button
               onClick={handlePrev}
               className="w-12 h-12 rounded-full glass-panel border border-white/20 hover:bg-white/10 flex items-center justify-center text-white transition-transform hover:scale-110 active:scale-95 cursor-pointer"
@@ -210,7 +210,7 @@ export function HeroSection() {
               <ChevronLeft className="w-6 h-6" />
             </button>
           </div>
-          <div className="absolute inset-y-0 right-4 z-30 flex items-center">
+          <div className="absolute inset-y-0 right-4 z-30 hidden md:flex items-center">
             <button
               onClick={handleNext}
               className="w-12 h-12 rounded-full glass-panel border border-white/20 hover:bg-white/10 flex items-center justify-center text-white transition-transform hover:scale-110 active:scale-95 cursor-pointer"

@@ -71,12 +71,12 @@ export function ServicesListingSection({ initialServices }: ServicesListingSecti
   return (
     <section className="py-12 max-w-7xl mx-auto px-6">
       {/* Category Tabs Filter */}
-      <div className="flex justify-center flex-wrap gap-3 mb-16">
+      <div className="flex justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-3 mb-16 pb-4 pt-2 -mt-2 px-1 sm:px-0">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveTab(cat)}
-            className={`px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
+            className={`shrink-0 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
               activeTab === cat
                 ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
                 : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'

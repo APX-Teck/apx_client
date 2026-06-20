@@ -31,8 +31,12 @@ function Counter({ value, suffix = '' }: { value: number; suffix?: string }) {
 }
 
 import { StatsOverview } from '@/app/types/analytics.types';
+import { useStatsLogic } from '@/hooks/useStatsLogic';
 
-export function StatsSection({ stats }: { stats: StatsOverview }) {
+export function StatsSection({ stats: initialStats }: { stats?: StatsOverview }) {
+  const { stats: dynamicStats } = useStatsLogic();
+  
+  const stats = dynamicStats || initialStats;
   if (!stats) return null;
   const statItems = [
     {

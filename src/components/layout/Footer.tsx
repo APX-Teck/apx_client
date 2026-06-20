@@ -196,7 +196,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/careers"
                     className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
                   >
                     Careers
@@ -204,7 +204,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/privacy-policy"
                     className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
                   >
                     Privacy Policy
@@ -212,7 +212,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/terms-of-service"
                     className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
                   >
                     Terms of Service

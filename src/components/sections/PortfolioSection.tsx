@@ -96,7 +96,7 @@ export function PortfolioSection() {
               >
                 <GlassCard className="p-4 sm:p-4 group cursor-pointer flex flex-col h-full hover:border-white/20 hover:shadow-2xl transition-all duration-300">
                   {/* Card Thumbnail Image */}
-                  <div className="relative w-full h-56 rounded-2xl overflow-hidden mb-5">
+                  <div className="relative w-full h-56 rounded-2xl overflow-hidden mb-5 bg-foreground/5 flex items-center justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={
@@ -104,7 +104,7 @@ export function PortfolioSection() {
                         'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'
                       }
                       alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-108"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <Link

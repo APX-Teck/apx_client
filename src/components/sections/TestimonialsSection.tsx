@@ -150,7 +150,7 @@ export function TestimonialsSection() {
 
           {/* Navigation Controls */}
           {testimonials.length > 1 && (
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="hidden md:flex justify-end gap-3 mt-6">
               <button
                 onClick={handlePrev}
                 className="w-10 h-10 rounded-full glass-panel border border-glass-border flex items-center justify-center hover:bg-foreground/5 active:scale-95 transition-all text-foreground"

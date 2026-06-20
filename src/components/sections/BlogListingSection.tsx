@@ -107,7 +107,7 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
         </div>
 
         {/* Categories Tab Row */}
-        <div className="flex justify-center overflow-x-auto gap-2 pb-2 scrollbar-none">
+        <div className="flex justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-3 pb-4 pt-2 -mt-2 px-1 sm:px-0">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -115,10 +115,10 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
                 setActiveCategory(cat);
                 setActiveTag(null); // Clear tag filter when switching category
               }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider shrink-0 transition-all border ${
+              className={`shrink-0 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
                 activeCategory === cat
                   ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
-                  : 'glass-panel border-glass-border hover:bg-white/5'
+                  : 'glass-panel border-glass-border hover:bg-white/10 text-foreground/75 hover:text-foreground'
               }`}
               suppressHydrationWarning
             >
