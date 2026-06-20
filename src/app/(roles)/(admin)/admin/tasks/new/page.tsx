@@ -2,6 +2,8 @@ import React from 'react';
 import apiClient from '@/lib/axios';
 import { CreateTaskClient } from '../_components/CreateTaskClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CreateTaskPage() {
   let users = [];
   try {

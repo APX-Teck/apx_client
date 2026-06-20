@@ -91,4 +91,14 @@ export const blogService = {
       return [];
     }
   },
+
+  createCategory: async (data: { name: string }): Promise<BlogCategory> => {
+    try {
+      const response = await apiClient.post('/blog/categories', data);
+      return extractDataObject<BlogCategory>(response.data) || response.data;
+    } catch (error) {
+      console.error('Failed to create category', error);
+      throw error;
+    }
+  },
 };

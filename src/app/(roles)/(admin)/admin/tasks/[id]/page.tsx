@@ -3,7 +3,10 @@ import { notFound } from 'next/navigation';
 import { tasksService } from '@/services/admin/tasks.service';
 import { TaskDetailClient } from '../_components/TaskDetailClient';
 
-export default async function TaskDetailPage({ params }: { params: { id: string } }) {
+export const dynamic = 'force-dynamic';
+
+export default async function TaskDetailPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   let task = null;
   try {
     task = await tasksService.getTaskById(Number(params.id));

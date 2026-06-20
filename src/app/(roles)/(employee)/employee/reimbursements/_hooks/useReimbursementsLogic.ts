@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { reimbursementService, Reimbursement } from '@/services/employee/reimbursements.service';
 
 export const useReimbursementsLogic = (
@@ -39,6 +39,12 @@ export const useReimbursementsLogic = (
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (initialReimbursements.length === 0) {
+      fetchReimbursements(initialPage);
+    }
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

@@ -5,6 +5,8 @@ import BlogLoading from '../loading';
 import { blogService } from '@/services/admin/blog.service';
 import { usersService } from '@/services/admin/users.service';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Edit Blog Post | APXTeck Admin',
   description: 'Create or edit a blog post.',

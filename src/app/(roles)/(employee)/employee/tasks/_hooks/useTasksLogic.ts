@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { tasksService } from '@/services/employee/tasks.service';
 import { Task } from '@/services/admin/tasks.service';
 
@@ -35,6 +35,15 @@ export const useTasksLogic = (
     },
     [statusFilter]
   );
+
+  useEffect(() => {
+    setTasks(initialTasks);
+    setPage(initialPage);
+    setTotalPages(initialTotalPages);
+    if (!initialTasks || initialTasks.length === 0) {
+      fetchTasks(1);
+    }
+  }, [initialTasks, initialPage, initialTotalPages, fetchTasks]);
 
   const handleUpdateStatus = async (id: number, currentStatus: string) => {
     let nextStatus: Task['status'] = 'IN_PROGRESS';

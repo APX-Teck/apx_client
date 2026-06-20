@@ -5,6 +5,8 @@ import { Task } from '@/services/admin/tasks.service';
 
 import TasksManager from './_components/TasksManager';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EmployeeTasksPage() {
   let initialTasks: Task[] = [];
   let initialTotalPages = 1;

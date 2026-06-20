@@ -6,6 +6,8 @@ import ReimbursementsLoading from './loading';
 
 import ReimbursementsManager from './_components/ReimbursementsManager';
 
+export const dynamic = 'force-dynamic';
+
 async function ReimbursementsFetcher() {
   let initialReimbursements: import('@/services/admin/reimbursements.service').Reimbursement[] = [];
   try {

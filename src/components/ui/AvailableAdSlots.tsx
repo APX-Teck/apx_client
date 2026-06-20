@@ -78,19 +78,19 @@ export function AvailableAdSlots({ layout = 'vertical' }: AvailableAdSlotsProps)
               <span className="text-foreground/60 flex items-center gap-1">
                 <CheckCircle2 size={12} className="text-emerald-500" /> Daily
               </span>
-              <span className="font-bold text-foreground">${slot.pricePerDay}</span>
+              <span className="font-bold text-foreground">₹{slot.pricePerDay}</span>
             </div>
             <div className="flex items-center justify-between text-[11px] mt-1">
               <span className="text-foreground/60 flex items-center gap-1">
                 <CheckCircle2 size={12} className="text-emerald-500" /> Weekly
               </span>
-              <span className="font-bold text-foreground">${slot.pricePerWeek}</span>
+              <span className="font-bold text-foreground">₹{slot.pricePerWeek}</span>
             </div>
             <div className="flex items-center justify-between text-[11px] mt-1 border-t border-glass-border pt-1">
               <span className="text-foreground/60 flex items-center gap-1">
                 <CheckCircle2 size={12} className="text-indigo-500" /> Monthly
               </span>
-              <span className="font-extrabold text-indigo-500">${slot.pricePerMonth}</span>
+              <span className="font-extrabold text-indigo-500">₹{slot.pricePerMonth}</span>
             </div>
           </div>
         ))}

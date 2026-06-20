@@ -2,9 +2,10 @@ import React from 'react';
 
 interface Props {
   navigateToCreate: () => void;
+  onExportCSV: () => void;
 }
 
-export function RequestsHeader({ navigateToCreate }: Props) {
+export function RequestsHeader({ navigateToCreate, onExportCSV }: Props) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
       <div>
@@ -18,7 +19,10 @@ export function RequestsHeader({ navigateToCreate }: Props) {
         </p>
       </div>
       <div className="flex items-center gap-3">
-        <button className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 px-6 py-3.5 rounded-2xl font-bold text-sm transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95">
+        <button
+          onClick={onExportCSV}
+          className="bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 px-6 py-3.5 rounded-2xl font-bold text-sm transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+        >
           Export CSV
         </button>
         <button

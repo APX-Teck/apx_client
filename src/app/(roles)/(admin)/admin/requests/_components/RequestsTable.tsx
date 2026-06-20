@@ -6,12 +6,27 @@ import { MoreVertical, ShieldAlert, Clock, PlayCircle, CheckCircle, XCircle } fr
 
 interface Props {
   filteredRequests: ServiceRequest[];
+  searchTerm: string;
   setSearchTerm: (term: string) => void;
+  currentSort?: string;
+  setCurrentSort?: (sort: string) => void;
+  currentFilter?: string;
+  setCurrentFilter?: (filter: string) => void;
   navigateToManage: (id: string | number) => void;
   isLoading?: boolean;
 }
 
-export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManage, isLoading }: Props) {
+export function RequestsTable({
+  filteredRequests,
+  searchTerm,
+  setSearchTerm,
+  currentSort,
+  setCurrentSort,
+  currentFilter,
+  setCurrentFilter,
+  navigateToManage,
+  isLoading
+}: Props) {
   const columns: ColumnDef<ServiceRequest>[] = useMemo(
     () => [
       {
@@ -141,6 +156,21 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
     [navigateToManage]
   );
 
+  const sortOptions = [
+    { label: 'Newest First', value: 'newest' },
+    { label: 'Oldest First', value: 'oldest' },
+    { label: 'Highest Priority', value: 'priority' },
+  ];
+
+  const filterOptions = [
+    { label: 'All Statuses', value: 'ALL' },
+    { label: 'New', value: 'NEW' },
+    { label: 'In Review', value: 'IN_REVIEW' },
+    { label: 'In Progress', value: 'IN_PROGRESS' },
+    { label: 'Completed', value: 'COMPLETED' },
+    { label: 'Cancelled', value: 'CANCELLED' },
+  ];
+
   return (
     <>
       <div className="hidden sm:block">
@@ -150,19 +180,50 @@ export function RequestsTable({ filteredRequests, setSearchTerm, navigateToManag
           searchPlaceholder="Search by ID, customer name, or service..."
           onSearch={setSearchTerm}
           isLoading={isLoading}
+          sortOptions={sortOptions}
+          currentSort={currentSort}
+          onSortChange={setCurrentSort}
+          filterOptions={filterOptions}
+          currentFilter={currentFilter}
+          onFilterChange={setCurrentFilter}
         />
       </div>
 
       {/* Mobile Layout */}
       <div className="sm:hidden space-y-4 mt-4">
-        {/* Mobile Search */}
-        <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4">
+        {/* Mobile Search & Filters */}
+        <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-2xl border border-gray-100/80 dark:border-white/10 p-4 space-y-3">
           <input
             type="text"
             className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
             placeholder="Search requests..."
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <div className="flex gap-2">
+            <select
+              value={currentSort}
+              onChange={(e) => setCurrentSort?.(e.target.value)}
+              className="flex-1 px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={currentFilter}
+              onChange={(e) => setCurrentFilter?.(e.target.value)}
+              className="flex-1 px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            >
+              {filterOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Mobile Cards */}

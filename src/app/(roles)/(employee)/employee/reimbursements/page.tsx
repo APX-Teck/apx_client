@@ -4,6 +4,8 @@ import { reimbursementService, Reimbursement } from '@/services/employee/reimbur
 
 import ReimbursementsManager from './_components/ReimbursementsManager';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EmployeeReimbursementsPage() {
   let initialReimbursements: Reimbursement[] = [];
   let initialTotalPages = 1;

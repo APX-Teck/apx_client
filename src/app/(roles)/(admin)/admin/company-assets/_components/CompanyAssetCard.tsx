@@ -127,7 +127,7 @@ export function CompanyAssetCard({ asset, onEdit, onDelete }: CompanyAssetCardPr
         {asset.renewalCost ? (
           <div className="flex justify-between">
             <span>Cost:</span>
-            <span className="font-medium text-gray-900 dark:text-white">${asset.renewalCost}</span>
+            <span className="font-medium text-gray-900 dark:text-white">₹{asset.renewalCost}</span>
           </div>
         ) : null}
         {asset.expiryDate && (

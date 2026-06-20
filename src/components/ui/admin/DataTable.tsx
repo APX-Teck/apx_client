@@ -278,7 +278,7 @@ export default function DataTable<T extends { id: string | number }>({
       </div>
 
       {/* Table Container */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200/80 dark:[&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300 dark:hover:[&::-webkit-scrollbar-thumb]:bg-white/20 pb-1">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-gray-50/50 dark:bg-black/20 backdrop-blur-md border-b border-gray-100/80 dark:border-white/10 text-xs font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-wider">

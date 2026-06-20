@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { reimbursementsService, Reimbursement } from '@/services/admin/reimbursements.service';
 
 type ToastState = { message: string; type: 'success' | 'error' | 'loading' } | null;
@@ -22,6 +22,12 @@ export const useReimbursementsLogic = (initialReimbursements: Reimbursement[]) =
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (initialReimbursements.length === 0) {
+      fetchReimbursements();
+    }
+  }, []);
 
   const handleUpdateStatus = async (id: number, status: Reimbursement['status'], note?: string) => {
     try {
