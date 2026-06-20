@@ -7,6 +7,9 @@ export interface Payment {
   paidAt?: string;
   updatedAt: string;
   paymentLink?: string;
+  transactionId?: string;
+  invoiceNote?: string;
+  serviceRequestId?: number;
   service?: {
     name: string;
   };

@@ -8,9 +8,10 @@ interface PaymentsSummaryProps {
   isLoading: boolean;
   amountDue: number;
   lastPayment: Payment | null;
+  onViewInvoice?: (payment: Payment) => void;
 }
 
-export function PaymentsSummary({ isLoading, amountDue, lastPayment }: PaymentsSummaryProps) {
+export function PaymentsSummary({ isLoading, amountDue, lastPayment, onViewInvoice }: PaymentsSummaryProps) {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
@@ -62,6 +63,7 @@ export function PaymentsSummary({ isLoading, amountDue, lastPayment }: PaymentsS
               )}
             </div>
             <button
+              onClick={() => lastPayment && onViewInvoice?.(lastPayment)}
               disabled={!lastPayment}
               className="flex items-center justify-center min-h-[48px] gap-2 w-full bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-bold px-5 py-3 rounded-xl transition-all border border-gray-200 dark:border-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
             >

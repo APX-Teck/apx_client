@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Paperclip, XCircle, Download, Mail, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { FileText, X, Download, Mail, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ServiceRequestDetails } from '../../types';
 
@@ -45,7 +45,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <div className="flex items-center gap-3">
                   <div className="bg-cyan-100/50 p-2 rounded-xl">
-                    <Paperclip className="w-5 h-5 text-cyan-600" />
+                    <FileText className="w-5 h-5 text-cyan-600" />
                   </div>
                   <div>
                     <h2 className="text-lg font-bold text-gray-900 tracking-tight">
@@ -60,7 +60,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                   className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors sm:hidden"
                   title="Close"
                 >
-                  <XCircle size={22} />
+                  <X size={20} strokeWidth={2.5} />
                 </button>
               </div>
 
@@ -79,7 +79,7 @@ export function InvoiceModal({ request, invoicePayment, user, onClose }: Invoice
                   className="hidden sm:block p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
                   title="Close"
                 >
-                  <XCircle size={22} />
+                  <X size={20} strokeWidth={2.5} />
                 </button>
               </div>
             </div>

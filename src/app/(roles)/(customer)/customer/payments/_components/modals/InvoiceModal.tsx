@@ -1,22 +1,20 @@
+'use client';
 import React from 'react';
-import { Payment } from '@/services/admin/payments.service';
+import { FileText, X, Download, Mail, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
-import { FileText, Printer, Send, X, Mail, AlertCircle, CheckCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Payment } from '../../types';
 
-interface Props {
-  isOpen: boolean;
-  payment: Payment | null;
-  isSending: boolean;
+interface InvoiceModalProps {
+  payment: Payment;
+  user: any;
   onClose: () => void;
-  onSendInvoice: (id: number) => void;
 }
 
-export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendInvoice }: Props) {
+export function InvoiceModal({ payment, user, onClose }: InvoiceModalProps) {
+  if (!payment) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && payment && (
-        <>
+    <>
       <style type="text/css" media="print">
         {`
           @page { size: auto; margin: 0; }
@@ -35,32 +33,23 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
           }
         `}
       </style>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
+      <div
         id="invoice-modal-container"
         className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm print:bg-white print:backdrop-blur-none print:block"
       >
         <div className="flex min-h-full items-start justify-center p-4 sm:p-6 print:p-0 print:m-0">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="my-8 sm:my-12 bg-white print:border-none rounded-2xl w-full max-w-3xl shadow-2xl relative flex flex-col ring-1 ring-gray-200 print:ring-0 print:shadow-none print:m-0 print:w-full print:max-w-none print:rounded-none"
-          >
+          <div className="my-8 sm:my-12 bg-white print:border-none rounded-2xl w-full max-w-3xl shadow-2xl relative flex flex-col animate-in fade-in zoom-in-95 duration-200 ring-1 ring-gray-200 print:ring-0 print:shadow-none print:m-0 print:w-full print:max-w-none print:rounded-none">
             {/* Header Actions (Hidden on Print) */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-6 py-4 border-b border-gray-100 print:hidden bg-gray-50/90 backdrop-blur-md sticky top-0 z-20 rounded-t-2xl gap-4 sm:gap-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <div className="flex items-center gap-3">
-                  <div className="bg-blue-100/50 p-2 rounded-xl">
-                    <FileText className="w-5 h-5 text-blue-600" />
+                  <div className="bg-cyan-100/50 p-2 rounded-xl">
+                    <FileText className="w-5 h-5 text-cyan-600" />
                   </div>
                   <div>
                     <h2 className="text-lg font-bold text-gray-900 tracking-tight">
-                      Invoice <span className="text-gray-400 font-medium">#INV-{payment.id}</span>
+                      Invoice{' '}
+                      <span className="text-gray-400 font-medium">#INV-{payment.id}</span>
                     </h2>
                   </div>
                 </div>
@@ -79,20 +68,8 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                   onClick={() => window.print()}
                   className="flex-1 sm:flex-none justify-center px-3 py-2 sm:px-4 sm:py-2 text-sm font-medium bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 rounded-lg transition-all shadow-sm flex items-center gap-2"
                 >
-                  <Printer size={16} />
-                  <span>Print</span>
-                </button>
-                <button
-                  onClick={() => onSendInvoice(payment.id)}
-                  disabled={isSending}
-                  className="flex-1 sm:flex-none justify-center px-3 py-2 sm:px-4 sm:py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all shadow-sm flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {isSending ? (
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <Send size={16} />
-                  )}
-                  <span>{isSending ? 'Sending...' : 'Email Customer'}</span>
+                  <Download size={16} />
+                  <span>Download PDF</span>
                 </button>
                 <div className="w-px h-6 bg-gray-200 mx-1 hidden sm:block"></div>
                 {/* Close button for desktop */}
@@ -108,7 +85,7 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
 
             {/* Printable Invoice Content */}
             <div
-              className="p-8 sm:p-12 print:p-8 bg-white text-gray-900 rounded-b-2xl relative overflow-hidden print:w-[210mm] print:min-h-[297mm] mx-auto shadow-sm"
+              className="p-5 sm:p-8 md:p-12 print:p-8 bg-white text-gray-900 rounded-b-2xl relative overflow-hidden print:w-[210mm] print:min-h-[297mm] mx-auto shadow-sm"
               id="invoice-content"
             >
               {/* Background Watermark */}
@@ -123,7 +100,7 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
               {/* Foreground Content Wrapper */}
               <div className="relative z-10 flex flex-col h-full print:h-full">
                 {/* Invoice Header */}
-                <div className="flex flex-col sm:flex-row justify-between items-stretch gap-6 mb-12">
+                <div className="flex flex-col sm:flex-row justify-between items-stretch gap-4 sm:gap-6 mb-8 sm:mb-12">
                   <div className="flex flex-col justify-between">
                     <img
                       src="/APX%20Teck%20-%20Final%20Logo%20-01.png"
@@ -170,16 +147,16 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                 </div>
 
                 {/* Billing Info Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12 bg-gray-50/80 p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12 bg-gray-50/80 p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
                   <div>
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
                       Billed To
                     </p>
                     <p className="text-xl font-bold text-gray-900 mb-1">
-                      {payment.customer.fullName}
+                      {user?.fullName || 'Customer'}
                     </p>
-                    <p className="text-sm font-medium text-gray-500">{payment.customer.email}</p>
+                    <p className="text-sm font-medium text-gray-500">{user?.email}</p>
                   </div>
                   <div className="sm:text-right">
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
@@ -207,18 +184,18 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                   <table className="w-full text-left border-collapse">
                     <thead className="bg-gray-50/80 border-b border-gray-200">
                       <tr>
-                        <th className="py-5 px-8 font-bold text-xs text-gray-500 uppercase tracking-widest w-full">
+                        <th className="py-4 sm:py-5 px-4 sm:px-8 font-bold text-xs text-gray-500 uppercase tracking-widest w-full">
                           Service Description
                         </th>
-                        <th className="py-5 px-8 font-bold text-xs text-gray-500 uppercase tracking-widest text-right whitespace-nowrap">
+                        <th className="py-4 sm:py-5 px-4 sm:px-8 font-bold text-xs text-gray-500 uppercase tracking-widest text-right whitespace-nowrap">
                           Amount
                         </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 bg-white">
                       <tr className="group hover:bg-gray-50/50 transition-colors">
-                        <td className="py-6 px-8">
-                          <p className="text-lg font-bold text-gray-900">{payment.service.name}</p>
+                        <td className="py-4 sm:py-6 px-4 sm:px-8">
+                          <p className="text-lg font-bold text-gray-900">{payment.service?.name}</p>
                           <p className="text-sm font-medium text-gray-500 mt-1">
                             Service Request #{payment.serviceRequestId}
                           </p>
@@ -236,7 +213,7 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                             </div>
                           )}
                         </td>
-                        <td className="py-6 px-8 text-right align-top">
+                        <td className="py-4 sm:py-6 px-4 sm:px-8 text-right align-top">
                           <span className="text-xl font-bold text-gray-900">
                             ₹{payment.amountPaid || payment.negotiatedAmount}
                           </span>
@@ -247,11 +224,9 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                 </div>
 
                 {/* Totals Section */}
-                <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-12 mt-6">
-                  <div className="w-full sm:w-1/2 hidden sm:block">
-                    {/* Left side empty space for balance */}
-                  </div>
-                  <div className="w-full sm:w-[380px] bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-8 sm:mb-12 mt-6">
+                  <div className="w-full sm:w-1/2 hidden sm:block"></div>
+                  <div className="w-full sm:w-[380px] bg-gray-50 p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
                     <div className="flex justify-between items-center py-2.5 text-sm text-gray-600">
                       <span className="font-medium text-base">Subtotal</span>
                       <span className="font-semibold text-gray-900 text-base">
@@ -271,11 +246,11 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                   </div>
                 </div>
 
-                {/* Footer pushes to bottom */}
+                {/* Footer */}
                 <div className="mt-auto pt-10 border-t border-gray-100">
                   <div className="flex flex-col items-center justify-center">
                     <div className="inline-flex items-center justify-center gap-2 mb-4 bg-emerald-50 text-emerald-700 px-5 py-2.5 rounded-full font-bold shadow-sm">
-                      <CheckCircle className="w-5 h-5" />
+                      <CheckCircle2 className="w-5 h-5" />
                       <span>Payment Confirmed Successfully</span>
                     </div>
                     <p className="text-sm font-medium text-gray-600 max-w-lg mx-auto text-center leading-relaxed">
@@ -297,11 +272,9 @@ export function InvoicePrintModal({ isOpen, payment, isSending, onClose, onSendI
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </>
-    )}
-    </AnimatePresence>
   );
 }

@@ -7,6 +7,7 @@ import { Payment } from '../types';
 interface PaymentsTableProps {
   isLoading: boolean;
   payments: Payment[];
+  onViewInvoice?: (payment: Payment) => void;
 }
 
 function PaymentStatusBadge({ status }: { status: string }) {
@@ -31,7 +32,7 @@ function PaymentStatusBadge({ status }: { status: string }) {
   );
 }
 
-export function PaymentsTable({ isLoading, payments }: PaymentsTableProps) {
+export function PaymentsTable({ isLoading, payments, onViewInvoice }: PaymentsTableProps) {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
@@ -104,7 +105,10 @@ export function PaymentsTable({ isLoading, payments }: PaymentsTableProps) {
                     </div>
                     <div className="pt-2 border-t border-gray-100 dark:border-white/5">
                       {payment.status === 'PAID' ? (
-                        <button className="w-full flex items-center justify-center gap-2 py-2.5 min-h-[44px] text-sm font-semibold text-gray-500 hover:text-cyan-500 rounded-lg hover:bg-cyan-500/10 transition-colors">
+                        <button 
+                          onClick={() => onViewInvoice?.(payment)}
+                          className="w-full flex items-center justify-center gap-2 py-2.5 min-h-[44px] text-sm font-semibold text-gray-500 hover:text-cyan-500 rounded-lg hover:bg-cyan-500/10 transition-colors"
+                        >
                           <Download className="w-4 h-4" />
                           <span>Download Receipt</span>
                         </button>
@@ -186,7 +190,10 @@ export function PaymentsTable({ isLoading, payments }: PaymentsTableProps) {
                         </td>
                         <td className="py-4 pl-4 text-right">
                           {payment.status === 'PAID' ? (
-                            <button className="text-gray-500 hover:text-cyan-500 transition-colors p-2 min-w-[44px] min-h-[48px] items-center justify-center rounded-lg hover:bg-cyan-500/10 inline-flex">
+                            <button 
+                              onClick={() => onViewInvoice?.(payment)}
+                              className="text-gray-500 hover:text-cyan-500 transition-colors p-2 min-w-[44px] min-h-[48px] items-center justify-center rounded-lg hover:bg-cyan-500/10 inline-flex"
+                            >
                               <Download className="w-4 h-4" />
                             </button>
                           ) : (
