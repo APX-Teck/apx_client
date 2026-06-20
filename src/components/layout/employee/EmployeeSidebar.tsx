@@ -22,6 +22,7 @@ import {
   PanelLeftClose,
   X,
   Layers,
+  MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/providers/AuthProvider';
@@ -54,6 +55,12 @@ const NAV_GROUPS = [
         href: '/admin/payments',
         icon: CreditCard,
         module: 'ORDER_PAYMENT_MANAGEMENT',
+      },
+      {
+        name: 'Enquiries',
+        href: '/admin/enquiries',
+        icon: MessageSquare,
+        module: 'LEADS_ACCESS_MANAGEMENT',
       },
       {
         name: 'Leads & CRM',

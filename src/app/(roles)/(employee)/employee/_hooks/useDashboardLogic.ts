@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { dashboardService } from '@/services/admin/dashboard.service';
+import { reimbursementsService } from '@/services/admin/reimbursements.service';
 
-// Using inline types to mirror what was in the original component,
-// ideally these should be imported from shared type definition files.
 export interface TaskItem {
   id: string;
   title: string;
@@ -11,7 +12,7 @@ export interface TaskItem {
 }
 
 export interface ReimbursementItem {
-  id: string;
+  id: string | number;
   title: string;
   amount: number;
   category: string;
@@ -28,6 +29,25 @@ export const useDashboardLogic = (
   const [reimbursements, setReimbursements] = useState<ReimbursementItem[]>(initialReimbursements);
   const [assignedRequests, setAssignedRequests] = useState<number>(initialAssignedRequests);
 
+  // Fetch from client side if SSR failed
+  useEffect(() => {
+    if (!initialTasks.length && !initialReimbursements.length && initialAssignedRequests === 0) {
+      const fetchStats = async () => {
+        try {
+          const stats = await dashboardService.getEmployeeStats();
+          if (stats) {
+            setTasks(stats.tasks || []);
+            setReimbursements(stats.reimbursements || []);
+            setAssignedRequests(stats.assignedRequestsCount || 0);
+          }
+        } catch (error) {
+          console.error("Failed to fetch dashboard stats", error);
+        }
+      };
+      fetchStats();
+    }
+  }, [initialTasks, initialReimbursements, initialAssignedRequests]);
+
   // Reimbursement Form State
   const [claimTitle, setClaimTitle] = useState('');
   const [claimAmount, setClaimAmount] = useState('');
@@ -42,26 +62,29 @@ export const useDashboardLogic = (
     setIsSubmittingClaim(true);
     setClaimSuccess(false);
 
-    // Simulate API call
-    setTimeout(() => {
-      const newClaim: ReimbursementItem = {
-        id: `RMB-${Math.floor(100 + Math.random() * 900)}`,
+    try {
+      // Assuming no file upload for now, just sending json
+      const newClaim = await reimbursementsService.createReimbursement({
         title: claimTitle,
         amount: parseFloat(claimAmount),
         category: claimCategory,
-        status: 'PENDING',
-        createdAt: new Date().toISOString().split('T')[0],
-      };
+      });
 
-      setReimbursements([newClaim, ...reimbursements]);
-      setClaimTitle('');
-      setClaimAmount('');
-      setClaimCategory('Travel');
+      if (newClaim) {
+        setReimbursements([newClaim as any, ...reimbursements]);
+        setClaimTitle('');
+        setClaimAmount('');
+        setClaimCategory('Travel');
+        setClaimSuccess(true);
+        toast.success('Reimbursement claimed successfully');
+        setTimeout(() => setClaimSuccess(false), 3000);
+      }
+    } catch (error) {
+      toast.error('Failed to submit reimbursement claim');
+      console.error(error);
+    } finally {
       setIsSubmittingClaim(false);
-      setClaimSuccess(true);
-
-      setTimeout(() => setClaimSuccess(false), 3000);
-    }, 800);
+    }
   };
 
   return {
@@ -79,3 +102,4 @@ export const useDashboardLogic = (
     handleApplyReimbursement,
   };
 };
+

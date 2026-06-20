@@ -55,7 +55,7 @@ export function InsightsHero({
 
         <motion.h1
           id="insights-hero-title"
-          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full"
+          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full"
         >
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ export function InsightsHero({
             initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             transition={{ delay: 0.5, duration: 0.8, type: 'spring', bounce: 0.4 }}
-            className="flex items-center justify-center min-h-[1.2em] text-[8vw] sm:text-4xl md:text-5xl lg:text-7xl whitespace-nowrap"
+            className="flex items-center justify-center min-h-[1.2em] text-[9vw] sm:text-4xl md:text-5xl lg:text-7xl whitespace-nowrap"
           >
             <span className="relative flex items-center justify-center">
               {/* Invisible placeholder for exact width of the CURRENT word to keep it perfectly centered */}

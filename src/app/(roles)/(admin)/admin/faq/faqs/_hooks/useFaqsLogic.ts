@@ -8,10 +8,6 @@ export function useFaqsLogic(initialFaqs: Faq[] = []) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    setFaqs(initialFaqs);
-  }, [initialFaqs]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingFaq, setEditingFaq] = useState<Faq | null>(null);
 
@@ -26,6 +22,13 @@ export function useFaqsLogic(initialFaqs: Faq[] = []) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setFaqs(initialFaqs);
+    if (!initialFaqs || initialFaqs.length === 0) {
+      fetchFaqs();
+    }
+  }, [initialFaqs, fetchFaqs]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this FAQ?')) {

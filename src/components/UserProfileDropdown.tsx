@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { LogOut, User as UserIcon, Settings, Mail, Shield, ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import { LogOut, User as UserIcon, Settings, Mail, Shield, ChevronDown, X, Phone } from 'lucide-react';
 import { useAuth } from '@/providers/AuthProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function UserProfileDropdown() {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,17 +81,21 @@ export function UserProfileDropdown() {
             {/* Menu Actions */}
             <div className="p-2 flex flex-col gap-1">
               <button
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors cursor-not-allowed opacity-60"
-                disabled
+                onClick={() => {
+                  setIsOpen(false);
+                  setShowProfileModal(true);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors group"
               >
-                <UserIcon size={16} /> My Profile (Coming Soon)
+                <UserIcon size={16} className="group-hover:scale-110 transition-transform duration-300" /> My Profile
               </button>
-              <button
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors cursor-not-allowed opacity-60"
-                disabled
+              <Link
+                href={user.role === 'SUPER_ADMIN' || user.role === 'ADMIN' ? '/admin/settings' : '/employee/settings'}
+                onClick={() => setIsOpen(false)}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors group"
               >
-                <Settings size={16} /> Account Settings
-              </button>
+                <Settings size={16} className="group-hover:rotate-90 transition-transform duration-300" /> Account Settings
+              </Link>
               
               <div className="h-px w-full bg-gray-100 dark:bg-white/10 my-1"></div>
               
@@ -104,6 +110,84 @@ export function UserProfileDropdown() {
               </button>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Profile Modal */}
+      <AnimatePresence>
+        {showProfileModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowProfileModal(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-md bg-white dark:bg-[#111111] rounded-[2rem] border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden z-10"
+            >
+              {/* Modal content */}
+              <div className="flex flex-col">
+                <div className="relative h-32 bg-gradient-to-r from-indigo-500 to-purple-600">
+                  <button
+                    onClick={() => setShowProfileModal(false)}
+                    className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-black/20 text-white hover:bg-black/40 transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+                <div className="px-8 pb-8 pt-0 relative flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-full bg-white dark:bg-[#111] p-1.5 -mt-12 mb-4 relative z-10 shadow-lg">
+                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-indigo-100 to-indigo-50 dark:from-indigo-500/20 dark:to-indigo-500/10 overflow-hidden">
+                      {user.profilePhotoUrl ? (
+                        <img src={user.profilePhotoUrl} alt={user.fullName} className="w-full h-full object-cover" />
+                      ) : (
+                        <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=4f46e5&color=fff&size=128`} alt={user.fullName} className="w-full h-full object-cover" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{user.fullName}</h2>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-full mb-6">
+                    <Shield size={12} className="text-indigo-600 dark:text-indigo-400" />
+                    <span className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
+                      {user.role.replace(/_/g, ' ')}
+                    </span>
+                  </div>
+
+                  <div className="w-full space-y-4 text-left">
+                    <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4 border border-gray-100 dark:border-white/5 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 flex items-center justify-center shrink-0">
+                        <Mail size={18} className="text-gray-500 dark:text-gray-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Email Address</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4 border border-gray-100 dark:border-white/5 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 flex items-center justify-center shrink-0">
+                        <Phone size={18} className="text-gray-500 dark:text-gray-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Phone Number</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.phone || 'Not provided'}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="w-full mt-6 pt-6 border-t border-gray-100 dark:border-white/10 text-center">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">To edit these details, please go to Account Settings.</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

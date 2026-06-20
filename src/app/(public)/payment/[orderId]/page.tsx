@@ -4,9 +4,10 @@ import { PaymentClient } from './PaymentClient';
 export async function generateMetadata({
   params,
 }: {
-  params: { orderId: string };
+  params: Promise<{ orderId: string }>;
 }): Promise<Metadata> {
-  const orderId = Array.isArray(params.orderId) ? params.orderId[0] : params.orderId;
+  const resolvedParams = await params;
+  const orderId = Array.isArray(resolvedParams.orderId) ? resolvedParams.orderId[0] : resolvedParams.orderId;
   return {
     title: 'Secure Payment Checkout | APXTeck',
     description:
@@ -42,9 +43,10 @@ export async function generateMetadata({
   };
 }
 
-export default function CheckoutPage({ params }: { params: { orderId: string } }) {
-  // If orderId comes as an array somehow (catch-all), take the first
-  const orderId = Array.isArray(params.orderId) ? params.orderId[0] : params.orderId;
+export default async function CheckoutPage({ params }: { params: Promise<{ orderId: string }> }) {
+  // Await params for Next.js 15+ compatibility
+  const resolvedParams = await params;
+  const orderId = Array.isArray(resolvedParams.orderId) ? resolvedParams.orderId[0] : resolvedParams.orderId;
 
   const jsonLdCheckout = {
     '@context': 'https://schema.org',

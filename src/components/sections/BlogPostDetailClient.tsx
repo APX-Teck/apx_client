@@ -231,7 +231,7 @@ export function BlogPostDetailClient({
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
               {post.tags[0] || 'Insight'}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.15]">
               {post.title}
             </h1>
 
@@ -281,7 +281,7 @@ export function BlogPostDetailClient({
                 </span>
 
                 {/* Share buttons */}
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => handleShare('facebook')}
                     className="w-8 h-8 rounded-full glass-panel flex items-center justify-center hover:text-[#1877F2] hover:scale-110 hover:bg-[#1877F2]/10 transition-all shadow-sm"
@@ -359,7 +359,7 @@ export function BlogPostDetailClient({
 
           {/* Like & Engagement Optimistic UI bar */}
           <div
-            className="flex flex-wrap items-center gap-6 py-5 px-8 rounded-3xl glass-panel border border-glass-border shadow-sm hover:shadow-md transition-shadow notranslate"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 py-4 px-5 sm:py-5 sm:px-8 rounded-2xl sm:rounded-3xl glass-panel border border-glass-border shadow-sm hover:shadow-md transition-shadow notranslate"
             translate="no"
           >
             <div className="flex items-center gap-4">

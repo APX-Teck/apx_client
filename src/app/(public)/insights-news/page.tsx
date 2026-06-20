@@ -106,7 +106,7 @@ export default function BlogListingPage() {
       </div>
 
       <main
-        className="flex-1 pt-24 pb-20 overflow-x-hidden w-full pt-safe pb-safe"
+        className="flex-1 pt-20 sm:pt-24 pb-16 sm:pb-20 overflow-x-hidden w-full pt-safe pb-safe"
         id="main-content"
         role="main"
         itemScope
