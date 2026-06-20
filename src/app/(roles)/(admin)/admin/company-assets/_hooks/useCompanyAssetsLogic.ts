@@ -6,6 +6,7 @@ export function useCompanyAssetsLogic(initialAssets: CompanyAsset[] = []) {
   const [filteredAssets, setFilteredAssets] = useState<CompanyAsset[]>(initialAssets);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [assetType, setAssetType] = useState('ALL');
 
   const fetchAssets = useCallback(async () => {
     setIsLoading(true);
@@ -29,20 +30,24 @@ export function useCompanyAssetsLogic(initialAssets: CompanyAsset[] = []) {
   }, [initialAssets, fetchAssets]);
 
   useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredAssets(assets);
-      return;
+    let filtered = assets;
+
+    if (assetType !== 'ALL') {
+      filtered = filtered.filter((asset) => asset.type === assetType);
     }
-    const term = searchTerm.toLowerCase();
-    setFilteredAssets(
-      assets.filter(
+
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
         (asset) =>
           asset.title.toLowerCase().includes(term) ||
           asset.provider?.toLowerCase().includes(term) ||
           asset.referenceNumber?.toLowerCase().includes(term)
-      )
-    );
-  }, [searchTerm, assets]);
+      );
+    }
+
+    setFilteredAssets(filtered);
+  }, [searchTerm, assetType, assets]);
 
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this asset?')) return false;
@@ -62,6 +67,8 @@ export function useCompanyAssetsLogic(initialAssets: CompanyAsset[] = []) {
     isLoading,
     searchTerm,
     setSearchTerm,
+    assetType,
+    setAssetType,
     fetchAssets,
     handleDelete,
   };

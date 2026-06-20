@@ -12,8 +12,10 @@ import { CompanyAssetCard } from './CompanyAssetCard';
 const CompanyAssetFormModal = dynamic(() => import('./CompanyAssetFormModal'), { ssr: false });
 
 export function CompanyAssetsManager({ initialAssets = [] }: { initialAssets?: CompanyAsset[] }) {
-  const { filteredAssets, isLoading, searchTerm, setSearchTerm, fetchAssets, handleDelete } =
+  const { assets, filteredAssets, isLoading, searchTerm, setSearchTerm, assetType, setAssetType, fetchAssets, handleDelete } =
     useCompanyAssetsLogic(initialAssets);
+    
+  const uniqueTypes = Array.from(new Set(assets.map(a => a.type))).filter(Boolean);
 
   const formLogic = useCompanyAssetFormLogic({
     onSuccess: () => {
@@ -54,9 +56,9 @@ export function CompanyAssetsManager({ initialAssets = [] }: { initialAssets?: C
 
       {/* Main Content */}
       <div className="bg-white dark:bg-[#111111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
-        {/* Search */}
-        <div className="p-4 border-b border-gray-100 dark:border-white/5">
-          <div className="relative max-w-md">
+        {/* Search & Filter */}
+        <div className="p-4 border-b border-gray-100 dark:border-white/5 flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
@@ -65,6 +67,22 @@ export function CompanyAssetsManager({ initialAssets = [] }: { initialAssets?: C
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1A1A1A] border-none rounded-2xl text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all placeholder:text-gray-500"
             />
+          </div>
+          
+          <div className="sm:w-48 shrink-0">
+            <select
+              value={assetType}
+              onChange={(e) => setAssetType(e.target.value)}
+              className="w-full px-4 py-3 min-h-[44px] bg-gray-50 dark:bg-[#1A1A1A] border-none rounded-2xl text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all cursor-pointer appearance-none font-medium"
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.2em' }}
+            >
+              <option value="ALL">All Types</option>
+              {uniqueTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

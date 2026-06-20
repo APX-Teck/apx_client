@@ -15,9 +15,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <AdminSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <AdminTopbar />
-          <main className="flex-1 p-4 sm:p-6 md:p-8 pb-safe pt-safe overflow-x-hidden overflow-y-auto relative z-0 flex flex-col">
-            <div className="mx-auto max-w-7xl w-full flex-1">{children}</div>
-            <PortalFooter />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto relative z-0 flex flex-col">
+            <div className="mx-auto max-w-7xl w-full flex-1 p-4 sm:p-6 md:p-8 pb-safe pt-safe flex flex-col">
+              <div className="flex-1">{children}</div>
+              <div className="mt-8">
+                <PortalFooter />
+              </div>
+            </div>
           </main>
         </div>
         <AdminProviders />

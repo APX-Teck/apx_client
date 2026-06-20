@@ -209,18 +209,18 @@ export function BlogPostDetailClient({
     <section className="max-w-7xl mx-auto px-6">
       {/* Breadcrumbs */}
       <div
-        className="flex items-center gap-2 text-xs text-foreground/50 font-medium mb-8 notranslate"
+        className="flex flex-wrap items-center gap-2 text-xs text-foreground/50 font-medium mb-8 notranslate"
         translate="no"
       >
-        <Link href="/" className="hover:text-accent transition-colors">
+        <Link href="/" className="hover:text-accent transition-colors shrink-0">
           Home
         </Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <Link href="/insights-news" className="hover:text-accent transition-colors">
           Explore News
         </Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-foreground/80 truncate max-w-[200px]">{post.title}</span>
+        <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+        <span className="text-foreground/80 truncate max-w-full sm:max-w-[200px] shrink-0">{post.title}</span>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-12 items-start">
@@ -231,7 +231,7 @@ export function BlogPostDetailClient({
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
               {post.tags[0] || 'Insight'}
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.15]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.15] break-words">
               {post.title}
             </h1>
 
@@ -240,7 +240,7 @@ export function BlogPostDetailClient({
               className="flex flex-wrap items-center justify-between gap-4 pt-4 border-y border-glass-border py-4 text-xs text-foreground/60 notranslate"
               translate="no"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0">
                   {post.author?.profilePhotoUrl || post.author?.profile?.profilePhotoUrl ? (
                     <img
@@ -271,12 +271,12 @@ export function BlogPostDetailClient({
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="flex items-center gap-1.5 shrink-0">
                   <Eye className="w-3.5 h-3.5" /> {post.views || 0} Views
                 </span>
                 <span className="w-1 h-1 rounded-full bg-glass-border"></span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 shrink-0">
                   <Clock className="w-3.5 h-3.5" /> 5 min read
                 </span>
 
@@ -487,15 +487,15 @@ export function BlogPostDetailClient({
                         )}
                       </div>
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-xs text-foreground">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-bold text-xs text-foreground break-words">
                             {comment.user.fullName}
                           </span>
                           <span className="text-[9px] text-foreground/45">
                             {formatDate(comment.createdAt)}
                           </span>
                         </div>
-                        <p className="text-xs text-foreground/85 leading-relaxed">
+                        <p className="text-xs text-foreground/85 leading-relaxed break-words">
                           {comment.commentText}
                         </p>
                       </div>

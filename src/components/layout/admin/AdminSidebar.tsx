@@ -171,14 +171,14 @@ export default function AdminSidebar() {
           }}
           title={isSidebarCollapsed ? 'Log out' : undefined}
           className={cn(
-            'flex items-center w-full py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 transition-colors group',
-            isSidebarCollapsed ? 'justify-center px-0' : 'justify-start px-3'
+            'flex items-center w-full px-3 py-2.5 rounded-xl text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 font-bold transition-colors group relative',
+            isSidebarCollapsed ? 'justify-center' : 'justify-start'
           )}
         >
           <LogOut
             size={20}
-            strokeWidth={2}
-            className="shrink-0 text-gray-400 group-hover:text-red-600 dark:text-gray-500 dark:group-hover:text-red-400 transition-colors"
+            strokeWidth={2.5}
+            className="shrink-0 text-red-600 dark:text-red-500 transition-colors"
           />
           <AnimatePresence mode="wait">
             {!isSidebarCollapsed && (

@@ -90,7 +90,13 @@ export function UserProfileDropdown() {
                 <UserIcon size={16} className="group-hover:scale-110 transition-transform duration-300" /> My Profile
               </button>
               <Link
-                href={user.role === 'SUPER_ADMIN' || user.role === 'ADMIN' ? '/admin/settings' : '/employee/settings'}
+                href={
+                  user.role === 'SUPER_ADMIN' || user.role === 'ADMIN' 
+                    ? '/admin/settings' 
+                    : user.role === 'CUSTOMER' 
+                      ? '/customer/settings' 
+                      : '/employee/settings'
+                }
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors group"
               >
@@ -182,7 +188,25 @@ export function UserProfileDropdown() {
                   </div>
                   
                   <div className="w-full mt-6 pt-6 border-t border-gray-100 dark:border-white/10 text-center">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">To edit these details, please go to Account Settings.</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                      To edit these details, please go to{' '}
+                      <Link
+                        href={
+                          user.role === 'SUPER_ADMIN' || user.role === 'ADMIN' 
+                            ? '/admin/settings' 
+                            : user.role === 'CUSTOMER' 
+                              ? '/customer/settings' 
+                              : '/employee/settings'
+                        }
+                        onClick={() => {
+                          setShowProfileModal(false);
+                          setIsOpen(false);
+                        }}
+                        className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 hover:underline"
+                      >
+                        Account Settings
+                      </Link>.
+                    </p>
                   </div>
                 </div>
               </div>
