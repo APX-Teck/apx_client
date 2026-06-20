@@ -346,8 +346,32 @@ export const api = {
       return { success: true, data: response.data.data };
     } catch (error: any) {
       if (error?.response?.status === 404) {
-        // Fallback mock if backend endpoint is not implemented yet
-        return { success: true, data: [] };
+        // Fallback: fetch all requests, then extract payments
+        try {
+          const requestsRes = await api.getMyRequests({ limit: 100 });
+          const requests = requestsRes.data || [];
+          let allPayments: any[] = [];
+          
+          await Promise.all(
+            requests.map(async (req: any) => {
+              const details = await api.getMyRequestById(req.id);
+              if (details?.payments && details.payments.length > 0) {
+                const paymentsWithService = details.payments.map((p: any) => ({
+                  ...p,
+                  service: details.service || { name: 'Service Request' },
+                  serviceRequestId: req.id,
+                }));
+                allPayments = [...allPayments, ...paymentsWithService];
+              }
+            })
+          );
+          
+          allPayments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          return { success: true, data: allPayments };
+        } catch (fallbackError) {
+          console.error('Fallback fetching payments failed', fallbackError);
+          return { success: true, data: [] };
+        }
       }
       console.error('Failed to fetch payments:', error);
       return { success: false, message: error.response?.data?.message || error.message };
