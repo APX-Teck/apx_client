@@ -3,6 +3,7 @@
 import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Service } from '@/app/types/service.types';
 import { useContactFormLogic } from '@/hooks/useContactFormLogic';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
 interface ContactFormProps {
   services: Service[];
@@ -13,6 +14,7 @@ export function ContactForm({ services }: ContactFormProps) {
     form: {
       register,
       handleSubmit,
+      control,
       formState: { errors },
     },
     onSubmit,
@@ -276,6 +278,11 @@ export function ContactForm({ services }: ContactFormProps) {
               {errors.message.message}
             </p>
           )}
+        </div>
+
+        {/* reCAPTCHA */}
+        <div className="pt-2">
+          <RecaptchaField control={control} name={'recaptchaToken' as any} error={(errors as any).recaptchaToken?.message as string} />
         </div>
 
         {/* Submit */}

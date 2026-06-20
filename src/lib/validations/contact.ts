@@ -25,6 +25,7 @@ export const contactSchema = z.object({
     .max(1000, { message: 'Message must be between 20 and 1000 characters' }),
   // Honeypot field for bot spam blocking
   website: z.string().max(100).optional(),
+  recaptchaToken: z.string().min(1, 'Please complete the reCAPTCHA to verify you are human'),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

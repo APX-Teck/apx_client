@@ -37,7 +37,7 @@ export function useContactFormLogic() {
     setIsSubmitSuccess(false);
 
     try {
-      const { website, ...submitData } = values; // Exclude honeypot
+      const { website, recaptchaToken, ...submitData } = values; // Exclude honeypot and recaptchaToken
       const res = await api.submitEnquiry(submitData);
       if (res.success) {
         setIsSubmitSuccess(true);
