@@ -11,6 +11,8 @@ export const useTasksLogic = (initialTasks: Task[] = []) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [currentSort, setCurrentSort] = useState('newest');
+  const [currentFilter, setCurrentFilter] = useState('ALL');
 
   const fetchTasks = React.useCallback(() => {
     setIsLoading(true);
@@ -66,13 +68,36 @@ export const useTasksLogic = (initialTasks: Task[] = []) => {
   };
 
   const filteredTasks = useMemo(() => {
-    return tasks.filter(
-      (task) =>
+    let result = tasks.filter((task) => {
+      const matchesSearch = 
         task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (task.assignedTo?.fullName &&
-          task.assignedTo.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
-  }, [tasks, searchTerm]);
+          task.assignedTo.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesStatus = currentFilter === 'ALL' || task.status === currentFilter;
+      return matchesSearch && matchesStatus;
+    });
+
+    result.sort((a, b) => {
+      switch (currentSort) {
+        case 'newest':
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        case 'oldest':
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        case 'due_soon':
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+        case 'due_late':
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+        default:
+          return 0;
+      }
+    });
+
+    return result;
+  }, [tasks, searchTerm, currentSort, currentFilter]);
 
   const navigateToCreate = () => router.push('/admin/tasks/new');
   const navigateToDetails = (id: number) => router.push(`/admin/tasks/${id}`);
@@ -92,5 +117,9 @@ export const useTasksLogic = (initialTasks: Task[] = []) => {
     confirmDeleteTask,
     navigateToCreate,
     navigateToDetails,
+    currentSort,
+    setCurrentSort,
+    currentFilter,
+    setCurrentFilter,
   };
 };

@@ -18,7 +18,8 @@ export function extractDataArray<T = any>(response: any): T[] {
   const possibleKeys = [
     'payments', 'roles', 'users', 'enquiries', 'assets', 'items', 'rows', 'data',
     'categories', 'posts', 'services', 'requests', 'plans', 'features', 'tickets',
-    'invoices', 'testimonials', 'faqs', 'leads', 'portfolio'
+    'invoices', 'testimonials', 'faqs', 'leads', 'portfolio', 'tasks', 'task',
+    'reimbursements', 'reimbursement', 'claims'
   ];
   for (const key of possibleKeys) {
     if (response[key] && Array.isArray(response[key])) return response[key];

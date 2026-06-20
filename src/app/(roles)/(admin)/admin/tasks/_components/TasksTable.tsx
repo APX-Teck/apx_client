@@ -21,6 +21,10 @@ interface Props {
   isLoading: boolean;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  currentSort?: string;
+  setCurrentSort?: (sort: string) => void;
+  currentFilter?: string;
+  setCurrentFilter?: (filter: string) => void;
   handleUpdateStatus: (id: number, status: Task['status']) => void;
   handleDeleteTaskClick: (id: number) => void;
   navigateToDetails: (id: number) => void;
@@ -35,6 +39,10 @@ export function TasksTable({
   isLoading,
   searchTerm,
   setSearchTerm,
+  currentSort,
+  setCurrentSort,
+  currentFilter,
+  setCurrentFilter,
   handleUpdateStatus,
   handleDeleteTaskClick,
   navigateToDetails,
@@ -202,6 +210,21 @@ export function TasksTable({
     [handleUpdateStatus, navigateToDetails, handleDeleteTaskClick]
   );
 
+  const sortOptions = [
+    { label: 'Newest First', value: 'newest' },
+    { label: 'Oldest First', value: 'oldest' },
+    { label: 'Due Soon', value: 'due_soon' },
+    { label: 'Due Late', value: 'due_late' },
+  ];
+
+  const filterOptions = [
+    { label: 'All Statuses', value: 'ALL' },
+    { label: 'Open', value: 'OPEN' },
+    { label: 'In Progress', value: 'IN_PROGRESS' },
+    { label: 'Completed', value: 'COMPLETED' },
+    { label: 'Cancelled', value: 'CANCELLED' },
+  ];
+
   return (
     <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col">
       <div className="flex-1 overflow-auto hidden sm:block">
@@ -220,6 +243,12 @@ export function TasksTable({
             data={filteredTasks}
             searchPlaceholder="Search tasks or assignees..."
             onSearch={setSearchTerm}
+            sortOptions={sortOptions}
+            currentSort={currentSort}
+            onSortChange={setCurrentSort}
+            filterOptions={filterOptions}
+            currentFilter={currentFilter}
+            onFilterChange={setCurrentFilter}
           />
         ) : (
           <div className="min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
@@ -236,13 +265,39 @@ export function TasksTable({
 
       {/* Mobile Layout */}
       <div className="sm:hidden space-y-4 p-4">
-        <div className="relative">
-          <input
-            type="text"
-            className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
-            placeholder="Search tasks..."
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="flex flex-col gap-3">
+          <div className="relative">
+            <input
+              type="text"
+              className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-gray-900 dark:text-white"
+              placeholder="Search tasks..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <select
+              value={currentSort}
+              onChange={(e) => setCurrentSort?.(e.target.value)}
+              className="flex-1 px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={currentFilter}
+              onChange={(e) => setCurrentFilter?.(e.target.value)}
+              className="flex-1 px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            >
+              {filterOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {isLoading ? (

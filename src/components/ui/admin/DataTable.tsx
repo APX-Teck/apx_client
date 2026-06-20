@@ -37,6 +37,9 @@ interface DataTableProps<T> {
   sortOptions?: SortOption[];
   currentSort?: string;
   onSortChange?: (value: string) => void;
+  filterOptions?: SortOption[];
+  currentFilter?: string;
+  onFilterChange?: (value: string) => void;
 }
 
 export default function DataTable<T extends { id: string | number }>({
@@ -50,6 +53,9 @@ export default function DataTable<T extends { id: string | number }>({
   sortOptions,
   currentSort,
   onSortChange,
+  filterOptions,
+  currentFilter,
+  onFilterChange,
 }: DataTableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -61,6 +67,9 @@ export default function DataTable<T extends { id: string | number }>({
   const [isSortOpen, setIsSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
   const [isItemsPerPageOpen, setIsItemsPerPageOpen] = useState(false);
   const itemsPerPageRef = useRef<HTMLDivElement>(null);
 
@@ -68,6 +77,9 @@ export default function DataTable<T extends { id: string | number }>({
     const handleClickOutside = (event: MouseEvent) => {
       if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
         setIsSortOpen(false);
+      }
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setIsFilterOpen(false);
       }
       if (itemsPerPageRef.current && !itemsPerPageRef.current.contains(event.target as Node)) {
         setIsItemsPerPageOpen(false);
@@ -141,7 +153,63 @@ export default function DataTable<T extends { id: string | number }>({
         )}
 
         <div className="flex gap-3 w-full sm:w-auto">
-          {onFilter && (
+          {filterOptions && (
+            <div className="relative" ref={filterRef}>
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3.5 bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-2xl hover:bg-indigo-50/80 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+              >
+                <ListFilter size={18} strokeWidth={2.5} />
+                Filter
+                <ChevronDown
+                  size={16}
+                  strokeWidth={2.5}
+                  className={cn('transition-transform duration-300', isFilterOpen && 'rotate-180')}
+                />
+              </button>
+
+              <AnimatePresence>
+                {isFilterOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-56 max-h-64 overflow-y-auto bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-white/10 z-50 p-1.5"
+                  >
+                    <div className="flex flex-col gap-1">
+                      {filterOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => {
+                            onFilterChange?.(option.value);
+                            setIsFilterOpen(false);
+                          }}
+                          className={cn(
+                            'w-full flex items-center justify-between px-4 py-2.5 text-sm font-bold rounded-xl transition-all duration-200',
+                            currentFilter === option.value
+                              ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400'
+                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-white/10'
+                          )}
+                        >
+                          {option.label}
+                          {currentFilter === option.value && (
+                            <Check
+                              size={16}
+                              strokeWidth={3}
+                              className="text-indigo-600 dark:text-indigo-400"
+                            />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
+          {onFilter && !filterOptions && (
             <button
               onClick={onFilter}
               className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3.5 bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-2xl hover:bg-indigo-50/80 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
@@ -150,7 +218,8 @@ export default function DataTable<T extends { id: string | number }>({
               Filter
             </button>
           )}
-          {sortOptions ? (
+
+          {sortOptions && (
             <div className="relative" ref={sortRef}>
               <button
                 onClick={() => setIsSortOpen(!isSortOpen)}
@@ -204,11 +273,6 @@ export default function DataTable<T extends { id: string | number }>({
                 )}
               </AnimatePresence>
             </div>
-          ) : (
-            <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3.5 bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-2xl hover:bg-indigo-50/80 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95">
-              <SlidersHorizontal size={18} strokeWidth={2.5} />
-              View
-            </button>
           )}
         </div>
       </div>

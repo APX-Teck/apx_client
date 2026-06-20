@@ -21,6 +21,12 @@ export default function UsersManager({ initialUsers, initialRoles }: Props) {
         setSearchTerm={logic.setSearchTerm}
         currentSort={logic.currentSort}
         setCurrentSort={logic.setCurrentSort}
+        currentFilter={logic.currentFilter}
+        setCurrentFilter={logic.setCurrentFilter}
+        filterOptions={[
+          { label: 'All Roles', value: 'ALL' },
+          ...logic.roles.map((r) => ({ label: r.name, value: r.name })),
+        ]}
         isLoading={logic.isLoading}
       />
     </>

@@ -20,6 +20,10 @@ export default function TasksManager({ initialTasks }: Props) {
         isLoading={logic.isLoading}
         searchTerm={logic.searchTerm}
         setSearchTerm={logic.setSearchTerm}
+        currentSort={logic.currentSort}
+        setCurrentSort={logic.setCurrentSort}
+        currentFilter={logic.currentFilter}
+        setCurrentFilter={logic.setCurrentFilter}
         handleUpdateStatus={logic.handleUpdateStatus}
         handleDeleteTaskClick={logic.handleDeleteTaskClick}
         navigateToDetails={logic.navigateToDetails}

@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/axios';
+import { extractDataArray, extractPagination } from '@/lib/api/responseParser';
 
 export interface Reimbursement {
   id: number;
@@ -37,8 +38,32 @@ export const reimbursementService = {
     status?: string;
     category?: string;
   }): Promise<ReimbursementResponse> => {
-    const response = await apiClient.get('/reimbursement/my', { params });
-    return response.data;
+    try {
+      const response = await apiClient.get('/reimbursement/my', { params });
+      const pagination = extractPagination(response.data, 0);
+      return {
+        success: response.data?.success ?? true,
+        message: response.data?.message || '',
+        data: {
+          data: extractDataArray(response.data),
+          pagination: {
+            total: pagination.total,
+            page: pagination.page,
+            limit: params?.limit || 10,
+            totalPages: pagination.totalPages,
+            hasNextPage: pagination.page < pagination.totalPages,
+            hasPrevPage: pagination.page > 1,
+          },
+        },
+      };
+    } catch (error) {
+      console.error('Failed to fetch my reimbursements', error);
+      return {
+        success: false,
+        message: 'Failed to fetch',
+        data: { data: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 1, hasNextPage: false, hasPrevPage: false } },
+      };
+    }
   },
 
   getMyReimbursementById: async (id: string | number) => {

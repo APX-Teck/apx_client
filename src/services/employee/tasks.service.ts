@@ -1,5 +1,6 @@
 import apiClient from '@/lib/axios';
 import { Task } from '@/services/admin/tasks.service';
+import { extractDataArray, extractPagination, extractDataObject } from '@/lib/api/responseParser';
 
 export interface TasksResponse {
   success: boolean;
@@ -23,20 +24,29 @@ export const tasksService = {
     limit?: number;
     status?: string;
     priority?: string;
-  }): Promise<TasksResponse> => {
+  }): Promise<{ success: boolean; data: { data: Task[]; pagination: any } }> => {
     try {
       const response = await apiClient.get('/task/mine', { params });
-      return response.data;
+      return {
+        success: response.data?.success ?? true,
+        data: {
+          data: extractDataArray<Task>(response.data),
+          pagination: extractPagination(response.data, 0),
+        },
+      };
     } catch (error) {
       console.error('Failed to fetch my tasks', error);
-      throw error;
+      return {
+        success: false,
+        data: { data: [], pagination: { total: 0, page: 1, totalPages: 1 } },
+      };
     }
   },
 
   getMyTaskById: async (id: number): Promise<Task | null> => {
     try {
       const response = await apiClient.get(`/task/mine/${id}`);
-      return response.data?.data || null;
+      return extractDataObject<Task>(response.data);
     } catch (error) {
       console.error('Failed to fetch task details', error);
       return null;

@@ -12,10 +12,22 @@ interface Props {
   setSearchTerm: (term: string) => void;
   currentSort: string;
   setCurrentSort: (sort: string) => void;
+  currentFilter: string;
+  setCurrentFilter: (filter: string) => void;
+  filterOptions: { label: string; value: string }[];
   isLoading?: boolean;
 }
 
-export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurrentSort, isLoading }: Props) {
+export function UsersTable({
+  filteredUsers,
+  setSearchTerm,
+  currentSort,
+  setCurrentSort,
+  currentFilter,
+  setCurrentFilter,
+  filterOptions,
+  isLoading
+}: Props) {
   const sortOptions = [
     { label: 'Newest Joined', value: 'newest' },
     { label: 'Oldest Joined', value: 'oldest' },
@@ -130,6 +142,9 @@ export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurre
           sortOptions={sortOptions}
           currentSort={currentSort}
           onSortChange={setCurrentSort}
+          filterOptions={filterOptions}
+          currentFilter={currentFilter}
+          onFilterChange={setCurrentFilter}
           isLoading={isLoading}
         />
       </div>
@@ -149,8 +164,21 @@ export function UsersTable({ filteredUsers, setSearchTerm, currentSort, setCurre
             onChange={(e) => setCurrentSort(e.target.value)}
             className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
           >
-            {sortOptions.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            {sortOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <select
+            value={currentFilter}
+            onChange={(e) => setCurrentFilter(e.target.value)}
+            className="w-full px-4 py-3 bg-white/50 dark:bg-[#1a1a1a]/50 border border-gray-200/80 dark:border-white/10 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+          >
+            {filterOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
             ))}
           </select>
         </div>

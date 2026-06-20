@@ -6,6 +6,7 @@ export const useUsersLogic = (initialUsers: User[], initialRoles: Role[]) => {
   const [roles, setRoles] = useState<Role[]>(initialRoles);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentSort, setCurrentSort] = useState('newest');
+  const [currentFilter, setCurrentFilter] = useState('ALL');
   const [isLoading, setIsLoading] = useState(initialUsers.length === 0);
 
   useEffect(() => {
@@ -40,12 +41,14 @@ export const useUsersLogic = (initialUsers: User[], initialRoles: Role[]) => {
   }, [initialUsers.length]);
 
   const filteredUsers = useMemo(() => {
-    let result = users.filter(
-      (user) =>
+    let result = users.filter((user) => {
+      const matchesSearch =
         user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (user.phone && user.phone.includes(searchTerm))
-    );
+        (user.phone && user.phone.includes(searchTerm));
+      const matchesRole = currentFilter === 'ALL' || user.role?.name === currentFilter;
+      return matchesSearch && matchesRole;
+    });
 
     result.sort((a, b) => {
       switch (currentSort) {
@@ -63,7 +66,7 @@ export const useUsersLogic = (initialUsers: User[], initialRoles: Role[]) => {
     });
 
     return result;
-  }, [users, searchTerm, currentSort]);
+  }, [users, searchTerm, currentSort, currentFilter]);
 
   return {
     users,
@@ -72,6 +75,8 @@ export const useUsersLogic = (initialUsers: User[], initialRoles: Role[]) => {
     setSearchTerm,
     currentSort,
     setCurrentSort,
+    currentFilter,
+    setCurrentFilter,
     filteredUsers,
     isLoading,
   };
