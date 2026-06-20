@@ -13,6 +13,7 @@ export default function LoginClient() {
     form: {
       register,
       handleSubmit,
+      control,
       formState: { errors },
     },
     onSubmit,
@@ -49,7 +50,7 @@ export default function LoginClient() {
             onResendVerification={handleResendVerification}
           />
 
-          <LoginInputFields register={register} errors={errors} isLoading={isLoading} />
+          <LoginInputFields register={register} errors={errors} isLoading={isLoading} control={control} />
 
           <div className="relative flex items-center py-2" aria-hidden="true">
             <div className="flex-grow border-t border-foreground/10"></div>

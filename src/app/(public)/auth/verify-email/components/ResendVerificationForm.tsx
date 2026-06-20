@@ -2,6 +2,7 @@
 
 import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 import { ResendFormValues } from '@/lib/validations/resendVerification';
 
 interface ResendVerificationFormProps {
@@ -19,6 +20,7 @@ export function ResendVerificationForm({
   form: {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   },
   onResendSubmit,
@@ -75,6 +77,8 @@ export function ResendVerificationForm({
           </p>
         )}
       </div>
+
+      <RecaptchaField control={control} name="recaptchaToken" error={errors.recaptchaToken?.message as string} />
 
       <button
         type="submit"

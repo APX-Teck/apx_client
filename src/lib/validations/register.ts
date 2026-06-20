@@ -29,6 +29,7 @@ export const registerSchema = z
       message: 'You must accept the terms and conditions',
     }),
     botName: z.string().optional(), // Honeypot field
+    recaptchaToken: z.string().min(1, 'Please complete the reCAPTCHA to verify you are human'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',

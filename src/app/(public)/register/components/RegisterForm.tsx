@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { UseFormReturn } from 'react-hook-form';
 import { RegisterFormValues } from '@/lib/validations/register';
 import { GoogleSignUpButton } from './GoogleSignUpButton';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
 interface Props {
   form: UseFormReturn<RegisterFormValues>;
@@ -16,6 +17,7 @@ interface Props {
 export function RegisterForm({ form, onSubmit, isLoading, errorMsg }: Props) {
   const {
     register,
+    control,
     formState: { errors },
   } = form;
 
@@ -157,6 +159,8 @@ export function RegisterForm({ form, onSubmit, isLoading, errorMsg }: Props) {
           </p>
         )}
       </div>
+
+      <RecaptchaField control={control} name="recaptchaToken" error={errors.recaptchaToken?.message as string} />
 
       {/* Submit button */}
       <button

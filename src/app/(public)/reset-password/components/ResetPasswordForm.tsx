@@ -3,6 +3,7 @@
 import { AlertCircle, ArrowRight } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordValues } from '@/lib/validations/resetPassword';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
 interface Props {
   form: UseFormReturn<ResetPasswordValues>;
@@ -15,6 +16,7 @@ interface Props {
 export function ResetPasswordForm({ form, onSubmit, isLoading, errorMsg, token }: Props) {
   const {
     register,
+    control,
     formState: { errors },
   } = form;
 
@@ -92,6 +94,8 @@ export function ResetPasswordForm({ form, onSubmit, isLoading, errorMsg, token }
             </p>
           )}
         </div>
+
+        <RecaptchaField control={control} name="recaptchaToken" error={errors.recaptchaToken?.message as string} />
 
         <button
           type="submit"

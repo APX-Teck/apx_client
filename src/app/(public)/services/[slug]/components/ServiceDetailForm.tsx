@@ -4,6 +4,7 @@ import { Send, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ServiceField } from '@/app/types/service.types';
 import { useServiceRequestLogic } from '@/hooks/useServiceRequestLogic';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
 interface Props {
   serviceId: number;
@@ -21,6 +22,7 @@ export function ServiceDetailForm({ serviceId, serviceSlug, fields, formRef }: P
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = form;
 
@@ -131,6 +133,8 @@ export function ServiceDetailForm({ serviceId, serviceSlug, fields, formRef }: P
                 </div>
               );
             })}
+
+            <RecaptchaField control={control} name="recaptchaToken" error={errors.recaptchaToken?.message as string} />
 
             <button
               type="submit"

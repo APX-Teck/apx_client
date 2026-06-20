@@ -3,12 +3,15 @@
 import { AlertCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { UseFormReturn } from 'react-hook-form';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
+
+import { ForgotPasswordValues } from '@/lib/validations/forgotPassword';
 
 interface ForgotPasswordInputFormProps {
   errorMsg: string;
   isLoading: boolean;
-  form: UseFormReturn<{ email: string }>;
-  onSubmit: (values: { email: string }) => void;
+  form: UseFormReturn<ForgotPasswordValues>;
+  onSubmit: (values: ForgotPasswordValues) => void;
 }
 
 export function ForgotPasswordInputForm({
@@ -17,6 +20,7 @@ export function ForgotPasswordInputForm({
   form: {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   },
   onSubmit,
@@ -57,6 +61,8 @@ export function ForgotPasswordInputForm({
           </p>
         )}
       </div>
+
+      <RecaptchaField control={control} name="recaptchaToken" error={errors.recaptchaToken?.message as string} />
 
       <button
         type="submit"

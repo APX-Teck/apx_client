@@ -37,6 +37,11 @@ export function useServiceRequestLogic(serviceId: number, serviceSlug: string) {
     setErrorMessage('');
     setIsSubmitSuccess(false);
 
+    if (!values.recaptchaToken) {
+      setErrorMessage('Please complete the reCAPTCHA to verify you are human.');
+      return;
+    }
+
     // Authentication Gate Check
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!isLoggedIn) {
@@ -52,6 +57,8 @@ export function useServiceRequestLogic(serviceId: number, serviceSlug: string) {
     // Construct Multi-part FormData
     const formData = new FormData();
     Object.entries(values).forEach(([key, val]) => {
+      if (key === 'recaptchaToken') return; // Do not send recaptchaToken via FormData unless backend expects it
+      
       if (val instanceof FileList) {
         if (val.length > 0) {
           formData.append(key, val[0]);

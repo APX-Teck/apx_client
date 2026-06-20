@@ -3,15 +3,17 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { UseFormRegister, FieldErrors, Control, FieldValues } from 'react-hook-form';
+import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
-interface LoginInputFieldsProps {
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
+interface LoginInputFieldsProps<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
   isLoading: boolean;
+  control: Control<T>;
 }
 
-export function LoginInputFields({ register, errors, isLoading }: LoginInputFieldsProps) {
+export function LoginInputFields<T extends FieldValues>({ register, errors, isLoading, control }: LoginInputFieldsProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -28,7 +30,7 @@ export function LoginInputFields({ register, errors, isLoading }: LoginInputFiel
           id="email"
           type="email"
           suppressHydrationWarning={true}
-          {...register('email')}
+          {...register('email' as any)}
           className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 min-h-[44px] sm:min-h-[48px] outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm md:text-base font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
           placeholder="admin@apxteck.com"
           aria-invalid={!!errors.email}
@@ -36,7 +38,7 @@ export function LoginInputFields({ register, errors, isLoading }: LoginInputFiel
         />
         {errors.email && (
           <p id="email-error" className="text-xs text-red-500 font-medium pl-1" role="alert">
-            {errors.email.message as string}
+            {errors.email?.message as string}
           </p>
         )}
       </div>
@@ -63,7 +65,7 @@ export function LoginInputFields({ register, errors, isLoading }: LoginInputFiel
             id="password"
             type={showPassword ? 'text' : 'password'}
             suppressHydrationWarning={true}
-            {...register('password')}
+            {...register('password' as any)}
             className="w-full bg-foreground/5 dark:bg-background/50 border border-foreground/10 rounded-xl px-4 py-3 pr-12 min-h-[44px] sm:min-h-[48px] outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-sm md:text-base font-medium text-foreground placeholder:text-foreground/40 backdrop-blur-sm"
             placeholder="••••••••"
             aria-invalid={!!errors.password}
@@ -81,7 +83,7 @@ export function LoginInputFields({ register, errors, isLoading }: LoginInputFiel
         </div>
         {errors.password && (
           <p id="password-error" className="text-xs text-red-500 font-medium pl-1" role="alert">
-            {errors.password.message as string}
+            {errors.password?.message as string}
           </p>
         )}
       </div>
@@ -96,11 +98,16 @@ export function LoginInputFields({ register, errors, isLoading }: LoginInputFiel
             type="checkbox"
             id="rememberMe"
             suppressHydrationWarning
-            {...register('rememberMe')}
+            {...register('rememberMe' as any)}
             className="rounded border-foreground/20 text-accent focus:ring-accent bg-background w-4 h-4 sm:w-5 sm:h-5 cursor-pointer"
           />
           Remember me for 30 days
         </label>
+      </div>
+
+      {/* reCAPTCHA */}
+      <div className="pt-2">
+        <RecaptchaField control={control} name={'recaptchaToken' as any} error={(errors as any).recaptchaToken?.message as string} />
       </div>
 
       {/* Submit */}
