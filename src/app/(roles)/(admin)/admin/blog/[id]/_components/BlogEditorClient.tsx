@@ -96,6 +96,9 @@ export function BlogEditorClient({
   }, [categories.length, users.length]);
 
   // Form State
+  const [postData, setPostData] = useState<BlogPostDetail | null>(initialPost);
+  const [isLoadingData, setIsLoadingData] = useState(!isNew && !initialPost);
+
   const [title, setTitle] = useState(initialPost?.title || '');
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt || '');
   const [content, setContent] = useState(initialPost?.content || '');
@@ -120,7 +123,37 @@ export function BlogEditorClient({
   const [isSaving, setIsSaving] = useState(false);
   const [formErrors, setFormErrors] = useState<{ title?: string; content?: string; categoryId?: string }>({});
 
-  const isAiGenerated = initialPost?.isAiGenerated || false;
+  useEffect(() => {
+    const fetchPostData = async () => {
+      if (!isNew && !initialPost) {
+        try {
+          setIsLoadingData(true);
+          const post = await blogService.getPostDetail(postId);
+          if (post) {
+            setPostData(post);
+            setTitle(post.title || '');
+            setExcerpt(post.excerpt || '');
+            setContent(post.content || '');
+            setStatus(post.status || 'DRAFT');
+            setTags(post.tags?.join(', ') || '');
+            setMetaDescription(post.metaDescription || '');
+            setCategoryId(post.categoryId?.toString() || '');
+            setAuthorId(post.author?.id?.toString() || (post as any)?.authorId?.toString() || '');
+            setAuthorDesignation(post.authorDesignation || '');
+            setAuthorBio(post.authorBio || '');
+          }
+        } catch (err) {
+          console.error('Failed to fetch post detail on client', err);
+          setToast({ message: 'Failed to load post data', type: 'error' });
+        } finally {
+          setIsLoadingData(false);
+        }
+      }
+    };
+    fetchPostData();
+  }, [isNew, initialPost, postId]);
+
+  const isAiGenerated = postData?.isAiGenerated || false;
 
   const handleSave = async () => {
     const errors: { title?: string; content?: string; categoryId?: string } = {};
@@ -167,7 +200,7 @@ export function BlogEditorClient({
         // Also update status if changed
         if (
           status &&
-          status !== initialPost?.status &&
+          status !== postData?.status &&
           (status === 'PUBLISHED' || status === 'DRAFT')
         ) {
           await blogService.updatePostStatus(postId, status as any);
@@ -180,6 +213,17 @@ export function BlogEditorClient({
       setIsSaving(false);
     }
   };
+
+  if (isLoadingData) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh] w-full">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Loading post data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 w-full max-w-[1400px] mx-auto pb-safe pb-12 px-4 sm:px-6 lg:px-8">
@@ -275,6 +319,7 @@ export function BlogEditorClient({
                 </span>
               </label>
               <RichTextEditor 
+                key={postData?.id || 'editor'}
                 initialContent={content} 
                 onChange={(html) => {
                   setContent(html);
@@ -289,7 +334,7 @@ export function BlogEditorClient({
         {/* Right Sidebar */}
         <div className="w-full lg:w-80 shrink-0 space-y-6">
           {/* AI Panel (Only visible if AI generated) */}
-          {isAiGenerated && initialPost?.aiMetadata && (
+          {isAiGenerated && postData?.aiMetadata && (
             <div className="bg-purple-50 dark:bg-purple-500/5 rounded-3xl p-6 border border-purple-100 dark:border-purple-500/20 shadow-sm">
               <h2 className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Sparkles size={16} /> AI Generation Data
@@ -300,7 +345,7 @@ export function BlogEditorClient({
                     Source Topic
                   </p>
                   <p className="text-sm font-medium text-purple-900 dark:text-purple-200">
-                    {initialPost.aiMetadata.source.replace('|', ' + ')}
+                    {postData.aiMetadata.source.replace('|', ' + ')}
                   </p>
                 </div>
                 <div>
@@ -308,7 +353,7 @@ export function BlogEditorClient({
                     Model Origin
                   </p>
                   <p className="text-sm font-medium text-purple-900 dark:text-purple-200 font-mono bg-purple-100 dark:bg-purple-500/20 inline-block px-2 py-0.5 rounded">
-                    {initialPost.aiMetadata.origin}
+                    {postData.aiMetadata.origin}
                   </p>
                 </div>
                 <div className="flex items-start gap-2 bg-white/50 dark:bg-[#111111]/50 p-3 rounded-xl border border-purple-200 dark:border-purple-500/20">
@@ -441,10 +486,10 @@ export function BlogEditorClient({
             <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
               <ImageIcon size={16} /> Cover Image
             </h2>
-            {initialPost?.coverImageUrl && !coverFile ? (
+            {postData?.coverImageUrl && !coverFile ? (
               <div className="relative group rounded-xl overflow-hidden border border-gray-200 dark:border-white/10">
                 <img
-                  src={initialPost.coverImageUrl}
+                  src={postData.coverImageUrl}
                   alt="Cover"
                   className="w-full h-32 object-cover"
                 />
@@ -533,11 +578,11 @@ export function BlogEditorClient({
             {/* Modal Content */}
             <div className="overflow-y-auto p-6 sm:p-10 space-y-12 flex-grow bg-white dark:bg-[#0a0a0a]">
               {/* Cover Image Preview */}
-              {(coverFile || initialPost?.coverImageUrl) && (
+              {(coverFile || postData?.coverImageUrl) && (
                 <div className="w-full max-w-4xl mx-auto aspect-video md:aspect-[21/9] rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-white/5">
                   <img
                     src={
-                      coverFile ? URL.createObjectURL(coverFile) : initialPost?.coverImageUrl || ''
+                      coverFile ? URL.createObjectURL(coverFile) : postData?.coverImageUrl || ''
                     }
                     alt="Cover Preview"
                     className="w-full h-full object-cover"

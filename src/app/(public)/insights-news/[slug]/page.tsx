@@ -35,19 +35,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const fallbackDescription = `Read our latest deep dive into ${post.title}. Discover expert insights on web development, SEO strategies, and technical architectures for your next IT project.`;
     const description = post.excerpt || fallbackDescription;
+    const keywords = post.tags?.length ? post.tags : ['APXTeck', 'Tech Blog', 'IT Insights', 'Web Development', 'Software Engineering', 'Technology'];
 
     return {
-      title: `${post.title} | APXTeck`,
+      title: `${post.title} | APXTeck Insights`,
       description: description,
+      keywords: keywords.join(', '),
+      authors: post.author ? [{ name: post.author.fullName }] : [{ name: 'APXTeck' }],
       openGraph: {
-        title: `${post.title} | APXTeck`,
+        title: `${post.title} | APXTeck Insights`,
         description: description,
         url: `https://apxteck.com/insights-news/${slug}`,
         siteName: 'APXTeck',
         type: 'article',
         locale: 'en_IN',
         publishedTime: post.publishedAt || undefined,
-        images: post.coverImageUrl ? [{ url: post.coverImageUrl }] : undefined,
+        authors: post.author?.fullName ? [post.author.fullName] : undefined,
+        tags: post.tags,
+        images: post.coverImageUrl ? [
+          {
+            url: post.coverImageUrl,
+            width: 1200,
+            height: 630,
+            alt: post.title,
+          }
+        ] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
@@ -99,22 +111,26 @@ export default async function BlogPostDetailPage({ params }: Props) {
     comments = await api.fetchBlogComments(post.slug);
   } catch {}
 
+  const wordCount = post.content ? post.content.replace(/<[^>]*>?/gm, '').split(/\s+/).length : 0;
+  const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
   const jsonLdArticle = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     '@id': `https://apxteck.com/insights-news/${post.slug}/#article`,
     headline: post.title,
-    description: post.excerpt,
-    image: post.coverImageUrl,
+    description: post.excerpt || `Read the latest blog post about ${post.title} from APXTeck.`,
+    image: post.coverImageUrl ? [post.coverImageUrl] : [],
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
+    dateModified: (post as any).updatedAt || post.publishedAt,
     author: {
       '@type': 'Person',
-      name: post.author?.fullName || 'APXTeck Lead',
+      name: post.author?.fullName?.includes('APX Blog Bot') ? 'APXTeck AI' : post.author?.fullName || 'APXTeck Expert',
+      url: 'https://apxteck.com/about'
     },
     publisher: {
       '@type': 'Organization',
-      '@id': 'https://apxteck.com/#localbusiness',
+      '@id': 'https://apxteck.com/#organization',
       name: 'APXTeck',
       logo: {
         '@type': 'ImageObject',
@@ -128,6 +144,11 @@ export default async function BlogPostDetailPage({ params }: Props) {
       '@type': 'WebPage',
       '@id': `https://apxteck.com/insights-news/${post.slug}`,
     },
+    keywords: post.tags?.join(', '),
+    articleSection: post.tags?.[0] || 'Technology',
+    wordCount: wordCount > 0 ? wordCount : undefined,
+    timeRequired: wordCount > 0 ? `PT${readTimeMinutes}M` : undefined,
+    inLanguage: 'en-IN'
   };
 
   return (

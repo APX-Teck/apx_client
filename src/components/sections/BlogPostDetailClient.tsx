@@ -175,10 +175,12 @@ export function BlogPostDetailClient({
   // Inject Ad banner dynamically after paragraph 3
   const renderContentWithAds = () => {
     const paragraphs = post.content.split('</p>');
+    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md";
+
     if (paragraphs.length <= 3) {
       return (
         <div
-          className="prose dark:prose-invert max-w-none text-foreground/80 text-sm leading-relaxed"
+          className={proseClasses}
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       );
@@ -188,17 +190,17 @@ export function BlogPostDetailClient({
     const part2 = paragraphs.slice(3).join('</p>');
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-8">
         <div
-          className="prose dark:prose-invert max-w-none text-foreground/80 text-sm leading-relaxed"
+          className={proseClasses}
           dangerouslySetInnerHTML={{ __html: part1 }}
         />
 
         {/* Ad mid-placement */}
-        <AdBanner placement="BLOG_POST_MID" className="my-8" />
+        <AdBanner placement="BLOG_POST_MID" className="my-8 sm:my-12" />
 
         <div
-          className="prose dark:prose-invert max-w-none text-foreground/80 text-sm leading-relaxed"
+          className={proseClasses}
           dangerouslySetInnerHTML={{ __html: part2 }}
         />
       </div>
@@ -206,7 +208,7 @@ export function BlogPostDetailClient({
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6">
+    <article className="max-w-7xl mx-auto px-4 sm:px-6">
       {/* Breadcrumbs */}
       <div
         className="flex flex-wrap items-center gap-2 text-xs text-foreground/50 font-medium mb-8 notranslate"
@@ -227,21 +229,21 @@ export function BlogPostDetailClient({
         {/* Left Main Article */}
         <div className="lg:col-span-8 space-y-8">
           {/* Header */}
-          <div className="space-y-4">
+          <header className="space-y-4">
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
               {post.tags[0] || 'Insight'}
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.15] break-words">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.3] sm:leading-[1.15] break-words text-foreground">
               {post.title}
             </h1>
 
             {/* Author */}
             <div
-              className="flex flex-wrap items-center justify-between gap-4 pt-4 border-y border-glass-border py-4 text-xs text-foreground/60 notranslate"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-5 sm:pt-6 border-y border-glass-border py-5 sm:py-6 text-sm text-foreground/70 notranslate"
               translate="no"
             >
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0">
                   {post.author?.profilePhotoUrl || post.author?.profile?.profilePhotoUrl ? (
                     <img
                       src={
@@ -261,23 +263,23 @@ export function BlogPostDetailClient({
                   )}
                 </div>
                 <div>
-                  <p className="font-bold text-foreground">
+                  <p className="font-bold text-[15px] sm:text-base text-foreground">
                     {post.author?.fullName?.includes('APX Blog Bot')
                       ? 'APX Teck'
                       : post.author?.fullName || 'APX Architect'}
                   </p>
-                  <p className="text-[10px] text-foreground/45 mt-0.5">
+                  <time dateTime={post.publishedAt || undefined} className="block text-xs text-foreground/50 mt-0.5">
                     {formatDate(post.publishedAt)}
-                  </p>
+                  </time>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-5 text-xs sm:text-sm">
                 <span className="flex items-center gap-1.5 shrink-0">
-                  <Eye className="w-3.5 h-3.5" /> {post.views || 0} Views
+                  <Eye className="w-4 h-4" /> {post.views || 0} Views
                 </span>
                 <span className="w-1 h-1 rounded-full bg-glass-border"></span>
                 <span className="flex items-center gap-1.5 shrink-0">
-                  <Clock className="w-3.5 h-3.5" /> 5 min read
+                  <Clock className="w-4 h-4" /> 5 min read
                 </span>
 
                 {/* Share buttons */}
@@ -320,11 +322,11 @@ export function BlogPostDetailClient({
                 </div>
               </div>
             </div>
-          </div>
+          </header>
 
           {/* Cover image */}
           {post.coverImageUrl && (
-            <div className="w-full h-96 rounded-3xl overflow-hidden border border-glass-border shadow-md">
+            <div className="w-full aspect-video sm:aspect-auto sm:h-80 md:h-96 rounded-2xl sm:rounded-3xl overflow-hidden border border-glass-border shadow-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.coverImageUrl}
@@ -568,6 +570,6 @@ export function BlogPostDetailClient({
           </div>
         </div>
       </div>
-    </section>
+    </article>
   );
 }
