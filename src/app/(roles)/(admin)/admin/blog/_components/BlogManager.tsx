@@ -30,6 +30,8 @@ export function BlogManager({ initialPosts = [] }: { initialPosts?: BlogPost[] }
     categories,
     selectedCategory,
     setSelectedCategory,
+    sortBy,
+    setSortBy,
   } = useBlogLogic(initialPosts);
 
   const renderPageNumbers = () => {
@@ -84,6 +86,8 @@ export function BlogManager({ initialPosts = [] }: { initialPosts?: BlogPost[] }
           categories={categories}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
 
         <div className="overflow-auto bg-gray-50 dark:bg-[#151515] min-h-[400px]">

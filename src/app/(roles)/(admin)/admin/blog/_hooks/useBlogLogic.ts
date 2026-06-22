@@ -13,6 +13,8 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
   
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  
+  const [sortBy, setSortBy] = useState<string>('newest');
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -109,8 +111,26 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
     }
   );
 
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
-  const paginatedPosts = filteredPosts.slice(
+  const sortedAndFilteredPosts = [...filteredPosts].sort((a, b) => {
+    switch (sortBy) {
+      case 'oldest':
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      case 'views_high':
+        return (b.views || 0) - (a.views || 0);
+      case 'views_low':
+        return (a.views || 0) - (b.views || 0);
+      case 'likes_high':
+        return (b._count?.likes || 0) - (a._count?.likes || 0);
+      case 'likes_low':
+        return (a._count?.likes || 0) - (b._count?.likes || 0);
+      case 'newest':
+      default:
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+  });
+
+  const totalPages = Math.ceil(sortedAndFilteredPosts.length / itemsPerPage);
+  const paginatedPosts = sortedAndFilteredPosts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -137,5 +157,7 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
     categories,
     selectedCategory,
     setSelectedCategory,
+    sortBy,
+    setSortBy,
   };
 }
