@@ -24,6 +24,16 @@ export function LanguageSwitcher() {
   const isOpenRef = useRef(isOpen);
 
   useEffect(() => {
+    // Detect current language from cookie on mount
+    const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+    if (match && match[1]) {
+      setCurrentLang(match[1]);
+    } else {
+      setCurrentLang('en');
+    }
+  }, []);
+
+  useEffect(() => {
     isOpenRef.current = isOpen;
   }, [isOpen]);
 
@@ -78,18 +88,33 @@ export function LanguageSwitcher() {
   const changeLanguage = (langCode: string) => {
     setCurrentLang(langCode);
 
-    // Find the hidden Google Translate select box
-    const selectField = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    if (langCode === 'en') {
+      // Clear cookies to revert to English
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${window.location.hostname}; path=/;`;
+    } else {
+      // Set cookies for the new language
+      document.cookie = `googtrans=/en/${langCode}; path=/`;
+      document.cookie = `googtrans=/en/${langCode}; domain=.${window.location.hostname}; path=/`;
+    }
 
+    const selectField = document.querySelector('.goog-te-combo') as HTMLSelectElement;
     if (selectField) {
       selectField.value = langCode;
       selectField.dispatchEvent(new Event('change'));
+      
+      // Force a slight delay and then reload if we want it perfect, 
+      // but Google Translate widget usually works inline. 
+      // To guarantee no glitches, we will do a reload if the translation gets stuck,
+      // or we can just rely on the cookie + reload for a perfect flush.
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     } else {
-      // Fallback: manually set cookie and reload
-      document.cookie = `googtrans=/en/${langCode}; path=/`;
-      document.cookie = `googtrans=/en/${langCode}; domain=.${window.location.hostname}; path=/`;
+      // Fallback
       window.location.reload();
     }
+    
     setIsOpen(false);
   };
 
