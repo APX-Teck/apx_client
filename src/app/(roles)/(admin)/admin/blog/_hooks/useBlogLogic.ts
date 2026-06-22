@@ -4,12 +4,15 @@ import { blogService } from '@/services/admin/blog.service';
 import { BlogPostStatus } from '@/app/types/admin-blog.types';
 import { AdminBlogPost as BlogPost } from '@/app/types/admin-blog.types';
 
+import { BlogCategory } from '@/app/types/admin-blog.types';
+
 export function useBlogLogic(initialPosts: BlogPost[] = []) {
   const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
-
+  
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,13 +40,23 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
     }
   }, []);
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      const data = await blogService.getCategories();
+      setCategories(data || []);
+    } catch (error) {
+      console.error('Failed to fetch categories');
+    }
+  }, []);
+
   useEffect(() => {
     if (initialPosts && initialPosts.length > 0) {
       setPosts(initialPosts);
     } else {
       fetchPosts();
     }
-  }, [initialPosts, fetchPosts]);
+    fetchCategories();
+  }, [initialPosts, fetchPosts, fetchCategories]);
 
   const handleDeleteClick = (id: string) => {
     setPostToDelete(id);
@@ -78,10 +91,16 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
   };
 
   const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.authorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.slug.toLowerCase().includes(searchTerm.toLowerCase())
+    (post) => {
+      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            post.authorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            post.slug.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const postCategoryId = post.category?.id?.toString() || post.category?.toString() || '';
+      const matchesCategory = selectedCategory ? postCategoryId === selectedCategory : true;
+
+      return matchesSearch && matchesCategory;
+    }
   );
 
   const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
@@ -109,5 +128,8 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     isDeleting,
+    categories,
+    selectedCategory,
+    setSelectedCategory,
   };
 }

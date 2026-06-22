@@ -88,34 +88,46 @@ export function LanguageSwitcher() {
   const changeLanguage = (langCode: string) => {
     setCurrentLang(langCode);
 
+    const domain = window.location.hostname;
+    const isWww = domain.startsWith('www.');
+    const rootDomain = isWww ? domain.substring(4) : domain;
+    
+    // Target both root and current path to avoid cookie shadowing
+    const paths = ['/', window.location.pathname];
+
     if (langCode === 'en') {
-      // Clear cookies to revert to English
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${window.location.hostname}; path=/;`;
+      // Clear cookies aggressively
+      const expires = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
+      paths.forEach((p) => {
+        document.cookie = `googtrans=; ${expires}; path=${p};`;
+        document.cookie = `googtrans=; ${expires}; domain=${domain}; path=${p};`;
+        document.cookie = `googtrans=; ${expires}; domain=.${domain}; path=${p};`;
+        if (isWww) {
+          document.cookie = `googtrans=; ${expires}; domain=${rootDomain}; path=${p};`;
+          document.cookie = `googtrans=; ${expires}; domain=.${rootDomain}; path=${p};`;
+        }
+      });
+      // Also clear localStorage if any third-party script synced it
+      localStorage.removeItem('googtrans');
     } else {
-      // Set cookies for the new language
-      document.cookie = `googtrans=/en/${langCode}; path=/`;
-      document.cookie = `googtrans=/en/${langCode}; domain=.${window.location.hostname}; path=/`;
+      // Set cookies aggressively
+      const val = `/en/${langCode}`;
+      paths.forEach((p) => {
+        document.cookie = `googtrans=${val}; path=${p};`;
+        document.cookie = `googtrans=${val}; domain=${domain}; path=${p};`;
+        document.cookie = `googtrans=${val}; domain=.${domain}; path=${p};`;
+        if (isWww) {
+          document.cookie = `googtrans=${val}; domain=${rootDomain}; path=${p};`;
+          document.cookie = `googtrans=${val}; domain=.${rootDomain}; path=${p};`;
+        }
+      });
+      localStorage.setItem('googtrans', val);
     }
 
-    const selectField = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-    if (selectField) {
-      selectField.value = langCode;
-      selectField.dispatchEvent(new Event('change'));
-      
-      // Force a slight delay and then reload if we want it perfect, 
-      // but Google Translate widget usually works inline. 
-      // To guarantee no glitches, we will do a reload if the translation gets stuck,
-      // or we can just rely on the cookie + reload for a perfect flush.
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
-    } else {
-      // Fallback
-      window.location.reload();
-    }
-    
     setIsOpen(false);
+
+    // Hard reload is the absolute safest way to guarantee language change with the external GT widget
+    window.location.reload();
   };
 
   const portalContent = (

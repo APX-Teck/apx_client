@@ -27,6 +27,9 @@ export function BlogManager({ initialPosts = [] }: { initialPosts?: BlogPost[] }
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     isDeleting,
+    categories,
+    selectedCategory,
+    setSelectedCategory,
   } = useBlogLogic(initialPosts);
 
   const renderPageNumbers = () => {
@@ -75,7 +78,13 @@ export function BlogManager({ initialPosts = [] }: { initialPosts?: BlogPost[] }
       <BlogHeader />
 
       <div className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl rounded-[2rem] border border-gray-200/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col">
-        <BlogSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <BlogSearch 
+          searchTerm={searchTerm} 
+          setSearchTerm={setSearchTerm} 
+          categories={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
         <div className="overflow-auto bg-gray-50 dark:bg-[#151515] min-h-[400px]">
           <BlogList
