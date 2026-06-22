@@ -175,7 +175,7 @@ export function BlogPostDetailClient({
   // Inject Ad banner dynamically after paragraph 3
   const renderContentWithAds = () => {
     const paragraphs = post.content.split('</p>');
-    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:bg-foreground/5 prose-blockquote:py-4 prose-blockquote:pr-6 prose-blockquote:rounded-r-2xl prose-blockquote:my-6 prose-blockquote:text-foreground/80 prose-blockquote:font-medium prose-blockquote:border-y-0 prose-blockquote:border-r-0";
+    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-accent/5 [&_blockquote]:py-5 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-8 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm";
 
     if (paragraphs.length <= 3) {
       return (

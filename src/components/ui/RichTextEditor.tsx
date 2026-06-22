@@ -219,6 +219,19 @@ const RichTextEditor = React.memo(function RichTextEditor({
     }
   };
 
+  const insertQuoteBlock = () => {
+    const text = prompt('Enter the quote text:');
+    if (!text) return;
+    const author = prompt('Enter the author or source (optional):');
+    
+    let html = `<blockquote><p>${text}</p>`;
+    if (author) {
+      html += `<footer>— ${author}</footer>`;
+    }
+    html += `</blockquote><p><br></p>`;
+    execCommand('insertHTML', html);
+  };
+
   const handlePaste = (e: React.ClipboardEvent) => {
     setTimeout(handleInput, 0);
   };
@@ -627,9 +640,8 @@ const RichTextEditor = React.memo(function RichTextEditor({
           <ToolbarButton icon={Outdent} onClick={() => execCommand('outdent')} title="Outdent" />
           <ToolbarButton
             icon={Quote}
-            onClick={() => execCommand('formatBlock', 'BLOCKQUOTE')}
-            isActive={activeFormats.includes('blockquote')}
-            title="Blockquote"
+            onClick={insertQuoteBlock}
+            title="Insert Beautiful Quote"
           />
           <Divider />
 
