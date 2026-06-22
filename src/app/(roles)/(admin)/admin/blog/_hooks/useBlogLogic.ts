@@ -96,8 +96,14 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
                             post.authorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             post.slug.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const postCategoryId = post.category?.id?.toString() || post.category?.toString() || '';
-      const matchesCategory = selectedCategory ? postCategoryId === selectedCategory : true;
+      let matchesCategory = true;
+      if (selectedCategory) {
+        const selectedCatObj = categories.find(c => c.id.toString() === selectedCategory);
+        const postCategoryId = (post as any).categoryId?.toString() || post.category?.id?.toString();
+        const postCategoryName = typeof post.category === 'string' ? post.category : post.category?.name;
+        
+        matchesCategory = postCategoryId === selectedCategory || (selectedCatObj ? postCategoryName === selectedCatObj.name : false);
+      }
 
       return matchesSearch && matchesCategory;
     }

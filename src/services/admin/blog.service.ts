@@ -101,4 +101,24 @@ export const blogService = {
       throw error;
     }
   },
+
+  updateCategory: async (id: string | number, data: { name: string; slug?: string }): Promise<BlogCategory> => {
+    try {
+      const response = await apiClient.patch(`/blog/categories/${id}`, data);
+      return extractDataObject<BlogCategory>(response.data) || response.data;
+    } catch (error) {
+      console.error('Failed to update category', error);
+      throw error;
+    }
+  },
+
+  deleteCategory: async (id: string | number): Promise<{ success: boolean }> => {
+    try {
+      const response = await apiClient.delete(`/blog/categories/${id}`);
+      return { success: response.data?.success || true };
+    } catch (error) {
+      console.error('Failed to delete category', error);
+      throw error;
+    }
+  },
 };
