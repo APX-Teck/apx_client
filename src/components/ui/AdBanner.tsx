@@ -30,8 +30,8 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
 
         // Only keep ads that actually have content to prevent blank spaces
         const validAds = safeAds.filter((ad: Ad) => 
-          (ad.adType === 'GOOGLE' && !!ad.adCode) || 
-          (ad.adType === 'CLIENT' && !!ad.bannerUrl)
+          (ad.adType === 'GOOGLE' && ad.adCode && ad.adCode.trim() !== '') || 
+          (ad.adType === 'CLIENT' && ad.bannerUrl && ad.bannerUrl.trim() !== '')
         );
 
         // Group by Ad Type to prevent mixing CLIENT and GOOGLE ads in the rotation

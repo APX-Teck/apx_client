@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { Search, ChevronLeft, ChevronRight, Eye, Clock, TrendingUp } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Eye, Clock, TrendingUp, Heart, MessageCircle, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { BlogPost } from '@/app/types/blog.types';
 import { AdBanner } from '@/components/ui/AdBanner';
+import { api } from '@/lib/axios';
 
 interface BlogListingSectionProps {
   initialBlogs: BlogPost[];
@@ -22,8 +23,20 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
   const postsPerPage = 12;
   const sectionRef = useRef<HTMLElement>(null);
 
+  const [clientCategories, setClientCategories] = useState<any[]>(initialCategories || []);
+
+  useEffect(() => {
+    if (clientCategories.length === 0) {
+      api.fetchCategories().then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setClientCategories(data);
+        }
+      });
+    }
+  }, []);
+
   // Combine static "All" with dynamic categories from backend
-  const categoriesList = [{ id: 'all', name: 'All' }, ...(initialCategories || [])];
+  const categoriesList = [{ id: 'all', name: 'All' }, ...(clientCategories || [])];
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -226,10 +239,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         <h4 className="text-base font-bold leading-snug group-hover:text-accent transition-colors line-clamp-3">
                           {post.title}
                         </h4>
-                        <div className="flex items-center gap-2 pt-1 text-[10px] text-foreground/50">
+                        <div className="flex items-center gap-3 pt-2 text-[10px] text-foreground/50">
                           <span>{formatDate(post.publishedAt)}</span>
                           <span>•</span>
-                          <span>{post.views || 0} Views</span>
+                          <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {post.views || 0} Views</span>
+                          <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {post._count?.likes || 0}</span>
+                          <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {post._count?.comments || 0}</span>
                         </div>
                       </div>
                       {post.coverImageUrl && (
