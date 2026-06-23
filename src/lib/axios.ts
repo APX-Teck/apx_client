@@ -124,7 +124,11 @@ export const api = {
   fetchBlogs: async () => {
     try {
       const response = await apiClient.get('/blog/public/posts');
-      return response.data?.data?.data || [];
+      const resData = response.data;
+      if (Array.isArray(resData)) return resData;
+      if (Array.isArray(resData?.data)) return resData.data;
+      if (Array.isArray(resData?.data?.data)) return resData.data.data;
+      return [];
     } catch (error) {
       console.error('Failed to fetch blogs:', error);
       return [];
@@ -133,7 +137,11 @@ export const api = {
   fetchCategories: async () => {
     try {
       const response = await apiClient.get('/blog/categories');
-      return response.data?.data || [];
+      const resData = response.data;
+      if (Array.isArray(resData)) return resData;
+      if (Array.isArray(resData?.data)) return resData.data;
+      if (Array.isArray(resData?.data?.data)) return resData.data.data;
+      return [];
     } catch (error) {
       console.error('Failed to fetch categories:', error);
       return [];

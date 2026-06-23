@@ -28,9 +28,15 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
         const fetchedAds = Array.isArray(data) ? data : ((data as any)?.data || []);
         const safeAds = Array.isArray(fetchedAds) ? fetchedAds : [];
 
+        // Only keep ads that actually have content to prevent blank spaces
+        const validAds = safeAds.filter((ad: Ad) => 
+          (ad.adType === 'GOOGLE' && !!ad.adCode) || 
+          (ad.adType === 'CLIENT' && !!ad.bannerUrl)
+        );
+
         // Group by Ad Type to prevent mixing CLIENT and GOOGLE ads in the rotation
-        const clientAds = safeAds.filter((ad: Ad) => ad.adType === 'CLIENT');
-        const googleAds = safeAds.filter((ad: Ad) => ad.adType === 'GOOGLE');
+        const clientAds = validAds.filter((ad: Ad) => ad.adType === 'CLIENT');
+        const googleAds = validAds.filter((ad: Ad) => ad.adType === 'GOOGLE');
 
         let selectedGroup: Ad[] = [];
         if (clientAds.length > 0 && googleAds.length > 0) {
