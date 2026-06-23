@@ -16,6 +16,7 @@ export type MockApi = {
   fetchBlogComments: (...args: any[]) => Promise<BlogComment[]>;
   fetchBlogBySlug: (...args: any[]) => Promise<BlogPost | null>;
   fetchBlogs: (...args: any[]) => Promise<BlogPost[]>;
+  fetchCategories: (...args: any[]) => Promise<any[]>;
   fetchFaqs: (...args: any[]) => Promise<Faq[]>;
   fetchHeroBanners: (...args: any[]) => Promise<HeroBanner[]>;
   fetchPortfolios: (...args: any[]) => Promise<Portfolio[]>;
@@ -126,6 +127,15 @@ export const api = {
       return response.data?.data?.data || [];
     } catch (error) {
       console.error('Failed to fetch blogs:', error);
+      return [];
+    }
+  },
+  fetchCategories: async () => {
+    try {
+      const response = await apiClient.get('/blog/categories');
+      return response.data?.data || [];
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
       return [];
     }
   },

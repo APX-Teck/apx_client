@@ -1,49 +1,46 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { Search, Calendar, Clock, Heart, ChevronLeft, ChevronRight, User, Eye } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Eye, Clock, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { BlogPost } from '@/app/types/blog.types';
 import { AdBanner } from '@/components/ui/AdBanner';
 
 interface BlogListingSectionProps {
   initialBlogs: BlogPost[];
+  initialCategories?: any[];
 }
 
-const categories = ['All', 'Technology', 'Tutorial', 'Marketing', 'Design', 'SMB'];
-
-export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
-  const [blogs, setBlogs] = useState<BlogPost[]>(initialBlogs);
+export function BlogListingSection({ initialBlogs, initialCategories }: BlogListingSectionProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-  const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 12; // Show 12 posts per page (6 above ad, 6 below ad)
+  const postsPerPage = 12;
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Combine static "All" with dynamic categories from backend
+  const categoriesList = [{ id: 'all', name: 'All' }, ...(initialCategories || [])];
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
     if (sectionRef.current) {
-      const yOffset = -100; // Adjust for sticky navbar
+      const yOffset = -100;
       const y = sectionRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
-  // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 400);
-
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  // Filter posts
   const filteredPosts = initialBlogs.filter((post) => {
     const matchesSearch =
       post.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
@@ -54,23 +51,12 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
       activeCategory === 'All' ||
       post.tags.some((t) => t.toLowerCase() === activeCategory.toLowerCase());
 
-    const matchesTag =
-      !activeTag || post.tags.some((t) => t.toLowerCase() === activeTag.toLowerCase());
-
-    return matchesSearch && matchesCategory && matchesTag;
+    return matchesSearch && matchesCategory;
   });
 
-  // Reset page index on filter change
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
-  }, [debouncedSearch, activeCategory, activeTag]);
-
-  // Pagination bounds
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  }, [debouncedSearch, activeCategory]);
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return 'Recent';
@@ -86,213 +72,301 @@ export function BlogListingSection({ initialBlogs }: BlogListingSectionProps) {
     }
   };
 
-  // Pull all unique tags for chips list
-  const allTags = Array.from(new Set(initialBlogs.flatMap((p) => p.tags)));
+  // Google News Layout Splitting
+  // If we have search/filter, maybe we just show a grid. But if it's the main view, show Top Stories.
+  const isDefaultView = activeCategory === 'All' && !debouncedSearch;
+  
+  // Top 4 posts for "Your Briefing / Top Stories"
+  const topStories = filteredPosts.slice(0, 4);
+  
+  // Posts for the main list
+  const listPosts = isDefaultView ? filteredPosts.slice(4) : filteredPosts;
+  
+  // Picks for you (just some random/trending posts, e.g., highest views, but here we just slice from bottom)
+  const picksForYou = [...initialBlogs].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentListPosts = listPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(listPosts.length / postsPerPage);
+
+  const AuthorImage = ({ post }: { post: BlogPost }) => {
+    const url = post.author?.profile?.profilePhotoUrl || post.author?.profilePhotoUrl;
+    if (url) {
+      return <img src={url} alt={post.author?.fullName || 'Author'} className="w-full h-full object-cover" />;
+    }
+    const name = post.author?.fullName || 'APX';
+    return (
+      <img
+        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name.includes('APX') ? 'APX' : name)}&background=4f46e5&color=fff`}
+        alt={name}
+        className="w-full h-full object-cover"
+      />
+    );
+  };
 
   return (
-    <section ref={sectionRef} className="py-12 max-w-7xl mx-auto px-6 space-y-12">
-      {/* Search and Filters panel */}
-      <div className="space-y-6 notranslate" translate="no">
-        {/* Search Input */}
-        <div className="relative max-w-md mx-auto">
+    <section ref={sectionRef} className="w-full max-w-[1400px] mx-auto space-y-6 md:space-y-10">
+      
+      {/* Category Navbar (Sticky style like Google News) */}
+      <div className="sticky top-16 md:top-20 z-40 bg-background/95 backdrop-blur-md border-b border-glass-border py-3 px-4 sm:px-6 notranslate" translate="no">
+        <div className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-7xl mx-auto">
+          {categoriesList.map((cat) => (
+            <button
+              key={cat.id || cat.name}
+              onClick={() => setActiveCategory(cat.name)}
+              className={`shrink-0 text-sm font-semibold whitespace-nowrap transition-colors ${
+                activeCategory === cat.name
+                  ? 'text-accent border-b-2 border-accent pb-1'
+                  : 'text-foreground/70 hover:text-foreground pb-1 border-b-2 border-transparent'
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+          
+          <div className="ml-auto relative shrink-0 w-48 sm:w-64 hidden sm:block">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/45" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-foreground/[0.03] border border-glass-border rounded-full pl-9 pr-4 py-1.5 outline-none text-xs focus:ring-1 focus:ring-accent transition-all"
+              placeholder="Search topics..."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 sm:px-6 max-w-7xl mx-auto space-y-10 notranslate" translate="no">
+        
+        {/* Mobile Search */}
+        <div className="relative sm:hidden w-full mt-4">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/45" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-foreground/[0.02] border border-glass-border rounded-xl pl-11 pr-4 py-3 outline-none text-sm focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
-            placeholder="Search articles..."
-            suppressHydrationWarning
+            className="w-full bg-foreground/[0.03] border border-glass-border rounded-full pl-10 pr-4 py-2.5 outline-none text-sm focus:ring-1 focus:ring-accent transition-all"
+            placeholder="Search topics, news..."
           />
         </div>
 
-        {/* Categories Tab Row */}
-        <div className="flex justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-3 pb-4 pt-2 -mt-2 px-1 sm:px-0">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => {
-                setActiveCategory(cat);
-                setActiveTag(null); // Clear tag filter when switching category
-              }}
-              className={`shrink-0 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
-                activeCategory === cat
-                  ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
-                  : 'glass-panel border-glass-border hover:bg-white/10 text-foreground/75 hover:text-foreground'
-              }`}
-              suppressHydrationWarning
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {/* Top Stories / Your Briefing (Only on default view) */}
+        {isDefaultView && topStories.length > 0 && (
+          <div className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">Your Briefing</h2>
+            
+            <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
+              {/* Main Feature (Left) */}
+              {topStories[0] && (
+                <div className="lg:col-span-7 xl:col-span-8 h-full">
+                  <Link href={`/insights-news/${topStories[0].slug}`} className="block group h-full">
+                    <GlassCard className="!p-0 overflow-hidden h-full flex flex-col border border-glass-border hover:border-white/20 transition-all duration-300">
+                      <div className="relative w-full aspect-video sm:h-[400px] overflow-hidden bg-accent/5">
+                        {topStories[0].coverImageUrl && (
+                          <img
+                            src={topStories[0].coverImageUrl}
+                            alt={topStories[0].title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        )}
+                      </div>
+                      <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
+                        <span className="text-accent text-xs font-bold uppercase tracking-wider mb-2 block">
+                          {topStories[0].tags[0] || 'Top Story'}
+                        </span>
+                        <h3 className="text-2xl md:text-3xl font-extrabold leading-tight mb-3 group-hover:text-accent transition-colors line-clamp-3">
+                          {topStories[0].title}
+                        </h3>
+                        <p className="text-foreground/70 text-sm leading-relaxed line-clamp-2 md:line-clamp-3 mb-6">
+                          {topStories[0].excerpt}
+                        </p>
+                        <div className="flex items-center gap-4 mt-auto">
+                           <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-glass-border">
+                             <AuthorImage post={topStories[0]} />
+                           </div>
+                           <div className="flex flex-col">
+                             <span className="text-xs font-bold text-foreground">
+                               {topStories[0].author?.fullName || 'APX Team'}
+                             </span>
+                             <span className="text-[10px] text-foreground/50">
+                               {formatDate(topStories[0].publishedAt)}
+                             </span>
+                           </div>
+                        </div>
+                      </div>
+                    </GlassCard>
+                  </Link>
+                </div>
+              )}
 
-        {/* Tags row */}
-        {allTags.length > 0 && (
-          <div className="flex justify-center flex-wrap gap-2 pt-2 border-t border-glass-border max-w-3xl mx-auto">
-            {allTags.map((tag) => {
-              const isSelected = activeTag === tag;
-              return (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(isSelected ? null : tag)}
-                  className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors border ${
-                    isSelected
-                      ? 'bg-accent/15 border-accent text-accent'
-                      : 'bg-transparent border-glass-border text-foreground/50 hover:border-foreground/30 hover:text-foreground'
-                  }`}
-                  suppressHydrationWarning
-                >
-                  #{tag}
-                </button>
-              );
-            })}
+              {/* Side Stories (Right) */}
+              <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
+                {topStories.slice(1, 4).map((post) => (
+                  <Link key={post.id} href={`/insights-news/${post.slug}`} className="block group flex-1">
+                    <div className="flex gap-4 items-center h-full border-b border-glass-border pb-6 last:border-0 last:pb-0">
+                      <div className="flex-1 space-y-2">
+                        <span className="text-accent text-[10px] font-bold uppercase tracking-wider block">
+                          {post.tags[0] || 'News'}
+                        </span>
+                        <h4 className="text-base font-bold leading-snug group-hover:text-accent transition-colors line-clamp-3">
+                          {post.title}
+                        </h4>
+                        <div className="flex items-center gap-2 pt-1 text-[10px] text-foreground/50">
+                          <span>{formatDate(post.publishedAt)}</span>
+                          <span>•</span>
+                          <span>{post.views || 0} Views</span>
+                        </div>
+                      </div>
+                      {post.coverImageUrl && (
+                        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border">
+                          <img
+                            src={post.coverImageUrl}
+                            alt={post.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         )}
-      </div>
 
-      {/* Grid of Results */}
-      {currentPosts.length === 0 ? (
-        <div
-          className="text-center py-20 border border-dashed border-glass-border rounded-3xl notranslate"
-          translate="no"
-        >
-          <p className="text-foreground/50 text-base font-semibold mb-2">No posts found.</p>
-          <p className="text-foreground/40 text-xs">
-            Try selecting a different filter key or keywords search.
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentPosts.map((post, idx) => {
-              // We inject the Mid Ad slot after the 6th card (index 5)
-              const showMidAd = idx === 5;
+        {/* Main Feed & Sidebar */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 pt-8 border-t border-glass-border">
+          
+          {/* Main List */}
+          <div className="lg:col-span-8 space-y-8">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-accent" />
+              {isDefaultView ? 'More News' : `Results for "${activeCategory}"`}
+            </h2>
 
-              return (
-                <div key={post.id} className="contents">
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="h-full"
-                  >
-                    <Link href={`/insights-news/${post.slug}`} className="block group h-full">
-                      <GlassCard className="!p-0 overflow-hidden h-full flex flex-col hover:border-white/20 hover:shadow-2xl transition-all duration-300">
-                        <div className="relative h-48 w-full overflow-hidden bg-accent/5">
+            {currentListPosts.length === 0 ? (
+              <div className="text-center py-20 border border-dashed border-glass-border rounded-2xl">
+                <p className="text-foreground/50 text-sm font-semibold">No posts found.</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {currentListPosts.map((post, idx) => {
+                  const showMidAd = idx === 3; // Show Ad after 3rd post in the list
+
+                  return (
+                    <div key={post.id} className="contents">
+                      <Link href={`/insights-news/${post.slug}`} className="block group">
+                        <div className="flex flex-col sm:flex-row gap-5 p-4 sm:p-5 rounded-2xl border border-transparent hover:border-glass-border hover:bg-foreground/[0.02] transition-all duration-300">
                           {post.coverImageUrl && (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={post.coverImageUrl}
-                              alt={post.title}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-                            />
+                            <div className="w-full sm:w-48 h-48 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border">
+                              <img
+                                src={post.coverImageUrl}
+                                alt={post.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              />
+                            </div>
                           )}
-                          <div className="absolute top-4 left-4 glass-panel border border-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
-                            {post.tags[0] || 'Blog'}
-                          </div>
-                        </div>
-
-                        <div className="p-5 flex flex-col justify-between flex-1 gap-6">
-                          <div className="space-y-2">
-                            <h3 className="text-xl font-bold tracking-tight line-clamp-2 group-hover:text-accent transition-colors">
-                              {post.title}
-                            </h3>
-                            {post.excerpt && (
-                              <p className="text-foreground/70 text-xs leading-relaxed line-clamp-3">
-                                {post.excerpt}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="pt-4 border-t border-glass-border flex items-center justify-between mt-auto">
-                            <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-xs text-accent uppercase overflow-hidden shrink-0">
-                                {post.author?.profile?.profilePhotoUrl ? (
-                                  <img
-                                    src={post.author.profile.profilePhotoUrl}
-                                    alt={post.author.fullName}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : post.author?.profilePhotoUrl ? (
-                                  <img
-                                    src={post.author.profilePhotoUrl}
-                                    alt={post.author.fullName}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : post.author?.fullName ? (
-                                  <img
-                                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.fullName.includes('APX Blog Bot') ? 'APX Teck' : post.author.fullName)}&background=4f46e5&color=fff`}
-                                    alt={post.author.fullName}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : (
-                                  'A'
-                                )}
-                              </div>
-                              <span className="text-[10px] font-semibold text-foreground/60">
-                                {post.author?.fullName?.includes('APX Blog Bot')
-                                  ? 'APX Teck'
-                                  : post.author?.fullName || 'APX Lead'}
+                          <div className="flex flex-col justify-between flex-1 py-1 space-y-3 sm:space-y-0">
+                            <div>
+                              <span className="text-foreground/50 text-[10px] font-bold uppercase tracking-wider mb-1 block">
+                                {post.tags[0] || 'Article'}
                               </span>
+                              <h3 className="text-lg font-bold leading-snug group-hover:text-accent transition-colors line-clamp-2">
+                                {post.title}
+                              </h3>
                             </div>
-                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1 text-[10px] text-foreground/45 font-medium">
-                                <Eye className="w-3.5 h-3.5" />
-                                <span>{post.views || 0} Views</span>
-                              </div>
-                              <span className="text-[10px] text-foreground/45 font-medium">
-                                {formatDate(post.publishedAt)}
-                              </span>
+                            <div className="flex items-center justify-between mt-auto pt-2 sm:pt-0">
+                               <div className="flex items-center gap-2">
+                                 <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                                   <AuthorImage post={post} />
+                                 </div>
+                                 <span className="text-[11px] font-semibold text-foreground/70">
+                                   {post.author?.fullName || 'APX Team'}
+                                 </span>
+                               </div>
+                               <span className="text-[10px] text-foreground/45">
+                                 {formatDate(post.publishedAt)}
+                               </span>
                             </div>
                           </div>
                         </div>
-                      </GlassCard>
-                    </Link>
-                  </motion.div>
+                      </Link>
 
-                  {/* Inject Mid Ad slot dynamically */}
-                  {showMidAd && (
-                    <div className="col-span-full py-4">
-                      <AdBanner placement="BLOG_LIST_MID" />
+                      {showMidAd && (
+                        <div className="py-4 border-y border-glass-border my-6">
+                          <AdBanner placement="BLOG_LIST_MID" />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-4 pt-6">
+                <button
+                  onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="w-9 h-9 rounded-full border border-glass-border flex items-center justify-center text-foreground hover:bg-foreground/5 disabled:opacity-40 transition-all"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-xs font-semibold text-foreground/70">
+                  {currentPage} of {totalPages}
+                </span>
+                <button
+                  onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="w-9 h-9 rounded-full border border-glass-border flex items-center justify-center text-foreground hover:bg-foreground/5 disabled:opacity-40 transition-all"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div
-              className="flex justify-center items-center gap-4 pt-8 border-t border-glass-border notranslate"
-              translate="no"
-            >
-              <button
-                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                disabled={currentPage === 1}
-                className="w-10 h-10 rounded-xl glass-panel border border-glass-border flex items-center justify-center text-foreground hover:bg-white/5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                aria-label="Previous Page"
-                suppressHydrationWarning
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <span className="text-xs font-semibold text-foreground/70">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="w-10 h-10 rounded-xl glass-panel border border-glass-border flex items-center justify-center text-foreground hover:bg-white/5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                aria-label="Next Page"
-                suppressHydrationWarning
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+          {/* Sidebar (Picks for you) */}
+          <div className="lg:col-span-4 space-y-8">
+            <div className="sticky top-40 space-y-8">
+              <div className="bg-foreground/[0.02] border border-glass-border rounded-3xl p-6">
+                <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                  Picks for you
+                </h3>
+                <div className="space-y-5">
+                  {picksForYou.map((post) => (
+                    <Link key={post.id} href={`/insights-news/${post.slug}`} className="block group">
+                      <div className="flex gap-3 items-center">
+                        <div className="text-xl font-extrabold text-foreground/10 group-hover:text-accent/20 transition-colors w-6">
+                          0{picksForYou.indexOf(post) + 1}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-sm font-bold leading-tight group-hover:text-accent transition-colors line-clamp-2">
+                            {post.title}
+                          </h4>
+                          <div className="text-[10px] text-foreground/50 mt-1">
+                            {formatDate(post.publishedAt)}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Sidebar Ad */}
+              <div className="rounded-3xl overflow-hidden border border-glass-border">
+                 <AdBanner placement="BLOG_POST_SIDEBAR" />
+              </div>
             </div>
-          )}
+          </div>
+
         </div>
-      )}
+      </div>
     </section>
   );
 }

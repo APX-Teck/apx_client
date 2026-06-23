@@ -9,11 +9,17 @@ const BlogListingSection = dynamic(
 
 export async function BlogSectionLoader() {
   let initialBlogs: BlogPost[] = [];
+  let initialCategories: any[] = [];
   try {
-    initialBlogs = await api.fetchBlogs();
+    const [blogs, categories] = await Promise.all([
+      api.fetchBlogs(),
+      api.fetchCategories()
+    ]);
+    initialBlogs = blogs;
+    initialCategories = categories;
   } catch (err) {
     console.error('Failed to load blogs for serverside render', err);
   }
 
-  return <BlogListingSection initialBlogs={initialBlogs} />;
+  return <BlogListingSection initialBlogs={initialBlogs} initialCategories={initialCategories} />;
 }
