@@ -13,7 +13,7 @@ interface BlogListingSectionProps {
   initialCategories?: any[];
 }
 
-export function BlogListingSection({ initialBlogs, initialCategories }: BlogListingSectionProps) {
+export function BlogListingSection({ initialBlogs = [], initialCategories = [] }: BlogListingSectionProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
@@ -41,15 +41,20 @@ export function BlogListingSection({ initialBlogs, initialCategories }: BlogList
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const filteredPosts = initialBlogs.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      post.excerpt?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      post.content?.toLowerCase().includes(debouncedSearch.toLowerCase());
+  const filteredPosts = (initialBlogs || []).filter((post) => {
+    const titleStr = post.title || '';
+    const excerptStr = post.excerpt || '';
+    const contentStr = post.content || '';
 
+    const matchesSearch =
+      titleStr.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      excerptStr.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      contentStr.toLowerCase().includes(debouncedSearch.toLowerCase());
+
+    const tags = post.tags || [];
     const matchesCategory =
       activeCategory === 'All' ||
-      post.tags.some((t) => t.toLowerCase() === activeCategory.toLowerCase());
+      tags.some((t) => t.toLowerCase() === activeCategory.toLowerCase());
 
     return matchesSearch && matchesCategory;
   });
@@ -83,7 +88,7 @@ export function BlogListingSection({ initialBlogs, initialCategories }: BlogList
   const listPosts = isDefaultView ? filteredPosts.slice(4) : filteredPosts;
   
   // Picks for you (just some random/trending posts, e.g., highest views, but here we just slice from bottom)
-  const picksForYou = [...initialBlogs].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
+  const picksForYou = [...(initialBlogs || [])].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -174,7 +179,7 @@ export function BlogListingSection({ initialBlogs, initialCategories }: BlogList
                       </div>
                       <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
                         <span className="text-accent text-xs font-bold uppercase tracking-wider mb-2 block">
-                          {topStories[0].tags[0] || 'Top Story'}
+                          {(topStories[0].tags || [])[0] || 'Top Story'}
                         </span>
                         <h3 className="text-2xl md:text-3xl font-extrabold leading-tight mb-3 group-hover:text-accent transition-colors line-clamp-3">
                           {topStories[0].title}
@@ -208,7 +213,7 @@ export function BlogListingSection({ initialBlogs, initialCategories }: BlogList
                     <div className="flex gap-4 items-center h-full border-b border-glass-border pb-6 last:border-0 last:pb-0">
                       <div className="flex-1 space-y-2">
                         <span className="text-accent text-[10px] font-bold uppercase tracking-wider block">
-                          {post.tags[0] || 'News'}
+                          {(post.tags || [])[0] || 'News'}
                         </span>
                         <h4 className="text-base font-bold leading-snug group-hover:text-accent transition-colors line-clamp-3">
                           {post.title}
@@ -271,7 +276,7 @@ export function BlogListingSection({ initialBlogs, initialCategories }: BlogList
                           <div className="flex flex-col justify-between flex-1 py-1 space-y-3 sm:space-y-0">
                             <div>
                               <span className="text-foreground/50 text-[10px] font-bold uppercase tracking-wider mb-1 block">
-                                {post.tags[0] || 'Article'}
+                                {(post.tags || [])[0] || 'Article'}
                               </span>
                               <h3 className="text-lg font-bold leading-snug group-hover:text-accent transition-colors line-clamp-2">
                                 {post.title}

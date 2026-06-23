@@ -36,7 +36,7 @@ export function BlogPostDetailClient({
 }: BlogPostDetailClientProps) {
   const [likes, setLikes] = useState(post._count?.likes || 0);
   const [hasLiked, setHasLiked] = useState(false);
-  const [comments, setComments] = useState<BlogComment[]>(initialComments);
+  const [comments, setComments] = useState<BlogComment[]>(initialComments || []);
   const [commentStatus, setCommentStatus] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   console.log('Author:', post.author?.fullName);
@@ -135,7 +135,7 @@ export function BlogPostDetailClient({
 
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(post.title);
+    const title = encodeURIComponent(post.title || 'APX Article');
 
     let shareUrl = '';
     if (platform === 'twitter') {
@@ -174,15 +174,25 @@ export function BlogPostDetailClient({
 
   // Inject Ad banner dynamically after paragraph 3
   const renderContentWithAds = () => {
-    const paragraphs = post.content.split('</p>');
-    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-accent/5 [&_blockquote]:py-5 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-8 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm [&_table]:!block [&_table]:!max-w-full [&_table]:!overflow-x-auto [&_table]:!whitespace-nowrap md:[&_table]:!whitespace-normal [&_table]:!border-collapse [&_table]:!my-8 [&_table]:!rounded-xl [&_table]:!ring-1 [&_table]:!ring-glass-border [&_table]:!shadow-sm [&_thead]:!bg-foreground/[0.02] [&_th]:!border [&_th]:!border-glass-border [&_th]:!p-4 [&_th]:!text-left [&_th]:!font-bold [&_th]:!text-foreground [&_th]:!min-w-[120px] [&_td]:!border [&_td]:!border-glass-border/40 [&_td]:!p-4 [&_td]:!text-foreground/80 [&_tr:hover]:!bg-foreground/[0.02] [&_tr]:!transition-colors";
+    // Add responsive wrapper to tables
+    const contentWithResponsiveTables = (post.content || '')
+      .replace(/<table/gi, '<div class="table-responsive-wrapper"><table')
+      .replace(/<\/table>/gi, '</table></div>');
+
+    const paragraphs = contentWithResponsiveTables.split('</p>');
+    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-accent/5 [&_blockquote]:py-5 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-8 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
+      "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-8 [&_.table-responsive-wrapper]:!rounded-xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-sm [&_.table-responsive-wrapper]:!bg-foreground/[0.01] [&_.table-responsive-wrapper]:scroll-smooth " +
+      "[&_table]:!w-full [&_table]:!min-w-[600px] [&_table]:!border-collapse [&_table]:!text-left [&_table]:!text-sm [&_table]:!m-0 " +
+      "[&_thead]:!bg-foreground/[0.03] [&_th]:!p-4 [&_th]:!font-semibold [&_th]:!text-foreground [&_th]:!border-b [&_th]:!border-glass-border [&_th]:!whitespace-nowrap " +
+      "[&_td]:!p-4 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
+      "[&_tr:hover_td]:!bg-foreground/[0.02] [&_tr]:!transition-colors";
 
     if (paragraphs.length <= 3) {
       return (
-        <div
-          className={proseClasses}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+          <div
+            className={proseClasses}
+            dangerouslySetInnerHTML={{ __html: contentWithResponsiveTables }}
+          />
       );
     }
 
@@ -231,7 +241,7 @@ export function BlogPostDetailClient({
           {/* Header */}
           <header className="space-y-4">
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
-              {post.tags[0] || 'Insight'}
+              {(post.tags || [])[0] || 'Insight'}
             </span>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.3] sm:leading-[1.15] break-words text-foreground">
               {post.title}
@@ -326,7 +336,7 @@ export function BlogPostDetailClient({
 
           {/* Cover image */}
           {post.coverImageUrl && (
-            <div className="-mx-4 sm:mx-0 w-[calc(100%+2rem)] sm:w-full h-[250px] sm:h-[400px] md:h-[450px] sm:rounded-3xl overflow-hidden sm:border border-glass-border shadow-md">
+            <div className="w-full h-[250px] sm:h-[400px] md:h-[450px] rounded-2xl sm:rounded-3xl overflow-hidden border border-glass-border shadow-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.coverImageUrl}
@@ -346,7 +356,7 @@ export function BlogPostDetailClient({
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 pt-6 border-t border-glass-border">
-            {post.tags.map((tag) => (
+            {(post.tags || []).map((tag) => (
               <span
                 key={tag}
                 className="px-3 py-1 rounded-full bg-white/5 border border-glass-border text-foreground/60 text-xs font-semibold uppercase tracking-wider"
@@ -543,7 +553,7 @@ export function BlogPostDetailClient({
           </GlassCard>
 
           {/* Related Articles */}
-          {relatedPosts.length > 0 && (
+          {(relatedPosts || []).length > 0 && (
             <GlassCard className="p-6 border border-glass-border">
               <h2 className="font-bold text-sm mb-4">Related Insights</h2>
               <div className="space-y-4">
