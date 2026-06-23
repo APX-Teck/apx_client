@@ -237,7 +237,7 @@ export function BlogPostDetailClient({
 
       <div className="grid lg:grid-cols-12 gap-12 items-start">
         {/* Left Main Article */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-8 min-w-0">
           {/* Header */}
           <header className="space-y-4">
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
@@ -350,7 +350,7 @@ export function BlogPostDetailClient({
           <AdBanner placement="BLOG_POST_TOP" />
 
           {/* Body Content */}
-          <div className="bg-transparent text-foreground/90 leading-relaxed font-normal">
+          <div className="bg-transparent text-foreground/90 leading-relaxed font-normal break-words overflow-x-hidden min-w-0">
             {renderContentWithAds()}
           </div>
 

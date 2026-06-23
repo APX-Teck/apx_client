@@ -165,7 +165,7 @@ export default async function BlogPostDetailPage({ params }: Props) {
         <LanguageSwitcher />
       </div>
 
-      <main className="flex-1 pt-20 sm:pt-24 pb-20 pt-safe pb-safe w-full overflow-x-hidden">
+      <main className="flex-1 pt-28 md:pt-32 pb-20 pt-safe pb-safe w-full overflow-x-hidden">
         <BlogPostDetailClient post={post} relatedPosts={relatedPosts} initialComments={comments} />
       </main>
 
