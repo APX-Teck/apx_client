@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getAccessToken, setAccessToken, clearAccessToken } from './token-manager';
 
-const baseURL = process.env.NEXT_PUBLIC_NODEJS_API_URL || 'http://localhost:8090/api/v1';
+const baseURL = process.env.NEXT_PUBLIC_NODEJS_API_URL || 'https://www.apxteck.com/api/v1';
 
 const apiClient = axios.create({
   baseURL,

@@ -210,13 +210,19 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                            <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-glass-border">
                              <AuthorImage post={topStories[0]} />
                            </div>
-                           <div className="flex flex-col">
+                           <div className="flex flex-col flex-1">
                              <span className="text-xs font-bold text-foreground">
                                {topStories[0].author?.fullName || 'APX Team'}
                              </span>
-                             <span className="text-[10px] text-foreground/50">
-                               {formatDate(topStories[0].publishedAt)}
-                             </span>
+                             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] text-foreground/50 mt-1">
+                               <span className="whitespace-nowrap">{formatDate(topStories[0].publishedAt)}</span>
+                               <span className="hidden sm:inline">•</span>
+                               <div className="flex items-center gap-3 shrink-0">
+                                 <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {topStories[0].views || 0}</span>
+                                 <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {topStories[0]._count?.likes || 0}</span>
+                                 <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {topStories[0]._count?.comments || 0}</span>
+                               </div>
+                             </div>
                            </div>
                         </div>
                       </div>
@@ -239,12 +245,14 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         <h4 className="text-base font-bold leading-snug group-hover:text-accent transition-colors line-clamp-3">
                           {post.title}
                         </h4>
-                        <div className="flex items-center gap-3 pt-2 text-[10px] text-foreground/50">
-                          <span>{formatDate(post.publishedAt)}</span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {post.views || 0} Views</span>
-                          <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {post._count?.likes || 0}</span>
-                          <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {post._count?.comments || 0}</span>
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-auto pt-4 text-[10px] text-foreground/50 border-t border-glass-border">
+                          <span className="whitespace-nowrap">{formatDate(post.publishedAt)}</span>
+                          <span className="hidden sm:inline">•</span>
+                          <div className="flex items-center gap-3 shrink-0">
+                            <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {post.views || 0}</span>
+                            <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {post._count?.likes || 0}</span>
+                            <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {post._count?.comments || 0}</span>
+                          </div>
                         </div>
                       </div>
                       {post.coverImageUrl && (
@@ -306,8 +314,8 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                                 {post.title}
                               </h3>
                             </div>
-                            <div className="flex items-center justify-between mt-auto pt-2 sm:pt-0">
-                               <div className="flex items-center gap-2">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-auto pt-4 sm:pt-2 border-t sm:border-0 border-glass-border">
+                               <div className="flex items-center gap-2 shrink-0">
                                  <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
                                    <AuthorImage post={post} />
                                  </div>
@@ -315,9 +323,15 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                                    {post.author?.fullName || 'APX Team'}
                                  </span>
                                </div>
-                               <span className="text-[10px] text-foreground/45">
-                                 {formatDate(post.publishedAt)}
-                               </span>
+                               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[10px] text-foreground/45">
+                                 <span className="whitespace-nowrap">{formatDate(post.publishedAt)}</span>
+                                 <span className="hidden sm:inline">•</span>
+                                 <div className="flex items-center gap-3 shrink-0">
+                                   <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {post.views || 0}</span>
+                                   <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {post._count?.likes || 0}</span>
+                                   <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {post._count?.comments || 0}</span>
+                                 </div>
+                               </div>
                             </div>
                           </div>
                         </div>
@@ -379,8 +393,14 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                           <h4 className="text-sm font-bold leading-tight group-hover:text-accent transition-colors line-clamp-2">
                             {post.title}
                           </h4>
-                          <div className="text-[10px] text-foreground/50 mt-1">
-                            {formatDate(post.publishedAt)}
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-[10px] text-foreground/50 mt-1">
+                            <span className="whitespace-nowrap">{formatDate(post.publishedAt)}</span>
+                            <span className="hidden sm:inline">•</span>
+                            <div className="flex items-center gap-3 shrink-0">
+                              <span className="flex items-center gap-1"><Eye className="w-3 h-3"/> {post.views || 0}</span>
+                              <span className="flex items-center gap-1"><Heart className="w-3 h-3"/> {post._count?.likes || 0}</span>
+                              <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3"/> {post._count?.comments || 0}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
