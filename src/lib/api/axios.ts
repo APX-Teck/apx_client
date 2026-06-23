@@ -88,6 +88,7 @@ apiClient.interceptors.response.use(
         })
           .then((token) => {
             originalRequest.headers.Authorization = `Bearer ${token}`;
+            originalRequest.headers['X-Retry'] = 'true';
             return apiClient(originalRequest);
           })
           .catch((err) => {
@@ -125,10 +126,11 @@ apiClient.interceptors.response.use(
         clearAccessToken();
 
         if (typeof window !== 'undefined') {
-          const wasLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-          if (wasLoggedIn && window.location.pathname !== '/login') {
+          if (localStorage.getItem('isLoggedIn') === 'true') {
             localStorage.removeItem('isLoggedIn');
-            window.location.href = '/login?session_expired=true';
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login?session_expired=true';
+            }
           }
         }
 

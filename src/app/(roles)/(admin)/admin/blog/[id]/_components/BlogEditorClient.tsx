@@ -22,7 +22,12 @@ import {
   Code,
   Eye,
 } from 'lucide-react';
-import RichTextEditor from '@/components/ui/RichTextEditor';
+import dynamic from 'next/dynamic';
+
+const RichTextEditor = dynamic(() => import('@/components/ui/RichTextEditor'), {
+  ssr: false,
+  loading: () => <div className="animate-pulse w-full min-h-[300px] bg-gray-100/50 dark:bg-white/5 rounded-2xl" />
+});
 
 function Toast({
   message,

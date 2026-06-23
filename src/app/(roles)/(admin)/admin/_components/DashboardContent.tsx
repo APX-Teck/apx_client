@@ -1,10 +1,14 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import KPICard from '@/components/ui/admin/dashboard/KPICard';
 import ActivityFeed from '@/components/ui/admin/dashboard/ActivityFeed';
-import DashboardCharts from '@/components/ui/admin/dashboard/DashboardCharts';
+const DashboardCharts = dynamic(
+  () => import('@/components/ui/admin/dashboard/DashboardCharts'),
+  { ssr: false, loading: () => <div className="animate-pulse h-[400px] w-full bg-gray-100/50 dark:bg-white/5 rounded-[2rem]" /> }
+);
 import { DashboardStats } from '@/services/admin/dashboard.service';
 import { KPIData } from '@/services/admin/dashboardData';
 import { Tab } from '../_hooks/useDashboardLogic';
