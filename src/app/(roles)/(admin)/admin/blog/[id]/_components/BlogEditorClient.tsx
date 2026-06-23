@@ -635,7 +635,7 @@ export function BlogEditorClient({
                            [&_img]:rounded-3xl [&_img]:shadow-xl [&_img]:mx-auto [&_img]:border [&_img]:border-gray-100 dark:[&_img]:border-white/5 [&_img]:my-8
                            [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-2xl [&_pre]:p-6 [&_pre]:shadow-inner [&_pre]:my-6 [&_code]:font-mono
                            [&_blockquote]:border-l-4 [&_blockquote]:border-indigo-500 [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-gray-50 dark:[&_blockquote]:bg-white/5 [&_blockquote]:py-4 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-6
-                           [&_table]:w-full [&_table]:border-collapse [&_table]:my-6 [&_th]:border [&_th]:border-gray-200 dark:[&_th]:border-white/10 [&_th]:p-4 [&_th]:bg-gray-50 dark:[&_th]:bg-white/5 [&_td]:border [&_td]:border-gray-200 dark:[&_td]:border-white/10 [&_td]:p-4"
+                           [&_table]:!w-full [&_table]:!border-collapse [&_table]:!my-8 [&_table]:!rounded-xl [&_table]:!overflow-hidden [&_table]:!ring-1 [&_table]:!ring-gray-200 dark:[&_table]:!ring-white/10 [&_table]:!shadow-sm [&_thead]:!bg-gray-50 dark:[&_thead]:!bg-white/5 [&_th]:!border [&_th]:!border-gray-200 dark:[&_th]:!border-white/10 [&_th]:!p-4 [&_th]:!text-left [&_th]:!font-bold [&_th]:!text-gray-900 dark:[&_th]:!text-white [&_td]:!border [&_td]:!border-gray-200 dark:[&_td]:!border-white/10 [&_td]:!p-4 [&_td]:!text-gray-800 dark:[&_td]:!text-gray-300 [&_tr:hover]:!bg-gray-50 dark:[&_tr:hover]:!bg-white/5 [&_tr]:!transition-colors"
                 dangerouslySetInnerHTML={{
                   __html:
                     content ||
