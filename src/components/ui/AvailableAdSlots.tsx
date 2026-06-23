@@ -27,9 +27,11 @@ export function AvailableAdSlots({ layout = 'vertical' }: AvailableAdSlotsProps)
     const fetchSlots = async () => {
       try {
         const data = await api.fetchPricingSlots();
+        const safeData = Array.isArray(data) ? data : ((data as any)?.data || []);
+        const validSlots = Array.isArray(safeData) ? safeData : [];
         // Only show active slots that have valid prices
         setSlots(
-          data.filter(
+          validSlots.filter(
             (s: PricingSlot) =>
               s.isActive && (s.pricePerDay > 0 || s.pricePerWeek > 0 || s.pricePerMonth > 0)
           )

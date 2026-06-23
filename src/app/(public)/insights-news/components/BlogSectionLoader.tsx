@@ -21,5 +21,10 @@ export async function BlogSectionLoader() {
     console.error('Failed to load blogs for serverside render', err);
   }
 
-  return <BlogListingSection initialBlogs={initialBlogs} initialCategories={initialCategories} />;
+  return (
+    <BlogListingSection 
+      initialBlogs={Array.isArray(initialBlogs) ? initialBlogs : []} 
+      initialCategories={Array.isArray(initialCategories) ? initialCategories : []} 
+    />
+  );
 }

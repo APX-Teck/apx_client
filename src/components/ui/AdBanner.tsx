@@ -25,11 +25,12 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
     async function loadAd() {
       try {
         const data = await api.fetchAds(placement);
-        const fetchedAds = data || [];
+        const fetchedAds = Array.isArray(data) ? data : ((data as any)?.data || []);
+        const safeAds = Array.isArray(fetchedAds) ? fetchedAds : [];
 
         // Group by Ad Type to prevent mixing CLIENT and GOOGLE ads in the rotation
-        const clientAds = fetchedAds.filter((ad: Ad) => ad.adType === 'CLIENT');
-        const googleAds = fetchedAds.filter((ad: Ad) => ad.adType === 'GOOGLE');
+        const clientAds = safeAds.filter((ad: Ad) => ad.adType === 'CLIENT');
+        const googleAds = safeAds.filter((ad: Ad) => ad.adType === 'GOOGLE');
 
         let selectedGroup: Ad[] = [];
         if (clientAds.length > 0 && googleAds.length > 0) {

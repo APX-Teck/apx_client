@@ -96,11 +96,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
   const totalPages = Math.ceil(listPosts.length / postsPerPage);
 
   const AuthorImage = ({ post }: { post: BlogPost }) => {
+    if (!post) return null;
     const url = post.author?.profile?.profilePhotoUrl || post.author?.profilePhotoUrl;
     if (url) {
       return <img src={url} alt={post.author?.fullName || 'Author'} className="w-full h-full object-cover" />;
     }
-    const name = post.author?.fullName || 'APX';
+    const name = typeof post.author?.fullName === 'string' ? post.author.fullName : 'APX';
     return (
       <img
         src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name.includes('APX') ? 'APX' : name)}&background=4f46e5&color=fff`}
@@ -116,19 +117,24 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
       {/* Category Navbar (Sticky style like Google News) */}
       <div className="sticky top-16 md:top-20 z-40 bg-background/95 backdrop-blur-md border-b border-glass-border py-3 px-4 sm:px-6 notranslate" translate="no">
         <div className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-7xl mx-auto">
-          {categoriesList.map((cat) => (
-            <button
-              key={cat.id || cat.name}
-              onClick={() => setActiveCategory(cat.name)}
-              className={`shrink-0 text-sm font-semibold whitespace-nowrap transition-colors ${
-                activeCategory === cat.name
-                  ? 'text-accent border-b-2 border-accent pb-1'
-                  : 'text-foreground/70 hover:text-foreground pb-1 border-b-2 border-transparent'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+          {categoriesList.map((cat, idx) => {
+            if (!cat) return null;
+            const catId = typeof cat === 'string' ? cat : (cat.id || idx);
+            const catName = typeof cat === 'string' ? cat : (cat.name || 'Unknown');
+            return (
+              <button
+                key={catId}
+                onClick={() => setActiveCategory(catName)}
+                className={`shrink-0 text-sm font-semibold whitespace-nowrap transition-colors ${
+                  activeCategory === catName
+                    ? 'text-accent border-b-2 border-accent pb-1'
+                    : 'text-foreground/70 hover:text-foreground pb-1 border-b-2 border-transparent'
+                }`}
+              >
+                {catName}
+              </button>
+            );
+          })}
           
           <div className="ml-auto relative shrink-0 w-48 sm:w-64 hidden sm:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/45" />
@@ -208,8 +214,10 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
 
               {/* Side Stories (Right) */}
               <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
-                {topStories.slice(1, 4).map((post) => (
-                  <Link key={post.id} href={`/insights-news/${post.slug}`} className="block group flex-1">
+                {topStories.slice(1, 4).map((post, idx) => {
+                  if (!post) return null;
+                  return (
+                  <Link key={post.id || idx} href={`/insights-news/${post.slug || '#'}`} className="block group flex-1">
                     <div className="flex gap-4 items-center h-full border-b border-glass-border pb-6 last:border-0 last:pb-0">
                       <div className="flex-1 space-y-2">
                         <span className="text-accent text-[10px] font-bold uppercase tracking-wider block">
@@ -235,7 +243,8 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       )}
                     </div>
                   </Link>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -261,8 +270,8 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                   const showMidAd = idx === 3; // Show Ad after 3rd post in the list
 
                   return (
-                    <div key={post.id} className="contents">
-                      <Link href={`/insights-news/${post.slug}`} className="block group">
+                    <div key={post.id || idx} className="contents">
+                      <Link href={`/insights-news/${post.slug || '#'}`} className="block group">
                         <div className="flex flex-col sm:flex-row gap-5 p-4 sm:p-5 rounded-2xl border border-transparent hover:border-glass-border hover:bg-foreground/[0.02] transition-all duration-300">
                           {post.coverImageUrl && (
                             <div className="w-full sm:w-48 h-48 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border">
@@ -343,8 +352,10 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                   Picks for you
                 </h3>
                 <div className="space-y-5">
-                  {picksForYou.map((post) => (
-                    <Link key={post.id} href={`/insights-news/${post.slug}`} className="block group">
+                  {picksForYou.map((post, idx) => {
+                    if (!post) return null;
+                    return (
+                    <Link key={post.id || idx} href={`/insights-news/${post.slug || '#'}`} className="block group">
                       <div className="flex gap-3 items-center">
                         <div className="text-xl font-extrabold text-foreground/10 group-hover:text-accent/20 transition-colors w-6">
                           0{picksForYou.indexOf(post) + 1}
@@ -359,7 +370,8 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         </div>
                       </div>
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
