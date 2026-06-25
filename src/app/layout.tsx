@@ -7,6 +7,7 @@ import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { GoogleTranslateCleaner } from '@/components/ui/GoogleTranslateCleaner';
 import { QueryProvider } from '@/providers/QueryProvider';
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -81,6 +82,7 @@ export default function RootLayout({
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

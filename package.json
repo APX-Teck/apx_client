@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-query": "^5.101.0",
     "@types/react-google-recaptcha": "^2.1.9",
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.17.0",
     "clsx": "^2.1.1",
     "cookies-next": "^6.1.1",
