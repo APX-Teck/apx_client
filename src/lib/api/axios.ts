@@ -16,12 +16,20 @@ apiClient.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // If the payload is FormData, we must let the browser set the Content-Type with the correct boundary
     if (config.data instanceof FormData) {
-      delete config.headers['Content-Type'];
+      if (config.headers && typeof config.headers.delete === 'function') {
+        config.headers.delete('Content-Type');
+      } else {
+        delete config.headers['Content-Type'];
+      }
     }
 
     const token = getAccessToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      if (config.headers && typeof config.headers.set === 'function') {
+        config.headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
 
     // Pass cookies in Server Components (SSR)
@@ -37,9 +45,22 @@ apiClient.interceptors.request.use(
         const cookieHeader = allCookies.map(c => `${c.name}=${c.value}`).join('; ');
         
         if (cookieHeader) {
-          config.headers.Cookie = config.headers.Cookie 
-            ? `${config.headers.Cookie}; ${cookieHeader}`
+          let currentCookie = '';
+          if (config.headers && typeof config.headers.get === 'function') {
+            currentCookie = (config.headers.get('Cookie') as string) || '';
+          } else {
+            currentCookie = config.headers.Cookie as string || '';
+          }
+
+          const newCookie = currentCookie 
+            ? `${currentCookie}; ${cookieHeader}`
             : cookieHeader;
+
+          if (config.headers && typeof config.headers.set === 'function') {
+            config.headers.set('Cookie', newCookie);
+          } else {
+            config.headers.Cookie = newCookie;
+          }
         }
       } catch (error) {
         // Ignore errors if used outside request context
@@ -68,6 +89,21 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
+const hasRetryHeader = (config: InternalAxiosRequestConfig) => {
+  if (config.headers && typeof config.headers.has === 'function') {
+    return config.headers.has('X-Retry');
+  }
+  return !!config.headers['X-Retry'];
+};
+
+const setRetryHeader = (config: InternalAxiosRequestConfig) => {
+  if (config.headers && typeof config.headers.set === 'function') {
+    config.headers.set('X-Retry', 'true');
+  } else {
+    config.headers['X-Retry'] = 'true';
+  }
+};
+
 // Response Interceptor
 apiClient.interceptors.response.use(
   (response) => {
@@ -80,15 +116,15 @@ apiClient.interceptors.response.use(
       error.response?.status === 401 && 
       originalRequest && 
       !originalRequest._retry && 
-      !originalRequest.headers['X-Retry']
+      !hasRetryHeader(originalRequest)
     ) {
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            originalRequest.headers['X-Retry'] = 'true';
+            originalRequest._retry = true;
+            setRetryHeader(originalRequest);
             return apiClient(originalRequest);
           })
           .catch((err) => {
@@ -97,15 +133,23 @@ apiClient.interceptors.response.use(
       }
 
       originalRequest._retry = true;
+      setRetryHeader(originalRequest);
       isRefreshing = true;
 
       try {
+        let cookieHeader = undefined;
+        if (typeof window === 'undefined') {
+          if (originalRequest.headers && typeof originalRequest.headers.get === 'function') {
+             cookieHeader = originalRequest.headers.get('Cookie');
+          } else {
+             cookieHeader = originalRequest.headers.Cookie;
+          }
+        }
+
         // Attempt to refresh
         const { data } = await axios.post(`${baseURL}/auth/refresh`, {}, { 
           withCredentials: true,
-          headers: typeof window === 'undefined' && originalRequest.headers.Cookie 
-            ? { Cookie: originalRequest.headers.Cookie } 
-            : undefined
+          headers: cookieHeader ? { Cookie: cookieHeader as string } : undefined
         });
 
         const newAccessToken = data?.data?.accessToken;
@@ -118,8 +162,6 @@ apiClient.interceptors.response.use(
         processQueue(null, newAccessToken);
 
         // Retry the original request
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        originalRequest.headers['X-Retry'] = 'true';
         return apiClient(originalRequest);
       } catch (err) {
         processQueue(err, null);
