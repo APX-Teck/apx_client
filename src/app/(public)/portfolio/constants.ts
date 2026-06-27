@@ -69,7 +69,7 @@ export const portfolioCollectionPageSchema = {
   '@id': 'https://apxteck.com/portfolio/#webpage',
   name: 'Case Studies & Work Portfolio | APXTeck',
   description:
-    "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and digital marketing results.",
+    "Browse APXTeck's portfolio. Discover our case studies on web application engineering, user experience design, and Generative Engine Optimization (GEO) for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
   url: 'https://apxteck.com/portfolio',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

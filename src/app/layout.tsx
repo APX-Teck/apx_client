@@ -8,6 +8,7 @@ import { AuthProvider } from '@/providers/AuthProvider';
 import { GoogleTranslateCleaner } from '@/components/ui/GoogleTranslateCleaner';
 import { QueryProvider } from '@/providers/QueryProvider';
 import { Analytics } from '@vercel/analytics/next';
+import { SchemaMarkup } from '@/components/SchemaMarkup';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -51,7 +52,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col transition-colors duration-300 relative"
       >
-
+        <SchemaMarkup />
         <Script 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2044879253308502" 
           strategy="lazyOnload"

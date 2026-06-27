@@ -6,7 +6,7 @@ export const jsonLdBlog = {
   '@id': 'https://apxteck.com/insights-news/#blog',
   name: 'APXTeck IT Insights & News',
   description:
-    "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials.",
+    "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials tailored for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
   url: 'https://apxteck.com/insights-news',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

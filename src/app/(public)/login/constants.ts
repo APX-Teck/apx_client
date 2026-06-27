@@ -4,7 +4,7 @@ export const jsonLd = {
   '@id': 'https://apxteck.com/login/#webpage',
   name: 'Sign In to Your Dashboard | APXTeck',
   description:
-    'Securely sign in to your APXTeck account. Access your custom web development dashboard, IT services, and project management tools seamlessly.',
+    'Securely sign in to your APXTeck account. Access your custom web development dashboard, IT services, and project management tools tailored for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   url: 'https://apxteck.com/login',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

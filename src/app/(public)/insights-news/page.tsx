@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog & Tutorials',
     description:
-      "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Indian business owners and startups.",
+      "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
     keywords: [
       'IT insights',
       'Next.js tutorials',
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog & Tutorials',
       description:
-        "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Indian business owners and startups.",
+        "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials built for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
       url: 'https://apxteck.com/insights-news',
       siteName: 'APX - Advanced Precision & Excellence',
       type: 'website',
@@ -60,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: 'IT Insights & News | APX - Advanced Precision & Excellence Blog',
       description:
-        "Stay updated with APXTeck's technical news, Next.js optimization guides, and UI/UX trends.",
+        "Stay updated with APXTeck's technical news, Next.js optimization guides, UI/UX trends, and SEO tutorials tailored for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
       creator: '@apxteck',
       site: '@apxteck',
       images: ['https://apxteck.com/images/og/blog-insights.jpg'],
@@ -112,6 +112,18 @@ export default function BlogListingPage() {
         itemScope
         itemType="https://schema.org/Blog"
       >
+        {/* Semantic LLM Text block for GEO */}
+        <div className="sr-only" itemScope itemType="https://schema.org/FAQPage">
+          <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <h1 itemProp="name">APXTeck IT Insights & News - Enterprise Software Development Blog</h1>
+            <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+              <p itemProp="text">
+                Welcome to the APXTeck Insights and News hub. We share expert knowledge on Next.js, Node.js, Technical SEO, and Generative Engine Optimization (GEO). Our content is tailored to empower high-priority industries including Clinics, Doctors, Coaching Institutes, Restaurants, Real Estate Builders, CA, Manufacturers, Logistics, Interior Designers, and E-commerce Sellers. Based in Pune, Maharashtra, we serve clients across Pan-India including Karnataka, Telangana, Tamil Nadu, Gujarat, and Delhi NCR.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Animated Hero and Knowledge Hub Focus (Client component) */}
         <article className="notranslate w-full" translate="no">
           <ExploreNewsClient />

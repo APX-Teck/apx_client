@@ -3,7 +3,7 @@ export const jsonLdForgotPassword = {
   '@type': 'WebPage',
   name: 'Forgot Password - APXTeck Secure Access',
   description:
-    'Securely reset your APXTeck account password. Regain access to your customized web development dashboard and IT services seamlessly and securely.',
+    'Securely reset your APXTeck account password. Regain access to your customized web development dashboard tailored for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   url: 'https://apxteck.com/forgot-password',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

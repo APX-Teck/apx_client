@@ -3,7 +3,7 @@ export const jsonLdCareersPage = {
   '@type': 'WebPage',
   '@id': 'https://apxteck.com/careers/#webpage',
   name: 'Careers at APXTeck - Join Our Elite Team',
-  description: 'Explore exciting career opportunities at APXTeck. Join our elite team of Next.js software engineers, designers, and SEO experts in Pune.',
+  description: 'Explore exciting career opportunities at APXTeck. Join our elite team of Next.js software engineers, backend developers, and SEO experts in Pune and Pan-India. We build enterprise solutions for Clinics, Real Estate, and E-commerce brands.',
   url: 'https://apxteck.com/careers',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

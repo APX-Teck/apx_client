@@ -3,7 +3,7 @@ export const jsonLdTermsPage = {
   '@type': 'WebPage',
   '@id': 'https://apxteck.com/terms-of-service/#webpage',
   name: 'Terms of Service | APXTeck',
-  description: 'Read the Terms of Service for APXTeck. These terms govern the use of our web development, custom software, and SEO services.',
+  description: 'Read the Terms of Service for APXTeck. These terms govern the use of our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   url: 'https://apxteck.com/terms-of-service',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

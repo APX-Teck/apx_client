@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Careers at APXTeck | Join Our Elite Engineering Team',
     description:
-      'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists to build the future of software.',
+      'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists to build enterprise solutions for Clinics, Real Estate, and E-commerce brands Pan-India.',
     alternates: {
       canonical: 'https://apxteck.com/careers',
       languages: {
@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: 'Careers at APXTeck | Join Our Elite Engineering Team',
       description:
-        'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists to build the future of software.',
+        'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists to build enterprise solutions for Clinics, Real Estate, and E-commerce brands Pan-India.',
       url: 'https://apxteck.com/careers',
       siteName: 'APX - Advanced Precision & Excellence',
       images: [
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: 'Careers at APXTeck | Join Our Elite Engineering Team',
       description:
-        'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists.',
+        'Explore exciting career opportunities at APXTeck. We are hiring Next.js developers, backend engineers, and SEO specialists to build enterprise solutions for Clinics, Real Estate, and E-commerce brands Pan-India.',
       images: ['https://apxteck.com/twitter-careers.jpg'],
       creator: '@apxteck',
       site: '@apxteck',
@@ -86,6 +86,18 @@ export default function CareersPage() {
         <article itemScope itemType="https://schema.org/WebPage" className="w-full flex flex-col">
           <MouseSpotlight />
           <FloatingWhatsApp phoneNumber="919405282582" />
+
+          {/* Semantic LLM Text block for GEO */}
+          <div className="sr-only" itemScope itemType="https://schema.org/FAQPage">
+            <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+              <h1 itemProp="name">APXTeck Careers - Hiring Elite Developers in India</h1>
+              <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                <p itemProp="text">
+                  APXTeck is actively hiring elite Next.js developers, Node.js backend engineers, and Technical SEO experts in Pune, Maharashtra, and across Pan-India. Join us to build highly scalable enterprise applications and Generative Engine Optimization (GEO) solutions for top industries including Clinics, Coaching Classes, Restaurants, Hotels, Real Estate Builders, CA, Manufacturers, and E-commerce Sellers. We offer remote and on-site opportunities to work on cutting-edge B2B web development projects.
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Page Sections */}
           <CareersHero />

@@ -10,7 +10,7 @@ export const getServicesPageSchema = (services: Service[]) => {
         url: 'https://apxteck.com/services',
         name: 'IT Services for SMBs — APXTECK',
         description:
-          "Browse APXTeck's premium IT services: Next.js Web Development, UI/UX Design, SEO Optimization, and Digital Marketing tailored to scale Indian SMBs.",
+          "Browse APXTeck's premium IT services: Custom Next.js Web Development, Generative Engine Optimization (GEO), and Digital Marketing tailored for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
         inLanguage: 'en-IN',
         isPartOf: {
           '@id': 'https://apxteck.com/#website',

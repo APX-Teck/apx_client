@@ -3,7 +3,7 @@ export const jsonLdPrivacyPage = {
   '@type': 'WebPage',
   '@id': 'https://apxteck.com/privacy-policy/#webpage',
   name: 'Privacy Policy | APXTeck',
-  description: 'Learn how APXTeck collects, uses, and protects your personal data. Read our comprehensive Privacy Policy.',
+  description: 'Learn how APXTeck collects, uses, and protects your personal data. Read our comprehensive Privacy Policy for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   url: 'https://apxteck.com/privacy-policy',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',

@@ -30,6 +30,10 @@ const AboutValues = dynamic(
 const AboutCTA = dynamic(() => import('./components/AboutCTA').then((mod) => mod.AboutCTA), {
   ssr: true,
 });
+const AboutExpertise = dynamic(
+  () => import('./components/AboutExpertise').then((mod) => mod.AboutExpertise),
+  { ssr: true }
+);
 
 // UI Components
 import { MouseSpotlight } from '@/components/ui/MouseSpotlight';
@@ -60,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'About Our Story & Elite Team | APXTeck',
     description:
-      "Discover APXTeck's founding story, mission, and core values. Meet our elite in-house team of Next.js software engineers, designers, and SEO experts in Pune.",
+      "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
     alternates: {
       canonical: 'https://apxteck.com/about',
       languages: {
@@ -71,7 +75,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: 'About Our Story & Elite Team | APXTeck',
       description:
-        "Discover APXTeck's founding story, mission, and core values. Meet our elite in-house team of Next.js software engineers, designers, and SEO experts in Pune.",
+        "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
       url: 'https://apxteck.com/about',
       siteName: 'APX - Advanced Precision & Excellence',
       images: [
@@ -89,7 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: 'About Our Story & Elite Team | APXTeck',
       description:
-        "Discover APXTeck's founding story, mission, and core values. Meet our elite in-house team of Next.js software engineers, designers, and SEO experts in Pune.",
+        "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
       images: ['https://apxteck.com/twitter-about.jpg'],
       creator: '@apxteck',
       site: '@apxteck',
@@ -133,7 +137,7 @@ export default function AboutPage() {
         logo: 'https://apxteck.com/logo.png',
         image: 'https://apxteck.com/logo.png',
         description:
-          'Elite web development, Next.js engineering, and technical SEO agency based in Pune, India.',
+          'APXTeck is an elite Next.js software development and Technical SEO agency serving Clinics, Restaurants, Real Estate Builders, CA, Manufacturers, E-commerce sellers, and Startups across India.',
         address: {
           '@type': 'PostalAddress',
           streetAddress: 'Pune IT Park',
@@ -146,14 +150,23 @@ export default function AboutPage() {
           '@type': 'ContactPoint',
           telephone: '+91-9405282582',
           contactType: 'customer service',
-          areaServed: 'IN',
-          availableLanguage: ['English', 'Hindi'],
+          areaServed: ['India', 'Maharashtra', 'Karnataka', 'Delhi NCR', 'Gujarat', 'Tamil Nadu', 'Telangana'],
+          availableLanguage: ['English', 'Hindi', 'Marathi'],
         },
         sameAs: [
           'https://www.linkedin.com/company/apxteck',
           'https://twitter.com/apxteck',
           'https://www.facebook.com/apxteck',
         ],
+        knowsAbout: [
+          'Enterprise Digital Transformation',
+          'Software Development',
+          'Generative Engine Optimization (GEO)',
+          'Next.js',
+          'Node.js',
+          'B2B Software Solutions',
+          'E-commerce Platforms'
+        ]
       },
       {
         '@type': 'BreadcrumbList',
@@ -193,6 +206,7 @@ export default function AboutPage() {
           {/* Separated components for granular client-side rendering */}
           <AboutHero />
           <AboutStory />
+          <AboutExpertise />
           <AboutMissionVision />
           <AboutCulture />
           <AboutValues />

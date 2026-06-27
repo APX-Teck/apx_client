@@ -9,7 +9,7 @@ export const jsonLdLocalBusiness = {
   email: 'info@apxteck.com',
   url: 'https://apxteck.com',
   description:
-    'Premium web development, custom software engineering, and technical SEO agency based in Pune, India.',
+    'Premium web development, custom software engineering, and technical SEO agency based in Pune, India serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe',
@@ -43,7 +43,7 @@ export const jsonLdContactPage = {
   '@type': 'ContactPage',
   '@id': 'https://apxteck.com/contact/#webpage',
   name: 'Contact APXTeck - Web Development & SEO Experts',
-  description: 'Get in touch with APXTeck for premium software development and SEO consultancies.',
+  description: 'Get in touch with APXTeck for premium software development, Generative Engine Optimization (GEO), and SEO consultancies. We serve Clinics, Restaurants, Builders, Manufacturers, and E-commerce brands across Pan-India.',
   url: 'https://apxteck.com/contact',
   isPartOf: {
     '@id': 'https://apxteck.com/#website',
