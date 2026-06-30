@@ -21,7 +21,7 @@ export default function CategoriesManager() {
   const fetchCategories = async () => {
     setIsLoading(true);
     try {
-      const data = await blogService.getCategories();
+      const data = await blogService.getCategories({ limit: 1000 });
       setCategories(data || []);
     } catch (error) {
       toast.error('Failed to load categories');

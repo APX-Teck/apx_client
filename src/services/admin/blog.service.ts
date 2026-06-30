@@ -82,9 +82,9 @@ export const blogService = {
     return { success: response.data?.success || true };
   },
 
-  getCategories: async (): Promise<BlogCategory[]> => {
+  getCategories: async (params?: any): Promise<BlogCategory[]> => {
     try {
-      const response = await apiClient.get('/blog/categories');
+      const response = await apiClient.get('/blog/categories', { params });
       return extractDataArray<BlogCategory>(response.data);
     } catch (error) {
       console.error('Failed to fetch categories', error);

@@ -33,7 +33,7 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
   const fetchPosts = useCallback(async () => {
     try {
       setIsLoading(true);
-      const data = await blogService.getPosts();
+      const data = await blogService.getPosts({ limit: 10000 });
       setPosts(data || []);
     } catch (error) {
       toast.error('Failed to fetch posts');
@@ -44,7 +44,7 @@ export function useBlogLogic(initialPosts: BlogPost[] = []) {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const data = await blogService.getCategories();
+      const data = await blogService.getCategories({ limit: 1000 });
       setCategories(data || []);
     } catch (error) {
       console.error('Failed to fetch categories');

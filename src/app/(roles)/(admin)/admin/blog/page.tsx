@@ -16,7 +16,7 @@ export const revalidate = 0;
 async function BlogDataFetcher() {
   let initialPosts: BlogPost[] = [];
   try {
-    const data = await blogService.getPosts();
+    const data = await blogService.getPosts({ limit: 10000 });
     initialPosts = data || [];
   } catch (error) {
     console.error('Failed to fetch initial blog posts:', error);

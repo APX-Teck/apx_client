@@ -187,12 +187,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                 <div className="lg:col-span-7 xl:col-span-8 h-full">
                   <Link href={`/insights-news/${topStories[0].slug}`} className="block group h-full">
                     <GlassCard className="!p-0 overflow-hidden h-full flex flex-col border border-glass-border hover:border-white/20 transition-all duration-300">
-                      <div className="relative w-full aspect-video sm:h-[400px] overflow-hidden bg-accent/5">
+                      <div className="relative w-full sm:h-[400px] overflow-hidden bg-accent/5 flex items-center justify-center rounded-t-2xl sm:rounded-none">
                         {topStories[0].coverImageUrl && (
                           <img
                             src={topStories[0].coverImageUrl}
                             alt={topStories[0].title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-auto max-h-[350px] sm:max-h-none sm:h-full object-contain sm:object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         )}
                       </div>
@@ -237,7 +237,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                   if (!post) return null;
                   return (
                   <Link key={post.id || idx} href={`/insights-news/${post.slug || '#'}`} className="block group flex-1">
-                    <div className="flex gap-4 items-center h-full border-b border-glass-border pb-6 last:border-0 last:pb-0">
+                    <div className="flex flex-col-reverse sm:flex-row gap-4 sm:items-center h-full border-b border-glass-border pb-6 last:border-0 last:pb-0">
                       <div className="flex-1 space-y-2">
                         <span className="text-accent text-[10px] font-bold uppercase tracking-wider block">
                           {(post.tags || [])[0] || 'News'}
@@ -256,11 +256,11 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         </div>
                       </div>
                       {post.coverImageUrl && (
-                        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border">
+                        <div className="w-full sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                           <img
                             src={post.coverImageUrl}
                             alt={post.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-auto max-h-[250px] sm:max-h-none sm:h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         </div>
                       )}
@@ -297,11 +297,11 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       <Link href={`/insights-news/${post.slug || '#'}`} className="block group">
                         <div className="flex flex-col sm:flex-row gap-5 p-4 sm:p-5 rounded-2xl border border-transparent hover:border-glass-border hover:bg-foreground/[0.02] transition-all duration-300">
                           {post.coverImageUrl && (
-                            <div className="w-full sm:w-48 h-48 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border">
+                            <div className="w-full sm:w-48 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                               <img
                                 src={post.coverImageUrl}
                                 alt={post.title}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="w-full h-auto max-h-[300px] sm:max-h-none sm:h-32 object-contain sm:object-cover transition-transform duration-500 group-hover:scale-110"
                               />
                             </div>
                           )}
