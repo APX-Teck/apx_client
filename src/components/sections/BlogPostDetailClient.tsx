@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import {
   Calendar,
@@ -42,6 +42,13 @@ export function BlogPostDetailClient({
   console.log('Author:', post.author?.fullName);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   const {
     register,
     handleSubmit,
@@ -180,12 +187,15 @@ export function BlogPostDetailClient({
       .replace(/<\/table>/gi, '</table></div>');
 
     const paragraphs = contentWithResponsiveTables.split('</p>');
-    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[15px] sm:text-base leading-[1.8] sm:leading-loose prose-p:mb-6 prose-headings:mt-8 prose-headings:mb-4 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-md [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-accent/5 [&_blockquote]:py-5 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-8 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
-      "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-8 [&_.table-responsive-wrapper]:!rounded-xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-sm [&_.table-responsive-wrapper]:!bg-foreground/[0.01] [&_.table-responsive-wrapper]:scroll-smooth " +
-      "[&_table]:!w-full [&_table]:!min-w-[600px] [&_table]:!border-collapse [&_table]:!text-left [&_table]:!text-sm [&_table]:!m-0 " +
-      "[&_thead]:!bg-foreground/[0.03] [&_th]:!p-4 [&_th]:!font-semibold [&_th]:!text-foreground [&_th]:!border-b [&_th]:!border-glass-border [&_th]:!whitespace-nowrap " +
-      "[&_td]:!p-4 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
-      "[&_tr:hover_td]:!bg-foreground/[0.02] [&_tr]:!transition-colors";
+    const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[16px] sm:text-[18px] leading-[1.8] sm:leading-[2] tracking-wide " +
+      "prose-p:mb-8 prose-p:text-foreground/80 prose-headings:mt-12 prose-headings:mb-6 prose-headings:font-extrabold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline " +
+      "prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-xl prose-img:my-10 prose-img:border prose-img:border-glass-border " +
+      "[&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 sm:[&_blockquote]:pl-8 [&_blockquote]:italic [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-accent/[0.05] [&_blockquote]:to-transparent [&_blockquote]:py-6 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-10 [&_blockquote]:text-foreground/90 [&_blockquote]:font-bold [&_blockquote]:text-lg sm:[&_blockquote]:text-xl [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
+      "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-10 [&_.table-responsive-wrapper]:!rounded-2xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-md [&_.table-responsive-wrapper]:!bg-foreground/[0.02] [&_.table-responsive-wrapper]:scroll-smooth " +
+      "[&_table]:!w-full [&_table]:!min-w-[600px] [&_table]:!border-collapse [&_table]:!text-left [&_table]:!text-[15px] [&_table]:!m-0 " +
+      "[&_thead]:!bg-foreground/[0.04] [&_th]:!p-5 [&_th]:!font-bold [&_th]:!text-foreground [&_th]:!border-b [&_th]:!border-glass-border [&_th]:!whitespace-nowrap " +
+      "[&_td]:!p-5 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
+      "[&_tr:hover_td]:!bg-foreground/[0.04] [&_tr]:!transition-colors";
 
     if (paragraphs.length <= 3) {
       return (
@@ -218,7 +228,12 @@ export function BlogPostDetailClient({
   };
 
   return (
-    <article className="max-w-7xl mx-auto px-4 sm:px-6">
+    <>
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1.5 bg-accent z-50 origin-left"
+        style={{ scaleX }}
+      />
+      <article className="max-w-7xl mx-auto px-4 sm:px-6">
       {/* Breadcrumbs */}
       <div
         className="flex flex-wrap items-center gap-2 text-xs text-foreground/50 font-medium mb-8 notranslate"
@@ -336,12 +351,12 @@ export function BlogPostDetailClient({
 
           {/* Cover image */}
           {post.coverImageUrl && (
-            <div className="w-full h-[250px] sm:h-[400px] md:h-[450px] rounded-2xl sm:rounded-3xl overflow-hidden border border-glass-border shadow-md">
+            <div className="w-full sm:h-[400px] md:h-[450px] rounded-2xl sm:rounded-3xl overflow-hidden border border-glass-border shadow-md bg-accent/5 flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.coverImageUrl}
                 alt={post.title}
-                className="w-full h-full object-cover"
+                className="w-full h-auto max-h-[400px] sm:max-h-none sm:h-full object-contain sm:object-cover"
               />
             </div>
           )}
@@ -581,5 +596,6 @@ export function BlogPostDetailClient({
         </div>
       </div>
     </article>
+    </>
   );
 }
