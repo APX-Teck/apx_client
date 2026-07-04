@@ -12,7 +12,7 @@ async function ContactSectionLoader() {
     return <ContactPageSection services={services} />;
   } catch (err) {
     console.error('Failed to load services for contact page', err);
-    return null; // Or return an error state UI
+    return <ContactPageSection services={[]} />;
   }
 }
 

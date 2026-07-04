@@ -14,6 +14,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: ['GPTBot', 'ChatGPT-User', 'Google-Extended', 'ClaudeBot', 'PerplexityBot'],
         allow: ['/'],
         disallow: ['/admin', '/api', '/auth/', '/forgot-password', '/reset-password', '/login', '/register', '/payment/'],
+      },
+      {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
       }
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,

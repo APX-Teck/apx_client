@@ -218,6 +218,14 @@ export function Footer() {
                     Terms of Service
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/disclaimer"
+                    className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
+                  >
+                    Disclaimer
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
