@@ -106,17 +106,18 @@ export function ProjectDetailsForm({
                     accept="image/*,.pdf,.zip,.doc,.docx,.xls,.xlsx,.txt,.csv"
                     required={field.isRequired}
                     onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        if (e.target.files[0].size > 50 * 1024 * 1024) {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        if (file.size > 50 * 1024 * 1024) {
                           setMessage({
                             type: 'error',
-                            text: `File "${e.target.files[0].name}" exceeds 50MB limit.`,
+                            text: `File "${file.name}" exceeds 50MB limit.`,
                           });
                           e.target.value = '';
                           return;
                         }
                         setMessage(null);
-                        handleInputChange(field.fieldKey, e.target.files[0], field.fieldType);
+                        handleInputChange(field.fieldKey, file, field.fieldType);
                       }
                     }}
                     className="w-full bg-white dark:bg-[#111] border border-gray-100 dark:border-white/5 rounded-2xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-cyan-500/10 file:text-cyan-500 hover:file:bg-cyan-500/20"

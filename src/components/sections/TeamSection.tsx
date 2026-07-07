@@ -63,7 +63,7 @@ export function TeamSection({ team }: TeamSectionProps) {
                     />
                   ) : (
                     <div className="w-full h-full bg-accent/15 flex items-center justify-center font-bold text-2xl text-accent">
-                      {member.fullName[0]}
+                      {member.fullName?.[0] || 'T'}
                     </div>
                   )}
                 </div>

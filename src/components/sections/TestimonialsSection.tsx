@@ -131,7 +131,7 @@ export function TestimonialsSection() {
                     />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent">
-                      {current.clientName[0]}
+                      {current.clientName?.[0] || 'C'}
                     </div>
                   )}
                   <div>

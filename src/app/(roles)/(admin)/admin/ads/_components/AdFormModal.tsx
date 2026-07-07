@@ -161,7 +161,8 @@ export default function AdFormModal({ onClose, formLogic }: AdFormModalProps) {
                       accept="image/*"
                       className="hidden"
                       onChange={(e) => {
-                        if (e.target.files?.[0]) setBannerFile(e.target.files[0]);
+                        const file = e.target.files?.[0];
+                        if (file) setBannerFile(file);
                       }}
                     />
                     <div className="w-12 h-12 bg-white dark:bg-[#222] border border-gray-100 dark:border-white/5 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">

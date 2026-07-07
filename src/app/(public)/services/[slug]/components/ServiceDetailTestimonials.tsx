@@ -42,7 +42,7 @@ export function ServiceDetailTestimonials({ serviceName, testimonials }: Props) 
             </div>
             <div className="flex items-center gap-3 pt-4 border-t border-glass-border">
               <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center font-bold text-accent">
-                {t.clientName[0]}
+                {t.clientName?.[0] || 'C'}
               </div>
               <div>
                 <h4 className="font-extrabold text-sm text-foreground">{t.clientName}</h4>

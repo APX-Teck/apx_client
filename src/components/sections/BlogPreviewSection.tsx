@@ -121,7 +121,7 @@ export function BlogPreviewSection() {
                       />
                       {post.tags && post.tags.length > 0 && (
                         <div className="absolute top-4 left-4 glass-panel border border-white/20 px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider">
-                          {post.tags[0]}
+                          {post.tags?.[0]}
                         </div>
                       )}
                     </div>

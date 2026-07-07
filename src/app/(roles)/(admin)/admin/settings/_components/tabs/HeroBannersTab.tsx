@@ -228,7 +228,8 @@ export function HeroBannersTab({ initialBanners, setToast }: Props) {
                     ref={fileInputRef}
                     accept={bannerForm.mediaType === 'IMAGE' ? 'image/*' : 'video/*'}
                     onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) setBannerFile(e.target.files[0]);
+                      const file = e.target.files?.[0];
+                      if (file) setBannerFile(file);
                     }}
                   />
                 </div>

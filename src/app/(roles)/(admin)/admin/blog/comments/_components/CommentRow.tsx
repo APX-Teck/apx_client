@@ -37,7 +37,7 @@ export function CommentRow({
           <span className="font-bold text-gray-900 dark:text-white text-sm">
             {comment.user?.fullName || 'Unknown User'}
           </span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">{comment.user?.email}</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">{comment.user?.email || 'No Email'}</span>
           <span className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
             {new Date(comment.createdAt).toLocaleDateString('en-US', {
               month: 'short',

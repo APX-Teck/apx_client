@@ -39,7 +39,6 @@ export function BlogPostDetailClient({
   const [comments, setComments] = useState<BlogComment[]>(initialComments || []);
   const [commentStatus, setCommentStatus] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  console.log('Author:', post.author?.fullName);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -179,16 +178,15 @@ export function BlogPostDetailClient({
     }
   };
 
-  // Inject Ad banner dynamically after paragraph 3
+  // Inject Ad banner safely without splitting HTML strings which can break the DOM
   const renderContentWithAds = () => {
     // Add responsive wrapper to tables
     const contentWithResponsiveTables = (post.content || '')
       .replace(/<table/gi, '<div class="table-responsive-wrapper"><table')
       .replace(/<\/table>/gi, '</table></div>');
 
-    const paragraphs = contentWithResponsiveTables.split('</p>');
     const proseClasses = "prose dark:prose-invert max-w-none text-foreground/90 text-[16px] sm:text-[18px] leading-[1.8] sm:leading-[2] tracking-wide " +
-      "prose-p:mb-8 prose-p:text-foreground/80 prose-headings:mt-12 prose-headings:mb-6 prose-headings:font-extrabold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline " +
+      "prose-p:mb-8 prose-p:text-foreground/80 prose-headings:text-foreground prose-headings:mt-12 prose-headings:mb-6 prose-headings:font-extrabold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline " +
       "prose-img:rounded-2xl sm:prose-img:rounded-3xl prose-img:shadow-xl prose-img:my-10 prose-img:border prose-img:border-glass-border " +
       "[&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 sm:[&_blockquote]:pl-8 [&_blockquote]:italic [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-accent/[0.05] [&_blockquote]:to-transparent [&_blockquote]:py-6 [&_blockquote]:pr-6 [&_blockquote]:rounded-r-2xl [&_blockquote]:my-10 [&_blockquote]:text-foreground/90 [&_blockquote]:font-bold [&_blockquote]:text-lg sm:[&_blockquote]:text-xl [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
       "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-10 [&_.table-responsive-wrapper]:!rounded-2xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-md [&_.table-responsive-wrapper]:!bg-foreground/[0.02] [&_.table-responsive-wrapper]:scroll-smooth " +
@@ -197,32 +195,14 @@ export function BlogPostDetailClient({
       "[&_td]:!p-5 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
       "[&_tr:hover_td]:!bg-foreground/[0.04] [&_tr]:!transition-colors";
 
-    if (paragraphs.length <= 3) {
-      return (
-          <div
-            className={proseClasses}
-            dangerouslySetInnerHTML={{ __html: contentWithResponsiveTables }}
-          />
-      );
-    }
-
-    const part1 = paragraphs.slice(0, 3).join('</p>') + '</p>';
-    const part2 = paragraphs.slice(3).join('</p>');
-
     return (
       <div className="space-y-6 sm:space-y-8">
         <div
           className={proseClasses}
-          dangerouslySetInnerHTML={{ __html: part1 }}
+          dangerouslySetInnerHTML={{ __html: contentWithResponsiveTables }}
         />
-
-        {/* Ad mid-placement */}
+        {/* Ad mid-placement moved here to prevent DOM breakage */}
         <AdBanner placement="BLOG_POST_MID" className="my-8 sm:my-12" />
-
-        <div
-          className={proseClasses}
-          dangerouslySetInnerHTML={{ __html: part2 }}
-        />
       </div>
     );
   };
@@ -506,17 +486,17 @@ export function BlogPostDetailClient({
                               comment.user.profile?.profilePhotoUrl ||
                               ''
                             }
-                            alt={comment.user.fullName || 'User'}
+                            alt={comment.user?.fullName || 'User'}
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          comment.user.fullName[0]
+                          comment.user?.fullName?.[0] || 'U'
                         )}
                       </div>
                       <div className="space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-bold text-xs text-foreground break-words">
-                            {comment.user.fullName}
+                            {comment.user?.fullName || 'Anonymous'}
                           </span>
                           <span className="text-[9px] text-foreground/45">
                             {formatDate(comment.createdAt)}
@@ -543,11 +523,11 @@ export function BlogPostDetailClient({
                 {post.author?.profilePhotoUrl || post.author?.profile?.profilePhotoUrl ? (
                   <img
                     src={post.author.profilePhotoUrl || post.author.profile?.profilePhotoUrl || ''}
-                    alt={post.author.fullName || 'Author'}
+                    alt={post.author?.fullName || 'Author'}
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  post.author?.fullName[0] || 'A'
+                  post.author?.fullName?.[0] || 'A'
                 )}
               </div>
               <div>
