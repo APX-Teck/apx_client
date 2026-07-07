@@ -136,11 +136,11 @@ export const api = {
   },
   fetchCategories: async () => {
     try {
-      const response = await apiClient.get('/blog/categories');
+      const response = await apiClient.get('/blog/categories?limit=100');
       const resData = response.data;
-      if (Array.isArray(resData)) return resData;
+      if (Array.isArray(resData?.data?.categories)) return resData.data.categories;
       if (Array.isArray(resData?.data)) return resData.data;
-      if (Array.isArray(resData?.data?.data)) return resData.data.data;
+      if (Array.isArray(resData)) return resData;
       return [];
     } catch (error) {
       console.error('Failed to fetch categories:', error);
