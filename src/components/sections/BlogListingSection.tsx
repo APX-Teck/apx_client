@@ -65,9 +65,11 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
       contentStr.toLowerCase().includes(debouncedSearch.toLowerCase());
 
     const tags = post.tags || [];
+    const categoryName = post.category?.name || '';
     const matchesCategory =
       activeCategory === 'All' ||
-      tags.some((t) => t.toLowerCase() === activeCategory.toLowerCase());
+      tags.some((t) => t.toLowerCase() === activeCategory.toLowerCase()) ||
+      categoryName.toLowerCase() === activeCategory.toLowerCase();
 
     return matchesSearch && matchesCategory;
   });

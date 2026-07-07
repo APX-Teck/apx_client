@@ -21,6 +21,11 @@ export interface BlogPost {
     likes: number;
     comments: number;
   };
+  category?: {
+    id?: number;
+    name: string;
+    slug: string;
+  };
 }
 
 export interface BlogComment {
