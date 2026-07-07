@@ -6,6 +6,26 @@ export function useCommentsLogic(initialComments: any[] = []) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const fetchComments = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await api.getAllCommentsAdmin(1, 1000);
+      let data = res.data || res;
+      if (data?.data && Array.isArray(data.data)) {
+        data = data.data;
+      } else if (data?.content && Array.isArray(data.content)) {
+        data = data.content;
+      } else if (!Array.isArray(data)) {
+        data = [];
+      }
+      setComments(data);
+    } catch (err) {
+      console.error('Failed to fetch comments', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   // Advanced State
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -20,8 +40,12 @@ export function useCommentsLogic(initialComments: any[] = []) {
   const [isBulkProcessing, setIsBulkProcessing] = useState(false);
 
   useEffect(() => {
-    setComments(initialComments);
-  }, [initialComments]);
+    if (initialComments && initialComments.length > 0) {
+      setComments(initialComments);
+    } else {
+      fetchComments();
+    }
+  }, [initialComments, fetchComments]);
 
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this comment?')) return;
@@ -88,11 +112,12 @@ export function useCommentsLogic(initialComments: any[] = []) {
 
   const filteredComments = useMemo(() => {
     return comments.filter((comment) => {
-      const matchesSearch =
-        comment.user?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comment.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comment.commentText?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comment.post?.title?.toLowerCase().includes(searchTerm.toLowerCase());
+      const search = searchTerm.toLowerCase();
+      const matchesSearch = !search ||
+        (comment.user?.fullName?.toLowerCase().includes(search) ?? false) ||
+        (comment.user?.email?.toLowerCase().includes(search) ?? false) ||
+        (comment.commentText?.toLowerCase().includes(search) ?? false) ||
+        (comment.post?.title?.toLowerCase().includes(search) ?? false);
 
       const matchesStatus = statusFilter === 'ALL' || comment.status === statusFilter;
 
