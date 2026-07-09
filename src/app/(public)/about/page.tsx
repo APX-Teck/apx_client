@@ -66,21 +66,20 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
     alternates: {
-      canonical: 'https://apxteck.com/about',
+      canonical: 'https://www.apxteck.com/about',
       languages: {
-        'en-US': 'https://apxteck.com/about',
-        'en-IN': 'https://apxteck.com/en-in/about',
+        'en-US': 'https://www.apxteck.com/about',
       },
     },
     openGraph: {
       title: 'About Our Story & Elite Team | APXTeck',
       description:
         "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
-      url: 'https://apxteck.com/about',
+      url: 'https://www.apxteck.com/about',
       siteName: 'APX - Advanced Precision & Excellence',
       images: [
         {
-          url: 'https://apxteck.com/og-about.jpg',
+          url: 'https://www.apxteck.com/og-about.jpg',
           width: 1200,
           height: 630,
           alt: 'APXTeck Elite Engineering Team and Mission',
@@ -94,7 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'About Our Story & Elite Team | APXTeck',
       description:
         "Discover APXTeck's founding story, mission, and core values. We are an elite Next.js software engineering and Technical SEO agency serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.",
-      images: ['https://apxteck.com/twitter-about.jpg'],
+      images: ['https://www.apxteck.com/twitter-about.jpg'],
       creator: '@apxteck',
       site: '@apxteck',
     },
@@ -119,23 +118,22 @@ export default function AboutPage() {
     '@graph': [
       {
         '@type': 'AboutPage',
-        '@id': 'https://apxteck.com/about/#webpage',
-        url: 'https://apxteck.com/about',
+        '@id': 'https://www.apxteck.com/about/#webpage',
+        url: 'https://www.apxteck.com/about',
         name: 'About Our Story & Elite Team | APXTeck',
-        description:
-          "Discover APXTeck's founding story, mission, and core values. Meet our elite in-house team of Next.js software engineers, designers, and SEO experts in Pune.",
-        isPartOf: { '@id': 'https://apxteck.com/#website' },
+        description: "Discover APXTeck's story & core values. Meet our elite team of Next.js software engineers, designers, and SEO experts in Pune.",
+        isPartOf: { '@id': 'https://www.apxteck.com/#website' },
         about: {
-          '@id': 'https://apxteck.com/#organization',
+          '@id': 'https://www.apxteck.com/#organization',
         },
       },
       {
         '@type': 'Organization',
-        '@id': 'https://apxteck.com/#organization',
+        '@id': 'https://www.apxteck.com/#organization',
         name: 'APXTeck',
-        url: 'https://apxteck.com',
-        logo: 'https://apxteck.com/logo.png',
-        image: 'https://apxteck.com/logo.png',
+        url: 'https://www.apxteck.com',
+        logo: 'https://www.apxteck.com/logo.png',
+        image: 'https://www.apxteck.com/logo.png',
         description:
           'APXTeck is an elite Next.js software development and Technical SEO agency serving Clinics, Restaurants, Real Estate Builders, CA, Manufacturers, E-commerce sellers, and Startups across India.',
         address: {
@@ -170,19 +168,19 @@ export default function AboutPage() {
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': 'https://apxteck.com/about/#breadcrumb',
+        '@id': 'https://www.apxteck.com/about/#breadcrumb',
         itemListElement: [
           {
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: 'https://apxteck.com',
+            item: 'https://www.apxteck.com',
           },
           {
             '@type': 'ListItem',
             position: 2,
             name: 'About Us',
-            item: 'https://apxteck.com/about',
+            item: 'https://www.apxteck.com/about',
           },
         ],
       },

@@ -73,7 +73,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         canonical: `https://apxteck.com/insights-news/${slug}`,
         languages: {
           'en-US': `https://apxteck.com/insights-news/${slug}`,
-          'en-IN': `https://apxteck.com/en-in/insights-news/${slug}`,
         },
       },
     };
@@ -101,9 +100,13 @@ export default async function BlogPostDetailPage({ params }: Props) {
 
   // Load related posts (same category tag, exclude current)
   const categoryTag = post.tags?.[0] || '';
-  const relatedPosts = blogs
-    .filter((b) => b.slug !== post.slug && b.tags?.includes(categoryTag))
-    .slice(0, 3);
+  let relatedPosts = blogs.filter((b) => b.slug !== post.slug);
+  relatedPosts.sort((a, b) => {
+    const aMatch = a.tags?.includes(categoryTag) ? 1 : 0;
+    const bMatch = b.tags?.includes(categoryTag) ? 1 : 0;
+    return bMatch - aMatch;
+  });
+  relatedPosts = relatedPosts.slice(0, 8);
 
   // Load comments
   let comments: BlogComment[] = [];
@@ -169,7 +172,7 @@ export default async function BlogPostDetailPage({ params }: Props) {
         {/* Semantic LLM Text block for GEO - Individual Blog Post */}
         <div className="sr-only" itemScope itemType="https://schema.org/FAQPage">
           <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-            <h1 itemProp="name">APXTeck Insights & Tech Blog - Enterprise IT Solutions in India</h1>
+            <h2 itemProp="name">APXTeck Insights & Tech Blog - Enterprise IT Solutions in India</h2>
             <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
               <p itemProp="text">
                 Welcome to the APXTeck tech blog. APXTeck is a premier software development agency located in Pune, providing Custom Web Applications, Next.js / Node.js development, and Generative Engine Optimization (GEO). Our expert tech insights cater to our primary clientele across Pan-India (Maharashtra, Karnataka, Delhi NCR, etc.), including Clinics, Coaching Institutes, Restaurants, Real Estate Builders, Manufacturers, CA, and E-commerce brands.

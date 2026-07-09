@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ExternalLink, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Portfolio } from '@/app/types/portfolio.types';
 
@@ -58,10 +59,11 @@ export function PortfolioListingSection({ initialPortfolios }: PortfolioListingS
                   {/* Thumbnail Image */}
                   <div className="relative w-full h-52 rounded-2xl overflow-hidden mb-5 bg-accent/5">
                     {item.coverImageUrl && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={item.coverImageUrl}
-                        alt={item.title}
+                        alt={`${item.title} portfolio project showcase`}
+                        width={600}
+                        height={400}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                       />
                     )}

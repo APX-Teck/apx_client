@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, Play, Volume2, VolumeX } from 'lucide-react';
 import { api } from '@/lib/axios';
 import { HeroBanner } from '@/app/types/home.types';
+import Image from 'next/image';
 
 export function HeroSection() {
   const [banners, setBanners] = useState<HeroBanner[]>([]);
@@ -113,12 +114,13 @@ export function HeroSection() {
                 </button>
               </div>
             ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={currentBanner.mediaUrl}
-                alt={currentBanner.title || 'APXTeck hero banner'}
+                alt={currentBanner.title ? `${currentBanner.title} background image` : 'APXTeck hero banner'}
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover"
-                fetchPriority="high"
+                priority
               />
             )}
           </motion.div>
@@ -148,7 +150,11 @@ export function HeroSection() {
                 </div>
 
                 {/* Main Heading */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+                <div
+                  role="heading"
+                  aria-level={1}
+                  className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white"
+                >
                   {currentBanner.title?.split('—').map((part, i) => (
                     <span key={i} className="block">
                       {i === 1 ? (
@@ -160,7 +166,7 @@ export function HeroSection() {
                       )}
                     </span>
                   )) || 'Elevate Your Business'}
-                </h1>
+                </div>
 
                 {/* Subtitle */}
                 <p className="text-lg text-slate-200 leading-relaxed max-w-xl">

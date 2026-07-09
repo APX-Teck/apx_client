@@ -104,12 +104,16 @@ export function ContactCTASection() {
                 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/15 text-accent text-xs font-bold uppercase tracking-wider">
                   Contact
                 </div>
-                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+                <div
+                  role="heading"
+                  aria-level={2}
+                  className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.1]"
+                >
                   Let&apos;s Build <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-500">
                     Something Amazing
                   </span>
-                </h2>
+                </div>
                 <p className="text-foreground/75 text-base leading-relaxed">
                   Ready to elevate your operations with advanced visual interfaces? Submit an
                   enquiry and our engineering leads will respond within 24 hours.

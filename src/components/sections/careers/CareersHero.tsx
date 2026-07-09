@@ -19,12 +19,16 @@ export function CareersHero() {
           We're Hiring
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+        <div
+          role="heading"
+          aria-level={1}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1]"
+        >
           Build the Future with{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-500">
             APXTeck
           </span>
-        </h1>
+        </div>
 
         <p className="text-base sm:text-lg md:text-xl text-foreground/75 max-w-2xl leading-relaxed">
           Join our elite team of Next.js engineers, visionary designers, and SEO experts. 

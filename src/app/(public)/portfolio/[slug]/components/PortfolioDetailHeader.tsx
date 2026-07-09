@@ -2,6 +2,7 @@
 
 import { ExternalLink, Calendar } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
+import Image from 'next/image';
 import { Portfolio } from '@/app/types/portfolio.types';
 
 interface Props {
@@ -61,11 +62,13 @@ export function PortfolioDetailHeader({ project }: Props) {
 
       {project.coverImageUrl && (
         <div className="w-full h-96 md:h-[480px] rounded-3xl overflow-hidden border border-glass-border shadow-md">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={project.coverImageUrl}
-            alt={project.title}
+            alt={`${project.title} project cover image`}
+            width={1200}
+            height={800}
             className="w-full h-full object-cover"
+            priority
           />
         </div>
       )}

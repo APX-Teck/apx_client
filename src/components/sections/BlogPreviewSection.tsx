@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { api } from '@/lib/axios';
 import { BlogPost } from '@/app/types/blog.types';
 
@@ -81,7 +82,7 @@ export function BlogPreviewSection() {
             viewport={{ once: true }}
           >
             <Link
-              href="/explore"
+              href="/insights-news"
               className="inline-flex h-12 items-center gap-2 rounded-full glass-panel border border-glass-border px-6 text-sm font-semibold hover:text-accent hover:border-accent/40 active:scale-95 transition-all"
             >
               Explore All News
@@ -110,13 +111,11 @@ export function BlogPreviewSection() {
                   <GlassCard className="!p-0 overflow-hidden h-full flex flex-col hover:border-white/20 hover:shadow-2xl transition-all duration-300">
                     {/* Cover Image */}
                     <div className="relative h-52 w-full overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={
-                          post.coverImageUrl ||
-                          'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-4.0.3'
-                        }
-                        alt={post.title}
+                      <Image
+                        src={post.coverImageUrl || 'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-4.0.3'}
+                        alt={`${post.title} article cover image`}
+                        width={600}
+                        height={400}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                       />
                       {post.tags && post.tags.length > 0 && (

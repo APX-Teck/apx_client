@@ -5,10 +5,10 @@ import { MouseSpotlight } from '@/components/ui/MouseSpotlight';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Disclaimer | APXTeck',
+    title: 'Official Disclaimer & Legal Notice | APXTeck',
     description: 'Read the official disclaimer for APX - Advanced Precision & Excellence.',
     alternates: {
-      canonical: 'https://apxteck.com/disclaimer',
+      canonical: 'https://www.apxteck.com/disclaimer',
     },
     robots: {
       index: true,
@@ -32,7 +32,7 @@ export default function DisclaimerPage() {
           
           <h2 className="text-2xl font-semibold mt-10 mb-4">1. General Information</h2>
           <p className="text-foreground/80 mb-6">
-            The information provided by APXTeck ("we," "us," or "our") on https://apxteck.com (the "Site") is for general informational purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.
+            The information provided by APXTeck ("we," "us," or "our") on https://www.apxteck.com (the "Site") is for general informational purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.
           </p>
 
           <h2 className="text-2xl font-semibold mt-10 mb-4">2. Professional Disclaimer</h2>

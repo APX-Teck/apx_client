@@ -40,14 +40,18 @@ export function Navbar() {
               <div className="relative w-20 h-8 flex items-center justify-center transition-transform group-hover:scale-105">
                 <Image
                   src="/APX Teck - Final Logo -01.png"
-                  alt="APXTeck Logo Light"
-                  fill
+                  alt="APXTeck Header Logo Light"
+                  width={80}
+                  height={32}
+                  priority={true}
                   className="object-contain dark:hidden drop-shadow-[0_0_15px_rgba(14,165,233,0.3)]"
                 />
                 <Image
                   src="/APX Teck - Final Logo -03.png"
-                  alt="APXTeck Logo Dark"
-                  fill
+                  alt="APXTeck Header Logo Dark"
+                  width={80}
+                  height={32}
+                  priority={true}
                   className="object-contain hidden dark:block drop-shadow-[0_0_15px_rgba(14,165,233,0.3)]"
                 />
               </div>
@@ -96,13 +100,13 @@ export function Navbar() {
                     {user?.profilePhotoUrl ? (
                       <img
                         src={user.profilePhotoUrl}
-                        alt={user.fullName}
+                        alt={`${user.fullName} desktop profile`}
                         className="w-full h-full object-cover"
                       />
                     ) : user?.fullName ? (
                       <img
                         src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=4f46e5&color=fff`}
-                        alt={user.fullName}
+                        alt={`${user.fullName} default desktop avatar`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -198,7 +202,7 @@ export function Navbar() {
                   <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 border border-white/20">
                     <img
                       src={user.profilePhotoUrl}
-                      alt={user.fullName}
+                      alt={`${user.fullName} mobile profile`}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -206,7 +210,7 @@ export function Navbar() {
                   <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 border border-white/20">
                     <img
                       src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=4f46e5&color=fff`}
-                      alt={user.fullName}
+                      alt={`${user.fullName} default mobile avatar`}
                       className="w-full h-full object-cover"
                     />
                   </div>

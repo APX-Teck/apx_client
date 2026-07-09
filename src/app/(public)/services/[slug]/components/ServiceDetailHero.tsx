@@ -1,6 +1,7 @@
 'use client';
 
 import { Clock, Tag, FileText, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { Service } from '@/app/types/service.types';
 
 interface Props {
@@ -52,11 +53,13 @@ export function ServiceDetailHero({ service, scrollToForm }: Props) {
 
         <div className="lg:col-span-5 relative w-full h-[320px] rounded-3xl overflow-hidden border border-glass-border">
           {service.thumbnailUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={service.thumbnailUrl}
-              alt={service.name}
+              alt={`${service.name} service banner`}
+              width={1200}
+              height={800}
               className="w-full h-full object-cover"
+              priority
             />
           ) : (
             <div className="w-full h-full bg-accent/5 flex items-center justify-center">

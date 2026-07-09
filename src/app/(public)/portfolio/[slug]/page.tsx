@@ -66,7 +66,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         canonical: url,
         languages: {
           'en-US': url,
-          'en-IN': url.replace('apxteck.com', 'apxteck.com/en-in'),
         },
       },
     };

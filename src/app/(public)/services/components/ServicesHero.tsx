@@ -46,8 +46,9 @@ export function ServicesHero() {
           Capabilities & Solutions
         </motion.div>
 
-        <motion.h1
-          id="hero-heading"
+        <motion.div
+          role="heading"
+          aria-level={1}
           className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2"
         >
           <motion.span
@@ -82,7 +83,7 @@ export function ServicesHero() {
               </span>
             </span>
           </motion.span>
-        </motion.h1>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

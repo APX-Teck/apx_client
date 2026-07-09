@@ -20,6 +20,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MouseSpotlight } from '@/components/ui/MouseSpotlight';
 import { FloatingWhatsApp } from '@/components/ui/FloatingWhatsApp';
 
@@ -233,10 +234,12 @@ export function AboutClient() {
               viewport={{ once: true }}
               className="aspect-square md:aspect-auto md:h-[600px] rounded-[3rem] overflow-hidden relative border border-glass-border shadow-2xl"
             >
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                alt="Team collaborating"
-                className="object-cover w-full h-full opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700"
+              <Image
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3"
+                alt="APXTeck Team collaborating"
+                width={800}
+                height={600}
+                className="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
@@ -332,9 +335,11 @@ export function AboutClient() {
             viewport={{ once: true }}
             className="md:col-span-2 relative h-[400px] rounded-[2rem] overflow-hidden group"
           >
-            <img
-              src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-              alt="Pune Headquarters"
+            <Image
+              src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3"
+              alt="Diverse tech team at APXTeck"
+              width={1200}
+              height={800}
               className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-8 flex flex-col justify-end">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { ZoomIn, X } from 'lucide-react';
 import { Portfolio } from '@/app/types/portfolio.types';
 
@@ -26,11 +27,12 @@ export function PortfolioDetailGallery({ project }: Props) {
               onClick={() => setActiveImage(url)}
               className="relative h-60 rounded-3xl overflow-hidden border border-glass-border group cursor-zoom-in bg-accent/5 shadow-sm"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={url}
                 alt={`${project.clientName} screen screenshot ${idx + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                width={800}
+                height={600}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <ZoomIn className="w-6 h-6 text-white" />
@@ -63,11 +65,12 @@ export function PortfolioDetailGallery({ project }: Props) {
               className="relative max-w-4xl max-h-[80vh] overflow-hidden rounded-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={activeImage}
                 alt="Case study screenshot enlarged"
-                className="max-w-full max-h-[80vh] object-contain border border-glass-border rounded-xl"
+                width={1200}
+                height={900}
+                className="max-w-full max-h-[90vh] object-contain rounded-xl"
               />
             </motion.div>
           </motion.div>

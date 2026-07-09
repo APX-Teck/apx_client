@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Mail, ShieldAlert } from 'lucide-react';
+import Image from 'next/image';
 import { TeamMember } from '@/app/types/user.types';
 
 interface TeamSectionProps {
@@ -55,11 +56,12 @@ export function TeamSection({ team }: TeamSectionProps) {
                 {/* Photo */}
                 <div className="w-24 h-24 rounded-full overflow-hidden mb-6 border border-accent/30 relative shadow-lg">
                   {member.profilePhotoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={member.profilePhotoUrl}
                       alt={member.fullName}
-                      className="w-full h-full object-cover"
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   ) : (
                     <div className="w-full h-full bg-accent/15 flex items-center justify-center font-bold text-2xl text-accent">

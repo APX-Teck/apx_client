@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const techStack = [
   {
@@ -86,16 +87,20 @@ export function TechStackMarquee() {
         {/* Infinite Scroll Container */}
         <div className="flex overflow-hidden w-full group">
           <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
-            {infiniteStack.map((tech, index) => (
+            {infiniteStack.map((tech, index) => {
+              const isDuplicate = index >= techStack.length;
+              return (
               <div
                 key={index}
                 className="flex items-center gap-3 px-8 sm:px-12 hover:scale-110 transition-all duration-300 min-w-max"
+                aria-hidden={isDuplicate ? "true" : undefined}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={tech.icon}
-                  alt={tech.name}
-                  title={tech.name}
+                  alt={isDuplicate ? "" : `${tech.name} technology logo`}
+                  title={isDuplicate ? undefined : tech.name}
+                  width={80}
+                  height={80}
                   className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
                   // Next.js specific invert for dark mode if it's the nextjs logo
                   style={
@@ -108,7 +113,7 @@ export function TechStackMarquee() {
                   {tech.name}
                 </span>
               </div>
-            ))}
+            )})}
           </div>
           {/* Duplicate for seamless infinite scrolling */}
           <div
@@ -120,10 +125,11 @@ export function TechStackMarquee() {
                 key={`dup-${index}`}
                 className="flex items-center gap-3 px-8 sm:px-12 hover:scale-110 transition-all duration-300 min-w-max"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={tech.icon}
-                  alt={tech.name}
+                  alt=""
+                  width={80}
+                  height={80}
                   className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
                   style={
                     tech.name === 'Next.js' || tech.name === 'Amazon Web Services'

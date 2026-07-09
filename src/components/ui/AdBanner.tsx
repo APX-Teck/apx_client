@@ -132,7 +132,7 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={currentAd.bannerUrl}
-                    alt={currentAd.clientName || 'APXTeck Sponsor Advertisement'}
+                    alt={currentAd.clientName ? `${currentAd.clientName} Advertisement ${placement}` : `APXTeck Sponsor Advertisement ${placement}`}
                     className={`w-full object-cover mx-auto transform group-hover:scale-[1.01] transition-transform duration-700 ${placement === 'BLOG_POST_SIDEBAR' ? 'h-full' : 'max-h-[160px]'}`}
                   />
                 </a>

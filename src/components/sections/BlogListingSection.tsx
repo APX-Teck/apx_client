@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Search, ChevronLeft, ChevronRight, Eye, Clock, TrendingUp, Heart, MessageCircle, Share2 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost } from '@/app/types/blog.types';
 import { AdBanner } from '@/components/ui/AdBanner';
@@ -20,7 +21,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
   const [activeCategory, setActiveCategory] = useState('All');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 12;
+  const postsPerPage = 6;
   const sectionRef = useRef<HTMLElement>(null);
 
   const [clientCategories, setClientCategories] = useState<any[]>(initialCategories || []);
@@ -114,13 +115,15 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
     if (!post) return null;
     const url = post.author?.profile?.profilePhotoUrl || post.author?.profilePhotoUrl;
     if (url) {
-      return <img src={url} alt={post.author?.fullName || 'Author'} className="w-full h-full object-cover" />;
+      return <Image src={url} alt={`${post.author?.fullName || 'Article Author'} profile avatar`} width={100} height={100} className="w-full h-full object-cover" />;
     }
     const name = typeof post.author?.fullName === 'string' ? post.author.fullName : 'APX';
     return (
-      <img
+      <Image
         src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name.includes('APX') ? 'APX' : name)}&background=4f46e5&color=fff`}
-        alt={name}
+        alt={`${name} generated avatar`}
+        width={100}
+        height={100}
         className="w-full h-full object-cover"
       />
     );
@@ -191,10 +194,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                     <GlassCard className="!p-0 overflow-hidden h-full flex flex-col border border-glass-border hover:border-white/20 transition-all duration-300">
                       <div className="relative w-full sm:h-[400px] overflow-hidden bg-accent/5 flex items-center justify-center rounded-t-2xl sm:rounded-none">
                         {topStories[0].coverImageUrl && (
-                          <img
-                            src={topStories[0].coverImageUrl}
-                            alt={topStories[0].title}
-                            className="w-full h-auto max-h-[350px] sm:max-h-none sm:h-full object-contain sm:object-cover transition-transform duration-700 group-hover:scale-105"
+                          <Image
+                            src={topStories[0].coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                            alt={`${topStories[0].title} news article thumbnail`}
+                            width={800}
+                            height={600}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         )}
                       </div>
@@ -259,10 +264,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       </div>
                       {post.coverImageUrl && (
                         <div className="w-full sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
-                          <img
-                            src={post.coverImageUrl}
-                            alt={post.title}
-                            className="w-full h-auto max-h-[250px] sm:max-h-none sm:h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-110"
+                          <Image
+                            src={post.coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                            alt={`${post.title} article thumbnail`}
+                            width={600}
+                            height={400}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         </div>
                       )}
@@ -280,10 +287,10 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
           
           {/* Main List */}
           <div className="lg:col-span-8 space-y-8">
-            <h2 className="text-xl font-bold flex items-center gap-2">
+            <div role="heading" aria-level={2} className="text-xl font-bold flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-accent" />
               {isDefaultView ? 'More News' : `Results for "${activeCategory}"`}
-            </h2>
+            </div>
 
             {currentListPosts.length === 0 ? (
               <div className="text-center py-20 border border-dashed border-glass-border rounded-2xl">
@@ -300,10 +307,12 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         <div className="flex flex-col sm:flex-row gap-5 p-4 sm:p-5 rounded-2xl border border-transparent hover:border-glass-border hover:bg-foreground/[0.02] transition-all duration-300">
                           {post.coverImageUrl && (
                             <div className="w-full sm:w-48 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
-                              <img
-                                src={post.coverImageUrl}
-                                alt={post.title}
-                                className="w-full h-auto max-h-[300px] sm:max-h-none sm:h-32 object-contain sm:object-cover transition-transform duration-500 group-hover:scale-110"
+                              <Image
+                                src={post.coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                                alt={`${post.title} article preview`}
+                                width={600}
+                                height={400}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                               />
                             </div>
                           )}
@@ -352,23 +361,85 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-4 pt-6">
+              <div className="flex justify-center items-center gap-2 pt-10 border-t border-glass-border mt-10">
                 <button
-                  onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                  onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="w-9 h-9 rounded-full border border-glass-border flex items-center justify-center text-foreground hover:bg-foreground/5 disabled:opacity-40 transition-all"
+                  className="flex items-center gap-1.5 px-4 h-10 rounded-full border border-glass-border text-sm font-semibold text-foreground hover:bg-foreground/5 disabled:opacity-40 disabled:hover:bg-transparent transition-all"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4" /> Previous
                 </button>
-                <span className="text-xs font-semibold text-foreground/70">
+
+                <div className="hidden sm:flex items-center gap-1">
+                  {(() => {
+                    const pageNumbers = [];
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage + 1 < maxVisiblePages) {
+                      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                      pageNumbers.push(i);
+                    }
+
+                    return (
+                      <>
+                        {startPage > 1 && (
+                          <>
+                            <button
+                              onClick={() => handlePageChange(1)}
+                              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold hover:bg-foreground/5 transition-all text-foreground/70"
+                            >
+                              1
+                            </button>
+                            {startPage > 2 && <span className="text-foreground/40 px-1">...</span>}
+                          </>
+                        )}
+
+                        {pageNumbers.map(number => (
+                          <button
+                            key={number}
+                            onClick={() => handlePageChange(number)}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                              currentPage === number
+                                ? 'bg-accent text-white shadow-md shadow-accent/20'
+                                : 'hover:bg-foreground/5 text-foreground/80'
+                            }`}
+                          >
+                            {number}
+                          </button>
+                        ))}
+
+                        {endPage < totalPages && (
+                          <>
+                            {endPage < totalPages - 1 && <span className="text-foreground/40 px-1">...</span>}
+                            <button
+                              onClick={() => handlePageChange(totalPages)}
+                              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold hover:bg-foreground/5 transition-all text-foreground/70"
+                            >
+                              {totalPages}
+                            </button>
+                          </>
+                        )}
+                      </>
+                    );
+                  })()}
+                </div>
+
+                {/* Mobile text indicator since numbers are hidden on mobile */}
+                <span className="sm:hidden text-xs font-semibold text-foreground/70 mx-2">
                   {currentPage} of {totalPages}
                 </span>
+
                 <button
-                  onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="w-9 h-9 rounded-full border border-glass-border flex items-center justify-center text-foreground hover:bg-foreground/5 disabled:opacity-40 transition-all"
+                  className="flex items-center gap-1.5 px-4 h-10 rounded-full border border-glass-border text-sm font-semibold text-foreground hover:bg-foreground/5 disabled:opacity-40 disabled:hover:bg-transparent transition-all"
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  Next <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             )}

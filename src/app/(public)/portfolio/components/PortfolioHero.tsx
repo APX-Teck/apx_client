@@ -41,7 +41,11 @@ export function PortfolioHero() {
           Case Studies & Work
         </motion.div>
 
-        <motion.h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full">
+        <motion.div
+          role="heading"
+          aria-level={1}
+          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full"
+        >
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,7 +77,7 @@ export function PortfolioHero() {
               </span>
             </span>
           </motion.span>
-        </motion.h1>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

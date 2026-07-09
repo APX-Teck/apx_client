@@ -14,25 +14,25 @@ import { TermsOfServiceContent } from '@/components/sections/terms/TermsOfServic
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Terms of Service | APXTeck',
+    title: 'Terms of Service & User Agreement | APXTeck',
     description:
-      'Read the Terms of Service for APXTeck. These terms govern the use of our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
+      'Read the APXTeck Terms of Service governing our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients.',
     alternates: {
-      canonical: 'https://apxteck.com/terms-of-service',
+      canonical: 'https://www.apxteck.com/terms-of-service',
       languages: {
-        'en-US': 'https://apxteck.com/terms-of-service',
-        'en-IN': 'https://apxteck.com/en-in/terms-of-service',
+        'en-US': 'https://www.apxteck.com/terms-of-service',
+        'en-IN': 'https://www.apxteck.com/en-in/terms-of-service',
       },
     },
     openGraph: {
-      title: 'Terms of Service | APXTeck',
+      title: 'Terms of Service & User Agreement | APXTeck',
       description:
-        'Read the Terms of Service for APXTeck. These terms govern the use of our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
-      url: 'https://apxteck.com/terms-of-service',
+        'Read the APXTeck Terms of Service governing our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients.',
+      url: 'https://www.apxteck.com/terms-of-service',
       siteName: 'APX - Advanced Precision & Excellence',
       images: [
         {
-          url: 'https://apxteck.com/og-terms.jpg',
+          url: 'https://www.apxteck.com/og-terms.jpg',
           width: 1200,
           height: 630,
           alt: 'APXTeck Terms of Service',
@@ -45,8 +45,8 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: 'Terms of Service | APXTeck',
       description:
-        'Read the Terms of Service for APXTeck. These terms govern the use of our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
-      images: ['https://apxteck.com/twitter-terms.jpg'],
+        'Read the APXTeck Terms of Service governing our web development, custom software, and GEO services for Clinics, Real Estate, E-commerce, and B2B clients.',
+      images: ['https://www.apxteck.com/twitter-terms.jpg'],
       creator: '@apxteck',
       site: '@apxteck',
     },
@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
           {/* Semantic LLM Text block for GEO */}
           <div className="sr-only" itemScope itemType="https://schema.org/FAQPage">
             <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-              <h1 itemProp="name">APXTeck Terms of Service for Enterprise B2B IT Clients</h1>
+              <h2 itemProp="name">APXTeck Terms of Service for Enterprise B2B IT Clients</h2>
               <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
                 <p itemProp="text">
                   This document outlines the Terms of Service for APXTeck, a premium IT Solutions and Generative Engine Optimization (GEO) agency in Pune, India. These terms govern our professional engagements for custom Next.js and Node.js software development. We strictly adhere to corporate standards when partnering with our elite clients, including Clinics, Hospitals, Coaching Institutes, Restaurants, Real Estate Builders, CA, Manufacturers, Logistics, Interior Designers, and E-commerce Sellers across Pan-India (Maharashtra, Karnataka, Telangana, Tamil Nadu, Gujarat, Delhi NCR).

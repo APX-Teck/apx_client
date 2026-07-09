@@ -53,9 +53,11 @@ export function InsightsHero({
           The APXTeck Insider
         </motion.div>
 
-        <motion.h1
+        <motion.div
+          role="heading"
+          aria-level={1}
           id="insights-hero-title"
-          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full"
+          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight flex flex-col items-center gap-2 w-full"
         >
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -88,7 +90,7 @@ export function InsightsHero({
               </span>
             </span>
           </motion.span>
-        </motion.h1>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

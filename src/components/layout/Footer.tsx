@@ -3,8 +3,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { api } from '@/lib/axios';
 import { Service } from '@/app/types/service.types';
+import { Portfolio } from '@/app/types/portfolio.types';
+import { BlogPost } from '@/app/types/blog.types';
 import {
   FaFacebookF,
   FaInstagram,
@@ -17,38 +20,59 @@ import {
 
 export function Footer() {
   const [services, setServices] = useState<Service[]>([]);
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const pathname = usePathname() || '/';
+
+  const getIndiaPath = () => {
+    if (pathname.startsWith('/en-in')) return pathname;
+    return `/en-in${pathname === '/' ? '' : pathname}`;
+  };
+
+  const getGlobalPath = () => {
+    if (pathname.startsWith('/en-in')) return pathname.replace('/en-in', '') || '/';
+    return pathname;
+  };
 
   useEffect(() => {
-    async function loadServices() {
+    async function loadData() {
       try {
-        const data = await api.fetchServices();
-        setServices(data.slice(0, 4)); // Only show top 4 services in footer
+        const [servicesData, portfolioData, blogData] = await Promise.all([
+          api.fetchServices(),
+          api.fetchPortfolios(),
+          api.fetchBlogs()
+        ]);
+        setServices(servicesData); // No slice, show all to maximize internal links
+        setPortfolios(portfolioData.slice(0, 5));
+        setBlogs(blogData.slice(0, 5));
       } catch (err) {
-        console.error('Failed to fetch services for footer', err);
+        console.error('Failed to fetch data for footer', err);
       }
     }
-    loadServices();
+    loadData();
   }, []);
 
   return (
     <footer className="relative mt-12 md:mt-20 border-t border-glass-border overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent/5 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12">
-          <div className="md:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
+      <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
+        <div className="flex flex-col xl:flex-row gap-10 md:gap-12 justify-between">
+          <div className="xl:w-[350px] flex flex-col items-center xl:items-start text-center xl:text-left shrink-0">
             <Link href="/" className="inline-flex justify-center md:justify-start mb-6">
               <div className="relative w-48 h-16">
                 <Image
                   src="/APX Teck - Final Logo -01.png"
-                  alt="APXTeck Logo Light"
-                  fill
+                  alt="APXTeck Footer Logo Light"
+                  width={192}
+                  height={64}
                   className="object-contain dark:hidden drop-shadow-[0_0_15px_rgba(163,230,53,0.3)]"
                 />
                 <Image
                   src="/APX Teck - Final Logo -03.png"
-                  alt="APXTeck Logo Dark"
-                  fill
+                  alt="APXTeck Footer Logo Dark"
+                  width={192}
+                  height={64}
                   className="object-contain hidden dark:block drop-shadow-[0_0_15px_rgba(163,230,53,0.3)]"
                 />
               </div>
@@ -137,54 +161,81 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 col-span-1 md:col-span-2 gap-8 w-full text-left">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8 w-full text-left flex-1">
             <div>
-              <h3 className="font-semibold mb-4 md:mb-6">Services</h3>
+              <h2 className="font-semibold mb-4 md:mb-6 text-lg">Services</h2>
               <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
                 {services.length > 0 ? (
                   services.map((service) => (
                     <li key={service.id}>
                       <Link
                         href={`/services/${service.slug}`}
-                        className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
+                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full"
                       >
                         {service.name}
                       </Link>
                     </li>
                   ))
                 ) : (
-                  <>
-                    <li>
-                      <Link
-                        href="/services"
-                        className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
-                      >
-                        Web Development
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/services"
-                        className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
-                      >
-                        UI/UX Design
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/services"
-                        className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
-                      >
-                        SEO Optimization
-                      </Link>
-                    </li>
-                  </>
+                  <li>
+                    <Link href="/services" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                      Web Development
+                    </Link>
+                  </li>
                 )}
               </ul>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4 md:mb-6">Company</h3>
+              <h2 className="font-semibold mb-4 md:mb-6 text-lg">Recent Work</h2>
+              <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
+                {portfolios.length > 0 ? (
+                  portfolios.map((portfolio) => (
+                    <li key={portfolio.id}>
+                      <Link
+                        href={`/portfolio/${portfolio.slug}`}
+                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full line-clamp-2"
+                      >
+                        {portfolio.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <Link href="/portfolio" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                      View Portfolio
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="font-semibold mb-4 md:mb-6 text-lg">Insights</h2>
+              <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
+                {blogs.length > 0 ? (
+                  blogs.map((blog) => (
+                    <li key={blog.id}>
+                      <Link
+                        href={`/insights-news/${blog.slug}`}
+                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full line-clamp-2"
+                      >
+                        {blog.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <Link href="/insights-news" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                      Read Blog
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="font-semibold mb-4 md:mb-6 text-lg">Company</h2>
               <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
                 <li>
                   <Link
@@ -228,11 +279,33 @@ export function Footer() {
                 </li>
               </ul>
             </div>
+
+            <div>
+              <h2 className="font-semibold mb-4 md:mb-6 text-lg">Region</h2>
+              <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
+                <li>
+                  <Link
+                    href={getGlobalPath()}
+                    className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
+                  >
+                    Global (EN)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={getIndiaPath()}
+                    className="hover:text-accent transition-colors inline-block py-2 md:py-0 w-full"
+                  >
+                    India (EN)
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
         <div className="mt-16 pt-8 border-t border-glass-border text-center text-foreground/50 text-sm">
-          <p>© {new Date().getFullYear()} APXTeck. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} <strong>APXTeck</strong>. All rights reserved.</p>
         </div>
       </div>
     </footer>
