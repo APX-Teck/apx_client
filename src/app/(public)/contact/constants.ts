@@ -2,7 +2,7 @@ export const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   '@id': 'https://apxteck.com/#localbusiness',
-  name: 'APXTeck',
+  name: 'APXTECK SOLUTIONS PRIVATE LIMITED',
   image: 'https://apxteck.com/logo.png',
   logo: 'https://apxteck.com/logo.png',
   telephone: '+919405282582',
@@ -12,10 +12,10 @@ export const jsonLdLocalBusiness = {
     'Premium web development, custom software engineering, and technical SEO agency based in Pune, India serving Clinics, Real Estate, E-commerce, and B2B clients Pan-India.',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe',
+    streetAddress: 'FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon',
     addressLocality: 'Pune',
     addressRegion: 'Maharashtra',
-    postalCode: '411041',
+    postalCode: '411047',
     addressCountry: 'IN',
   },
   geo: {

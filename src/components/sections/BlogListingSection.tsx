@@ -21,7 +21,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
   const [activeCategory, setActiveCategory] = useState('All');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const postsPerPage = 10;
   const sectionRef = useRef<HTMLElement>(null);
 
   const [clientCategories, setClientCategories] = useState<any[]>(initialCategories || []);
@@ -93,23 +93,24 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
     }
   };
 
-  // Google News Layout Splitting
-  // If we have search/filter, maybe we just show a grid. But if it's the main view, show Top Stories.
-  const isDefaultView = activeCategory === 'All' && !debouncedSearch;
-  
-  // Top 4 posts for "Your Briefing / Top Stories"
-  const topStories = filteredPosts.slice(0, 4);
-  
-  // Posts for the main list
-  const listPosts = isDefaultView ? filteredPosts.slice(4) : filteredPosts;
-  
-  // Picks for you (just some random/trending posts, e.g., highest views, but here we just slice from bottom)
-  const picksForYou = [...(initialBlogs || [])].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
 
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentListPosts = listPosts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(listPosts.length / postsPerPage);
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Google News Layout Splitting
+  // If we are on page 1 of 'All' with no search, show Top Stories.
+  const isDefaultView = activeCategory === 'All' && !debouncedSearch && currentPage === 1;
+  
+  // Top 4 posts for "Your Briefing / Top Stories"
+  const topStories = isDefaultView ? currentPosts.slice(0, 4) : [];
+  
+  // Posts for the main list
+  const currentListPosts = isDefaultView ? currentPosts.slice(4) : currentPosts;
+  
+  // Picks for you (trending posts for sidebar)
+  const picksForYou = [...(initialBlogs || [])].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
 
   const AuthorImage = ({ post }: { post: BlogPost }) => {
     if (!post) return null;

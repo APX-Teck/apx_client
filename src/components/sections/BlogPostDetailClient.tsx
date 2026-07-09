@@ -375,14 +375,14 @@ export function BlogPostDetailClient({
           {/* Cover image */}
           {post.coverImageUrl && (
             <figure className="w-full mt-10 mb-16">
-              <div className="w-full h-[400px] md:h-[550px] rounded-[2rem] overflow-hidden border border-glass-border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] bg-accent/5 relative group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <div className="w-full rounded-[2rem] overflow-hidden border border-glass-border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] bg-accent/5 relative group flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                 <Image
                   src={post.coverImageUrl}
                   alt={`${post.title} article hero image`}
                   width={1400}
                   height={800}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  className="w-full h-auto object-contain transition-transform duration-1000 group-hover:scale-[1.02]"
                   priority
                 />
               </div>
@@ -608,13 +608,26 @@ export function BlogPostDetailClient({
               <div className="space-y-4">
                 {relatedPosts.map((r) => (
                   <Link key={r.id} href={`/insights-news/${r.slug}`} className="block group">
-                    <div className="space-y-1">
-                      <h5 className="font-bold text-xs text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-snug">
-                        {r.title}
-                      </h5>
-                      <span className="text-[9px] text-foreground/45">
-                        {formatDate(r.publishedAt)}
-                      </span>
+                    <div className="flex gap-3 items-center p-2 -mx-2 rounded-xl hover:bg-foreground/[0.03] transition-all border border-transparent hover:border-glass-border">
+                      {r.coverImageUrl ? (
+                        <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-accent/10 border border-glass-border">
+                          <Image src={r.coverImageUrl} alt={r.title || 'Related Post'} width={56} height={56} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        </div>
+                      ) : (
+                        <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 border border-glass-border">
+                          <span className="text-accent text-xs font-bold uppercase tracking-wider">{(r.tags || [])[0]?.substring(0, 3) || 'NEW'}</span>
+                        </div>
+                      )}
+                      <div className="space-y-1.5 flex-1 min-w-0">
+                        <h5 className="font-bold text-xs text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-snug">
+                          {r.title}
+                        </h5>
+                        <div className="flex items-center gap-2 text-[10px] text-foreground/50">
+                          <span className="whitespace-nowrap">{formatDate(r.publishedAt)}</span>
+                          <span className="w-1 h-1 rounded-full bg-foreground/20"></span>
+                          <span className="flex items-center gap-1 whitespace-nowrap"><Eye className="w-3 h-3" /> {r.views || 0}</span>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 ))}

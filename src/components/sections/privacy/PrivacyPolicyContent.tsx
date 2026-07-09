@@ -110,7 +110,7 @@ export function PrivacyPolicyContent() {
           <ul className="list-none space-y-2">
             <li><strong>Email:</strong> info@apxteck.com</li>
             <li><strong>Phone:</strong> +91 94052 82582</li>
-            <li><strong>Address:</strong> Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe, Pune 411041</li>
+            <li><strong>Address:</strong> FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune- 411047, Maharashtra</li>
           </ul>
         </div>
       ),

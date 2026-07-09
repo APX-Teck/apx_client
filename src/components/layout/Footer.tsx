@@ -77,10 +77,25 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <p className="text-foreground/70 max-w-sm mx-auto md:mx-0">
+            <p className="text-foreground/70 max-w-sm mx-auto xl:mx-0">
               Crafting premium digital experiences, advanced web applications, and data-driven SEO
               strategies for the modern web.
             </p>
+
+            <div className="mt-6 space-y-3 text-sm text-foreground/70 max-w-sm mx-auto xl:mx-0">
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
+                <span className="font-bold text-foreground">Address:</span>
+                <span>FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune- 411047, Maharashtra</span>
+              </div>
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
+                <span className="font-bold text-foreground">Email:</span>
+                <a href="mailto:info@apxteck.com" className="hover:text-accent transition-colors">info@apxteck.com</a>
+              </div>
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
+                <span className="font-bold text-foreground">Phone:</span>
+                <a href="tel:+919405282582" className="hover:text-accent transition-colors">+91 94052 82582</a>
+              </div>
+            </div>
             <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4 mt-8">
               {/* Facebook */}
               <a
@@ -305,7 +320,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-glass-border text-center text-foreground/50 text-sm">
-          <p>© {new Date().getFullYear()} <strong>APXTeck</strong>. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} <strong>APXTECK SOLUTIONS PRIVATE LIMITED</strong>. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -113,7 +113,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': 'https://www.apxteck.com/#localbusiness',
-    name: 'APX - Advanced Precision & Excellence',
+    name: 'APXTECK SOLUTIONS PRIVATE LIMITED',
     description: 'APXTeck is a premium software development and Generative Engine Optimization (GEO) agency in Pune, India. We specialize in B2B enterprise solutions for Clinics, Real Estate Builders, Manufacturers, and E-commerce brands across Pan-India.',
     image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3',
     telephone: '+919405282582',
@@ -121,10 +121,10 @@ export default function Home() {
     priceRange: '₹₹',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe',
+      streetAddress: 'FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon',
       addressLocality: 'Pune',
       addressRegion: 'Maharashtra',
-      postalCode: '411041',
+      postalCode: '411047',
       addressCountry: 'IN',
     },
   };

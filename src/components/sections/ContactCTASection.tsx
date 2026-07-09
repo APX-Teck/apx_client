@@ -145,8 +145,8 @@ export function ContactCTASection() {
                     <div>
                       <p className="font-bold text-sm text-foreground">Visit Us</p>
                       <p className="text-foreground/60 text-sm">
-                        Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe, Pune.
-                        411041
+                        FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune-
+                      411047, Maharashtra
                       </p>
                     </div>
                   </div>

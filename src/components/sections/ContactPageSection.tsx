@@ -79,7 +79,7 @@ export function ContactPageSection({ services }: ContactPageSectionProps) {
               <div className="flex flex-col">
                 <h2 className="font-bold text-sm">Business Headquarters Address</h2>
                 <p className="text-xs sm:text-sm text-foreground/60 mt-1 leading-relaxed">
-                  Flat No. 24, 3rd Floor, Balaji Residency Dighe, Manaji Nagar, Narhe, Pune. 411041
+                  FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune- 411047, Maharashtra
                 </p>
               </div>
             </div>
@@ -88,7 +88,7 @@ export function ContactPageSection({ services }: ContactPageSectionProps) {
           {/* Map Embed */}
           <div className="w-full h-[250px] sm:h-[300px] lg:h-64 rounded-3xl overflow-hidden border border-glass-border shadow-inner">
             <iframe
-              src="https://maps.google.com/maps?q=Balaji%20Residency%20Dighe,%20Manaji%20Nagar,%20Narhe,%20Pune%20411041&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=REVELL%20ORCHID,%20Lohogaon,%20Pune%20411047&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
