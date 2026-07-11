@@ -17,6 +17,7 @@ import {
   FaYoutube,
   FaPinterestP,
 } from 'react-icons/fa6';
+import { MapPin, Mail, Phone } from 'lucide-react';
 
 export function Footer() {
   const [services, setServices] = useState<Service[]>([]);
@@ -77,22 +78,17 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <p className="text-foreground/70 max-w-sm mx-auto xl:mx-0">
-              Crafting premium digital experiences, advanced web applications, and data-driven SEO
-              strategies for the modern web.
-            </p>
-
-            <div className="mt-6 space-y-3 text-sm text-foreground/70 max-w-sm mx-auto xl:mx-0">
-              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
-                <span className="font-bold text-foreground">Address:</span>
-                <span>FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune- 411047, Maharashtra</span>
+            <div className="mt-2 space-y-4 text-sm text-foreground/80 max-w-sm mx-auto xl:mx-0">
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-2 xl:gap-3 text-center xl:text-left">
+                <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5 hidden xl:block" />
+                <span>FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune - 411047, Maharashtra</span>
               </div>
-              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
-                <span className="font-bold text-foreground">Email:</span>
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-2 xl:gap-3 text-center xl:text-left">
+                <Mail className="w-5 h-5 text-accent shrink-0 hidden xl:block" />
                 <a href="mailto:info@apxteck.com" className="hover:text-accent transition-colors">info@apxteck.com</a>
               </div>
-              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-1 xl:gap-2">
-                <span className="font-bold text-foreground">Phone:</span>
+              <div className="flex flex-col xl:flex-row items-center xl:items-start gap-2 xl:gap-3 text-center xl:text-left">
+                <Phone className="w-5 h-5 text-accent shrink-0 hidden xl:block" />
                 <a href="tel:+919405282582" className="hover:text-accent transition-colors">+91 94052 82582</a>
               </div>
             </div>

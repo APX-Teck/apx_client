@@ -34,6 +34,10 @@ const AboutExpertise = dynamic(
   () => import('./components/AboutExpertise').then((mod) => mod.AboutExpertise),
   { ssr: true }
 );
+const LeadershipSection = dynamic(
+  () => import('./components/LeadershipSection').then((mod) => mod.LeadershipSection),
+  { ssr: true }
+);
 
 // UI Components
 import { MouseSpotlight } from '@/components/ui/MouseSpotlight';
@@ -208,6 +212,7 @@ export default function AboutPage() {
           <AboutMissionVision />
           <AboutCulture />
           <AboutValues />
+          <LeadershipSection />
 
           {/* Dynamic Sections (API Fetched with Streaming Suspense) */}
           <Suspense fallback={<div className="h-[500px] w-full animate-pulse bg-foreground/5" />}>
