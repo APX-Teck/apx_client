@@ -78,7 +78,8 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <div className="mt-2 space-y-4 text-sm text-foreground/80 max-w-sm mx-auto xl:mx-0">
+            
+            <div className="mt-8 space-y-4 text-sm text-foreground/80 max-w-sm mx-auto xl:mx-0">
               <div className="flex flex-col xl:flex-row items-center xl:items-start gap-2 xl:gap-3 text-center xl:text-left">
                 <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5 hidden xl:block" />
                 <span>FL NO-F2-1006 SR NO-296/4, REVELL ORCHID, Lohogaon, Pune City, Pune - 411047, Maharashtra</span>
@@ -92,7 +93,7 @@ export function Footer() {
                 <a href="tel:+919405282582" className="hover:text-accent transition-colors">+91 94052 82582</a>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4 mt-8">
+            <div className="flex justify-center md:justify-start gap-2 md:gap-3 mt-8 w-full">
               {/* Facebook */}
               <a
                 href="https://www.facebook.com/share/18ayv4SZDZ/"
