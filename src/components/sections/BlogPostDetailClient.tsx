@@ -325,6 +325,10 @@ export function BlogPostDetailClient({
                     <span className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-accent">
                       <Clock className="w-3.5 h-3.5" /> 5 min read
                     </span>
+                    <span className="w-1 h-1 rounded-full bg-foreground/30"></span>
+                    <span className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-foreground/60">
+                      <Eye className="w-3.5 h-3.5" /> {post.views || 0} views
+                    </span>
                   </div>
                 </div>
               </div>
@@ -454,7 +458,23 @@ export function BlogPostDetailClient({
                   Join the Discussion
                 </span>
               </div>
+            </div>
+
+            <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
+                <Eye className="w-6 h-6" />
               </div>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-base text-foreground tracking-tight">
+                  {post.views || 0} Views
+                </span>
+                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">
+                  Total Reads
+                </span>
+              </div>
+            </div>
             </div>
           </div>
 

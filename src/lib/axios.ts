@@ -121,9 +121,9 @@ export const api = {
       return null;
     }
   },
-  fetchBlogs: async () => {
+  fetchBlogs: async (params = { limit: 1000 }) => {
     try {
-      const response = await apiClient.get('/blog/public/posts');
+      const response = await apiClient.get('/blog/public/posts', { params });
       const resData = response.data;
       if (Array.isArray(resData)) return resData;
       if (Array.isArray(resData?.data)) return resData.data;
