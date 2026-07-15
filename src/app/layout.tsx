@@ -10,6 +10,7 @@ import { QueryProvider } from '@/providers/QueryProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SchemaMarkup } from '@/components/SchemaMarkup';
 import { CookieConsent } from '@/components/ui/CookieConsent';
+import { InitialLoader } from '@/components/ui/InitialLoader';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -162,6 +163,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col transition-colors duration-300 relative"
       >
+        <InitialLoader />
         <Script 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2044879253308502" 
           strategy="afterInteractive"

@@ -128,21 +128,21 @@ export function AIRoastWidget() {
             className="w-full max-w-lg relative group mb-8"
           >
             <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl transition-opacity opacity-0 group-hover:opacity-100 duration-500" />
-            <div className="relative flex items-center bg-background/50 backdrop-blur-xl border border-glass-border hover:border-accent/50 rounded-full p-1.5 sm:p-2 pl-4 sm:pl-6 transition-all duration-300 shadow-lg">
+            <div className="relative flex items-center bg-background/50 backdrop-blur-xl border border-glass-border hover:border-accent/50 rounded-full p-1 sm:p-2 pl-3 sm:pl-6 transition-all duration-300 shadow-lg w-full max-w-full overflow-hidden">
               <Link2 className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/50 shrink-0" />
               <input
                 type="text"
                 placeholder="https://your-website.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none px-4 text-foreground placeholder:text-foreground/30 font-mono text-sm sm:text-base"
+                className="flex-1 min-w-0 bg-transparent border-none outline-none px-2 sm:px-4 text-foreground placeholder:text-foreground/30 font-mono text-xs sm:text-base"
                 required
               />
               <button
                 type="submit"
                 disabled={isAnalyzing}
                 data-interactive
-                className="bg-foreground text-background hover:bg-accent hover:text-white px-4 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-sm sm:text-base transition-all duration-300 flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                className="bg-foreground text-background hover:bg-accent hover:text-white px-3 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-xs sm:text-base transition-all duration-300 flex items-center gap-1 sm:gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
               >
                 {isAnalyzing ? (
                   <>
