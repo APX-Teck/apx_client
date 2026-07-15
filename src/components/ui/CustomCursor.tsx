@@ -14,6 +14,8 @@ export function CustomCursor() {
   const glowX = useSpring(0, { damping: 45, stiffness: 200, mass: 0.6 });
   const glowY = useSpring(0, { damping: 45, stiffness: 200, mass: 0.6 });
 
+  const [isHovering, setIsHovering] = useState(false);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
@@ -27,10 +29,22 @@ export function CustomCursor() {
       glowX.set(e.clientX);
       glowY.set(e.clientY);
     };
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const isInteractive =
+        target.tagName === 'A' ||
+        target.tagName === 'BUTTON' ||
+        target.closest('a') !== null ||
+        target.closest('button') !== null ||
+        target.hasAttribute('data-interactive');
+      setIsHovering(isInteractive);
+    };
 
     window.addEventListener('mousemove', updateMousePosition);
+    window.addEventListener('mouseover', handleMouseOver);
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('mouseover', handleMouseOver);
       document.body.classList.remove('md:cursor-none');
     };
   }, [cursorX, cursorY, glowX, glowY]);
@@ -44,15 +58,28 @@ export function CustomCursor() {
       {/* 1. TOP-LEVEL CONTAINER: Glassy cursor ring that overrides system pointer */}
       <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden hidden md:block">
         <motion.div
-          className="absolute w-7 h-7 rounded-full border border-accent/40 bg-background/15 backdrop-blur-[1.5px] flex items-center justify-center shadow-[0_0_8px_rgba(56,189,248,0.1)]"
+          className="absolute rounded-full border border-accent/40 bg-background/15 backdrop-blur-[1.5px] flex items-center justify-center shadow-[0_0_8px_rgba(56,189,248,0.1)] transition-colors duration-200"
           style={{
             x: cursorX,
             y: cursorY,
             translateX: '-50%',
             translateY: '-50%',
           }}
+          animate={{
+            width: isHovering ? 48 : 28,
+            height: isHovering ? 48 : 28,
+            backgroundColor: isHovering ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)') : 'rgba(0,0,0,0)',
+          }}
+          transition={{ type: 'spring', stiffness: 400, damping: 28 }}
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(56,189,248,0.8)]" />
+          <motion.div 
+            className="rounded-full bg-accent shadow-[0_0_6px_rgba(56,189,248,0.8)]"
+            animate={{
+              width: isHovering ? 0 : 6,
+              height: isHovering ? 0 : 6,
+              opacity: isHovering ? 0 : 1,
+            }}
+          />
         </motion.div>
       </div>
 

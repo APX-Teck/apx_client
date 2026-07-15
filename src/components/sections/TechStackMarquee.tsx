@@ -3,7 +3,16 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const techStack = [
+import { SiCoreldraw } from 'react-icons/si';
+
+type TechItem = {
+  name: string;
+  icon?: string;
+  IconComponent?: React.ElementType;
+  color?: string;
+};
+
+const techStack: TechItem[] = [
   {
     name: 'React',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
@@ -61,7 +70,11 @@ const techStack = [
     name: 'After Effects',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/aftereffects/aftereffects-original.svg',
   },
-  { name: 'CorelDraw', icon: 'https://cdn.simpleicons.org/coreldraw/1E8E3E' },
+  { 
+    name: 'CorelDraw', 
+    IconComponent: SiCoreldraw,
+    color: '#1E8E3E' // CorelDraw Brand Green
+  },
 ];
 
 export function TechStackMarquee() {
@@ -95,20 +108,28 @@ export function TechStackMarquee() {
                 className="flex items-center gap-3 px-8 sm:px-12 hover:scale-110 transition-all duration-300 min-w-max"
                 aria-hidden={isDuplicate ? "true" : undefined}
               >
-                <Image
-                  src={tech.icon}
-                  alt={isDuplicate ? "" : `${tech.name} technology logo`}
-                  title={isDuplicate ? undefined : tech.name}
-                  width={80}
-                  height={80}
-                  className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
-                  // Next.js specific invert for dark mode if it's the nextjs logo
-                  style={
-                    tech.name === 'Next.js' || tech.name === 'Amazon Web Services'
-                      ? { filter: 'var(--tw-invert, invert(1))' }
-                      : {}
-                  }
-                />
+                {tech.icon ? (
+                  <Image
+                    src={tech.icon}
+                    alt={isDuplicate ? "" : `${tech.name} technology logo`}
+                    title={isDuplicate ? undefined : tech.name}
+                    width={80}
+                    height={80}
+                    className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
+                    // Next.js specific invert for dark mode if it's the nextjs logo
+                    style={
+                      tech.name === 'Next.js' || tech.name === 'Amazon Web Services'
+                        ? { filter: 'var(--tw-invert, invert(1))' }
+                        : {}
+                    }
+                  />
+                ) : tech.IconComponent ? (
+                  <tech.IconComponent 
+                    className="h-8 md:h-10 w-auto text-foreground drop-shadow-md" 
+                    title={isDuplicate ? undefined : tech.name} 
+                    style={{ color: tech.color !== '#000000' ? tech.color : undefined }}
+                  />
+                ) : null}
                 <span className="text-sm font-bold text-foreground/80 hidden sm:block">
                   {tech.name}
                 </span>
@@ -125,18 +146,25 @@ export function TechStackMarquee() {
                 key={`dup-${index}`}
                 className="flex items-center gap-3 px-8 sm:px-12 hover:scale-110 transition-all duration-300 min-w-max"
               >
-                <Image
-                  src={tech.icon}
-                  alt=""
-                  width={80}
-                  height={80}
-                  className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
-                  style={
-                    tech.name === 'Next.js' || tech.name === 'Amazon Web Services'
-                      ? { filter: 'var(--tw-invert, invert(1))' }
-                      : {}
-                  }
-                />
+                {tech.icon ? (
+                  <Image
+                    src={tech.icon}
+                    alt=""
+                    width={80}
+                    height={80}
+                    className="h-8 md:h-10 w-auto object-contain drop-shadow-md"
+                    style={
+                      tech.name === 'Next.js' || tech.name === 'Amazon Web Services'
+                        ? { filter: 'var(--tw-invert, invert(1))' }
+                        : {}
+                    }
+                  />
+                ) : tech.IconComponent ? (
+                  <tech.IconComponent 
+                    className="h-8 md:h-10 w-auto text-foreground drop-shadow-md"
+                    style={{ color: tech.color !== '#000000' ? tech.color : undefined }}
+                  />
+                ) : null}
                 <span className="text-sm font-bold text-foreground/80 hidden sm:block">
                   {tech.name}
                 </span>

@@ -10,6 +10,10 @@ const TechStackMarquee = dynamic(
   () => import('@/components/sections/TechStackMarquee').then((mod) => mod.TechStackMarquee),
   { ssr: true }
 );
+const AIRoastWidget = dynamic(
+  () => import('@/components/sections/AIRoastWidget').then((mod) => mod.AIRoastWidget),
+  { ssr: true }
+);
 const ServicesSection = dynamic(
   () => import('@/components/sections/ServicesSection').then((mod) => mod.ServicesSection),
   { ssr: true }
@@ -165,6 +169,8 @@ export default function Home() {
         </div>
 
         <HeroSection />
+
+        <AIRoastWidget />
 
         <TechStackMarquee />
 
