@@ -10,10 +10,28 @@ export function useStatsLogic() {
   useEffect(() => {
     async function loadStats() {
       try {
-        const data = await api.fetchStats();
-        setStats(data);
+        // Fetch portfolios to make the projects count dynamic
+        const portfolios = await api.fetchPortfolios();
+        const projectsCount = portfolios?.length || 0;
+        
+        // Base numbers for aesthetics, dynamically enhanced by actual portfolio count
+        const baseClients = 25; 
+        
+        setStats({
+          clientsServed: baseClients + Math.floor(projectsCount * 0.8), // Dynamic estimation
+          projectsCompleted: projectsCount,
+          satisfactionRate: 99,
+          supportActive: '24/7'
+        });
       } catch (err) {
         console.error('Failed to load stats', err);
+        // Fallback stats if API fails
+        setStats({
+          clientsServed: 25,
+          projectsCompleted: 0,
+          satisfactionRate: 99,
+          supportActive: '24/7'
+        });
         setError('Failed to load stats');
       } finally {
         setIsLoading(false);

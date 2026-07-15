@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Sparkles, ArrowRight, Loader2, Link2, Terminal, AlertTriangle } from 'lucide-react';
+import { Bot, Sparkles, ArrowRight, Loader2, Link2, Terminal, AlertTriangle, Share2 } from 'lucide-react';
 import Link from 'next/link';
+import { FaWhatsapp, FaXTwitter, FaLinkedinIn, FaInstagram, FaEnvelope } from 'react-icons/fa6';
 
 const ROASTS = [
   "I've seen faster loading times on Internet Explorer 6 over dial-up... APXTeck could fix this in an hour.",
@@ -44,8 +45,40 @@ export function AIRoastWidget() {
     }, 2500);
   };
 
+  const handleShare = (platform: string) => {
+    if (!roast) return;
+    const shareText = `I asked APXTeck's AI to roast my website and it was brutally honest! 😭\n\nAI says:\n"${roast}"\n\nDare to get yours roasted? Check it out at https://www.apxteck.com/#ai-roast`;
+    const shareUrl = encodeURIComponent('https://www.apxteck.com/#ai-roast');
+    const encodedText = encodeURIComponent(shareText);
+
+    let popupUrl = '';
+    switch (platform) {
+      case 'twitter':
+        popupUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        break;
+      case 'linkedin':
+        popupUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
+        break;
+      case 'whatsapp':
+        popupUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
+        break;
+      case 'email':
+        popupUrl = `mailto:?subject=${encodeURIComponent('Brutal AI Website Roast')}&body=${encodedText}`;
+        break;
+      case 'instagram':
+        navigator.clipboard.writeText(shareText);
+        alert('Roast copied to clipboard! Share it on Instagram.');
+        return;
+      default:
+        navigator.clipboard.writeText(shareText);
+        alert('Roast copied to clipboard!');
+        return;
+    }
+    window.open(popupUrl, '_blank');
+  };
+
   return (
-    <section className="w-full py-16 sm:py-24 relative overflow-hidden bg-background border-y border-glass-border">
+    <section id="ai-roast" className="w-full py-16 sm:py-24 relative overflow-hidden bg-background border-y border-glass-border">
       {/* Premium Background Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       
@@ -154,12 +187,23 @@ export function AIRoastWidget() {
                         <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                         <p>{">"} <span className="text-gray-100">{roast}</span></p>
                       </div>
-                      <div className="mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <p className="text-xs text-foreground/40 italic">Ouch. That was harsh. But we can help.</p>
+                      <div className="mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                          <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-widest flex items-center gap-1.5 shrink-0">
+                            <Share2 className="w-3 h-3" /> Share Roast
+                          </span>
+                          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
+                            <button onClick={() => handleShare('whatsapp')} title="Share on WhatsApp" className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-white/5 hover:bg-[#25D366] hover:text-white transition-colors border border-glass-border hover:border-transparent"><FaWhatsapp className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => handleShare('twitter')} title="Share on X" className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-white/5 hover:bg-white hover:text-black transition-colors border border-glass-border hover:border-transparent"><FaXTwitter className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => handleShare('linkedin')} title="Share on LinkedIn" className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-white/5 hover:bg-[#0A66C2] hover:text-white transition-colors border border-glass-border hover:border-transparent"><FaLinkedinIn className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => handleShare('email')} title="Share via Email" className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-white/5 hover:bg-accent hover:text-white transition-colors border border-glass-border hover:border-transparent"><FaEnvelope className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => handleShare('instagram')} title="Copy for Instagram" className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-white/5 hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white transition-all border border-glass-border hover:border-transparent"><FaInstagram className="w-3.5 h-3.5" /></button>
+                          </div>
+                        </div>
                         <Link 
                           href="/contact" 
                           data-interactive
-                          className="text-accent hover:text-white text-sm font-bold flex items-center gap-2 underline underline-offset-4 decoration-accent/30 hover:decoration-white transition-all"
+                          className="text-accent hover:text-white text-[13px] font-bold flex items-center justify-center sm:justify-start gap-2 border border-accent/20 hover:border-accent/40 bg-accent/5 hover:bg-accent/10 px-4 py-2 rounded-full transition-all w-full sm:w-auto shrink-0"
                         >
                           Book a rescue mission <ArrowRight className="w-4 h-4" />
                         </Link>

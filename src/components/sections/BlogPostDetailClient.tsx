@@ -627,11 +627,11 @@ export function BlogPostDetailClient({
               <h2 className="font-bold text-sm mb-4">Related Insights</h2>
               <div className="space-y-4">
                 {relatedPosts.map((r) => (
-                  <Link key={r.id} href={`/insights-news/${r.slug}`} className="block group">
+                  <Link key={r.id} href={`/insights-news/${r.slug}`} className="block group/item">
                     <div className="flex gap-3 items-center p-2 -mx-2 rounded-xl hover:bg-foreground/[0.03] transition-all border border-transparent hover:border-glass-border">
                       {r.coverImageUrl ? (
                         <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-accent/10 border border-glass-border">
-                          <Image src={r.coverImageUrl} alt={r.title || 'Related Post'} width={56} height={56} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <Image src={r.coverImageUrl} alt={r.title || 'Related Post'} width={56} height={56} className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" />
                         </div>
                       ) : (
                         <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 border border-glass-border">
@@ -639,7 +639,7 @@ export function BlogPostDetailClient({
                         </div>
                       )}
                       <div className="space-y-1.5 flex-1 min-w-0">
-                        <h5 className="font-bold text-[13px] sm:text-xs text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-snug">
+                        <h5 className="font-bold text-[13px] sm:text-xs text-foreground group-hover/item:text-accent transition-colors line-clamp-2 leading-snug">
                           {r.title}
                         </h5>
                         <div className="flex items-center gap-2 text-[11px] sm:text-[10px] text-foreground/50">

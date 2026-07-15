@@ -79,7 +79,7 @@ export function StatsSection({ stats: initialStats }: { stats?: StatsOverview })
               <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/15 text-accent text-xs font-bold uppercase tracking-wider">
                 Metrics
               </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+              <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground selection:bg-accent/20 selection:text-accent">
                 Our Journey In Numbers
               </h3>
               <p className="text-foreground/60 text-sm leading-relaxed">
