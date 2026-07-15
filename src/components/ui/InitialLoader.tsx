@@ -89,49 +89,57 @@ export function InitialLoader() {
     let currentCharIndex = 0;
     
     // Make text larger and position it like a real editor
-    const fontSize = width > 768 ? 22 : 14;
-    const lineHeight = width > 768 ? 34 : 24;
+    const fontSize = width > 768 ? 20 : 12;
+    const lineHeight = width > 768 ? 32 : 20;
     
-    let x = width > 768 ? Math.max(100, width * 0.15) : 20; 
-    let y = width > 768 ? Math.max(100, height * 0.2) : 80;
+    let x = width > 768 ? Math.max(80, width * 0.15) : 16; 
+    let y = width > 768 ? Math.max(80, height * 0.15) : 60;
     const startX = x;
+    
+    let lastDrawTime = 0;
+    const typingDelay = 15; // ms between characters
 
-    const draw = () => {
-      // Clear canvas with very subtle fade to keep it clean
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
-      ctx.fillRect(0, 0, width, height);
+    const draw = (timestamp: number) => {
+      if (!lastDrawTime) lastDrawTime = timestamp;
+      const elapsed = timestamp - lastDrawTime;
 
-      ctx.font = `${fontSize}px 'Fira Code', 'Consolas', monospace`;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'top';
+      // Only draw when enough time has passed to maintain a stable speed without choking the CPU
+      if (elapsed > typingDelay) {
+        // Clear canvas with very subtle fade to keep it clean
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.08)';
+        ctx.fillRect(0, 0, width, height);
 
-      if (currentTokenIndex < CODE_SNIPPETS.length) {
-        const token = CODE_SNIPPETS[currentTokenIndex];
-        ctx.fillStyle = token.color;
-        
-        const char = token.text[currentCharIndex];
-        
-        if (char === '\n') {
-          y += lineHeight;
-          x = startX;
-        } else {
-          ctx.fillText(char, x, y);
-          x += ctx.measureText(char).width;
+        ctx.font = `${fontSize}px 'Fira Code', 'Consolas', monospace`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+
+        if (currentTokenIndex < CODE_SNIPPETS.length) {
+          const token = CODE_SNIPPETS[currentTokenIndex];
+          ctx.fillStyle = token.color;
+          
+          const char = token.text[currentCharIndex];
+          
+          if (char === '\n') {
+            y += lineHeight;
+            x = startX;
+          } else {
+            ctx.fillText(char, x, y);
+            x += ctx.measureText(char).width;
+          }
+
+          currentCharIndex++;
+          if (currentCharIndex >= token.text.length) {
+            currentCharIndex = 0;
+            currentTokenIndex++;
+          }
         }
-
-        currentCharIndex++;
-        if (currentCharIndex >= token.text.length) {
-          currentCharIndex = 0;
-          currentTokenIndex++;
-        }
+        lastDrawTime = timestamp;
       }
 
-      animationFrameId = requestAnimationFrame(() => {
-        setTimeout(draw, 15); // Fast typing speed
-      });
+      animationFrameId = requestAnimationFrame(draw);
     };
 
-    draw();
+    animationFrameId = requestAnimationFrame(draw);
 
     const handleResize = () => {
       width = window.innerWidth;
@@ -155,24 +163,24 @@ export function InitialLoader() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden"
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden"
         >
           {/* VS Code Typing Canvas Background */}
           <canvas
             ref={canvasRef}
-            className="absolute inset-0 z-0 opacity-50"
+            className="absolute inset-0 z-0 opacity-[0.35]"
           />
 
           {/* Central Elements */}
-          <div className="relative z-10 flex flex-col items-center">
+          <div className="relative z-10 flex flex-col items-center px-4 w-full">
             
             {/* Logo Wrapper */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center mb-10"
+              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 flex items-center justify-center mb-8 md:mb-10 will-change-transform"
             >
               {/* The exact logo shape masked Shine Effect */}
               <div 
@@ -189,10 +197,10 @@ export function InitialLoader() {
                 }}
               >
                 <motion.div
-                  initial={{ left: '-150%' }}
-                  animate={{ left: '150%' }}
-                  transition={{ duration: 1.8, ease: 'easeInOut', delay: 0.5, repeat: Infinity, repeatDelay: 1.2 }}
-                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12"
+                  initial={{ x: '-150%' }}
+                  animate={{ x: '150%' }}
+                  transition={{ duration: 2, ease: 'easeInOut', delay: 0.5, repeat: Infinity, repeatDelay: 1 }}
+                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent -skew-x-12 will-change-transform"
                 />
               </div>
 
@@ -206,14 +214,18 @@ export function InitialLoader() {
             </motion.div>
 
             {/* Simple Loading Indicator */}
-            <div className="flex items-center gap-3 text-white/50 text-sm tracking-widest font-mono uppercase">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                className="w-4 h-4 border-2 border-white/20 border-t-accent rounded-full"
-              />
-              Loading...
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center gap-2.5 sm:gap-3 text-white/40 text-xs sm:text-sm tracking-[0.2em] font-mono uppercase"
+            >
+              <div className="relative flex h-3 sm:h-4 w-3 sm:w-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 sm:h-4 w-3 sm:w-4 border-2 border-accent"></span>
+              </div>
+              Loading System...
+            </motion.div>
             
           </div>
         </motion.div>
