@@ -188,14 +188,14 @@ export function BlogPostDetailClient({
 
     const proseClasses = "blog-content max-w-none " +
       // Base text
-      "text-foreground/90 text-lg sm:text-[21px] leading-[1.8] font-normal tracking-wide " +
-      "[&_p]:mb-10 [&_p]:text-foreground/85 [&_p]:text-pretty " +
+      "text-foreground/90 text-[16px] sm:text-[21px] leading-[1.75] sm:leading-[1.8] font-normal tracking-normal sm:tracking-wide " +
+      "[&_p]:mb-6 sm:[&_p]:mb-10 [&_p]:text-foreground/85 [&_p]:text-pretty " +
       
       // Headings
-      "[&_h1]:text-4xl sm:[&_h1]:text-5xl lg:[&_h1]:text-6xl [&_h1]:font-black [&_h1]:mt-16 [&_h1]:mb-8 [&_h1]:tracking-tighter [&_h1]:text-foreground [&_h1]:leading-[1.15] [&_h1]:text-balance " +
-      "[&_h2]:text-3xl sm:[&_h2]:text-4xl [&_h2]:font-extrabold [&_h2]:mt-16 [&_h2]:mb-6 [&_h2]:tracking-tight [&_h2]:text-foreground [&_h2]:leading-[1.2] [&_h2]:text-balance " +
-      "[&_h3]:text-2xl sm:[&_h3]:text-3xl [&_h3]:font-bold [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:tracking-tight [&_h3]:text-foreground [&_h3]:leading-[1.3] [&_h3]:text-pretty " +
-      "[&_h4]:text-xl sm:[&_h4]:text-2xl [&_h4]:font-bold [&_h4]:mt-10 [&_h4]:mb-4 [&_h4]:tracking-tight [&_h4]:text-foreground [&_h4]:leading-snug " +
+      "[&_h1]:text-3xl sm:[&_h1]:text-4xl lg:[&_h1]:text-6xl [&_h1]:font-black [&_h1]:mt-10 sm:[&_h1]:mt-16 [&_h1]:mb-6 sm:[&_h1]:mb-8 [&_h1]:tracking-tight sm:[&_h1]:tracking-tighter [&_h1]:text-foreground [&_h1]:leading-[1.2] sm:[&_h1]:leading-[1.15] [&_h1]:text-balance " +
+      "[&_h2]:text-2xl sm:[&_h2]:text-3xl lg:[&_h2]:text-4xl [&_h2]:font-extrabold [&_h2]:mt-10 sm:[&_h2]:mt-16 [&_h2]:mb-5 sm:[&_h2]:mb-6 [&_h2]:tracking-tight [&_h2]:text-foreground [&_h2]:leading-[1.25] sm:[&_h2]:leading-[1.2] [&_h2]:text-balance " +
+      "[&_h3]:text-xl sm:[&_h3]:text-2xl lg:[&_h3]:text-3xl [&_h3]:font-bold [&_h3]:mt-8 sm:[&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:tracking-tight [&_h3]:text-foreground [&_h3]:leading-[1.35] sm:[&_h3]:leading-[1.3] [&_h3]:text-pretty " +
+      "[&_h4]:text-[17px] sm:[&_h4]:text-xl lg:[&_h4]:text-2xl [&_h4]:font-bold [&_h4]:mt-6 sm:[&_h4]:mt-10 [&_h4]:mb-3 sm:[&_h4]:mb-4 [&_h4]:tracking-tight [&_h4]:text-foreground [&_h4]:leading-snug " +
       
       // Inline Elements
       "[&_strong]:font-bold [&_strong]:text-foreground [&_strong]:tracking-normal " +
@@ -204,36 +204,36 @@ export function BlogPostDetailClient({
       "[&_mark]:bg-accent/20 [&_mark]:text-foreground [&_mark]:px-1.5 [&_mark]:rounded-sm " +
       
       // Links
-      "[&_a]:text-accent [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-8 [&_a]:decoration-accent/30 hover:[&_a]:decoration-accent hover:[&_a]:text-accent/90 [&_a]:transition-all [&_a]:duration-300 " +
+      "[&_a]:text-accent [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 sm:[&_a]:underline-offset-8 [&_a]:decoration-accent/30 hover:[&_a]:decoration-accent hover:[&_a]:text-accent/90 [&_a]:transition-all [&_a]:duration-300 " +
       
       // Lists (Custom styled)
-      "[&_ul]:list-none [&_ul]:pl-0 [&_ul]:mb-10 [&_ul]:space-y-5 [&_ul]:text-foreground/85 " +
-      "[&_ul_li]:relative [&_ul_li]:pl-10 sm:[&_ul_li]:pl-12 [&_ul_li::before]:content-[''] [&_ul_li::before]:absolute [&_ul_li::before]:left-3 [&_ul_li::before]:top-[0.65em] [&_ul_li::before]:w-2.5 [&_ul_li::before]:h-2.5 [&_ul_li::before]:bg-accent [&_ul_li::before]:rounded-full [&_ul_li::before]:shadow-[0_0_12px_rgba(var(--accent),0.5)] " +
-      "[&_ol]:list-none [&_ol]:pl-0 [&_ol]:mb-10 [&_ol]:space-y-5 [&_ol]:text-foreground/85 [&_ol]:[counter-reset:list-counter] " +
-      "[&_ol_li]:relative [&_ol_li]:pl-10 sm:[&_ol_li]:pl-12 [&_ol_li]:[counter-increment:list-counter] [&_ol_li::before]:content-[counter(list-counter)_'.'] [&_ol_li::before]:absolute [&_ol_li::before]:left-2 [&_ol_li::before]:font-bold [&_ol_li::before]:text-accent [&_ol_li::before]:text-lg " +
+      "[&_ul]:list-none [&_ul]:pl-0 [&_ul]:mb-8 sm:[&_ul]:mb-10 [&_ul]:space-y-4 sm:[&_ul]:space-y-5 [&_ul]:text-foreground/85 " +
+      "[&_ul_li]:relative [&_ul_li]:pl-8 sm:[&_ul_li]:pl-12 [&_ul_li::before]:content-[''] [&_ul_li::before]:absolute [&_ul_li::before]:left-2 sm:[&_ul_li::before]:left-3 [&_ul_li::before]:top-[0.65em] [&_ul_li::before]:w-2 sm:[&_ul_li::before]:w-2.5 [&_ul_li::before]:h-2 sm:[&_ul_li::before]:h-2.5 [&_ul_li::before]:bg-accent [&_ul_li::before]:rounded-full [&_ul_li::before]:shadow-[0_0_10px_rgba(var(--accent),0.5)] " +
+      "[&_ol]:list-none [&_ol]:pl-0 [&_ol]:mb-8 sm:[&_ol]:mb-10 [&_ol]:space-y-4 sm:[&_ol]:space-y-5 [&_ol]:text-foreground/85 [&_ol]:[counter-reset:list-counter] " +
+      "[&_ol_li]:relative [&_ol_li]:pl-8 sm:[&_ol_li]:pl-12 [&_ol_li]:[counter-increment:list-counter] [&_ol_li::before]:content-[counter(list-counter)_'.'] [&_ol_li::before]:absolute [&_ol_li::before]:left-1 sm:[&_ol_li::before]:left-2 [&_ol_li::before]:font-bold [&_ol_li::before]:text-accent [&_ol_li::before]:text-base sm:[&_ol_li::before]:text-lg " +
       "[&_li>p]:mb-0 " +
       
       // Blockquote (Premium Callout)
-      "[&_blockquote]:relative [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-8 sm:[&_blockquote]:pl-12 [&_blockquote]:italic [&_blockquote]:bg-foreground/[0.02] dark:[&_blockquote]:bg-white/[0.02] [&_blockquote]:py-10 [&_blockquote]:pr-8 sm:[&_blockquote]:pr-10 [&_blockquote]:rounded-r-[2rem] [&_blockquote]:my-16 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote]:text-xl sm:[&_blockquote]:text-2xl [&_blockquote]:leading-[1.7] [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
-      "[&_blockquote::before]:content-['\"'] [&_blockquote::before]:absolute [&_blockquote::before]:-top-6 [&_blockquote::before]:left-4 [&_blockquote::before]:text-[100px] [&_blockquote::before]:text-accent/10 [&_blockquote::before]:font-serif [&_blockquote::before]:leading-none [&_blockquote::before]:select-none " +
+      "[&_blockquote]:relative [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 sm:[&_blockquote]:pl-12 [&_blockquote]:italic [&_blockquote]:bg-foreground/[0.02] dark:[&_blockquote]:bg-white/[0.02] [&_blockquote]:py-8 sm:[&_blockquote]:py-10 [&_blockquote]:pr-6 sm:[&_blockquote]:pr-10 [&_blockquote]:rounded-r-[1.5rem] sm:[&_blockquote]:rounded-r-[2rem] [&_blockquote]:my-10 sm:[&_blockquote]:my-16 [&_blockquote]:text-foreground/90 [&_blockquote]:font-medium [&_blockquote]:text-[17px] sm:[&_blockquote]:text-2xl [&_blockquote]:leading-[1.6] sm:[&_blockquote]:leading-[1.7] [&_blockquote_p]:m-0 [&_blockquote]:shadow-sm " +
+      "[&_blockquote::before]:content-['\"'] [&_blockquote::before]:absolute [&_blockquote::before]:-top-5 sm:[&_blockquote::before]:-top-6 [&_blockquote::before]:left-3 sm:[&_blockquote::before]:left-4 [&_blockquote::before]:text-[70px] sm:[&_blockquote::before]:text-[100px] [&_blockquote::before]:text-accent/10 [&_blockquote::before]:font-serif [&_blockquote::before]:leading-none [&_blockquote::before]:select-none " +
       
       // Images
-      "[&_img]:rounded-3xl [&_img]:shadow-2xl [&_img]:my-16 [&_img]:mx-auto [&_img]:max-w-full [&_img]:object-cover [&_img]:border [&_img]:border-glass-border [&_img]:transition-transform [&_img]:duration-700 hover:[&_img]:scale-[1.01] " +
-      "[&_figure]:my-16 [&_figcaption]:text-center [&_figcaption]:text-[15px] [&_figcaption]:text-foreground/60 [&_figcaption]:mt-6 [&_figcaption]:italic [&_figcaption]:font-medium " +
+      "[&_img]:rounded-2xl sm:[&_img]:rounded-3xl [&_img]:shadow-xl sm:[&_img]:shadow-2xl [&_img]:my-10 sm:[&_img]:my-16 [&_img]:mx-auto [&_img]:max-w-full [&_img]:object-cover [&_img]:border [&_img]:border-glass-border [&_img]:transition-transform [&_img]:duration-700 hover:[&_img]:scale-[1.01] " +
+      "[&_figure]:my-10 sm:[&_figure]:my-16 [&_figcaption]:text-center [&_figcaption]:text-sm sm:[&_figcaption]:text-[15px] [&_figcaption]:text-foreground/60 [&_figcaption]:mt-4 sm:[&_figcaption]:mt-6 [&_figcaption]:italic [&_figcaption]:font-medium " +
       
       // Code and Pre
-      "[&_code]:bg-foreground/[0.06] dark:[&_code]:bg-white/[0.08] [&_code]:text-accent [&_code]:px-2 [&_code]:py-1 [&_code]:rounded-md [&_code]:font-mono [&_code]:text-[0.85em] [&_code]:font-medium [&_code]:border [&_code]:border-glass-border " +
-      "[&_pre]:bg-[#0a0a0a] dark:[&_pre]:bg-[#000000] [&_pre]:p-8 sm:[&_pre]:p-10 [&_pre]:rounded-3xl [&_pre]:overflow-x-auto [&_pre]:my-16 [&_pre]:border [&_pre]:border-white/10 [&_pre]:shadow-2xl [&_pre_code]:bg-transparent [&_pre_code]:text-gray-300 [&_pre_code]:p-0 [&_pre_code]:text-[0.9em] [&_pre_code]:border-none [&_pre_code]:font-normal " +
+      "[&_code]:bg-foreground/[0.06] dark:[&_code]:bg-white/[0.08] [&_code]:text-accent [&_code]:px-1.5 sm:[&_code]:px-2 [&_code]:py-0.5 sm:[&_code]:py-1 [&_code]:rounded-md [&_code]:font-mono [&_code]:text-[0.8em] sm:[&_code]:text-[0.85em] [&_code]:font-medium [&_code]:border [&_code]:border-glass-border " +
+      "[&_pre]:bg-[#0a0a0a] dark:[&_pre]:bg-[#000000] [&_pre]:p-5 sm:[&_pre]:p-10 [&_pre]:rounded-2xl sm:[&_pre]:rounded-3xl [&_pre]:overflow-x-auto [&_pre]:my-10 sm:[&_pre]:my-16 [&_pre]:border [&_pre]:border-white/10 [&_pre]:shadow-xl sm:[&_pre]:shadow-2xl [&_pre_code]:bg-transparent [&_pre_code]:text-gray-300 [&_pre_code]:p-0 [&_pre_code]:text-[0.85em] sm:[&_pre_code]:text-[0.9em] [&_pre_code]:border-none [&_pre_code]:font-normal " +
       
       // Tables (Modern SaaS style)
-      "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-16 [&_.table-responsive-wrapper]:!rounded-3xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-lg [&_.table-responsive-wrapper]:!bg-white dark:[&_.table-responsive-wrapper]:!bg-[#0a0a0a] " +
-      "[&_table]:!w-full [&_table]:!min-w-[600px] [&_table]:!border-collapse [&_table]:!text-left [&_table]:!text-base [&_table]:!m-0 " +
-      "[&_thead]:!bg-foreground/[0.02] dark:[&_thead]:!bg-white/[0.03] [&_th]:!p-6 [&_th]:!font-bold [&_th]:!text-foreground [&_th]:!border-b [&_th]:!border-glass-border [&_th]:!whitespace-nowrap " +
-      "[&_td]:!p-6 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
+      "[&_.table-responsive-wrapper]:!w-full [&_.table-responsive-wrapper]:!overflow-x-auto [&_.table-responsive-wrapper]:!my-10 sm:[&_.table-responsive-wrapper]:!my-16 [&_.table-responsive-wrapper]:!rounded-2xl sm:[&_.table-responsive-wrapper]:!rounded-3xl [&_.table-responsive-wrapper]:!border [&_.table-responsive-wrapper]:!border-glass-border [&_.table-responsive-wrapper]:!shadow-lg [&_.table-responsive-wrapper]:!bg-white dark:[&_.table-responsive-wrapper]:!bg-[#0a0a0a] " +
+      "[&_table]:!w-full [&_table]:!min-w-[500px] sm:[&_table]:!min-w-[600px] [&_table]:!border-collapse [&_table]:!text-left [&_table]:!text-sm sm:[&_table]:!text-base [&_table]:!m-0 " +
+      "[&_thead]:!bg-foreground/[0.02] dark:[&_thead]:!bg-white/[0.03] [&_th]:!p-4 sm:[&_th]:!p-6 [&_th]:!font-bold [&_th]:!text-foreground [&_th]:!border-b [&_th]:!border-glass-border [&_th]:!whitespace-nowrap " +
+      "[&_td]:!p-4 sm:[&_td]:!p-6 [&_td]:!text-foreground/80 [&_td]:!border-b [&_td]:!border-glass-border/40 [&_tr:last-child_td]:!border-b-0 " +
       "[&_tr:hover_td]:!bg-foreground/[0.02] dark:[&_tr:hover_td]:!bg-white/[0.02] [&_tr]:!transition-colors " +
       
       // HR
-      "[&_hr]:my-20 [&_hr]:border-0 [&_hr]:h-px [&_hr]:bg-gradient-to-r [&_hr]:from-transparent [&_hr]:via-glass-border [&_hr]:to-transparent";
+      "[&_hr]:my-12 sm:[&_hr]:my-20 [&_hr]:border-0 [&_hr]:h-px [&_hr]:bg-gradient-to-r [&_hr]:from-transparent [&_hr]:via-glass-border [&_hr]:to-transparent";
 
     return (
       <div className="space-y-6 sm:space-y-8">
@@ -278,13 +278,13 @@ export function BlogPostDetailClient({
             <span className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-wider">
               {(post.tags || [])[0] || 'Insight'}
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.3] sm:leading-[1.15] break-words text-foreground">
+            <h1 className="text-[28px] sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight sm:tracking-tighter leading-[1.3] sm:leading-[1.15] break-words text-foreground">
               {post.title}
             </h1>
 
             {/* Author */}
             <div
-              className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-8 pt-8 border-t border-glass-border/60 pb-2 text-sm text-foreground/70 notranslate"
+              className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-glass-border/60 pb-2 text-sm text-foreground/70 notranslate"
               translate="no"
             >
               <div className="flex items-center gap-4">
@@ -378,7 +378,7 @@ export function BlogPostDetailClient({
 
           {/* Cover image */}
           {post.coverImageUrl && (
-            <figure className="w-full mt-10 mb-16">
+            <figure className="w-full mt-8 sm:mt-10 mb-10 sm:mb-16">
               <div className="w-full rounded-[2rem] overflow-hidden border border-glass-border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] bg-accent/5 relative group flex items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                 <Image
@@ -417,22 +417,22 @@ export function BlogPostDetailClient({
           <AdBanner placement="BLOG_POST_BOTTOM" />
 
           {/* Like & Engagement Optimistic UI bar */}
-          <div className="flex justify-center sticky bottom-6 z-40 mt-16 mb-8 w-full pointer-events-none">
+          <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none">
             <div
-              className="pointer-events-auto flex flex-wrap items-center gap-6 sm:gap-10 py-3 px-6 sm:py-4 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/60 dark:bg-[#0a0a0a]/80 backdrop-blur-xl"
+              className="pointer-events-auto flex flex-wrap items-center gap-4 sm:gap-10 py-2.5 px-5 sm:py-4 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/60 dark:bg-[#0a0a0a]/80 backdrop-blur-xl"
               translate="no"
             >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={handleLike}
-                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all ${
                   hasLiked
                     ? 'bg-accent text-white scale-110 shadow-lg shadow-accent/20'
                     : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10 hover:text-foreground'
                 }`}
                 aria-label="Like post"
               >
-                <Heart className={`w-6 h-6 ${hasLiked ? 'fill-current' : ''}`} />
+                <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${hasLiked ? 'fill-current' : ''}`} />
               </button>
               <div className="flex flex-col">
                 <span className="font-extrabold text-base text-foreground tracking-tight">
@@ -446,9 +446,9 @@ export function BlogPostDetailClient({
 
             <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
-                <MessageSquare className="w-6 h-6" />
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
+                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-base text-foreground tracking-tight">
@@ -462,9 +462,9 @@ export function BlogPostDetailClient({
 
             <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
-                <Eye className="w-6 h-6" />
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
+                <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-base text-foreground tracking-tight">
@@ -479,8 +479,8 @@ export function BlogPostDetailClient({
           </div>
 
           {/* Comments Panel */}
-          <div className="space-y-6 pt-12 border-t border-glass-border notranslate" translate="no">
-            <h2 className="text-2xl font-bold tracking-tight">Article Comments</h2>
+          <div className="space-y-4 sm:space-y-6 pt-8 sm:pt-12 border-t border-glass-border notranslate" translate="no">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Article Comments</h2>
 
             {/* Form */}
             {isLoggedIn ? (
@@ -586,26 +586,26 @@ export function BlogPostDetailClient({
         </div>
 
         {/* Right Sidebar (Desktop layout) */}
-        <div className="lg:col-span-4 space-y-8 notranslate lg:sticky lg:top-28 lg:self-start lg:pb-12" translate="no">
+        <div className="lg:col-span-4 space-y-6 sm:space-y-8 mt-6 sm:mt-0 notranslate lg:sticky lg:top-28 lg:self-start lg:pb-12" translate="no">
           {/* Author Card */}
           <GlassCard className="p-6 border border-glass-border">
             <h2 className="font-bold text-sm mb-4">About the Author</h2>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0">
+              <div className="w-12 h-12 sm:w-10 sm:h-10 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0">
                 {post.author?.profilePhotoUrl || post.author?.profile?.profilePhotoUrl ? (
                   <Image
                     src={post.author.profilePhotoUrl || post.author.profile?.profilePhotoUrl || ''}
                     alt={post.author?.fullName || 'Author'}
-                    width={40}
-                    height={40}
+                    width={48}
+                    height={48}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   post.author?.fullName?.[0] || 'A'
                 )}
               </div>
-              <div>
-                <p className="font-extrabold text-sm">
+              <div className="flex-1">
+                <p className="font-extrabold text-[15px] sm:text-sm text-foreground">
                   {post.author?.fullName?.includes('APX Blog Bot')
                     ? 'APX Teck'
                     : post.author?.fullName || 'APX Author'}
@@ -615,7 +615,7 @@ export function BlogPostDetailClient({
                 </p>
               </div>
             </div>
-            <p className="text-[11px] text-foreground/60 leading-relaxed mt-4">
+            <p className="text-[12px] sm:text-[11px] text-foreground/70 sm:text-foreground/60 leading-relaxed mt-4">
               {post.authorBio ||
                 'Professional engineers crafting clean code architectures and visual portfolios for SMBs.'}
             </p>
@@ -639,10 +639,10 @@ export function BlogPostDetailClient({
                         </div>
                       )}
                       <div className="space-y-1.5 flex-1 min-w-0">
-                        <h5 className="font-bold text-xs text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-snug">
+                        <h5 className="font-bold text-[13px] sm:text-xs text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-snug">
                           {r.title}
                         </h5>
-                        <div className="flex items-center gap-2 text-[10px] text-foreground/50">
+                        <div className="flex items-center gap-2 text-[11px] sm:text-[10px] text-foreground/50">
                           <span className="whitespace-nowrap">{formatDate(r.publishedAt)}</span>
                           <span className="w-1 h-1 rounded-full bg-foreground/20"></span>
                           <span className="flex items-center gap-1 whitespace-nowrap"><Eye className="w-3 h-3" /> {r.views || 0}</span>
