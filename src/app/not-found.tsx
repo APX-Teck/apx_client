@@ -46,7 +46,7 @@ export default function NotFound() {
     <div className="flex flex-col min-h-dvh bg-[#050505] text-foreground overflow-hidden relative">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center justify-center relative w-full px-6 text-center z-10" role="main">
+      <main className="flex-1 flex flex-col items-center justify-center relative w-full pt-32 pb-16 px-6 text-center z-10" role="main">
         
         {/* Animated Stars Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-60">

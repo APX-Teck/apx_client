@@ -180,7 +180,7 @@ export function InitialLoader() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 flex items-center justify-center mb-8 md:mb-10 will-change-transform"
+              className="relative w-64 sm:w-[24rem] md:w-[32rem] flex items-center justify-center mb-6 md:mb-8 will-change-transform"
             >
               {/* The exact logo shape masked Shine Effect */}
               <div 
@@ -207,8 +207,9 @@ export function InitialLoader() {
               <Image
                 src="/APXTECK.png"
                 alt="APXTeck Logo"
-                fill
-                className="object-contain"
+                width={800}
+                height={300}
+                className="w-full h-auto object-contain"
                 priority
               />
             </motion.div>

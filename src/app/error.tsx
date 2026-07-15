@@ -22,7 +22,7 @@ export default function Error({
     <div className="flex flex-col min-h-dvh bg-[#050000] text-foreground overflow-hidden relative">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center justify-center relative w-full px-6 text-center z-10" role="main">
+      <main className="flex-1 flex flex-col items-center justify-center relative w-full pt-32 pb-16 px-6 text-center z-10" role="main">
         
         {/* Pulsating Warning Background */}
         <motion.div 
