@@ -49,23 +49,25 @@ const CODE_SNIPPETS = [
 ];
 
 export function InitialLoader() {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem('hasVisited');
-    if (!hasVisited) {
-      setShow(true);
-      const timer = setTimeout(() => {
-        setIsExiting(true);
-        setTimeout(() => {
-          setShow(false);
-          localStorage.setItem('hasVisited', 'true');
-        }, 1000); // 1s for the dissolve animation
-      }, 4500);
-      return () => clearTimeout(timer);
-    }
+    // We assume layout.tsx only renders this if the cookie is missing.
+    // So we just play the animation and set the cookie when done.
+    
+    // Auto-hide after 4.5 seconds
+    const timer = setTimeout(() => {
+      setIsExiting(true);
+      setTimeout(() => {
+        setShow(false);
+        // Set cookie so the server knows they visited (expires in 1 year)
+        document.cookie = "hasVisited=true; path=/; max-age=31536000";
+      }, 1000); // 1s for the dissolve animation
+    }, 4500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // VS Code Typing Canvas Effect
@@ -86,11 +88,13 @@ export function InitialLoader() {
     let currentTokenIndex = 0;
     let currentCharIndex = 0;
     
-    let x = width > 768 ? width / 2 - 300 : 20; // Center text on desktop, left align on mobile
-    let y = height > 768 ? height / 2 - 150 : 100;
+    // Make text larger and position it like a real editor
+    const fontSize = width > 768 ? 22 : 14;
+    const lineHeight = width > 768 ? 34 : 24;
+    
+    let x = width > 768 ? Math.max(100, width * 0.15) : 20; 
+    let y = width > 768 ? Math.max(100, height * 0.2) : 80;
     const startX = x;
-    const lineHeight = 24;
-    const fontSize = width > 768 ? 16 : 14;
 
     const draw = () => {
       // Clear canvas with very subtle fade to keep it clean
@@ -157,7 +161,7 @@ export function InitialLoader() {
           {/* VS Code Typing Canvas Background */}
           <canvas
             ref={canvasRef}
-            className="absolute inset-0 z-0 opacity-40"
+            className="absolute inset-0 z-0 opacity-50"
           />
 
           {/* Central Elements */}
@@ -168,15 +172,27 @@ export function InitialLoader() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center mb-10"
+              className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center mb-10"
             >
-              {/* The Shine Effect Container */}
-              <div className="absolute inset-0 overflow-hidden rounded-full z-20 pointer-events-none">
+              {/* The exact logo shape masked Shine Effect */}
+              <div 
+                className="absolute inset-0 z-20 pointer-events-none"
+                style={{
+                  WebkitMaskImage: 'url(/APXTECK.png)',
+                  maskImage: 'url(/APXTECK.png)',
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center'
+                }}
+              >
                 <motion.div
-                  initial={{ left: '-100%' }}
-                  animate={{ left: '200%' }}
-                  transition={{ duration: 1.5, ease: 'easeInOut', delay: 0.5, repeat: Infinity, repeatDelay: 1.5 }}
-                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
+                  initial={{ left: '-150%' }}
+                  animate={{ left: '150%' }}
+                  transition={{ duration: 1.8, ease: 'easeInOut', delay: 0.5, repeat: Infinity, repeatDelay: 1.2 }}
+                  className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12"
                 />
               </div>
 

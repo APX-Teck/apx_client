@@ -11,6 +11,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SchemaMarkup } from '@/components/SchemaMarkup';
 import { CookieConsent } from '@/components/ui/CookieConsent';
 import { InitialLoader } from '@/components/ui/InitialLoader';
+import { cookies } from 'next/headers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -148,22 +149,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const hasVisited = cookieStore.get('hasVisited');
+
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`} suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className="min-h-full flex flex-col transition-colors duration-300 relative"
       >
-        <InitialLoader />
+        {!hasVisited && <InitialLoader />}
         <Script 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2044879253308502" 
           strategy="afterInteractive"
