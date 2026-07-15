@@ -29,7 +29,7 @@ export function InsightsHero({
         className="absolute inset-0 -z-20"
       >
         <Image
-          src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          src="/APXTECK.png"
           alt="APXTeck Insights and News Background"
           fill
           priority

@@ -101,7 +101,7 @@ export function PortfolioSection() {
                     <Image
                       src={
                         item.coverImageUrl ||
-                        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'
+                        '/APXTECK.png'
                       }
                       alt={`${item.title} portfolio project thumbnail`}
                       width={600}

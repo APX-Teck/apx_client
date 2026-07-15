@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'APXTeck',
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80',
+          url: `${url}/APXTECK.png`,
           width: 1200,
           height: 630,
           alt: 'APX - Advanced Precision & Excellence',
@@ -89,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       images: [
-        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80',
+        `${url}/APXTECK.png`,
       ],
     },
     alternates: {
@@ -119,7 +119,7 @@ export default function Home() {
     '@id': 'https://www.apxteck.com/#localbusiness',
     name: 'APXTECK SOLUTIONS PRIVATE LIMITED',
     description: 'APXTeck is a premium software development and Generative Engine Optimization (GEO) agency in Pune, India. We specialize in B2B enterprise solutions for Clinics, Real Estate Builders, Manufacturers, and E-commerce brands across Pan-India.',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3',
+    image: 'https://www.apxteck.com/APXTECK.png',
     telephone: '+919405282582',
     email: 'info@apxteck.com',
     priceRange: '₹₹',

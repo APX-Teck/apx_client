@@ -196,7 +196,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       <div className="relative w-full sm:h-[400px] overflow-hidden bg-accent/5 flex items-center justify-center rounded-t-2xl sm:rounded-none">
                         {topStories[0].coverImageUrl && (
                           <Image
-                            src={topStories[0].coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                            src={topStories[0].coverImageUrl || '/APXTECK.png'}
                             alt={`${topStories[0].title} news article thumbnail`}
                             width={800}
                             height={600}
@@ -266,7 +266,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       {post.coverImageUrl && (
                         <div className="w-full sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                           <Image
-                            src={post.coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                            src={post.coverImageUrl || '/APXTECK.png'}
                             alt={`${post.title} article thumbnail`}
                             width={600}
                             height={400}
@@ -309,7 +309,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                           {post.coverImageUrl && (
                             <div className="w-full sm:w-48 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                               <Image
-                                src={post.coverImageUrl || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3'}
+                                src={post.coverImageUrl || '/APXTECK.png'}
                                 alt={`${post.title} article preview`}
                                 width={600}
                                 height={400}
