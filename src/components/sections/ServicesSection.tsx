@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ScrambleText } from '@/components/ui/ScrambleText';
 import { GlassCard } from '@/components/ui/GlassCard';
 import {
   Code2,
@@ -94,7 +93,7 @@ export function ServicesSection() {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6"
           >
-            <ScrambleText text="Our Premium Services" />
+            Our Premium Services
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

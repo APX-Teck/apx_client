@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Sparkles, ArrowRight, Loader2, Link2, Terminal, AlertTriangle } from 'lucide-react';
-import { ScrambleText } from '@/components/ui/ScrambleText';
 import Link from 'next/link';
 
 const ROASTS = [
@@ -47,8 +46,11 @@ export function AIRoastWidget() {
 
   return (
     <section className="w-full py-16 sm:py-24 relative overflow-hidden bg-background border-y border-glass-border">
+      {/* Premium Background Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      
       {/* Background Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[300px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-accent/10 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
@@ -70,7 +72,7 @@ export function AIRoastWidget() {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4"
           >
-            <ScrambleText text="Dare to see what AI thinks of your website?" />
+            Dare to see what AI thinks of your website?
           </motion.h2>
 
           <motion.p
@@ -93,8 +95,8 @@ export function AIRoastWidget() {
             className="w-full max-w-lg relative group mb-8"
           >
             <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl transition-opacity opacity-0 group-hover:opacity-100 duration-500" />
-            <div className="relative flex items-center bg-background/50 backdrop-blur-xl border border-glass-border hover:border-accent/50 rounded-full p-2 pl-6 transition-all duration-300 shadow-lg">
-              <Link2 className="w-5 h-5 text-foreground/50 shrink-0" />
+            <div className="relative flex items-center bg-background/50 backdrop-blur-xl border border-glass-border hover:border-accent/50 rounded-full p-1.5 sm:p-2 pl-4 sm:pl-6 transition-all duration-300 shadow-lg">
+              <Link2 className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/50 shrink-0" />
               <input
                 type="text"
                 placeholder="https://your-website.com"
@@ -107,7 +109,7 @@ export function AIRoastWidget() {
                 type="submit"
                 disabled={isAnalyzing}
                 data-interactive
-                className="bg-foreground text-background hover:bg-accent hover:text-white px-6 py-2.5 rounded-full font-bold transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-foreground text-background hover:bg-accent hover:text-white px-4 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-sm sm:text-base transition-all duration-300 flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
               >
                 {isAnalyzing ? (
                   <>
@@ -130,10 +132,10 @@ export function AIRoastWidget() {
                 initial={{ opacity: 0, height: 0, y: 10 }}
                 animate={{ opacity: 1, height: 'auto', y: 0 }}
                 exit={{ opacity: 0, height: 0, y: -10 }}
-                className="w-full max-w-2xl text-left bg-[#0a0a0a] dark:bg-black border border-glass-border rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+                className="w-full max-w-2xl text-left bg-[#0a0a0a] dark:bg-black border border-glass-border rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl relative overflow-hidden"
               >
                 {/* Terminal Header */}
-                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-white/10">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-white/10">
                   <Terminal className="w-5 h-5 text-accent" />
                   <span className="text-xs font-mono text-foreground/50 tracking-widest uppercase">AI_AUDIT_TERMINAL_V1.0</span>
                 </div>
@@ -141,10 +143,10 @@ export function AIRoastWidget() {
                 <div className="font-mono text-sm sm:text-base leading-relaxed text-gray-300">
                   {isAnalyzing ? (
                     <div className="flex flex-col gap-2 text-accent/80">
-                      <p>{">"} Initializing brutal honesty protocols...</p>
-                      <p>{">"} Scanning DOM tree for inline styles...</p>
-                      <p>{">"} Calculating time to interactive (it's bad)...</p>
-                      <p>{">"} Fetching Lighthouse scores... {showCursor ? '█' : ''}</p>
+                      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0 }}>{">"} Initializing brutal honesty protocols...</motion.p>
+                      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>{">"} Scanning DOM tree for inline styles...</motion.p>
+                      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>{">"} Calculating time to interactive (it's bad)...</motion.p>
+                      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}>{">"} Fetching Lighthouse scores... {showCursor ? '█' : ''}</motion.p>
                     </div>
                   ) : roast ? (
                     <div className="space-y-4">

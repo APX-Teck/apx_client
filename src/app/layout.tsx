@@ -10,7 +10,6 @@ import { QueryProvider } from '@/providers/QueryProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SchemaMarkup } from '@/components/SchemaMarkup';
 import { CookieConsent } from '@/components/ui/CookieConsent';
-import { CustomCursor } from '@/components/ui/CustomCursor';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -189,7 +188,6 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <QueryProvider>
             <AuthProvider>
-              <CustomCursor />
               <ScrollProgress />
               {children}
             </AuthProvider>

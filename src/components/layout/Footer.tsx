@@ -182,7 +182,7 @@ export function Footer() {
                     <li key={service.id}>
                       <Link
                         href={`/services/${service.slug}`}
-                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full"
+                        className="hover:text-accent transition-colors block py-1 md:py-0 w-full line-clamp-2"
                       >
                         {service.name}
                       </Link>
@@ -190,7 +190,7 @@ export function Footer() {
                   ))
                 ) : (
                   <li>
-                    <Link href="/services" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                    <Link href="/services" className="hover:text-accent transition-colors block py-1 md:py-0 w-full">
                       Web Development
                     </Link>
                   </li>
@@ -206,7 +206,7 @@ export function Footer() {
                     <li key={portfolio.id}>
                       <Link
                         href={`/portfolio/${portfolio.slug}`}
-                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full line-clamp-2"
+                        className="hover:text-accent transition-colors block py-1 md:py-0 w-full line-clamp-2"
                       >
                         {portfolio.title}
                       </Link>
@@ -214,7 +214,7 @@ export function Footer() {
                   ))
                 ) : (
                   <li>
-                    <Link href="/portfolio" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                    <Link href="/portfolio" className="hover:text-accent transition-colors block py-1 md:py-0 w-full">
                       View Portfolio
                     </Link>
                   </li>
@@ -224,21 +224,26 @@ export function Footer() {
 
             <div>
               <h2 className="font-semibold mb-4 md:mb-6 text-lg">Insights</h2>
-              <ul className="space-y-2 md:space-y-4 text-foreground/70 text-sm">
+              <ul className="space-y-4 md:space-y-5 text-foreground/70 text-sm">
                 {blogs.length > 0 ? (
                   blogs.map((blog) => (
                     <li key={blog.id}>
                       <Link
                         href={`/insights-news/${blog.slug}`}
-                        className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full line-clamp-2"
+                        className="group block w-full"
                       >
-                        {blog.title}
+                        <span className="hover:text-accent transition-colors line-clamp-2 mb-1.5 leading-snug">
+                          {blog.title}
+                        </span>
+                        <span className="text-accent text-[11px] uppercase tracking-wider font-semibold opacity-80 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                          Read more →
+                        </span>
                       </Link>
                     </li>
                   ))
                 ) : (
                   <li>
-                    <Link href="/insights-news" className="hover:text-accent transition-colors inline-block py-1 md:py-0 w-full">
+                    <Link href="/insights-news" className="hover:text-accent transition-colors block py-1 md:py-0 w-full">
                       Read Blog
                     </Link>
                   </li>

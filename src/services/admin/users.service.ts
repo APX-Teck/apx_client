@@ -66,8 +66,9 @@ export interface UserDetail extends User {
 export const usersService = {
   getUsers: async (): Promise<User[]> => {
     try {
-      const response = await apiClient.get('/auth/getAllUsers');
-      return response.data?.data?.data || [];
+      const response = await apiClient.get('/auth/getAllUsers?limit=1000');
+      const result = response.data?.data?.data || response.data?.data || response.data || [];
+      return Array.isArray(result) ? result : [];
     } catch (error) {
       console.error('Failed to fetch users', error);
       return [];

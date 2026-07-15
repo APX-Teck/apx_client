@@ -21,6 +21,9 @@ import {
   AlignCenter,
   Code,
   Eye,
+  Search,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -28,6 +31,118 @@ const RichTextEditor = dynamic(() => import('@/components/ui/RichTextEditor'), {
   ssr: false,
   loading: () => <div className="animate-pulse w-full min-h-[300px] bg-gray-100/50 dark:bg-white/5 rounded-2xl" />
 });
+
+function SearchableAuthorSelect({
+  value,
+  onChange,
+  users,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  users: User[];
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Show all users that have Employee or Admin related roles
+  // Handling case and spacing variations for robustness
+  const validUsers = users.filter(u => {
+    if (!u.isActive && u.id.toString() !== value) return false; // Show inactive only if they are currently selected
+    const roleName = u.role?.name?.toUpperCase()?.replace(/\s+/g, '_') || '';
+    return ['EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'].includes(roleName);
+  });
+
+  const filteredUsers = validUsers.filter(u =>
+    u.fullName?.toLowerCase().includes(search.toLowerCase()) || 
+    (u.fullName === 'APX Blog Bot' && 'apx teck'.includes(search.toLowerCase()))
+  );
+
+  const selectedUser = users.find(u => u.id.toString() === value);
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-bold rounded-xl px-4 py-2.5 min-h-[48px] focus-within:ring-4 focus-within:ring-indigo-500/20 outline-none transition-all flex items-center justify-between cursor-pointer"
+      >
+        <span>
+          {value === ''
+            ? 'Current User (Default)'
+            : selectedUser?.fullName === 'APX Blog Bot'
+            ? 'APX Teck'
+            : selectedUser?.fullName || 'Unknown User'}
+        </span>
+        <ChevronDown size={18} className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </div>
+
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl shadow-xl max-h-[300px] flex flex-col overflow-hidden">
+          <div className="p-3 border-b border-gray-100 dark:border-white/10 flex items-center gap-2 sticky top-0 bg-white dark:bg-[#1a1a1a] z-10">
+            <Search size={16} className="text-gray-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search author..."
+              className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-400 font-medium"
+              autoFocus
+            />
+          </div>
+          <div className="overflow-y-auto flex-1 p-2 space-y-1">
+            <div
+              onClick={() => {
+                onChange('');
+                setIsOpen(false);
+                setSearch('');
+              }}
+              className={`px-3 py-2.5 rounded-lg cursor-pointer flex items-center justify-between text-sm font-bold transition-colors ${
+                value === ''
+                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'
+              }`}
+            >
+              Current User (Default)
+              {value === '' && <Check size={16} />}
+            </div>
+            {filteredUsers.length === 0 ? (
+              <div className="p-3 text-center text-sm text-gray-500 font-medium">No authors found</div>
+            ) : (
+              filteredUsers.map(u => (
+                <div
+                  key={u.id}
+                  onClick={() => {
+                    onChange(u.id.toString());
+                    setIsOpen(false);
+                    setSearch('');
+                  }}
+                  className={`px-3 py-2.5 rounded-lg cursor-pointer flex items-center justify-between text-sm font-bold transition-colors ${
+                    value === u.id.toString()
+                      ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'
+                  }`}
+                >
+                  {u.fullName === 'APX Blog Bot' ? 'APX Teck' : u.fullName}
+                  {value === u.id.toString() && <Check size={16} />}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function Toast({
   message,
@@ -426,10 +541,10 @@ export function BlogEditorClient({
                 <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
                   Author
                 </label>
-                <select
+                <SearchableAuthorSelect
                   value={authorId}
-                  onChange={async (e) => {
-                    const newAuthorId = e.target.value;
+                  users={users}
+                  onChange={async (newAuthorId) => {
                     setAuthorId(newAuthorId);
                     if (newAuthorId) {
                       try {
@@ -448,17 +563,7 @@ export function BlogEditorClient({
                       }
                     }
                   }}
-                  className="w-full bg-white dark:bg-[#151515] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-[15px] font-bold rounded-xl px-4 py-2.5 min-h-[48px] focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all"
-                >
-                  <option value="">Current User (Default)</option>
-                  {users
-                    .filter((u) => ['EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'].includes(u.role?.name))
-                    .map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.fullName === 'APX Blog Bot' ? 'APX Teck' : u.fullName}
-                      </option>
-                    ))}
-                </select>
+                />
               </div>
               <div>
                 <label className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1.5">
