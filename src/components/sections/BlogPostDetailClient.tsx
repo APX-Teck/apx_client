@@ -417,64 +417,67 @@ export function BlogPostDetailClient({
           <AdBanner placement="BLOG_POST_BOTTOM" />
 
           {/* Like & Engagement Optimistic UI bar */}
-          <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none">
+          <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none px-4">
             <div
-              className="pointer-events-auto flex flex-wrap items-center gap-4 sm:gap-10 py-2.5 px-5 sm:py-4 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/60 dark:bg-[#0a0a0a]/80 backdrop-blur-xl"
+              className="pointer-events-auto flex items-center justify-between sm:justify-center gap-2 sm:gap-10 py-2.5 px-4 sm:py-4 sm:px-10 rounded-2xl sm:rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/70 dark:bg-[#0a0a0a]/90 backdrop-blur-xl w-full max-w-[800px] overflow-x-auto no-scrollbar"
               translate="no"
             >
-            <div className="flex items-center gap-2 sm:gap-4">
-              <button
-                onClick={handleLike}
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all ${
-                  hasLiked
-                    ? 'bg-accent text-white scale-110 shadow-lg shadow-accent/20'
-                    : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10 hover:text-foreground'
-                }`}
-                aria-label="Like post"
-              >
-                <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${hasLiked ? 'fill-current' : ''}`} />
-              </button>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-base text-foreground tracking-tight">
-                  {likes} Likes
-                </span>
-                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">
-                  {hasLiked ? 'Unlike' : 'Like'}
-                </span>
+              {/* Like */}
+              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                <button
+                  onClick={handleLike}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shrink-0 ${
+                    hasLiked
+                      ? 'bg-accent text-white scale-110 shadow-lg shadow-accent/20'
+                      : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10 hover:text-foreground'
+                  }`}
+                  aria-label="Like post"
+                >
+                  <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${hasLiked ? 'fill-current' : ''}`} />
+                </button>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                    {likes} <span className="hidden sm:inline">Likes</span>
+                  </span>
+                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                    {hasLiked ? 'Unlike' : 'Like'}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
+              <div className="h-8 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
-                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+              {/* Comments */}
+              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
+                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                    {comments.filter((c) => c.status === 'APPROVED').length} <span className="hidden sm:inline">Comments</span>
+                  </span>
+                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                    Discussion
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-base text-foreground tracking-tight">
-                  {comments.filter((c) => c.status === 'APPROVED').length} Comments
-                </span>
-                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">
-                  Join the Discussion
-                </span>
-              </div>
-            </div>
 
-            <div className="h-10 w-[1px] bg-glass-border hidden sm:block"></div>
+              <div className="h-8 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60">
-                <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+              {/* Views */}
+              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
+                  <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                    {post.views || 0} <span className="hidden sm:inline">Views</span>
+                  </span>
+                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                    Reads
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-base text-foreground tracking-tight">
-                  {post.views || 0} Views
-                </span>
-                <span className="text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5">
-                  Total Reads
-                </span>
-              </div>
-            </div>
             </div>
           </div>
 

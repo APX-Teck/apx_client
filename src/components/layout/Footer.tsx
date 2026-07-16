@@ -96,7 +96,7 @@ export function Footer() {
             <div className="flex justify-center md:justify-start gap-2 md:gap-3 mt-8 w-full">
               {/* Facebook */}
               <a
-                href="https://www.facebook.com/share/18ayv4SZDZ/"
+                href="https://www.facebook.com/share/1Lh8W8h3JU/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -107,7 +107,7 @@ export function Footer() {
 
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/apxteckofficial?igsh=ZDF2MXBhdXh3cGEx"
+                href="https://www.instagram.com/apxteck.official"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -129,7 +129,7 @@ export function Footer() {
 
               {/* Threads */}
               <a
-                href="https://www.threads.com/@apxteckofficial"
+                href="https://www.threads.com/@apxteck.official"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Threads"
