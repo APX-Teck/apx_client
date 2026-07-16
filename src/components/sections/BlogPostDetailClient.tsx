@@ -186,9 +186,9 @@ export function BlogPostDetailClient({
       .replace(/<table([^>]*)>/gi, '<div class="table-responsive-wrapper"><table$1><caption class="sr-only">Detailed data and specifications</caption>')
       .replace(/<\/table>/gi, '</table></div>');
 
-    const proseClasses = "blog-content max-w-none " +
+    const proseClasses = "blog-content max-w-none selection:bg-accent/30 selection:text-foreground " +
       // Base text
-      "text-foreground/90 text-[16px] sm:text-[21px] leading-[1.75] sm:leading-[1.8] font-normal tracking-normal sm:tracking-wide " +
+      "text-foreground/90 text-[16px] sm:text-[21px] leading-[1.85] font-normal tracking-normal sm:tracking-wide " +
       "[&_p]:mb-6 sm:[&_p]:mb-10 [&_p]:text-foreground/85 [&_p]:text-pretty " +
       
       // Headings
@@ -250,13 +250,13 @@ export function BlogPostDetailClient({
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1.5 bg-accent z-50 origin-left"
+        className="fixed top-0 left-0 right-0 h-1.5 bg-accent z-50 origin-left shadow-[0_0_15px_rgba(var(--accent-rgb),0.6)]"
         style={{ scaleX }}
       />
       <article className="max-w-7xl mx-auto px-4 sm:px-6">
       {/* Breadcrumbs */}
       <div
-        className="flex flex-wrap items-center gap-2 text-xs text-foreground/50 font-medium mb-8 notranslate"
+        className="flex flex-wrap items-center gap-2 text-xs text-foreground/40 font-medium mb-8 notranslate"
         translate="no"
       >
         <Link href="/" className="hover:text-accent transition-colors shrink-0">
@@ -288,7 +288,7 @@ export function BlogPostDetailClient({
               translate="no"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0 shadow-sm">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/5 border border-glass-border flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0 shadow-sm">
                   {post.author?.profilePhotoUrl || post.author?.profile?.profilePhotoUrl ? (
                     <Image
                       src={
@@ -317,16 +317,16 @@ export function BlogPostDetailClient({
                       ? 'APX Teck'
                       : post.author?.fullName || 'APX Architect'}
                   </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <time dateTime={post.publishedAt || undefined} className="text-xs sm:text-sm font-medium text-foreground/60">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5">
+                    <time dateTime={post.publishedAt || undefined} className="text-xs sm:text-sm font-medium text-foreground/50">
                       {formatDate(post.publishedAt)}
                     </time>
-                    <span className="w-1 h-1 rounded-full bg-foreground/30"></span>
-                    <span className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-accent">
+                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-foreground/20 mx-1"></span>
+                    <span className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-accent">
                       <Clock className="w-3.5 h-3.5" /> 5 min read
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-foreground/30"></span>
-                    <span className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-foreground/60">
+                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-foreground/20 mx-1"></span>
+                    <span className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-foreground/50">
                       <Eye className="w-3.5 h-3.5" /> {post.views || 0} views
                     </span>
                   </div>
@@ -417,63 +417,64 @@ export function BlogPostDetailClient({
           <AdBanner placement="BLOG_POST_BOTTOM" />
 
           {/* Like & Engagement Optimistic UI bar */}
-          <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none px-4">
+          <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none px-2 sm:px-4">
             <div
-              className="pointer-events-auto flex items-center justify-between sm:justify-center gap-2 sm:gap-10 py-2.5 px-4 sm:py-4 sm:px-10 rounded-2xl sm:rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/70 dark:bg-[#0a0a0a]/90 backdrop-blur-xl w-full max-w-[800px] overflow-x-auto no-scrollbar"
+              className="pointer-events-auto flex items-center justify-around sm:justify-center w-full max-w-[800px] gap-1 sm:gap-10 py-2.5 sm:py-4 px-3 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-xl"
               translate="no"
             >
               {/* Like */}
-              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+              <div className="flex items-center justify-center gap-2 sm:gap-4 flex-1 sm:flex-none">
                 <button
                   onClick={handleLike}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shrink-0 ${
+                  className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shrink-0 ${
                     hasLiked
                       ? 'bg-accent text-white scale-110 shadow-lg shadow-accent/20'
                       : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10 hover:text-foreground'
                   }`}
                   aria-label="Like post"
                 >
-                  <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${hasLiked ? 'fill-current' : ''}`} />
+                  <Heart className={`w-4 h-4 sm:w-6 sm:h-6 ${hasLiked ? 'fill-current' : ''}`} />
                 </button>
-                <div className="flex flex-col">
-                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                <div className="flex flex-col items-start justify-center overflow-hidden">
+                  <span className="font-extrabold text-[13px] sm:text-base text-foreground tracking-tight whitespace-nowrap truncate w-full">
                     {likes} <span className="hidden sm:inline">Likes</span>
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                  <span className="text-[9px] sm:text-[11px] font-bold text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap truncate w-full">
                     {hasLiked ? 'Unlike' : 'Like'}
                   </span>
                 </div>
               </div>
 
-              <div className="h-8 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
+              <div className="h-7 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
 
               {/* Comments */}
-              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
-                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex items-center justify-center gap-2 sm:gap-4 flex-1 sm:flex-none">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
+                  <MessageSquare className="w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                <div className="flex flex-col items-start justify-center overflow-hidden">
+                  <span className="font-extrabold text-[13px] sm:text-base text-foreground tracking-tight whitespace-nowrap truncate w-full">
                     {comments.filter((c) => c.status === 'APPROVED').length} <span className="hidden sm:inline">Comments</span>
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
-                    Discussion
+                  <span className="text-[9px] sm:text-[11px] font-bold text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap truncate w-full">
+                    <span className="hidden sm:inline">Discussion</span>
+                    <span className="sm:hidden">Join</span>
                   </span>
                 </div>
               </div>
 
-              <div className="h-8 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
+              <div className="h-7 sm:h-10 w-[1px] bg-glass-border shrink-0"></div>
 
               {/* Views */}
-              <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
-                  <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex items-center justify-center gap-2 sm:gap-4 flex-1 sm:flex-none">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-foreground/5 text-foreground/60 shrink-0">
+                  <Eye className="w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-extrabold text-sm sm:text-base text-foreground tracking-tight whitespace-nowrap">
+                <div className="flex flex-col items-start justify-center overflow-hidden">
+                  <span className="font-extrabold text-[13px] sm:text-base text-foreground tracking-tight whitespace-nowrap truncate w-full">
                     {post.views || 0} <span className="hidden sm:inline">Views</span>
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-medium text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                  <span className="text-[9px] sm:text-[11px] font-bold text-foreground/50 uppercase tracking-widest mt-0.5 whitespace-nowrap truncate w-full">
                     Reads
                   </span>
                 </div>

@@ -134,7 +134,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
     <section ref={sectionRef} className="w-full max-w-[1400px] mx-auto space-y-6 md:space-y-10">
       
       {/* Category Navbar (Sticky style like Google News) */}
-      <div className="sticky top-16 md:top-20 z-40 bg-background/95 backdrop-blur-md border-b border-glass-border py-3 px-4 sm:px-6 notranslate" translate="no">
+      <div className="sticky top-16 md:top-20 z-40 bg-white/70 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-glass-border shadow-sm py-3 px-4 sm:px-6 notranslate" translate="no">
         <div className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-7xl mx-auto">
           {categoriesList.map((cat, idx) => {
             if (!cat) return null;
@@ -193,16 +193,17 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                 <div className="lg:col-span-7 xl:col-span-8 h-full">
                   <Link href={`/insights-news/${topStories[0].slug}`} className="block group h-full">
                     <GlassCard className="!p-0 overflow-hidden h-full flex flex-col border border-glass-border hover:border-white/20 transition-all duration-300">
-                      <div className="relative w-full sm:h-[400px] overflow-hidden bg-accent/5 flex items-center justify-center rounded-t-2xl sm:rounded-none">
+                      <div className="relative w-full sm:h-[400px] overflow-hidden bg-accent/5 flex items-center justify-center rounded-t-[1.5rem] sm:rounded-none">
                         {topStories[0].coverImageUrl && (
                           <Image
                             src={topStories[0].coverImageUrl || '/APXTECK.png'}
                             alt={`${topStories[0].title} news article thumbnail`}
                             width={800}
                             height={600}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
                           />
                         )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                       </div>
                       <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
                         <span className="text-accent text-xs font-bold uppercase tracking-wider mb-2 block">
@@ -264,14 +265,15 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                         </div>
                       </div>
                       {post.coverImageUrl && (
-                        <div className="w-full sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
+                        <div className="relative w-full sm:w-32 sm:h-32 rounded-2xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                           <Image
                             src={post.coverImageUrl || '/APXTECK.png'}
                             alt={`${post.title} article thumbnail`}
                             width={600}
                             height={400}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                         </div>
                       )}
                     </div>
@@ -307,14 +309,15 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                       <Link href={`/insights-news/${post.slug || '#'}`} className="block group">
                         <div className="flex flex-col sm:flex-row gap-5 p-4 sm:p-5 rounded-2xl border border-transparent hover:border-glass-border hover:bg-foreground/[0.02] transition-all duration-300">
                           {post.coverImageUrl && (
-                            <div className="w-full sm:w-48 rounded-xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
+                            <div className="relative w-full sm:w-56 rounded-2xl overflow-hidden shrink-0 bg-accent/5 border border-glass-border flex items-center justify-center">
                               <Image
                                 src={post.coverImageUrl || '/APXTECK.png'}
                                 alt={`${post.title} article preview`}
                                 width={600}
                                 height={400}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
                               />
+                              <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                             </div>
                           )}
                           <div className="flex flex-col justify-between flex-1 py-1 space-y-3 sm:space-y-0">
@@ -460,8 +463,8 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
                     return (
                     <Link key={post.id || idx} href={`/insights-news/${post.slug || '#'}`} className="block group">
                       <div className="flex gap-3 items-center">
-                        <div className="text-xl font-extrabold text-foreground/10 group-hover:text-accent/20 transition-colors w-6">
-                          0{picksForYou.indexOf(post) + 1}
+                        <div className="w-8 h-8 rounded-full bg-foreground/[0.03] dark:bg-white/[0.03] border border-glass-border flex items-center justify-center text-[11px] font-bold text-foreground/50 group-hover:bg-accent/10 group-hover:text-accent group-hover:border-accent/20 transition-all shrink-0 shadow-sm">
+                          {String(picksForYou.indexOf(post) + 1).padStart(2, '0')}
                         </div>
                         <div className="flex-1">
                           <h4 className="text-sm font-bold leading-tight group-hover:text-accent transition-colors line-clamp-2">
