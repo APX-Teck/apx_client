@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 const jobApplicationSchema = z.object({
+  jobId: z.number().optional(), // Adding jobId just in case we need it, though form uses roles
   fullName: z
     .string()
     .min(3, { message: 'Full name must be at least 3 characters.' })
@@ -24,6 +25,8 @@ const jobApplicationSchema = z.object({
 });
 
 export type JobApplicationFormValues = z.infer<typeof jobApplicationSchema>;
+
+import { publicJobService } from '@/services/public/job.service';
 
 export function useJobApplicationFormLogic() {
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -55,11 +58,18 @@ export function useJobApplicationFormLogic() {
     try {
       setErrorMessage(null);
       
-      // MOCK API CALL
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      // Suppose we have an API endpoint like /api/careers/apply
-      // const res = await axios.post('/api/careers/apply', data);
+      const payload = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        currentRole: data.role, // Mapping role to currentRole or applying role
+        linkedinUrl: data.portfolio, // Portfolio is mapped to linkedinUrl or resumeUrl in backend, but let's use linkedinUrl
+        message: data.message,
+        source: 'Website Career Page',
+        jobId: 1, // Currently hardcoded to 1 or we need a generic jobId for open applications
+      };
+
+      await publicJobService.createApplication(payload);
       
       setIsSubmitSuccess(true);
       reset(); // Clear form

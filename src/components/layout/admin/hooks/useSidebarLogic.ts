@@ -69,6 +69,18 @@ export const NAV_GROUPS = [
         icon: Archive,
         module: 'EMPLOYEE_MANAGEMENT',
       },
+      {
+        name: 'Job Listings',
+        href: '/admin/job-listings',
+        icon: Briefcase,
+        module: 'EMPLOYEE_MANAGEMENT',
+      },
+      {
+        name: 'Job Applications',
+        href: '/admin/job-applications',
+        icon: FileText,
+        module: 'EMPLOYEE_MANAGEMENT',
+      },
     ],
   },
   {
