@@ -70,6 +70,9 @@ export function Navbar() {
               <Link href="/insights-news" className="hover:text-accent transition-colors">
                 Insights & News
               </Link>
+              <Link href="/careers" className="hover:text-accent transition-colors">
+                Careers
+              </Link>
               <Link href="/contact" className="hover:text-accent transition-colors">
                 Contact
               </Link>
@@ -182,6 +185,13 @@ export function Navbar() {
               className="p-3 text-center rounded-xl hover:bg-white/10 font-medium"
             >
               Insights & News
+            </Link>
+            <Link
+              href="/careers"
+              onClick={() => setIsOpen(false)}
+              className="p-3 text-center rounded-xl hover:bg-white/10 font-medium"
+            >
+              Careers
             </Link>
             <Link
               href="/contact"
