@@ -6,4 +6,9 @@ export const publicJobService = {
     const response = await apiClient.post('/job/applications/create', data);
     return response.data;
   },
+
+  getPublicJobListings: async (params?: any): Promise<any> => {
+    const response = await apiClient.get('/job/public/getAll', { params });
+    return response.data;
+  },
 };

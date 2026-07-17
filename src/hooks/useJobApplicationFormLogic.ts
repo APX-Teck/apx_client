@@ -62,11 +62,10 @@ export function useJobApplicationFormLogic() {
         fullName: data.fullName,
         email: data.email,
         phone: data.phone,
-        currentRole: data.role, // Mapping role to currentRole or applying role
-        linkedinUrl: data.portfolio, // Portfolio is mapped to linkedinUrl or resumeUrl in backend, but let's use linkedinUrl
-        message: data.message,
+        linkedinUrl: data.portfolio,
+        statusNote: data.message,
         source: 'Website Career Page',
-        jobId: 1, // Currently hardcoded to 1 or we need a generic jobId for open applications
+        jobId: Number(data.role) || 1, // data.role is the jobId. If for some reason it's missing, default to 1 (e.g. Open Application)
       };
 
       await publicJobService.createApplication(payload);

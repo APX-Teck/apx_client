@@ -3,34 +3,30 @@
 import { MapPin, Clock, Briefcase, ArrowRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 
-const JOBS = [
-  {
-    id: 'job-1',
-    title: 'Senior Frontend Developer (Next.js)',
-    type: 'Full-time',
-    location: 'Pune, India (Hybrid)',
-    department: 'Engineering',
-    description: 'We are looking for an elite Next.js developer to build highly performant and stunning web applications using App Router, TailwindCSS, and Framer Motion.',
-  },
-  {
-    id: 'job-2',
-    title: 'Backend Engineer (Node.js)',
-    type: 'Full-time',
-    location: 'Pune, India (Remote)',
-    department: 'Engineering',
-    description: 'Join our team to design, build, and maintain scalable backend services and RESTful APIs using Node.js, Express, and PostgreSQL.',
-  },
-  {
-    id: 'job-3',
-    title: 'SEO Specialist',
-    type: 'Full-time',
-    location: 'Pune, India',
-    department: 'Marketing',
-    description: 'We need an expert to drive our technical SEO strategies, audit websites, build backlinks, and help our clients dominate search engine rankings.',
-  },
-];
+import { useEffect, useState } from 'react';
+import { publicJobService } from '@/services/public/job.service';
+import { JobListing } from '@/app/types/job.types';
 
 export function CareersJobList() {
+  const [jobs, setJobs] = useState<JobListing[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadJobs() {
+      try {
+        const response = await publicJobService.getPublicJobListings();
+        if (response.data && response.data.data) {
+          setJobs(response.data.data);
+        }
+      } catch (error) {
+        console.error('Failed to load open positions:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadJobs();
+  }, []);
+
   return (
     <section id="open-positions" className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 w-full scroll-mt-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -45,7 +41,13 @@ export function CareersJobList() {
       </div>
 
       <div className="flex flex-col gap-6">
-        {JOBS.map((job) => (
+        {isLoading ? (
+          <div className="text-center py-8 text-foreground/50 animate-pulse">Loading open positions...</div>
+        ) : jobs.length === 0 ? (
+          <div className="text-center py-8 text-foreground/70 bg-foreground/[0.02] border border-glass-border rounded-xl">
+            Currently, there are no open positions. Please check back later or submit an open application!
+          </div>
+        ) : jobs.map((job) => (
           <GlassCard
             key={job.id}
             className="p-6 md:p-8 border border-glass-border group hover:border-accent/30 transition-all cursor-pointer"
@@ -69,15 +71,15 @@ export function CareersJobList() {
                 <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 pt-2">
                   <div className="flex items-center gap-1.5">
                     <Briefcase className="w-4 h-4" />
-                    <span>{job.type}</span>
+                    <span className="capitalize">{job.jobType.replace('_', ' ').toLowerCase()}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <MapPin className="w-4 h-4" />
-                    <span>{job.location}</span>
+                    <span>{job.location || 'Pune, India'} <span className="capitalize">({job.workMode.toLowerCase()})</span></span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-4 h-4" />
-                    <span>Urgent Hiring</span>
+                    <span className="capitalize">{job.experienceLevel.toLowerCase()}</span>
                   </div>
                 </div>
               </div>
@@ -85,6 +87,18 @@ export function CareersJobList() {
               <div className="flex-shrink-0">
                 <a 
                   href="#apply-now" 
+                  onClick={() => {
+                    const formSelect = document.getElementById('role') as HTMLSelectElement;
+                    if (formSelect) {
+                      const optionExists = Array.from(formSelect.options).some(opt => opt.value === job.id.toString());
+                      if (!optionExists) {
+                        const newOption = new Option(job.title, job.id.toString());
+                        newOption.className = "bg-background text-foreground";
+                        formSelect.add(newOption);
+                      }
+                      formSelect.value = job.id.toString();
+                    }
+                  }}
                   className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-foreground text-background font-semibold hover:bg-foreground/90 transition-all group-hover:bg-accent group-hover:text-white"
                 >
                   Apply Now

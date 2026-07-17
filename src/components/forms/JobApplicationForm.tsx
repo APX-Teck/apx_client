@@ -4,7 +4,27 @@ import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useJobApplicationFormLogic } from '@/hooks/useJobApplicationFormLogic';
 import { RecaptchaField } from '@/components/ui/RecaptchaField';
 
+import { useEffect, useState } from 'react';
+import { publicJobService } from '@/services/public/job.service';
+import { JobListing } from '@/app/types/job.types';
+
 export function JobApplicationForm() {
+  const [jobs, setJobs] = useState<JobListing[]>([]);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await publicJobService.getPublicJobListings();
+        if (response.data && response.data.data) {
+          setJobs(response.data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch jobs for form:', error);
+      }
+    }
+    fetchJobs();
+  }, []);
+
   const {
     form: {
       register,
@@ -139,10 +159,12 @@ export function JobApplicationForm() {
             } text-foreground/80`}
           >
             <option value="" className="bg-background text-foreground">Select a role</option>
-            <option value="Senior Frontend Developer (Next.js)" className="bg-background text-foreground">Senior Frontend Developer (Next.js)</option>
-            <option value="Backend Engineer (Node.js)" className="bg-background text-foreground">Backend Engineer (Node.js)</option>
-            <option value="SEO Specialist" className="bg-background text-foreground">SEO Specialist</option>
-            <option value="Open Application" className="bg-background text-foreground">Other / Open Application</option>
+            {jobs.map((job) => (
+              <option key={job.id} value={job.id.toString()} className="bg-background text-foreground">
+                {job.title}
+              </option>
+            ))}
+            <option value="1" className="bg-background text-foreground">Other / Open Application</option>
           </select>
           {errors.role && (
             <p className="text-xs text-rose-500 font-medium pl-1" role="alert">{errors.role.message}</p>
