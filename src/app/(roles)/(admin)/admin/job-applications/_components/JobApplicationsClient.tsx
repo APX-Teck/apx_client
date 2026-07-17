@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { JobApplication, ApplicationStatus } from '@/app/types/job.types';
 import { adminJobService } from '@/services/admin/job.service';
-import { Trash2, Search, X, Eye, ExternalLink, Mail, Phone, MapPin } from 'lucide-react';
+import { Trash2, Search, X, Eye, ExternalLink, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -13,6 +13,25 @@ export default function JobApplicationsClient({ initialData }: { initialData: Jo
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(initialData.length === 0);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        setIsLoading(true);
+        const res = await adminJobService.getJobApplications({ page: 1, limit: 100 });
+        setApplications(res.data || []);
+      } catch (error) {
+        console.error('Failed to fetch job applications on client:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (initialData.length === 0) {
+      fetchApplications();
+    }
+  }, [initialData]);
   
   const handleOpenModal = (application: JobApplication) => {
     setSelectedApplication(application);
@@ -85,7 +104,16 @@ export default function JobApplicationsClient({ initialData }: { initialData: Jo
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-              {filteredApplications.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                    <div className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Loading job applications...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredApplications.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     No applications found.

@@ -134,7 +134,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
     <section ref={sectionRef} className="w-full max-w-[1400px] mx-auto space-y-6 md:space-y-10">
       
       {/* Category Navbar (Sticky style like Google News) */}
-      <div className="sticky top-16 md:top-20 z-40 bg-white/70 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-glass-border shadow-sm py-3 px-4 sm:px-6 notranslate" translate="no">
+      <div className="sticky top-16 md:top-20 z-40 bg-white/70 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-glass-border shadow-sm py-3 px-4 sm:px-6">
         <div className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-7xl mx-auto">
           {categoriesList.map((cat, idx) => {
             if (!cat) return null;
@@ -168,7 +168,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 max-w-7xl mx-auto space-y-10 notranslate" translate="no">
+      <div className="px-4 sm:px-6 max-w-7xl mx-auto space-y-10">
         
         {/* Mobile Search */}
         <div className="relative sm:hidden w-full mt-4">
@@ -354,7 +354,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
 
                       {showMidAd && (
                         <div className="py-4 border-y border-glass-border my-6">
-                          <AdBanner placement="BLOG_LIST_MID" />
+                          {/* <AdBanner placement="BLOG_LIST_MID" /> */}
                         </div>
                       )}
                     </div>
@@ -489,7 +489,7 @@ export function BlogListingSection({ initialBlogs = [], initialCategories = [] }
 
               {/* Sidebar Ad */}
               <div className="rounded-3xl overflow-hidden border border-glass-border">
-                 <AdBanner placement="BLOG_POST_SIDEBAR" />
+                 {/* <AdBanner placement="BLOG_POST_SIDEBAR" /> */}
               </div>
             </div>
           </div>

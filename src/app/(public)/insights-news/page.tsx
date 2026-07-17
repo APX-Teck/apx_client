@@ -97,10 +97,10 @@ export default function BlogListingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
 
-      <header className="notranslate" translate="no">
+      <header>
         <Navbar />
       </header>
-      <div className="notranslate" translate="no" aria-label="Language Switcher">
+      <div aria-label="Language Switcher">
         <LanguageSwitcher />
       </div>
 
@@ -124,13 +124,12 @@ export default function BlogListingPage() {
         </div>
 
         {/* Animated Hero and Knowledge Hub Focus (Client component) */}
-        <article className="notranslate w-full" translate="no">
+        <article className="w-full">
           <ExploreNewsClient />
         </article>
 
         <div
-          className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 text-center notranslate w-full"
-          translate="no"
+          className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 text-center w-full"
           aria-hidden="true"
         >
           <div className="h-px w-full bg-gradient-to-r from-transparent via-glass-border to-transparent" />
@@ -138,15 +137,14 @@ export default function BlogListingPage() {
 
         {/* Ad Slot Top and Pricing (Stacked Horizontally) */}
         <aside
-          className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12 flex flex-col items-center gap-6 md:gap-8 notranslate w-full"
-          translate="no"
+          className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12 flex flex-col items-center gap-6 md:gap-8 w-full"
           aria-label="Top Advertisement"
         >
           <div className="w-full max-w-full overflow-hidden flex justify-center bg-foreground/[0.02] border border-glass-border rounded-2xl md:rounded-3xl p-4">
-            <AdBanner placement="BLOG_LIST_TOP" />
+            {/* <AdBanner placement="BLOG_LIST_TOP" /> */}
           </div>
           <div className="w-full">
-            <AvailableAdSlots layout="horizontal" />
+            {/* <AvailableAdSlots layout="horizontal" /> */}
           </div>
         </aside>
 
@@ -161,24 +159,22 @@ export default function BlogListingPage() {
 
         {/* Ad Slot Bottom (After Blog list, before Marquee) */}
         <aside
-          className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 md:mt-16 mb-8 flex justify-center notranslate w-full"
-          translate="no"
+          className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 md:mt-16 mb-8 flex justify-center w-full"
           aria-label="Bottom Advertisement"
         >
-          <AdBanner placement="BLOG_LIST_MID" />
+          {/* <AdBanner placement="BLOG_LIST_MID" /> */}
         </aside>
 
         {/* Tech Stack Marquee at the bottom */}
         <section
-          className="mt-8 md:mt-12 notranslate w-full"
-          translate="no"
+          className="mt-8 md:mt-12 w-full"
           aria-label="Our Technology Stack"
         >
           <TechStackMarquee />
         </section>
       </main>
 
-      <footer className="notranslate w-full" translate="no">
+      <footer className="w-full">
         <Footer />
       </footer>
     </div>

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { JobListing, JobType, WorkMode, ExperienceLevel } from '@/app/types/job.types';
 import { adminJobService } from '@/services/admin/job.service';
-import { Plus, Edit2, Trash2, Search, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function JobListingsClient({ initialData }: { initialData: JobListing[] }) {
@@ -12,6 +12,25 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
   const [modalMode, setModalMode] = useState<'CREATE' | 'EDIT'>('CREATE');
   const [selectedListing, setSelectedListing] = useState<JobListing | null>(null);
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(initialData.length === 0);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setIsLoading(true);
+        const res = await adminJobService.getJobListings({ page: 1, limit: 100 });
+        setListings(res.data || []);
+      } catch (error) {
+        console.error('Failed to fetch job listings on client:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (initialData.length === 0) {
+      fetchJobs();
+    }
+  }, [initialData]);
   
   const [formData, setFormData] = useState<Partial<JobListing>>({
     title: '',
@@ -125,7 +144,16 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-              {filteredListings.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                    <div className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Loading job listings...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredListings.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     No job listings found.

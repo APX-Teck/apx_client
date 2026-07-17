@@ -242,7 +242,7 @@ export function BlogPostDetailClient({
           dangerouslySetInnerHTML={{ __html: contentWithResponsiveTables }}
         />
         {/* Ad mid-placement moved here to prevent DOM breakage */}
-        <AdBanner placement="BLOG_POST_MID" className="my-8 sm:my-12" />
+        {/* <AdBanner placement="BLOG_POST_MID" className="my-8 sm:my-12" /> */}
       </div>
     );
   };
@@ -256,8 +256,7 @@ export function BlogPostDetailClient({
       <article className="max-w-7xl mx-auto px-4 sm:px-6">
       {/* Breadcrumbs */}
       <div
-        className="flex flex-wrap items-center gap-2 text-xs text-foreground/40 font-medium mb-8 notranslate"
-        translate="no"
+        className="flex flex-wrap items-center gap-2 text-xs text-foreground/40 font-medium mb-8"
       >
         <Link href="/" className="hover:text-accent transition-colors shrink-0">
           Home
@@ -284,8 +283,7 @@ export function BlogPostDetailClient({
 
             {/* Author */}
             <div
-              className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-glass-border/60 pb-2 text-sm text-foreground/70 notranslate"
-              translate="no"
+              className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-glass-border/60 pb-2 text-sm text-foreground/70"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/5 border border-glass-border flex items-center justify-center font-bold text-accent uppercase overflow-hidden shrink-0 shadow-sm">
@@ -394,7 +392,7 @@ export function BlogPostDetailClient({
           )}
 
           {/* Ad Top */}
-          <AdBanner placement="BLOG_POST_TOP" />
+          {/* <AdBanner placement="BLOG_POST_TOP" /> */}
 
           {/* Body Content */}
           <div className="bg-transparent text-foreground/90 leading-relaxed font-normal break-words min-w-0 max-w-[760px] mx-auto lg:mx-0">
@@ -414,13 +412,12 @@ export function BlogPostDetailClient({
           </div>
 
           {/* Ad Bottom */}
-          <AdBanner placement="BLOG_POST_BOTTOM" />
+          {/* <AdBanner placement="BLOG_POST_BOTTOM" /> */}
 
           {/* Like & Engagement Optimistic UI bar */}
           <div className="flex justify-center sticky bottom-4 sm:bottom-6 z-40 mt-12 sm:mt-16 mb-4 sm:mb-8 w-full pointer-events-none px-2 sm:px-4">
             <div
-              className="pointer-events-auto flex items-center justify-around sm:justify-center w-full max-w-[800px] gap-1 sm:gap-10 py-2.5 sm:py-4 px-3 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 notranslate bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-xl"
-              translate="no"
+              className="pointer-events-auto flex items-center justify-around sm:justify-center w-full max-w-[800px] gap-1 sm:gap-10 py-2.5 sm:py-4 px-3 sm:px-10 rounded-full glass-panel border border-glass-border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_60px_-15px_rgba(var(--accent-rgb),0.3)] transition-all duration-300 bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-xl"
             >
               {/* Like */}
               <div className="flex items-center justify-center gap-2 sm:gap-4 flex-1 sm:flex-none">
@@ -483,7 +480,7 @@ export function BlogPostDetailClient({
           </div>
 
           {/* Comments Panel */}
-          <div className="space-y-4 sm:space-y-6 pt-8 sm:pt-12 border-t border-glass-border notranslate" translate="no">
+          <div className="space-y-4 sm:space-y-6 pt-8 sm:pt-12 border-t border-glass-border">
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Article Comments</h2>
 
             {/* Form */}
@@ -590,7 +587,7 @@ export function BlogPostDetailClient({
         </div>
 
         {/* Right Sidebar (Desktop layout) */}
-        <div className="lg:col-span-4 space-y-6 sm:space-y-8 mt-6 sm:mt-0 notranslate lg:sticky lg:top-28 lg:self-start lg:pb-12" translate="no">
+        <div className="lg:col-span-4 space-y-6 sm:space-y-8 mt-6 sm:mt-0 lg:sticky lg:top-28 lg:self-start lg:pb-12">
           {/* Author Card */}
           <GlassCard className="p-6 border border-glass-border">
             <h2 className="font-bold text-sm mb-4">About the Author</h2>
@@ -661,8 +658,8 @@ export function BlogPostDetailClient({
 
           {/* Bottom Sidebar Advertisement */}
           <div className="pt-4">
-            <AdBanner placement="BLOG_POST_SIDEBAR" />
-            <AvailableAdSlots />
+            {/* <AdBanner placement="BLOG_POST_SIDEBAR" /> */}
+            {/* <AvailableAdSlots /> */}
           </div>
         </div>
       </div>

@@ -161,10 +161,10 @@ export default async function BlogPostDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
       />
 
-      <div className="notranslate" translate="no">
+      <div>
         <Navbar />
       </div>
-      <div className="notranslate" translate="no">
+      <div>
         <LanguageSwitcher />
       </div>
 
@@ -183,7 +183,7 @@ export default async function BlogPostDetailPage({ params }: Props) {
         <BlogPostDetailClient post={post} relatedPosts={relatedPosts} initialComments={comments} />
       </main>
 
-      <div className="notranslate w-full" translate="no">
+      <div className="w-full">
         <Footer />
       </div>
     </div>

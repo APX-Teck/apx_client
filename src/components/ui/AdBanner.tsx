@@ -140,29 +140,7 @@ export function AdBanner({ placement, className = '' }: AdBannerProps) {
             )}
           </div>
         </motion.div>
-      ) : (
-        <motion.div
-          key="placeholder"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className={`w-full max-w-5xl mx-auto flex flex-col items-center gap-1.5 ${className}`}
-        >
-          <span className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">
-            Advertisement
-          </span>
-          <a
-            href="/contact"
-            className={`w-full rounded-2xl border-2 border-dashed border-foreground/10 flex flex-col items-center justify-center hover:bg-foreground/[0.02] hover:border-accent/30 transition-all duration-300 group ${
-              placement === 'BLOG_POST_SIDEBAR' ? 'h-[250px] md:h-[400px]' : 'h-[90px] md:h-[120px]'
-            }`}
-          >
-            <span className="text-sm font-bold text-foreground/40 group-hover:text-accent transition-colors">
-              Your Ad Here
-            </span>
-            <span className="text-xs text-foreground/30 mt-1">Click to contact us</span>
-          </a>
-        </motion.div>
-      )}
+      ) : null}
     </AnimatePresence>
   );
 }

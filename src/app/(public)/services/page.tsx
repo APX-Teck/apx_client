@@ -131,7 +131,7 @@ export default async function ServicesListingPage() {
 
         {/* Ad Slot Top (above listing grid) */}
         <section aria-label="Advertisement" className="w-full">
-          <AdBanner placement="BLOG_LIST_TOP" />
+          {/* <AdBanner placement="BLOG_LIST_TOP" /> */}
         </section>
 
         {/* Dynamic Service Grid Section (Client component but data passed from server) */}

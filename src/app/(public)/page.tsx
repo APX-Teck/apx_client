@@ -189,14 +189,14 @@ export default function Home() {
           }}
         />
         {/* Ad Placement Top */}
-        <AdBanner placement="BLOG_LIST_TOP" />
+        {/* <AdBanner placement="BLOG_LIST_TOP" /> */}
 
         <PortfolioSection />
 
         <TestimonialsSection />
 
         {/* Ad Placement Mid */}
-        <AdBanner placement="BLOG_LIST_MID" />
+        {/* <AdBanner placement="BLOG_LIST_MID" /> */}
 
         <BlogPreviewSection />
 
