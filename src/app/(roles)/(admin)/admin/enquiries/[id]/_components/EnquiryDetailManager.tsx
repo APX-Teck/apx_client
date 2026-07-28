@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, User, Mail, Phone, Calendar, CheckCircle, Briefcase } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, Calendar, CheckCircle, Briefcase, Globe, Shield } from 'lucide-react';
 import { enquiriesService, Enquiry, EnquiryStatus } from '@/services/admin/enquiries.service';
 import toast from 'react-hot-toast';
 
@@ -170,6 +170,30 @@ export function EnquiryDetailManager({ initialEnquiry, id }: Props) {
                 </div>
               </div>
             )}
+
+            {enquiry.source && (
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-rose-50 dark:bg-rose-500/10 rounded-xl text-rose-600 dark:text-rose-400 shrink-0 shadow-sm border border-rose-100/50 dark:border-rose-500/20">
+                  <Globe size={22} strokeWidth={2.5} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Source / Channel</p>
+                  <p className="text-base font-bold text-gray-900 dark:text-white truncate">{enquiry.source}</p>
+                </div>
+              </div>
+            )}
+
+            {enquiry.ipAddress && (
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-slate-50 dark:bg-slate-500/10 rounded-xl text-slate-600 dark:text-slate-400 shrink-0 shadow-sm border border-slate-100/50 dark:border-slate-500/20">
+                  <Shield size={22} strokeWidth={2.5} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">IP Address</p>
+                  <p className="text-base font-bold text-gray-900 dark:text-white truncate">{enquiry.ipAddress}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -183,6 +207,15 @@ export function EnquiryDetailManager({ initialEnquiry, id }: Props) {
                 <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Business/Company Name</p>
                 <p className="text-lg font-black text-gray-900 dark:text-white truncate">{enquiry.businessName}</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {enquiry.message && (
+          <div className="mt-8 pt-8 border-t border-gray-100 dark:border-white/10">
+            <p className="text-[13px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">Detailed Message</p>
+            <div className="p-5 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/5 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+              {enquiry.message}
             </div>
           </div>
         )}

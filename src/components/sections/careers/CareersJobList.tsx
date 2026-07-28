@@ -64,9 +64,20 @@ export function CareersJobList() {
                   {job.title}
                 </h3>
                 
-                <p className="text-foreground/70 leading-relaxed max-w-3xl">
+                <p className="text-foreground/70 leading-relaxed max-w-3xl whitespace-pre-line">
                   {job.description}
                 </p>
+
+                {job.requirements && (
+                  <div className="space-y-1.5 pt-2">
+                    <h4 className="text-[13px] font-extrabold uppercase tracking-wider text-foreground/80">
+                      Requirements
+                    </h4>
+                    <p className="text-foreground/70 leading-relaxed max-w-3xl whitespace-pre-line text-sm md:text-base">
+                      {job.requirements}
+                    </p>
+                  </div>
+                )}
 
                 <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 pt-2">
                   <div className="flex items-center gap-1.5">
@@ -75,7 +86,10 @@ export function CareersJobList() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <MapPin className="w-4 h-4" />
-                    <span>{job.location || 'Pune, India'} <span className="capitalize">({job.workMode.toLowerCase()})</span></span>
+                    <span>
+                      {job.location || 'Pune, India'}
+                      {job.location && job.location.toLowerCase().includes(job.workMode.toLowerCase()) ? '' : ` (${job.workMode.toLowerCase()})`}
+                    </span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-4 h-4" />
