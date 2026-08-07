@@ -130,11 +130,11 @@ export default function CreateServicePage() {
                     Price Indicator
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="price"
                     value={formData.price}
                     onChange={handleInputChange}
-                    placeholder="e.g. Starts at ₹10,000"
+                    placeholder="e.g. 10000"
                     className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                   />
                 </div>
@@ -154,14 +154,20 @@ export default function CreateServicePage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-900 dark:text-white">
-                  Description
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-bold text-gray-900 dark:text-white">
+                    Description
+                  </label>
+                  <span className="text-xs text-gray-500">
+                    {formData.description.length} / 1000
+                  </span>
+                </div>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  placeholder="Detailed description of the service..."
+                  maxLength={1000}
+                  placeholder="Detailed description of the service (max 1000 characters)..."
                   rows={4}
                   className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none custom-scrollbar"
                 ></textarea>

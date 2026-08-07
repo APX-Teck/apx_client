@@ -135,7 +135,7 @@ export function ServicesListingSection({ initialServices }: ServicesListingSecti
                       <h3 className="text-2xl font-bold tracking-tight text-foreground">
                         {service.name}
                       </h3>
-                      <p className="text-foreground/70 text-sm leading-relaxed min-h-[64px]">
+                      <p className="text-foreground/70 text-sm leading-relaxed min-h-[64px] line-clamp-3">
                         {service.description}
                       </p>
                     </div>
