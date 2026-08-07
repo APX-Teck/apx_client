@@ -158,15 +158,15 @@ export function EditServiceClient({ initialService, serviceId }: Props) {
                     Description
                   </label>
                   <span className="text-xs text-gray-500">
-                    {formData.description.length} / 1000
+                    {formData.description.length} / 5000
                   </span>
                 </div>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  maxLength={1000}
-                  placeholder="Detailed description of the service (max 1000 characters)..."
+                  maxLength={5000}
+                  placeholder="Detailed description of the service (max 5000 characters)..."
                   rows={4}
                   className="w-full bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none custom-scrollbar"
                 ></textarea>

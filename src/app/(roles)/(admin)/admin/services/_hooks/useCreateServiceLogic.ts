@@ -61,11 +61,17 @@ export const useCreateServiceLogic = () => {
 
     setIsSubmitting(true);
 
+    if (formData.description && formData.description.length > 5000) {
+      alert('Description is too long! Please keep it under 5000 characters (Backend Limit).');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const submitData = new FormData();
       submitData.append('name', formData.name);
       if (formData.slug) submitData.append('slug', formData.slug);
-      if (formData.description) submitData.append('description', formData.description);
+      if (formData.description) submitData.append('description', formData.description.slice(0, 5000));
       if (formData.price) submitData.append('price', formData.price);
       if (formData.timeline) submitData.append('timeline', formData.timeline);
       submitData.append('isActive', formData.isActive.toString());
