@@ -17,6 +17,8 @@ export interface Enquiry {
   phone?: string;
   businessName?: string;
   serviceInterest?: string;
+  message?: string;
+  ipAddress?: string;
   status: EnquiryStatus;
   source?: string;
   createdAt: string;
