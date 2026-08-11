@@ -817,17 +817,17 @@ export function PricingSection() {
         >
           {/* SECONDARY SUB-TABS (PILL BUTTONS) */}
           {activeData?.subCategories && activeData.subCategories.length > 0 && (
-            <div className="flex justify-center flex-wrap gap-2 mb-12">
+            <div className="flex justify-start md:justify-center overflow-x-auto no-scrollbar snap-x gap-3 mb-12 px-2 pb-4">
               {activeData.subCategories.map((sub) => {
                 const isSubActive = activeSubCategory === sub.id;
                 return (
                   <button
                     key={sub.id}
                     onClick={() => setActiveSubCategory(sub.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 border ${
+                    className={`shrink-0 snap-start px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-300 border ${
                       isSubActive
-                        ? 'bg-foreground text-background border-foreground shadow-md'
-                        : 'bg-transparent text-foreground/60 border-glass-border hover:border-foreground/30 hover:text-foreground'
+                        ? 'bg-accent/15 text-accent border-accent shadow-[0_0_20px_rgba(14,165,233,0.25)] scale-105'
+                        : 'bg-white/5 text-foreground/75 border-white/10 hover:border-white/30 hover:bg-white/10 hover:text-foreground'
                     }`}
                   >
                     {sub.label}
@@ -897,25 +897,29 @@ export function PricingSection() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3, delay: idx * 0.05 }}
+                            className="group"
                           >
-                            <GlassCard className="p-5 hover:border-white/20 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 h-full">
-                              <div className="flex-1">
-                                <h4 className="font-semibold text-foreground text-lg">{service.name}</h4>
-                                <p className="text-sm text-foreground/60 mt-1">{service.description}</p>
-                              </div>
-                              <div className="text-left sm:text-right shrink-0 mt-3 sm:mt-0">
-                                <div className="text-xl font-bold text-foreground">
-                                  {service.basePrice}
+                            <div className="relative p-[1px] rounded-2xl overflow-hidden h-full transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group-hover:scale-[1.01]">
+                              <div className="absolute inset-0 bg-gradient-to-r from-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                              <GlassCard className="relative p-6 bg-background/80 backdrop-blur-xl border-white/10 group-hover:border-accent/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full">
+                                <div className="flex-1">
+                                  <h4 className="font-bold text-foreground text-lg group-hover:text-accent transition-colors duration-300">{service.name}</h4>
+                                  <p className="text-sm text-foreground/70 mt-1.5 leading-relaxed">{service.description}</p>
                                 </div>
-                                <div className="text-[11px] text-foreground/40 font-medium">
-                                  {service.withGst} (incl. GST)
+                                <div className="text-left sm:text-right shrink-0 mt-4 sm:mt-0 p-4 sm:p-0 bg-white/5 sm:bg-transparent rounded-xl sm:rounded-none">
+                                  <div className="text-2xl font-extrabold text-foreground">
+                                    {service.basePrice}
+                                  </div>
+                                  <div className="text-xs text-foreground/50 font-medium mt-1">
+                                    {service.withGst} (incl. GST)
+                                  </div>
+                                  <div className="flex items-center gap-1.5 text-xs font-bold text-accent mt-3 sm:justify-end">
+                                    <Clock className="w-4 h-4" />
+                                    <span>{service.duration}</span>
+                                  </div>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-accent mt-2 sm:justify-end">
-                                  <Clock className="w-3.5 h-3.5" />
-                                  <span>{service.duration}</span>
-                                </div>
-                              </div>
-                            </GlassCard>
+                              </GlassCard>
+                            </div>
                           </motion.div>
                         ))}
                       </div>

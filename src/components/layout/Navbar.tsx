@@ -32,7 +32,7 @@ export function Navbar() {
         isScrolled ? 'pt-3' : 'pt-6'
       }`}
     >
-      <div className="relative w-full max-w-5xl">
+      <div className="relative w-full max-w-6xl">
         <div className="w-full rounded-full transition-all duration-300 shadow-2xl glass-panel bg-background/60 !backdrop-blur-2xl">
           <div className="px-6 h-16 flex items-center justify-between">
             {/* Logo */}
@@ -70,7 +70,7 @@ export function Navbar() {
               <Link href="/about" className="hover:text-accent transition-colors">
                 About
               </Link>
-              <Link href="/insights-news" className="hover:text-accent transition-colors">
+              <Link href="/insights-news" className="hover:text-accent transition-colors whitespace-nowrap">
                 Insights & News
               </Link>
               <Link href="/careers" className="hover:text-accent transition-colors">
