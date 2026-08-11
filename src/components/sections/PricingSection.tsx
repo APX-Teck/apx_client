@@ -675,7 +675,7 @@ export function PricingSection() {
   const renderPlansGrid = (plansToRender: PricingPlan[], namespace: string) => {
     return (
       <div
-        className={`grid gap-8 items-start ${
+        className={`grid gap-8 items-start pt-8 pb-4 ${
           plansToRender.length === 3
             ? 'md:grid-cols-3 max-w-5xl mx-auto'
             : 'md:grid-cols-2 lg:grid-cols-4'
