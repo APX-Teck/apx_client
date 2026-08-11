@@ -785,25 +785,27 @@ export function PricingSection() {
       </div>
 
       {/* PRIMARY TABS FILTER */}
-      <div className="flex justify-start md:justify-center overflow-x-auto no-scrollbar gap-3 mb-12 pb-4 px-1 snap-x">
-        {pricingData.map((category) => {
-          const Icon = category.icon;
-          const isActive = activeCategory === category.id;
-          return (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center gap-2 shrink-0 snap-start px-4 md:px-5 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all duration-300 border ${
-                isActive
-                  ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
-                  : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              <span className="whitespace-nowrap">{category.label}</span>
-            </button>
-          );
-        })}
+      <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
+        <div className="flex gap-3 w-max mx-auto">
+          {pricingData.map((category) => {
+            const Icon = category.icon;
+            const isActive = activeCategory === category.id;
+            return (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`flex items-center gap-2 shrink-0 snap-center px-4 md:px-5 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all duration-300 border ${
+                  isActive
+                    ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
+                    : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span className="whitespace-nowrap">{category.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -817,23 +819,25 @@ export function PricingSection() {
         >
           {/* SECONDARY SUB-TABS (PILL BUTTONS) */}
           {activeData?.subCategories && activeData.subCategories.length > 0 && (
-            <div className="flex justify-start md:justify-center overflow-x-auto no-scrollbar snap-x gap-3 mb-12 px-2 pb-4">
-              {activeData.subCategories.map((sub) => {
-                const isSubActive = activeSubCategory === sub.id;
-                return (
-                  <button
-                    key={sub.id}
-                    onClick={() => setActiveSubCategory(sub.id)}
-                    className={`shrink-0 snap-start px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-300 border ${
-                      isSubActive
-                        ? 'bg-accent/15 text-accent border-accent shadow-[0_0_20px_rgba(14,165,233,0.25)] scale-105'
-                        : 'bg-white/5 text-foreground/75 border-white/10 hover:border-white/30 hover:bg-white/10 hover:text-foreground'
-                    }`}
-                  >
-                    {sub.label}
-                  </button>
-                );
-              })}
+            <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
+              <div className="flex gap-3 w-max mx-auto md:flex-wrap md:justify-center">
+                {activeData.subCategories.map((sub) => {
+                  const isSubActive = activeSubCategory === sub.id;
+                  return (
+                    <button
+                      key={sub.id}
+                      onClick={() => setActiveSubCategory(sub.id)}
+                      className={`shrink-0 snap-center px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-300 border ${
+                        isSubActive
+                          ? 'bg-accent/15 text-accent border-accent shadow-[0_0_20px_rgba(14,165,233,0.25)] scale-105'
+                          : 'bg-white/5 text-foreground/75 border-white/10 hover:border-white/30 hover:bg-white/10 hover:text-foreground'
+                      }`}
+                    >
+                      {sub.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 
