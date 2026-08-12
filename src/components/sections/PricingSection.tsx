@@ -723,6 +723,54 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
     }));
   };
 
+  const downloadPricingPDF = async () => {
+    const element = document.getElementById('pricing-print-area');
+    if (!element) return;
+
+    if (typeof window !== 'undefined') {
+      // Create a small loading state toast or indicator here if desired
+      
+      const loadScript = () => new Promise((resolve, reject) => {
+        if ((window as any).html2pdf) return resolve(true);
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      try {
+        await loadScript();
+        const html2pdf = (window as any).html2pdf;
+        
+        // Hide elements that shouldn't be printed
+        const downloadBtn = element.querySelector('.no-print');
+        if (downloadBtn) (downloadBtn as HTMLElement).style.display = 'none';
+
+        const opt = {
+          margin:       0,
+          filename:     `APXTeck_Pricing_${activeCategory}.pdf`,
+          image:        { type: 'jpeg', quality: 1 },
+          html2canvas:  { scale: 2, useCORS: true, backgroundColor: document.documentElement.classList.contains('dark') ? '#000000' : '#f9fafb' },
+          jsPDF:        { unit: 'px', format: [element.offsetWidth, element.offsetHeight], orientation: 'portrait' }
+        };
+
+        await html2pdf().set(opt).from(element).save();
+
+        if (downloadBtn) (downloadBtn as HTMLElement).style.display = '';
+
+      } catch (error) {
+        console.error('Error generating PDF', error);
+        // Fallback to print if script fails
+        document.body.classList.add('print-pricing-only');
+        window.print();
+        setTimeout(() => {
+          document.body.classList.remove('print-pricing-only');
+        }, 1000);
+      }
+    }
+  };
+
   const renderPlansGrid = (plansToRender: PricingPlan[], namespace: string) => {
     return (
       <div
@@ -859,13 +907,7 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
           </div>
           
           <button 
-            onClick={() => {
-              document.body.classList.add('print-pricing-only');
-              window.print();
-              setTimeout(() => {
-                document.body.classList.remove('print-pricing-only');
-              }, 1000);
-            }}
+            onClick={downloadPricingPDF}
             className="flex items-center gap-2 text-xs font-semibold text-foreground/60 hover:text-accent transition-colors no-print"
           >
             <Download className="w-4 h-4" />
@@ -987,37 +1029,40 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
                   {/* List Type Sub-category */}
                   {activeSubData.type === 'list' && activeSubData.services && (
                     <div className="max-w-5xl mx-auto space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <div className="grid md:grid-cols-2 gap-4 items-stretch">
                         {activeSubData.services.map((service, idx) => (
-                          <motion.div
-                            key={service.name}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: idx * 0.05 }}
-                            className="group"
-                          >
-                            <div className="relative p-[1px] rounded-2xl overflow-hidden h-full transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group-hover:scale-[1.01]">
-                              <div className="absolute inset-0 bg-gradient-to-r from-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                              <GlassCard className="relative p-6 bg-background/80 backdrop-blur-xl border-white/10 group-hover:border-accent/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full">
-                                <div className="flex-1">
-                                  <h4 className="font-bold text-foreground text-lg group-hover:text-accent transition-colors duration-300">{service.name}</h4>
-                                  <p className="text-sm text-foreground/70 mt-1.5 leading-relaxed">{service.description}</p>
-                                </div>
-                                <div className="text-left sm:text-right shrink-0 mt-4 sm:mt-0 p-4 sm:p-0 bg-white/5 sm:bg-transparent rounded-xl sm:rounded-none">
-                                  <div className="text-2xl font-extrabold text-foreground">
-                                    {convertToUSD(service.basePrice, currency)}
+                            <motion.div
+                              key={service.name}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: idx * 0.05 }}
+                              className="group h-full"
+                            >
+                              <div className="relative p-[1px] rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group-hover:scale-[1.01]">
+                                <div className="absolute inset-0 bg-gradient-to-r from-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <GlassCard 
+                                  className="relative p-6 bg-background/80 backdrop-blur-xl border-white/10 group-hover:border-accent/40 transition-colors h-full flex-1"
+                                  innerClassName="h-full flex flex-col justify-between gap-5"
+                                >
+                                  <div className="flex-1 text-center sm:text-left">
+                                    <h4 className="font-bold text-foreground text-xl group-hover:text-accent transition-colors duration-300">{service.name}</h4>
+                                    <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{service.description}</p>
                                   </div>
-                                  <div className="text-xs text-foreground/50 font-medium mt-1">
-                                    {convertToUSD(service.withGst, currency)} (incl. GST)
+                                  <div className="flex flex-col items-center sm:items-end shrink-0 mt-2 pt-4 border-t border-glass-border sm:border-t-0 sm:pt-0">
+                                    <div className="text-3xl font-extrabold text-foreground">
+                                      {convertToUSD(service.basePrice, currency)}
+                                    </div>
+                                    <div className="text-xs text-foreground/50 font-medium mt-1">
+                                      {convertToUSD(service.withGst, currency)} (incl. GST)
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-sm font-bold text-accent mt-3">
+                                      <Clock className="w-4 h-4" />
+                                      <span>{service.duration}</span>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center gap-1.5 text-xs font-bold text-accent mt-3 sm:justify-end">
-                                    <Clock className="w-4 h-4" />
-                                    <span>{service.duration}</span>
-                                  </div>
-                                </div>
-                              </GlassCard>
-                            </div>
-                          </motion.div>
+                                </GlassCard>
+                              </div>
+                            </motion.div>
                         ))}
                       </div>
                       <div className="text-center pt-8">
