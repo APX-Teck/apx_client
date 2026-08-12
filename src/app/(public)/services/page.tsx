@@ -20,6 +20,10 @@ const TechStackMarquee = dynamic(
   () => import('@/components/sections/TechStackMarquee').then((mod) => mod.TechStackMarquee),
   { ssr: true }
 );
+const PricingSection = dynamic(
+  () => import('@/components/sections/PricingSection').then((mod) => mod.PricingSection),
+  { ssr: true }
+);
 
 export const revalidate = 60;
 
@@ -136,6 +140,9 @@ export default async function ServicesListingPage() {
 
         {/* Dynamic Service Grid Section (Client component but data passed from server) */}
         <ServicesListingSection initialServices={services} />
+
+        {/* Pricing Section */}
+        <PricingSection />
 
         {/* Tech Stack Marquee at the bottom */}
         <section aria-label="Technologies we use" className="mt-16 sm:mt-20">

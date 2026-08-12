@@ -12,6 +12,7 @@ import { ServiceDetailTestimonials } from '@/app/(public)/services/[slug]/compon
 import { ServiceDetailFaq } from '@/app/(public)/services/[slug]/components/ServiceDetailFaq';
 import { ServiceDetailRelated } from '@/app/(public)/services/[slug]/components/ServiceDetailRelated';
 import { ServiceDetailStickyCTA } from '@/app/(public)/services/[slug]/components/ServiceDetailStickyCTA';
+import { PricingSection } from '@/components/sections/PricingSection';
 
 interface ServiceDetailClientProps {
   service: Service;
@@ -41,6 +42,9 @@ export function ServiceDetailClient({
 
       {/* 2. What's Included & Process */}
       <ServiceDetailProcess slug={service.slug} />
+
+      {/* Pricing (Dynamic based on slug) */}
+      <PricingSection serviceSlug={service.slug} />
 
       {/* 3. Dynamic Service Request Form */}
       <ServiceDetailForm

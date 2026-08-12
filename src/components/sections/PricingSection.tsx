@@ -677,12 +677,33 @@ const FeatureList = ({ features }: { features: Feature[] }) => (
   </ul>
 );
 
-export function PricingSection() {
-  const [activeCategory, setActiveCategory] = useState<string>('digital-visibility');
+const slugToCategoryMap: Record<string, string> = {
+  'web-development': 'web-dev',
+  'seo-optimization': 'digital-visibility',
+  'ui-ux-design': 'ui-ux',
+  'digital-marketing': 'social-media',
+  'graphic-design': 'graphic-design',
+  'video-editing': 'video-editing',
+  'maintenance-support': 'maintenance',
+};
+
+export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
+  const mappedCategory = serviceSlug ? slugToCategoryMap[serviceSlug] : null;
+  const initialCategory = mappedCategory || 'digital-visibility';
+  const isFiltered = !!mappedCategory;
+
+  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
   const [activeSubCategory, setActiveSubCategory] = useState<string>('');
   const [expandedTiers, setExpandedTiers] = useState<Record<string, boolean>>({});
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  useEffect(() => {
+    if (serviceSlug) {
+      const cat = slugToCategoryMap[serviceSlug];
+      if (cat) setActiveCategory(cat);
+    }
+  }, [serviceSlug]);
 
   const activeData = pricingData.find((cat) => cat.id === activeCategory);
 
@@ -846,29 +867,31 @@ export function PricingSection() {
         </div>
       </div>
 
-      {/* PRIMARY TABS FILTER */}
-      <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
-        <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
-          {pricingData.map((category) => {
-            const Icon = category.icon;
-            const isActive = activeCategory === category.id;
-            return (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`flex items-center gap-2 shrink-0 snap-center px-4 md:px-5 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all duration-300 border ${
-                  isActive
-                    ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
-                    : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="whitespace-nowrap">{category.label}</span>
-              </button>
-            );
-          })}
+      {/* PRIMARY TABS FILTER - Hide if filtered by serviceSlug */}
+      {!isFiltered && (
+        <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
+          <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
+            {pricingData.map((category) => {
+              const Icon = category.icon;
+              const isActive = activeCategory === category.id;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`flex items-center gap-2 shrink-0 snap-center px-4 md:px-5 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all duration-300 border ${
+                    isActive
+                      ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-105'
+                      : 'glass-panel border-glass-border text-foreground/75 hover:bg-white/10 hover:text-foreground'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="whitespace-nowrap">{category.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       <AnimatePresence mode="wait">
         <motion.div
