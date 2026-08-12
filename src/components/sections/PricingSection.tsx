@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, ChevronDown, Rocket, Code2, Paintbrush, PenTool, Clock, Video, Search, Share2, Wrench } from 'lucide-react';
+import { Check, X, ChevronDown, Rocket, Code2, Paintbrush, PenTool, Clock, Video, Search, Share2, Wrench, ShieldCheck, Award, Lock, Download, HelpCircle, ChevronUp } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import Link from 'next/link';
 
@@ -628,6 +628,34 @@ const pricingData: PricingCategory[] = [
   }
 ];
 
+const faqs = [
+  {
+    question: "Are there any hidden charges?",
+    answer: "No, our pricing is completely transparent. The prices listed are what you pay. Only GST (18%) is applied as per Indian government regulations, which is explicitly mentioned in each plan."
+  },
+  {
+    question: "Do you offer custom packages?",
+    answer: "Yes, we understand every business is unique. While our packages cover 90% of use cases, we can easily tailor a custom solution combining Web Development, SEO, and Social Media tailored precisely to your goals."
+  },
+  {
+    question: "What is the billing cycle for maintenance plans?",
+    answer: "Our maintenance and social media management plans are billed on a monthly recurring basis. You can cancel or upgrade your plan anytime with a 30-day notice."
+  },
+  {
+    question: "Do you provide source files for design work?",
+    answer: "Yes! For all our UI/UX and Graphic Design services, you receive the complete source files (Figma, AI, PSD, etc.) along with the exported assets upon project completion."
+  }
+];
+
+const convertToUSD = (text: string, currency: 'INR' | 'USD') => {
+  if (currency === 'INR' || !text.includes('₹')) return text;
+  return text.replace(/₹([\d,]+)/g, (match, p1) => {
+    const inrValue = parseInt(p1.replace(/,/g, ''), 10);
+    const usdValue = Math.round(inrValue / 83);
+    return `$${usdValue.toLocaleString()}`;
+  });
+};
+
 const FeatureList = ({ features }: { features: Feature[] }) => (
   <ul className="space-y-3">
     {features.map((feature, idx) => (
@@ -653,6 +681,8 @@ export function PricingSection() {
   const [activeCategory, setActiveCategory] = useState<string>('digital-visibility');
   const [activeSubCategory, setActiveSubCategory] = useState<string>('');
   const [expandedTiers, setExpandedTiers] = useState<Record<string, boolean>>({});
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const activeData = pricingData.find((cat) => cat.id === activeCategory);
 
@@ -712,10 +742,10 @@ export function PricingSection() {
                   <h3 className="text-xl font-semibold text-foreground mb-4">{plan.name}</h3>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
                     <span className="text-4xl font-extrabold text-foreground tracking-tight">
-                      {plan.price}
+                      {convertToUSD(plan.price, currency)}
                     </span>
                   </div>
-                  <p className="text-xs text-foreground/50 font-medium">{plan.subprice}</p>
+                  <p className="text-xs text-foreground/50 font-medium">{convertToUSD(plan.subprice, currency)}</p>
                 </div>
 
                 <div className="flex-1 space-y-6">
@@ -753,7 +783,7 @@ export function PricingSection() {
 
                 <div className="mt-8 pt-8 border-t border-glass-border mt-auto">
                   <Link
-                    href="/contact"
+                    href={`/contact?subject=${encodeURIComponent(`Inquiry for ${activeData?.label} - ${plan.name} Plan`)}`}
                     className={`w-full h-12 rounded-xl font-semibold text-sm flex items-center justify-center transition-all ${
                       plan.recommended
                         ? 'bg-accent text-white shadow-lg shadow-accent/25 hover:scale-[1.02] active:scale-[0.98]'
@@ -775,18 +805,50 @@ export function PricingSection() {
 
   return (
     <section className="py-16 md:py-24 max-w-7xl mx-auto px-6 relative">
-      <div className="text-center max-w-3xl mx-auto mb-10 space-y-6">
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-          Transparent <span className="text-accent">Pricing</span>
-        </h2>
-        <p className="text-lg text-foreground/70">
-          Responsive, SEO-optimized & secure solutions tailored for your business needs. Choose the perfect plan to accelerate your digital growth.
-        </p>
+      <div className="flex flex-col md:flex-row items-center justify-between max-w-5xl mx-auto mb-12 gap-8 px-4">
+        <div className="text-center md:text-left max-w-2xl space-y-4">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+            Transparent <span className="text-accent">Pricing</span>
+          </h2>
+          <p className="text-lg text-foreground/70">
+            Responsive, SEO-optimized & secure solutions tailored for your business needs. Choose the perfect plan to accelerate your digital growth.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center md:items-end gap-4 shrink-0">
+          {/* Currency Switcher */}
+          <div className="flex items-center p-1.5 glass-panel border border-glass-border rounded-full shadow-lg bg-background/50 backdrop-blur-md">
+            <button
+              onClick={() => setCurrency('INR')}
+              className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                currency === 'INR' ? 'bg-accent text-white shadow-md' : 'text-foreground/60 hover:text-foreground'
+              }`}
+            >
+              INR (₹)
+            </button>
+            <button
+              onClick={() => setCurrency('USD')}
+              className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                currency === 'USD' ? 'bg-accent text-white shadow-md' : 'text-foreground/60 hover:text-foreground'
+              }`}
+            >
+              USD ($)
+            </button>
+          </div>
+          
+          <button 
+            onClick={() => window.print()}
+            className="flex items-center gap-2 text-xs font-semibold text-foreground/60 hover:text-accent transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Download Pricing
+          </button>
+        </div>
       </div>
 
       {/* PRIMARY TABS FILTER */}
       <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
-        <div className="flex gap-3 w-max mx-auto">
+        <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
           {pricingData.map((category) => {
             const Icon = category.icon;
             const isActive = activeCategory === category.id;
@@ -820,7 +882,7 @@ export function PricingSection() {
           {/* SECONDARY SUB-TABS (PILL BUTTONS) */}
           {activeData?.subCategories && activeData.subCategories.length > 0 && (
             <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
-              <div className="flex gap-3 w-max mx-auto md:flex-wrap md:justify-center">
+              <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
                 {activeData.subCategories.map((sub) => {
                   const isSubActive = activeSubCategory === sub.id;
                   return (
@@ -864,14 +926,14 @@ export function PricingSection() {
                     >
                       <div className="bg-gradient-to-r from-emerald-600/90 to-emerald-500/90 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl shadow-emerald-500/20 border border-emerald-400/30 text-center">
                         <h3 className="text-xl md:text-2xl font-bold text-white mb-2 tracking-wide">
-                          {activeData.banner.split(' = ')[0]} = <span className="text-emerald-100">{activeData.banner.split(' = ')[1].split(' | ')[0]}</span>
+                          {activeData.banner.split(' = ')[0]} = <span className="text-emerald-100">{convertToUSD(activeData.banner.split(' = ')[1].split(' | ')[0], currency)}</span>
                         </h3>
                         <p className="text-emerald-50 font-medium text-sm md:text-base">
-                          {activeData.banner.split(' | ')[1]} <span className="mx-2">•</span> {activeData.banner.split(' | ')[2]}
+                          {convertToUSD(activeData.banner.split(' | ')[1], currency)} <span className="mx-2">•</span> {activeData.banner.split(' | ')[2]}
                         </p>
                         <div className="mt-6">
                           <Link
-                            href="/contact"
+                            href={`/contact?subject=${encodeURIComponent(`Inquiry for Complete Package (${activeData.banner.split(' = ')[0]})`)}`}
                             className="inline-flex h-12 px-8 items-center justify-center rounded-xl bg-white text-emerald-700 font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-transform"
                           >
                             Claim Complete Package
@@ -912,10 +974,10 @@ export function PricingSection() {
                                 </div>
                                 <div className="text-left sm:text-right shrink-0 mt-4 sm:mt-0 p-4 sm:p-0 bg-white/5 sm:bg-transparent rounded-xl sm:rounded-none">
                                   <div className="text-2xl font-extrabold text-foreground">
-                                    {service.basePrice}
+                                    {convertToUSD(service.basePrice, currency)}
                                   </div>
                                   <div className="text-xs text-foreground/50 font-medium mt-1">
-                                    {service.withGst} (incl. GST)
+                                    {convertToUSD(service.withGst, currency)} (incl. GST)
                                   </div>
                                   <div className="flex items-center gap-1.5 text-xs font-bold text-accent mt-3 sm:justify-end">
                                     <Clock className="w-4 h-4" />
@@ -929,7 +991,7 @@ export function PricingSection() {
                       </div>
                       <div className="text-center pt-8">
                         <Link
-                          href="/contact"
+                          href={`/contact?subject=${encodeURIComponent(`Inquiry for ${activeSubData.label} Service`)}`}
                           className="inline-flex h-12 px-8 items-center justify-center rounded-xl bg-accent text-white font-semibold text-sm shadow-lg shadow-accent/25 hover:scale-[1.02] active:scale-[0.98] transition-transform"
                         >
                           Request {activeSubData.label} Service
@@ -944,6 +1006,75 @@ export function PricingSection() {
 
         </motion.div>
       </AnimatePresence>
+
+      {/* Trust Badges */}
+      <div className="mt-20 pt-12 border-t border-glass-border">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70">
+          <div className="flex items-center gap-3 text-foreground/80 font-semibold text-sm">
+            <ShieldCheck className="w-8 h-8 text-emerald-500" />
+            <div className="flex flex-col">
+              <span>100% Secure</span>
+              <span className="text-xs font-normal opacity-70">Bank-grade Security</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-foreground/80 font-semibold text-sm">
+            <Award className="w-8 h-8 text-accent" />
+            <div className="flex flex-col">
+              <span>Premium Quality</span>
+              <span className="text-xs font-normal opacity-70">Top-rated Agency</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-foreground/80 font-semibold text-sm">
+            <Lock className="w-8 h-8 text-blue-500" />
+            <div className="flex flex-col">
+              <span>No Hidden Fees</span>
+              <span className="text-xs font-normal opacity-70">Transparent Pricing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="mt-24 max-w-3xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center p-3 glass-panel rounded-full mb-4">
+            <HelpCircle className="w-6 h-6 text-accent" />
+          </div>
+          <h2 className="text-3xl font-bold text-foreground">Frequently Asked Questions</h2>
+        </div>
+        
+        <div className="space-y-4">
+          {faqs.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <GlassCard key={idx} className="overflow-hidden transition-all duration-300 hover:border-white/20">
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full flex items-center justify-between p-6 text-left"
+                >
+                  <span className="font-semibold text-foreground pr-8">{faq.question}</span>
+                  <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                    <ChevronDown className="w-5 h-5 text-accent" />
+                  </motion.div>
+                </button>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="px-6 pb-6 text-foreground/70 leading-relaxed text-sm"
+                    >
+                      {faq.answer}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </GlassCard>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] -z-10 pointer-events-none" />

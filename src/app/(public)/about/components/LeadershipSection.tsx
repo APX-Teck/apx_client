@@ -63,7 +63,7 @@ export function LeadershipSection() {
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-center items-stretch gap-10 max-w-4xl mx-auto">
           {directors.map((director, index) => (
             <motion.article
               key={director.id}
@@ -71,7 +71,7 @@ export function LeadershipSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="group"
+              className={`group w-full md:w-[400px] ${director.name.includes('Amol') ? 'sr-only' : ''}`}
               itemProp="member"
               itemScope
               itemType="https://schema.org/Person"

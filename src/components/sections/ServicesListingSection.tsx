@@ -72,7 +72,7 @@ export function ServicesListingSection({ initialServices }: ServicesListingSecti
   return (
     <section className="py-12 max-w-7xl mx-auto px-6">
       {/* Category Tabs Filter */}
-      <div className="flex justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-3 mb-16 pb-4 pt-2 -mt-2 px-1 sm:px-0">
+      <div className="flex w-max md:w-full md:justify-center md:flex-wrap overflow-x-auto no-scrollbar gap-2 sm:gap-3 mb-16 pb-4 pt-2 -mt-2 px-4 sm:px-0 mx-auto md:mx-0">
         {categories.map((cat) => (
           <button
             key={cat}
