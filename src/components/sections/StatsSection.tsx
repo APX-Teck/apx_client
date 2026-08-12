@@ -72,7 +72,6 @@ export function StatsSection({ stats: initialStats }: { stats?: StatsOverview })
 
       <div className="max-w-7xl mx-auto px-6">
         <GlassCard className="relative overflow-hidden p-8 md:p-12 border border-glass-border">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-center">
             <div className="md:col-span-1 space-y-3">

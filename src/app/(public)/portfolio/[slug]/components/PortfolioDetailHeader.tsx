@@ -26,7 +26,6 @@ export function PortfolioDetailHeader({ project }: Props) {
   return (
     <>
       <GlassCard className="relative overflow-hidden p-8 border border-glass-border">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 pointer-events-none" />
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
           <div className="space-y-3">

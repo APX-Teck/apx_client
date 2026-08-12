@@ -146,7 +146,6 @@ export function RequestDetailClient({ initialData, initialAdmins }: Props) {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl p-5 lg:p-6 rounded-[2rem] border border-gray-100/80 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 dark:from-indigo-500/10 dark:to-purple-500/10 pointer-events-none" />
         <div className="flex items-center gap-4 lg:gap-5 relative z-10">
           <button
             onClick={() => router.push('/admin/requests')}

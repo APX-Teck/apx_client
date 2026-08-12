@@ -29,7 +29,6 @@ export function ServiceDetailForm({ serviceId, serviceSlug, fields, formRef }: P
   return (
     <section ref={formRef} className="max-w-3xl mx-auto px-4 sm:px-6 w-full">
       <GlassCard className="p-6 sm:p-8 md:p-12 border border-glass-border relative overflow-hidden w-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple-500/5 pointer-events-none" />
 
         <div className="text-center mb-8 space-y-2 relative z-10">
           <h2 className="text-3xl font-extrabold tracking-tight">Submit Requirements</h2>

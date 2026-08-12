@@ -48,12 +48,6 @@ export function ServiceCategorySelector({
                         : `border-gray-100 dark:border-white/5 bg-white dark:bg-[#111] hover:bg-gray-50 dark:hover:bg-[#151515] hover:border-gray-200 dark:hover:border-white/10`
                     }`}
                 >
-                  {isSelected && (
-                    <motion.div
-                      layoutId="activeServiceGlow"
-                      className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent pointer-events-none"
-                    />
-                  )}
 
                   <div
                     className={`w-12 h-12 rounded-2xl flex items-center justify-center overflow-hidden transition-colors ${isSelected ? 'bg-cyan-500 text-black' : 'bg-gray-100 dark:bg-white/5 text-gray-500'}`}

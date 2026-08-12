@@ -7,11 +7,12 @@ import { cn } from '@/lib/utils';
 interface GlassCardProps extends HTMLMotionProps<'div'> {
   children: React.ReactNode;
   className?: string;
+  innerClassName?: string;
   glowColor?: string;
 }
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ children, className, glowColor, ...props }, ref) => {
+  ({ children, className, innerClassName, glowColor, ...props }, ref) => {
     return (
       <motion.div
         ref={ref}
@@ -34,7 +35,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         {/* Subtle top highlight for extra 3D feel */}
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-50" />
 
-        <div className="relative z-10">{children}</div>
+        <div className={cn("relative z-10", innerClassName)}>{children}</div>
       </motion.div>
     );
   }

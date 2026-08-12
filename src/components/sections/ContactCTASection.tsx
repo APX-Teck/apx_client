@@ -90,7 +90,6 @@ export function ContactCTASection() {
     <section id="contact" className="py-16 md:py-24 relative bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <GlassCard className="relative overflow-hidden !p-0 border border-glass-border">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-purple-500/10 pointer-events-none" />
 
           <div className="grid lg:grid-cols-12">
             {/* Left Info Panel */}

@@ -726,7 +726,7 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
   const renderPlansGrid = (plansToRender: PricingPlan[], namespace: string) => {
     return (
       <div
-        className={`grid gap-8 items-start pt-8 pb-4 ${
+        className={`grid gap-8 items-stretch pt-8 pb-4 ${
           plansToRender.length === 3
             ? 'md:grid-cols-3 max-w-5xl mx-auto'
             : 'md:grid-cols-2 lg:grid-cols-4'
@@ -752,11 +752,12 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
               )}
 
               <GlassCard
-                className={`h-full flex flex-col p-8 transition-all duration-300 ${
+                className={`h-full p-8 transition-all duration-300 ${
                   plan.recommended
                     ? 'border-accent shadow-2xl shadow-accent/20'
                     : 'hover:border-white/20 hover:shadow-2xl'
                 }`}
+                innerClassName="h-full flex flex-col"
                 glowColor={plan.recommended ? '#0ea5e9' : 'rgba(255,255,255,0.05)'}
               >
                 <div className="text-center mb-8 border-b border-glass-border pb-8">
@@ -858,8 +859,14 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
           </div>
           
           <button 
-            onClick={() => window.print()}
-            className="flex items-center gap-2 text-xs font-semibold text-foreground/60 hover:text-accent transition-colors"
+            onClick={() => {
+              document.body.classList.add('print-pricing-only');
+              window.print();
+              setTimeout(() => {
+                document.body.classList.remove('print-pricing-only');
+              }, 1000);
+            }}
+            className="flex items-center gap-2 text-xs font-semibold text-foreground/60 hover:text-accent transition-colors no-print"
           >
             <Download className="w-4 h-4" />
             Download Pricing
@@ -869,7 +876,7 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
 
       {/* PRIMARY TABS FILTER - Hide if filtered by serviceSlug */}
       {!isFiltered && (
-        <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
+        <div className="w-full overflow-x-auto no-scrollbar mb-12 px-6 sm:px-8 py-6 snap-x">
           <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
             {pricingData.map((category) => {
               const Icon = category.icon;
@@ -901,10 +908,11 @@ export function PricingSection({ serviceSlug }: { serviceSlug?: string }) {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
           className="relative z-10 w-full"
+          id="pricing-print-area"
         >
           {/* SECONDARY SUB-TABS (PILL BUTTONS) */}
           {activeData?.subCategories && activeData.subCategories.length > 0 && (
-            <div className="w-full overflow-x-auto no-scrollbar mb-12 px-4 pb-4 snap-x">
+            <div className="w-full overflow-x-auto no-scrollbar mb-12 px-6 sm:px-8 py-6 snap-x">
               <div className="flex gap-3 w-max md:w-full md:flex-wrap md:justify-center">
                 {activeData.subCategories.map((sub) => {
                   const isSubActive = activeSubCategory === sub.id;
