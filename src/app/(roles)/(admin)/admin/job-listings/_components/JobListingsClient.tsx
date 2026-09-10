@@ -50,7 +50,23 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
     setModalMode(mode);
     if (mode === 'EDIT' && listing) {
       setSelectedListing(listing);
-      setFormData(listing);
+      setFormData({
+        title: listing.title || '',
+        department: listing.department || '',
+        jobType: listing.jobType || JobType.FULL_TIME,
+        workMode: listing.workMode || WorkMode.ONSITE,
+        experienceLevel: listing.experienceLevel || ExperienceLevel.MID,
+        location: listing.location || '',
+        salaryMin: listing.salaryMin ?? undefined,
+        salaryMax: listing.salaryMax ?? undefined,
+        showSalary: listing.showSalary ?? false,
+        description: listing.description || '',
+        requirements: listing.requirements || '',
+        applicationDeadline: listing.applicationDeadline ? listing.applicationDeadline.split('T')[0] : '',
+        vacancies: listing.vacancies || 1,
+        isActive: listing.isActive ?? true,
+        sortOrder: listing.sortOrder || 0,
+      });
     } else {
       setSelectedListing(null);
       setFormData({
@@ -59,12 +75,16 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
         jobType: JobType.FULL_TIME,
         workMode: WorkMode.ONSITE,
         experienceLevel: ExperienceLevel.MID,
+        location: '',
+        salaryMin: undefined,
+        salaryMax: undefined,
+        showSalary: false,
         description: '',
         requirements: '',
+        applicationDeadline: '',
         vacancies: 1,
         isActive: true,
-        showSalary: false,
-        sortOrder: 0
+        sortOrder: 0,
       });
     }
     setIsModalOpen(true);
@@ -78,12 +98,45 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const payload: Record<string, any> = {
+        title: formData.title,
+        department: formData.department,
+        jobType: formData.jobType,
+        workMode: formData.workMode,
+        experienceLevel: formData.experienceLevel,
+        description: formData.description,
+        vacancies: Number(formData.vacancies || 1),
+        isActive: Boolean(formData.isActive),
+        showSalary: Boolean(formData.showSalary),
+        sortOrder: Number(formData.sortOrder || 0),
+      };
+
+      if (formData.location && formData.location.trim() !== '') {
+        payload.location = formData.location.trim();
+      }
+
+      if (formData.requirements && formData.requirements.trim() !== '') {
+        payload.requirements = formData.requirements.trim();
+      }
+
+      if (formData.applicationDeadline) {
+        payload.applicationDeadline = new Date(formData.applicationDeadline).toISOString();
+      }
+
+      if (formData.salaryMin !== undefined && formData.salaryMin !== null && String(formData.salaryMin).trim() !== '') {
+        payload.salaryMin = Number(formData.salaryMin);
+      }
+
+      if (formData.salaryMax !== undefined && formData.salaryMax !== null && String(formData.salaryMax).trim() !== '') {
+        payload.salaryMax = Number(formData.salaryMax);
+      }
+
       if (modalMode === 'CREATE') {
-        const newListing = await adminJobService.createJobListing(formData);
+        const newListing = await adminJobService.createJobListing(payload);
         setListings([newListing, ...listings]);
         toast.success('Job listing created successfully');
       } else if (modalMode === 'EDIT' && selectedListing) {
-        const updatedListing = await adminJobService.updateJobListing(selectedListing.id, formData);
+        const updatedListing = await adminJobService.updateJobListing(selectedListing.id, payload);
         setListings(listings.map(l => l.id === selectedListing.id ? updatedListing : l));
         toast.success('Job listing updated successfully');
       }
@@ -257,7 +310,7 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold">Location</label>
                   <input
@@ -274,6 +327,15 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
                     min="1"
                     value={formData.vacancies}
                     onChange={e => setFormData({ ...formData, vacancies: Number(e.target.value) })}
+                    className="w-full border rounded-xl px-4 py-2.5 dark:bg-[#1a1a1a] dark:border-white/10 outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold">Deadline (Optional)</label>
+                  <input
+                    type="date"
+                    value={formData.applicationDeadline || ''}
+                    onChange={e => setFormData({ ...formData, applicationDeadline: e.target.value })}
                     className="w-full border rounded-xl px-4 py-2.5 dark:bg-[#1a1a1a] dark:border-white/10 outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
