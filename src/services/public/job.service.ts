@@ -8,7 +8,9 @@ export const publicJobService = {
   },
 
   getPublicJobListings: async (params?: any): Promise<any> => {
-    const response = await apiClient.get('/job/public/getAll', { params });
+    const response = await apiClient.get('/job/public/getAll', {
+      params: { isActive: true, ...params },
+    });
     return response.data;
   },
 };

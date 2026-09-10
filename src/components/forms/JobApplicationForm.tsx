@@ -14,9 +14,10 @@ export function JobApplicationForm() {
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const response = await publicJobService.getPublicJobListings();
-        if (response.data && response.data.data) {
-          setJobs(response.data.data);
+        const response = await publicJobService.getPublicJobListings({ isActive: true });
+        const list = response.data?.data || response.data || [];
+        if (Array.isArray(list)) {
+          setJobs(list.filter((job: JobListing) => job.isActive));
         }
       } catch (error) {
         console.error('Failed to fetch jobs for form:', error);

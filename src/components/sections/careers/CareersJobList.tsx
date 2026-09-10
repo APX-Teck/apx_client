@@ -14,9 +14,10 @@ export function CareersJobList() {
   useEffect(() => {
     async function loadJobs() {
       try {
-        const response = await publicJobService.getPublicJobListings();
-        if (response.data && response.data.data) {
-          setJobs(response.data.data);
+        const response = await publicJobService.getPublicJobListings({ isActive: true });
+        const list = response.data?.data || response.data || [];
+        if (Array.isArray(list)) {
+          setJobs(list.filter((job: JobListing) => job.isActive));
         }
       } catch (error) {
         console.error('Failed to load open positions:', error);
