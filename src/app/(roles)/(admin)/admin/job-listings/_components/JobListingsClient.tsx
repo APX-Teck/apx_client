@@ -104,24 +104,15 @@ export default function JobListingsClient({ initialData }: { initialData: JobLis
         jobType: formData.jobType,
         workMode: formData.workMode,
         experienceLevel: formData.experienceLevel,
+        location: formData.location ? formData.location.trim() : '',
         description: formData.description,
+        requirements: formData.requirements ? formData.requirements.trim() : '',
         vacancies: Number(formData.vacancies || 1),
         isActive: Boolean(formData.isActive),
         showSalary: Boolean(formData.showSalary),
         sortOrder: Number(formData.sortOrder || 0),
+        applicationDeadline: formData.applicationDeadline ? new Date(formData.applicationDeadline).toISOString() : '',
       };
-
-      if (formData.location && formData.location.trim() !== '') {
-        payload.location = formData.location.trim();
-      }
-
-      if (formData.requirements && formData.requirements.trim() !== '') {
-        payload.requirements = formData.requirements.trim();
-      }
-
-      if (formData.applicationDeadline) {
-        payload.applicationDeadline = new Date(formData.applicationDeadline).toISOString();
-      }
 
       if (formData.salaryMin !== undefined && formData.salaryMin !== null && String(formData.salaryMin).trim() !== '') {
         payload.salaryMin = Number(formData.salaryMin);
