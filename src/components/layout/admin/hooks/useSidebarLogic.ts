@@ -21,6 +21,7 @@ import {
   MessageSquare,
   Box,
   Archive,
+  FileSpreadsheet,
 } from 'lucide-react';
 
 export const NAV_GROUPS = [
@@ -56,6 +57,12 @@ export const NAV_GROUPS = [
         href: '/admin/payments/analytics',
         icon: TrendingUp,
         module: 'ORDER_PAYMENT_MANAGEMENT',
+      },
+      {
+        name: 'Tax Invoices',
+        href: '/admin/invoices',
+        icon: FileSpreadsheet,
+        module: 'ADMIN_ONLY',
       },
       {
         name: 'Company Assets',
@@ -178,6 +185,7 @@ export const useSidebarLogic = () => {
       items: group.items.filter((item: any) => {
         const isSuperAdminOrAdmin = user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
         if (item.module === 'EMPLOYEE_ONLY') return !isSuperAdminOrAdmin;
+        if (item.module === 'ADMIN_ONLY') return isSuperAdminOrAdmin;
         if (isSuperAdminOrAdmin) return true;
         if (item.module === 'ALWAYS_SHOW') return false;
         if (item.module && user?.permissions && user.permissions[item.module]) {
