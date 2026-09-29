@@ -88,6 +88,12 @@ export const NAV_GROUPS = [
         icon: FileText,
         module: 'EMPLOYEE_MANAGEMENT',
       },
+      {
+        name: 'Proposal Letter',
+        href: '/admin/proposal-letter',
+        icon: FileText,
+        module: 'ADMIN_ONLY',
+      },
     ],
   },
   {
