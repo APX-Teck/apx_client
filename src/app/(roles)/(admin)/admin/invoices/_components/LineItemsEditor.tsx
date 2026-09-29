@@ -1,14 +1,16 @@
 import React from 'react';
-import { FieldErrors, UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFieldArrayReturn, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { Plus, Trash2 } from 'lucide-react';
 import { InvoiceTotals } from '@/app/types/invoice.types';
 import { InvoiceFormValues } from '../_schemas/invoice.schema';
 import { GST_RATE_OPTIONS, formatINR } from '../_lib/invoice.constants';
+import { SAC_SERVICES } from '../_lib/sacCodes';
 import { Field, Section, inputClass } from './FormPrimitives';
 
 interface Props {
   register: UseFormRegister<InvoiceFormValues>;
   errors: FieldErrors<InvoiceFormValues>;
+  setValue: UseFormSetValue<InvoiceFormValues>;
   fields: UseFieldArrayReturn<InvoiceFormValues, 'lineItems'>;
   onAdd: () => void;
   totals: InvoiceTotals;
@@ -16,7 +18,7 @@ interface Props {
 
 const selectOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
 
-export function LineItemsEditor({ register, errors, fields, onAdd, totals }: Props) {
+export function LineItemsEditor({ register, errors, setValue, fields, onAdd, totals }: Props) {
   const intraState = totals.supplyType === 'INTRA_STATE';
 
   return (
@@ -61,7 +63,16 @@ export function LineItemsEditor({ register, errors, fields, onAdd, totals }: Pro
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Description of Service" required error={itemErrors?.description?.message}>
                   <input
-                    {...register(`lineItems.${index}.description`)}
+                    list="sac-services"
+                    {...register(`lineItems.${index}.description`, {
+                      onChange: (e) => {
+                        const matched = SAC_SERVICES.find((s) => s.description === e.target.value);
+                        if (matched) {
+                          setValue(`lineItems.${index}.sac`, matched.sacCode, { shouldValidate: true });
+                          setValue(`lineItems.${index}.gstRate`, matched.gstRate, { shouldValidate: true });
+                        }
+                      },
+                    })}
                     placeholder="e.g. Website Design & Frontend Development"
                     className={inputClass(!!itemErrors?.description)}
                   />
@@ -141,6 +152,12 @@ export function LineItemsEditor({ register, errors, fields, onAdd, totals }: Pro
           <p className="text-xs font-semibold text-red-500">{errors.lineItems.root.message}</p>
         )}
       </div>
+
+      <datalist id="sac-services">
+        {SAC_SERVICES.map((service, idx) => (
+          <option key={idx} value={service.description} />
+        ))}
+      </datalist>
     </Section>
   );
 }

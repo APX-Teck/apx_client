@@ -142,6 +142,7 @@ export function useInvoiceFormLogic() {
     register,
     control,
     errors,
+    setValue,
     lineItemFields,
     addLineItem: () => lineItemFields.append(emptyLineItem()),
     totals,

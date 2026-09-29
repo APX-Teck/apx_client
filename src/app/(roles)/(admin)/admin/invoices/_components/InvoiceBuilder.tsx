@@ -46,6 +46,7 @@ export function InvoiceBuilder() {
           <LineItemsEditor
             register={logic.register}
             errors={logic.errors}
+            setValue={logic.setValue}
             fields={logic.lineItemFields}
             onAdd={logic.addLineItem}
             totals={logic.totals}
