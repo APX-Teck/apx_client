@@ -8,6 +8,7 @@ import { AuthProvider } from '@/providers/AuthProvider';
 import { GoogleTranslateCleaner } from '@/components/ui/GoogleTranslateCleaner';
 import { QueryProvider } from '@/providers/QueryProvider';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SchemaMarkup } from '@/components/SchemaMarkup';
 import { CookieConsent } from '@/components/ui/CookieConsent';
 import { InitialLoader } from '@/components/ui/InitialLoader';
@@ -198,6 +199,7 @@ export default async function RootLayout({
         </ThemeProvider>
         <CookieConsent />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
