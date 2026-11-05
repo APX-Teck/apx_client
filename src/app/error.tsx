@@ -31,7 +31,7 @@ export default function Error({
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-transparent to-transparent pointer-events-none z-0" 
         />
 
-        {/* Floating Server Crash Representation */}
+        {/* Floating Server Crash Representation. */}
         <motion.div
           animate={{ y: [-10, 10, -10] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
