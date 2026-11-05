@@ -14,7 +14,6 @@ export const NAV_MODULE_MAP: Record<string, string> = {
   '/admin/payments/analytics': 'ORDER_PAYMENT_MANAGEMENT',
   // No module grants this; non-admins are always redirected
   '/admin/invoices': 'ADMIN_ONLY',
-  '/admin/proposal-letter': 'ADMIN_ONLY',
   '/admin/company-assets': 'EMPLOYEE_MANAGEMENT',
   '/admin/company-vault': 'EMPLOYEE_MANAGEMENT',
   '/admin/enquiries': 'LEADS_ACCESS_MANAGEMENT',
