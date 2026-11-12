@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { Invoice } from '@/app/types/invoice.types';
 import { useInvoicesLogic } from '../_hooks/useInvoicesLogic';
 import { InvoicesTable } from './InvoicesTable';
+import { InvoicesSummary } from './InvoicesSummary';
 
 interface Props {
   initialInvoices: Invoice[];
@@ -34,6 +35,8 @@ export function InvoicesManager({ initialInvoices }: Props) {
           <Plus size={18} strokeWidth={2.5} /> New Invoice
         </Link>
       </div>
+
+      <InvoicesSummary invoices={logic.invoices} isLoading={logic.isLoading} />
 
       <InvoicesTable
         invoices={logic.filteredInvoices}
